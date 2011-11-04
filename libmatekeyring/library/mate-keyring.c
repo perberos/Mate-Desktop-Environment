@@ -4312,7 +4312,7 @@ mate_keyring_set_network_password_sync (const char                            *k
  * <programlisting>
  *   res = mate_keyring_delete_password_sync (MATE_KEYRING_NETWORK_PASSWORD,
  *                                             "user", "me",        // A string attribute
- *                                             "server, "example.mate.org",
+ *                                             "server, "example.gnome.org",
  *                                             "port", "8080",      // An integer attribute
  *                                             NULL);
  * </programlisting></example>

@@ -691,7 +691,7 @@ This is an important thing to remember as otherwise things are not going
 to behave really nice for you. The other problem is how to then get rid
 of the key. If you do a <emphasis>g_hash_table_remove</emphasis>, you
 give as a key a string with the same contents as the original key, but
-not the same memory location. After then a pointer to the original key 
+not the same memory location. After then a pointer to the original key
 would be lost and unless you stored a pointer to it somewhere, you just
 created a memory leak. What you need to do instead is to do a
 <emphasis>g_hash_table_lookup_extended</emphasis> first to get both
@@ -1076,7 +1076,7 @@ main(int argc, char *argv[])
 
         /* Initialize MATE, this is very similar to gtk_init */
         mate_init ("buttons-basic-example", "0.1", argc, argv);
-        
+
         /* Create a Mate app widget, which sets up a basic window
            for your application */
         app = mate_app_new ("buttons-basic-example",
@@ -1110,14 +1110,14 @@ main(int argc, char *argv[])
         gtk_signal_connect (GTK_OBJECT (button), "clicked",
                             GTK_SIGNAL_FUNC (button_clicked),
                             "Button 2\n");
-        
+
         /* show everything inside this app widget and the app
            widget itself */
         gtk_widget_show_all(app);
-        
+
         /* enter the main loop */
         gtk_main ();
-        
+
         return 0;
 }
 </programlisting></informalexample></para>
@@ -1401,7 +1401,7 @@ File finding functions
 <entry>Get a full path of a file in the data director or NULL if the file doesn't exist</entry></row>
 <row><entry>char *mate_unconditional_datadir_file (const char *filename)</entry>
 <entry>Get a full path of a file in the data director</entry></row>
- 
+
 <row><entry>char *mate_sound_file (const char *filename)</entry>
 <entry>Get a full path of a file in the sound directory or NULL if the file doesn't exist</entry></row>
 <row><entry>char *mate_unconditional_sound_file (const char *filename)</entry>
@@ -1771,43 +1771,43 @@ typedef struct {
         gchar *hint;                    /* For tool-bar items, the
                                            tool-tip. For menu items, the
                                            status bar message */
-        gpointer moreinfo;              /* For an item, toggle-item, or 
+        gpointer moreinfo;              /* For an item, toggle-item, or
                                            radio-item, this is a pointer
                                            to the function to call when
                                            the item is activated. For
                                            a subtree, a pointer to
-                                           another array of MateUIInfo 
+                                           another array of MateUIInfo
                                            structures. For a radio-item
                                            lead entry, a pointer to an
                                            array of MateUIInfo
-                                           structures for the radio 
-                                           item group. For a help item, 
+                                           structures for the radio
+                                           item group. For a help item,
                                            specifies the help node to
                                            load (i.e. the application's
                                            identifier) or NULL for the
                                            main program's name.  For
-                                           builder data, points to the 
+                                           builder data, points to the
                                            MateUIBuilderData structure
                                            for the following items */
         gpointer user_data;             /* Data pointer to pass to
                                            callbacks */
-        gpointer unused_data;           /* Reserved for future expansion, 
+        gpointer unused_data;           /* Reserved for future expansion,
                                            should be NULL */
         MateUIPixmapType pixmap_type;  /* Type of pixmap for the item */
         gpointer pixmap_info;           /* Pointer to the pixmap
                                          * information:
                                          *
-                                         * For MATE_APP_PIXMAP_STOCK, a 
+                                         * For MATE_APP_PIXMAP_STOCK, a
                                          * pointer to the stock icon name.
                                          *
-                                         * For MATE_APP_PIXMAP_DATA, a 
+                                         * For MATE_APP_PIXMAP_DATA, a
                                          * pointer to the inline xpm data.
                                          *
-                                         * For MATE_APP_PIXMAP_FILENAME, a 
+                                         * For MATE_APP_PIXMAP_FILENAME, a
                                          * pointer to the filename string.
                                          */
         guint accelerator_key;          /* Accelerator key, or 0 for none */
-        GdkModifierType ac_mods;        /* Mask of modifier keys for the 
+        GdkModifierType ac_mods;        /* Mask of modifier keys for the
                                            accelerator */
 
         GtkWidget *widget;              /* Filled in by mate_app_create*,
@@ -1831,7 +1831,7 @@ of the simple macros provided. For example, for the end of a menu,
 one would use the <emphasis>MATEUIINFO_END</emphasis> macro, for a separator one uses the
 <emphasis>MATEUIINFO_SEPARATOR</emphasis> macro. Now for the actual items there
 are also macros, which require you to fill in less info. For example
-if you have an item that you provide an xpm format data for, you can 
+if you have an item that you provide an xpm format data for, you can
 use the <emphasis>MATEUIINFO_ITEM(label, tooltip, callback, xpm_data)</emphasis>
 macro, where label is the text of the label, tool-tip is the tool-tip
 that the user gets when he goes over that item (or it can be <emphasis>NULL</emphasis>),
@@ -2053,7 +2053,7 @@ of the form <emphasis>MATE_MENU_&lt;name&gt;_STRING</emphasis> and
 <emphasis>MATE_MENU_&lt;name&gt;_PATH</emphasis>. These will expand to the
 appropriate string. The macro ending with <emphasis>_STRING</emphasis>
 will expand to just the menu name, and the macro ending with
-<emphasis>_PATH</emphasis> to the menu name followed by a "/". The 
+<emphasis>_PATH</emphasis> to the menu name followed by a "/". The
 &lt;name&gt; can be one of the following: FILE, EDIT, VIEW, SETTINGS,
 NEW, FILES or WINDOWS.
 </para></sect5></sect4>
@@ -2137,7 +2137,7 @@ main(int argc, char *argv[])
 
         /* Initialize MATE, this is very similar to gtk_init */
         mate_init ("menu-basic-example", "0.1", argc, argv);
-        
+
         /* Create a Mate app widget, which sets up a basic
            window for your application */
         app = mate_app_new ("menu-basic-example",
@@ -2167,10 +2167,10 @@ main(int argc, char *argv[])
         /* show everything inside this app widget and the app
            widget itself */
         gtk_widget_show_all(app);
-        
+
         /* enter the main loop */
         gtk_main ();
-        
+
         return 0;
 }
 </programlisting></informalexample>
@@ -2395,7 +2395,7 @@ section).
 To get a button widget with the stock icon and text, you can just use the
 function <emphasis>mate_stock_button</emphasis> with the button type (one of the above
 defines) as the argument. Now sometimes you want to create a mixture of
-stock or ordinary buttons, what you can do is call the 
+stock or ordinary buttons, what you can do is call the
 <emphasis>mate_stock_or_ordinary_button</emphasis> function with either the type of
 a stock button or just a text for the button label. The function checks
 if it is one of the above strings, and if it's not it creates an
@@ -2407,11 +2407,11 @@ ordinary button widget with the text as the label.</para></sect2>
 <title>Generic Dialogs</title>
 
 <para>
-If you need to create you own custom dialog, <emphasis>mate-dialog</emphasis> is the 
+If you need to create you own custom dialog, <emphasis>mate-dialog</emphasis> is the
 way to do it. It can handle both modal and non-modal dialogs, although,
 it's definitely much more friendly to the users of your program if
 you use a non-modal dialog box, if at all possible, although non-modal
-dialog boxes tend to have problems associated with them, and sometimes 
+dialog boxes tend to have problems associated with them, and sometimes
 can cause strange bugs, for example if a non-modal dialog box is associated
 with a window, you'd better bind the <emphasis>destroy</emphasis> signal of the window
 and set it to destroy the dialog box as well, since otherwise it could
@@ -2658,7 +2658,7 @@ void
 presentation_save_as (AchtungPresentation *p)
 {
         GtkFileSelection *fsel;
-        
+
         g_return_if_fail (p != NULL);
         g_return_if_fail (p-&gt;doc != NULL);
 
@@ -2668,13 +2668,13 @@ presentation_save_as (AchtungPresentation *p)
                 gtk_file_selection_set_filename (fsel, p-&gt;filename);
 
         gtk_object_set_data(GTK_OBJECT(fsel),"p",p);
-        
+
         /* Connect the signals for Ok and Cancel */
         gtk_signal_connect (GTK_OBJECT (fsel-&gt;ok_button), "clicked",
                             GTK_SIGNAL_FUNC (save_ok), fsel);
         gtk_signal_connect_object
                 (GTK_OBJECT (fsel-&gt;cancel_button), "clicked",
-                 GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+                 GTK_SIGNAL_FUNC (gtk_widget_destroy),
                  GTK_OBJECT(fsel));
 
         gtk_window_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
@@ -2682,7 +2682,7 @@ presentation_save_as (AchtungPresentation *p)
         /*if the presentation dies so do it's dialogs*/
         gtk_signal_connect_object_while_alive
                 (GTK_OBJECT (p), "destroy",
-                 GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+                 GTK_SIGNAL_FUNC (gtk_widget_destroy),
                  GTK_OBJECT(fsel));
 
         gtk_widget_show (GTK_WIDGET (fsel));
@@ -2909,7 +2909,7 @@ the following code (mostly taken from mate-hello-4-SM example program):
 <informalexample><programlisting>
 /*the save_yourself handler, you can safely ignore most of the
   parameters, and just save your session and return TRUE*/
-static int 
+static int
 save_yourself(MateClient *client, int phase,
               MateSaveStyle save_style, int shutdown,
               MateInteractStyle interact_style, int fast,
@@ -2948,7 +2948,7 @@ save_yourself(MateClient *client, int phase,
         argv[0]= (gchar*) client_data;
         mate_client_set_clone_command (client, 1, argv);
         mate_client_set_restart_command (client, 1, argv);
-        
+
         return TRUE;
 }
 
@@ -3135,9 +3135,9 @@ the mate-libs distribution.
 
 <informalexample><programlisting>
 MateMDI *mdi;
-...     
+...
 MateMDIGenericChild *child;
-...     
+...
 /*create a new child named 'name'*/
 if((child = mate_mdi_generic_child_new(name)) != NULL) {
         /*creator of a view*/
@@ -3504,7 +3504,7 @@ Then you need to set up and bind the drop handler. The drop handler
 should have the following prototype:
 
 <informalexample><programlisting>
-void  
+void
 target_drag_data_received  (GtkWidget          *widget,
                             GdkDragContext     *context,
                             gint                x,
@@ -3518,7 +3518,7 @@ in the <emphasis>data</emphasis> field. That's all you need to do for normal
 DND. Here's and example:
 
 <informalexample><programlisting>
-static void  
+static void
 target_drag_data_received  (GtkWidget          *widget,
                             GdkDragContext     *context,
                             gint                x,
@@ -3566,7 +3566,7 @@ successful.  Here's a simple example that will work with the above code snippet
 for drop:
 
 <informalexample><programlisting>
-static void  
+static void
 source_drag_data_get  (GtkWidget          *widget,
                        GdkDragContext     *context,
                        GtkSelectionData   *selection_data,
@@ -3602,7 +3602,7 @@ data, which is used for the transfer.</para></sect2></sect1></chapter>
 
 <para>
 Using a simple makefile is the fastest way to compile a small MATE
-application. If you require a more sophisticated build environment, 
+application. If you require a more sophisticated build environment,
 you should use an autoconf/automake setup, which I will briefly talk about
 later.
 </para>
@@ -3672,8 +3672,8 @@ There is now an example application which can help you get started with
 autoconf/automake, the internationalization setup, and other build issues,
 as well as serve as a good hello world example. You can get it at
 any mate ftp site mirror (go to
-<ulink url="http://www.mate.org/ftpmirrors.shtml">
-http://www.mate.org/ftpmirrors.shtml</ulink> for a list of mirrors) in the
+<ulink url="http://www.gnome.org/ftpmirrors.shtml">
+http://www.gnome.org/ftpmirrors.shtml</ulink> for a list of mirrors) in the
 <emphasis>sources/MateHello/</emphasis> directory.
 </para>
 
@@ -3689,16 +3689,16 @@ http://www.mate.org/ftpmirrors.shtml</ulink> for a list of mirrors) in the
 <para>
 One of the best ways to get help with programming in mate is probably
 to first read the available documentation at
-<ulink url="http://www.mate.org/">www.mate.org</ulink>, or the developer
-web site at <ulink url="http://developer.mate.org/">developer.mate.org
+<ulink url="http://www.gnome.org/">www.gnome.org</ulink>, or the developer
+web site at <ulink url="http://developer.gnome.org/">developer.gnome.org
 </ulink>. You should also subscribe to the
 <ulink url="mailto:mate-devel-list@gnome.org">mate-devel-list@gnome.org
 </ulink>, to subscribe, send a message with <emphasis>subscribe</emphasis>
 in the subject line to <ulink url="mailto:mate-devel-list-request@gnome.org">
 mate-devel-list-request@gnome.org</ulink>. To reduce the traffic on the
 list you should first consult the documentation before asking a question.
-Also look at <ulink url="http://www.mate.org/mailing-lists/">
-www.mate.org/mailing-lists/</ulink> for a list of all MATE relevant
+Also look at <ulink url="http://www.gnome.org/mailing-lists/">
+www.gnome.org/mailing-lists/</ulink> for a list of all MATE relevant
 mailing lists, including the <emphasis>GTK+</emphasis> list.</para>
 
 <para>

@@ -1,21 +1,21 @@
 
-HACKING MATE KEYRING 
+HACKING MATE KEYRING
 
 Patches should be submitted to bugzilla:
-http://bugzilla.mate.org/enter_bug.cgi?product=mate-keyring
+http://bugzilla.gnome.org/enter_bug.cgi?product=mate-keyring
 
 The mate-keyring mailing list is:
 mate-keyring-list@gnome.org
 
 An overview of the architecture and graphical outline can be found here:
 
-http://live.mate.org/MateKeyring/Architecture
+http://live.gnome.org/MateKeyring/Architecture
 
-Mate Keyring is made up of several distinct parts working on concert with 
+Mate Keyring is made up of several distinct parts working on concert with
 each other. These parts generally live in different directories:
 
-daemon 
-   The main daemon startup code and mate-keyring password protocol operations. 
+daemon
+   The main daemon startup code and mate-keyring password protocol operations.
 
 daemon/control
    Binary protocol for controling and initializing the daemon.
@@ -34,32 +34,32 @@ daemon/ssh-agent
 
 egg
    Code that either: a) Really should be implemented elsewhere (eg: glib) but isn't.
-   b) Code that needs to be shared between loosely coupled mate-keyring components.  
+   b) Code that needs to be shared between loosely coupled mate-keyring components.
 
 gcr
    A public library for bits of crypto UI and parsing etc...
-   
-gp11
-   A public library for accessing PKCS#11 modules. 
 
-pam 
+gp11
+   A public library for accessing PKCS#11 modules.
+
+pam
    The PAM module that unlocks the login keyring when the user logs in.
-   
+
 pkcs11
    The various bits of the PKCS#11 implementation.
 
 pkcs11/gck
    A base library for implementing our internal PKCS#11 modules.
-   
+
 pkcs11/roots-store
    A PKCS#11 module that exposes Root CA certificates from a directory like /etc/ssl/certs
-   
+
 pkcs11/rpc-layer
    A PKCS#11 module that calls into the daemon. This is the module that apps actually use.
-   
+
 pkcs11/ssh-store
    A PKCS#11 module which exposes objects in ~/.ssh directory.
-   
+
 pkcs11/user-store
    A PKCS#11 module for general storage of certificates and keys.
 
@@ -77,17 +77,17 @@ ui
 
 Mate Keyring uses threads in a limited manner, as state machines, (ie: execution
 stacks). Only one thread runs at any given time, each thread hands off execution
-to another thread. 
+to another thread.
 
 The *only* use of threading and/or synchronization primitives should be in:
- 
+
    common/gkr-async.c
-   
-Worker threads are created by using gkr_async_worker_start(). Each worker needs 
+
+Worker threads are created by using gkr_async_worker_start(). Each worker needs
 to call gkr_async_yield() regularly, to give other threads a chance to run.
 
-If a thread needs perform a blocking syscall, or do something that takes a long 
-time (like create a key) it can use the gkr_async_begin_concurrent() and 
+If a thread needs perform a blocking syscall, or do something that takes a long
+time (like create a key) it can use the gkr_async_begin_concurrent() and
 gkr_async_end_concurrent() functions. While running 'concurrent' no global
 functions and/or data should be accessed.
 

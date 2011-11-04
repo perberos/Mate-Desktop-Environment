@@ -90,7 +90,7 @@ static Dir*
 dir_blank(const gchar* key)
 {
   Dir* d;
-  
+
   d = g_new0(Dir, 1);
 
 #ifdef MATECONF_ENABLE_DEBUG
@@ -103,23 +103,23 @@ dir_blank(const gchar* key)
     g_assert(mateconf_valid_key(key, NULL));
   }
 #endif
-  
+
   d->key = g_strdup (key);
   d->parent_key = mateconf_key_directory (key);
-  
+
   d->last_access = time(NULL);
   d->doc = NULL;
 
   d->entry_cache = g_hash_table_new (g_str_hash, g_str_equal);
-  
+
   d->dirty = FALSE;
   d->need_rescan_subdirs = TRUE;
 
   d->subdir_names = NULL;
-  
+
   d->dir_mode = 0700;
   d->file_mode = 0600;
-  
+
   return d;
 }
 
@@ -130,7 +130,7 @@ dir_new (const gchar  *keyname,
          guint file_mode)
 {
   Dir* d;
-  
+
   d = dir_blank(keyname);
 
   /* sync with dir_load() */
@@ -140,7 +140,7 @@ dir_new (const gchar  *keyname,
 
   d->dir_mode = dir_mode;
   d->file_mode = file_mode;
-  
+
   return d;
 }
 
@@ -152,16 +152,16 @@ dir_load (const gchar* key, const gchar* xml_root_dir, GError** err)
   gchar* xml_filename;
   guint dir_mode = 0700;
   guint file_mode = 0600;
-  
+
   g_return_val_if_fail(mateconf_valid_key(key, NULL), NULL);
-  
+
   fs_dirname = mateconf_concat_dir_and_key(xml_root_dir, key);
   xml_filename = g_strconcat(fs_dirname, "/%mateconf.xml", NULL);
 
   {
     struct stat s;
     gboolean notfound = FALSE;
-    
+
     if (g_stat(xml_filename, &s) != 0)
       {
         if (errno != ENOENT)
@@ -171,7 +171,7 @@ dir_load (const gchar* key, const gchar* xml_root_dir, GError** err)
                              xml_filename, g_strerror(errno));
 
           }
-        
+
         notfound = TRUE;
       }
     else if (S_ISDIR(s.st_mode))
@@ -196,7 +196,7 @@ dir_load (const gchar* key, const gchar* xml_root_dir, GError** err)
           {
             dir_mode = _mateconf_mode_t_to_mode (s.st_mode);
           }
-        
+
         file_mode = dir_mode & ~0111; /* turn off search bits */
       }
   }
@@ -210,9 +210,9 @@ dir_load (const gchar* key, const gchar* xml_root_dir, GError** err)
 
   d->dir_mode = dir_mode;
   d->file_mode = file_mode;
-  
+
   mateconf_log (GCL_DEBUG, "loaded dir %s", fs_dirname);
-  
+
   return d;
 }
 
@@ -233,15 +233,15 @@ dir_destroy(Dir* d)
 
   g_slist_foreach (d->subdir_names, (GFunc) g_free, NULL);
   g_slist_free (d->subdir_names);
-  
+
   g_hash_table_foreach (d->entry_cache, (GHFunc)entry_destroy_foreach,
                         NULL);
-  
+
   g_hash_table_destroy (d->entry_cache);
 
   if (d->doc != NULL)
     xmlFreeDoc (d->doc);
-  
+
   g_free (d);
 }
 
@@ -262,7 +262,7 @@ dir_ensure_exists (Dir* d,
 
       /* check that error is set */
       g_return_val_if_fail( (err == NULL) || (*err != NULL), FALSE );
-      
+
       return FALSE;
     }
   else
@@ -288,12 +288,12 @@ dir_child_removed (Dir        *d,
                    const char *child_name)
 {
   GSList *tmp;
-  
+
   /* dirty because we need to consider removing
    * this directory, it may have become empty.
    */
   d->dirty = TRUE;
-  
+
   if (d->need_rescan_subdirs)
     return; /* subdir_names is totally invalid anyhow */
 
@@ -303,14 +303,14 @@ dir_child_removed (Dir        *d,
       if (strcmp (tmp->data, child_name) == 0)
         {
           char *tofree = tmp->data;
-          
+
           d->subdir_names = g_slist_remove (d->subdir_names,
                                             tofree);
           g_free (tofree);
 
           break;
         }
-      
+
       tmp = tmp->next;
     }
 }
@@ -338,49 +338,49 @@ dir_useless (Dir *d)
 
   if (d->need_rescan_subdirs)
     dir_rescan_subdirs (d, NULL);
-  
+
   return
     d->subdir_names == NULL &&
     g_hash_table_size (d->entry_cache) == 0;
 }
 
 /* for info on why this is used rather than xmlDocDump or xmlSaveFile
- * and friends, see http://bugzilla.mate.org/show_bug.cgi?id=108329 */
+ * and friends, see http://bugzilla.gnome.org/show_bug.cgi?id=108329 */
 static int
 mateconf_xml_doc_dump (FILE *fp, xmlDocPtr doc)
 {
   char *xmlbuf;
   int fd, n;
-  
+
   xmlDocDumpFormatMemory (doc, (xmlChar **) &xmlbuf, &n, TRUE);
   if (n <= 0)
     {
       errno = ENOMEM;
       return -1;
     }
-  
+
   if (fwrite (xmlbuf, sizeof (xmlChar), n, fp) < n)
     {
       xmlFree (xmlbuf);
       return -1;
     }
-  
+
   xmlFree (xmlbuf);
-  
+
   /* From the fflush(3) man page:
    *
    * Note that fflush() only flushes the user space buffers provided by the
    * C library. To ensure that the data is physically stored on disk the
    * kernel buffers must be flushed too, e.g. with sync(2) or fsync(2).
    */
-  
+
   /* flush user-space buffers */
   if (fflush (fp) != 0)
     return -1;
-  
+
   if ((fd = fileno (fp)) == -1)
     return -1;
-  
+
 #ifdef HAVE_FSYNC
   /* sync kernel-space buffers to disk */
   if (fsync (fd) == -1)
@@ -398,20 +398,20 @@ dir_sync (Dir      *d,
   gboolean retval = TRUE;
 
   if (deleted)
-    *deleted = FALSE;  
+    *deleted = FALSE;
 
   if (!d->dirty)
-    return TRUE; 
+    return TRUE;
 
   mateconf_log (GCL_DEBUG, "Syncing dir \"%s\"", d->key);
-  
+
   d->last_access = time (NULL);
-  
+
   if (dir_useless (d))
     {
       mateconf_log (GCL_DEBUG, "Deleting useless dir \"%s\"",
                  d->key);
-      
+
       if (g_unlink (d->xml_filename) != 0)
         {
           mateconf_set_error (err, MATECONF_ERROR_FAILED, _("Failed to delete \"%s\": %s"),
@@ -441,11 +441,11 @@ dir_sync (Dir      *d,
 
       /* We should have a doc if deleted is FALSE */
       g_assert(d->doc != NULL);
-      
+
       /* First make sure entry values are synced to their
          XML nodes */
       g_hash_table_foreach(d->entry_cache, (GHFunc)entry_sync_foreach, NULL);
-      
+
       tmp_filename = g_strconcat(d->fs_dirname, "/%mateconf.xml.tmp", NULL);
       old_filename = g_strconcat(d->fs_dirname, "/%mateconf.xml.old", NULL);
 
@@ -469,11 +469,11 @@ dir_sync (Dir      *d,
                * earlier failure.
                */
               if (err && *err == NULL)
-                mateconf_set_error(err, MATECONF_ERROR_FAILED, _("Failed to write file `%s': %s"), 
+                mateconf_set_error(err, MATECONF_ERROR_FAILED, _("Failed to write file `%s': %s"),
                                 tmp_filename, g_strerror(errno));
-              
+
               retval = FALSE;
-              
+
               goto failed_end_of_sync;
             }
         }
@@ -482,10 +482,10 @@ dir_sync (Dir      *d,
       /* Set permissions on the new file */
       if (fchmod (fileno (outfile), d->file_mode) != 0)
         {
-          mateconf_set_error(err, MATECONF_ERROR_FAILED, 
+          mateconf_set_error(err, MATECONF_ERROR_FAILED,
                           _("Failed to set mode on `%s': %s"),
                           tmp_filename, g_strerror(errno));
-          
+
           retval = FALSE;
           goto failed_end_of_sync;
         }
@@ -493,35 +493,35 @@ dir_sync (Dir      *d,
 
       if (mateconf_xml_doc_dump (outfile, d->doc) < 0)
         {
-          mateconf_set_error (err, MATECONF_ERROR_FAILED, 
+          mateconf_set_error (err, MATECONF_ERROR_FAILED,
                            _("Failed to write XML data to `%s': %s"),
                            tmp_filename, g_strerror (errno));
-          
+
           retval = FALSE;
           goto failed_end_of_sync;
         }
 
       if (fclose (outfile) < 0)
         {
-          mateconf_set_error (err, MATECONF_ERROR_FAILED, 
+          mateconf_set_error (err, MATECONF_ERROR_FAILED,
                            _("Failed to close file `%s': %s"),
                            tmp_filename, g_strerror (errno));
-          
+
           retval = FALSE;
           outfile = NULL;
           goto failed_end_of_sync;
         }
 
       outfile = NULL;
-      
+
 #ifndef HAVE_FCHMOD
       /* Set permissions on the new file */
       if (chmod (tmp_filename, d->file_mode) != 0)
         {
-          mateconf_set_error(err, MATECONF_ERROR_FAILED, 
+          mateconf_set_error(err, MATECONF_ERROR_FAILED,
                           _("Failed to set mode on `%s': %s"),
                           tmp_filename, g_strerror(errno));
-          
+
           retval = FALSE;
           goto failed_end_of_sync;
         }
@@ -533,7 +533,7 @@ dir_sync (Dir      *d,
         {
           if (g_rename(d->xml_filename, old_filename) < 0)
             {
-              mateconf_set_error(err, MATECONF_ERROR_FAILED, 
+              mateconf_set_error(err, MATECONF_ERROR_FAILED,
                               _("Failed to rename `%s' to `%s': %s"),
                               d->xml_filename, old_filename, g_strerror(errno));
 
@@ -569,7 +569,7 @@ dir_sync (Dir      *d,
         }
 
     failed_end_of_sync:
-      
+
       g_free(old_filename);
       g_free(tmp_filename);
       if (outfile)
@@ -587,7 +587,7 @@ dir_set_value (Dir* d, const gchar* relative_key,
                const MateConfValue* value, GError** err)
 {
   Entry* e;
-  
+
   if (d->doc == NULL)
     dir_load_doc(d, err);
 
@@ -596,9 +596,9 @@ dir_set_value (Dir* d, const gchar* relative_key,
       g_return_if_fail( (err == NULL) || (*err != NULL) );
       return;
     }
-  
+
   e = g_hash_table_lookup(d->entry_cache, relative_key);
-  
+
   if (e == NULL)
     e = dir_make_new_entry(d, relative_key);
 
@@ -608,7 +608,7 @@ dir_set_value (Dir* d, const gchar* relative_key,
   entry_set_mod_time(e, d->last_access);
 
   entry_set_mod_user(e, g_get_user_name());
-  
+
   d->dirty = TRUE;
 }
 
@@ -626,7 +626,7 @@ dir_get_value   (Dir* d,
                  GError** err)
 {
   Entry* e;
-  
+
   if (d->doc == NULL)
     dir_load_doc(d, err);
 
@@ -635,7 +635,7 @@ dir_get_value   (Dir* d,
       g_return_val_if_fail( (err == NULL) || (*err != NULL), NULL );
       return NULL;
     }
-  
+
   e = g_hash_table_lookup(d->entry_cache, relative_key);
 
   d->last_access = time(NULL);
@@ -656,7 +656,7 @@ dir_get_value   (Dir* d,
       /* Get schema name if requested */
       if (schema_name && entry_get_schema_name (e))
         *schema_name = g_strdup (entry_get_schema_name (e));
-      
+
       /* return copy of the value */
       if (val != NULL)
         return mateconf_value_copy(val);
@@ -683,9 +683,9 @@ MateConfMetaInfo*
 dir_get_metainfo(Dir* d, const gchar* relative_key, GError** err)
 {
   Entry* e;
-  
+
   d->last_access = time(NULL);
-  
+
   if (d->doc == NULL)
     dir_load_doc(d, err);
 
@@ -694,7 +694,7 @@ dir_get_metainfo(Dir* d, const gchar* relative_key, GError** err)
       g_return_val_if_fail( (err == NULL) || (*err != NULL), NULL );
       return NULL;
     }
-  
+
   e = g_hash_table_lookup(d->entry_cache, relative_key);
 
   if (e == NULL)
@@ -708,9 +708,9 @@ dir_unset_value (Dir* d, const gchar* relative_key,
                  const gchar* locale, GError** err)
 {
   Entry* e;
-  
+
   d->last_access = time(NULL);
-  
+
   if (d->doc == NULL)
     dir_load_doc(d, err);
 
@@ -719,9 +719,9 @@ dir_unset_value (Dir* d, const gchar* relative_key,
       g_return_if_fail( (err == NULL) || (*err != NULL) );
       return;
     }
-  
+
   e = g_hash_table_lookup(d->entry_cache, relative_key);
-  
+
   if (e == NULL)     /* nothing to change */
     return;
 
@@ -729,9 +729,9 @@ dir_unset_value (Dir* d, const gchar* relative_key,
     {
       /* If entry_unset() returns TRUE then
          the entry was changed (not already unset) */
-      
+
       d->dirty = TRUE;
-      
+
       if (dir_forget_entry_if_useless(d, e))
         {
           /* entry is destroyed */
@@ -766,7 +766,7 @@ listify_foreach(const gchar* key, Entry* e, ListifyData* ld)
   MateConfValue* val;
   MateConfEntry* entry;
   GError* error = NULL;
-  
+
   val = entry_get_value (e, ld->locales, &error);
 
   if (error != NULL)
@@ -775,15 +775,15 @@ listify_foreach(const gchar* key, Entry* e, ListifyData* ld)
       g_error_free (error);
       return;
     }
-  
+
   entry = mateconf_entry_new_nocopy (g_strdup(key),
                                   val ? mateconf_value_copy(val) : NULL);
-  
+
   if (entry_get_schema_name (e))
     {
       mateconf_entry_set_schema_name (entry, entry_get_schema_name (e));
     }
-  
+
   ld->list = g_slist_prepend(ld->list, entry);
 }
 
@@ -791,7 +791,7 @@ GSList*
 dir_all_entries (Dir* d, const gchar** locales, GError** err)
 {
   ListifyData ld;
-  
+
   if (d->doc == NULL)
     dir_load_doc(d, err);
 
@@ -800,14 +800,14 @@ dir_all_entries (Dir* d, const gchar** locales, GError** err)
       g_return_val_if_fail( (err == NULL) || (*err != NULL), NULL );
       return NULL;
     }
-  
+
   ld.list = NULL;
   ld.name = d->key;
   ld.locales = locales;
 
   g_hash_table_foreach(d->entry_cache, (GHFunc)listify_foreach,
                        &ld);
-  
+
   return ld.list;
 }
 
@@ -816,7 +816,7 @@ copy_string_list (GSList *src)
 {
   GSList *copy;
   GSList *tmp;
-  
+
   copy = NULL;
   tmp = src;
   while (tmp != NULL)
@@ -841,10 +841,10 @@ dir_rescan_subdirs (Dir* d, GError** err)
   gchar* fullpath_end;
   guint len;
   guint subdir_len;
-  
+
   if (d->doc == NULL)
     dir_load_doc (d, err);
-  
+
   if (d->doc == NULL)
     {
       g_return_val_if_fail ((err == NULL) || (*err != NULL), FALSE);
@@ -857,7 +857,7 @@ dir_rescan_subdirs (Dir* d, GError** err)
   g_slist_foreach (d->subdir_names, (GFunc) g_free, NULL);
   g_slist_free (d->subdir_names);
   d->subdir_names = NULL;
-  
+
   dp = g_dir_open (d->fs_dirname, 0, NULL);
 
   if (dp == NULL)
@@ -868,10 +868,10 @@ dir_rescan_subdirs (Dir* d, GError** err)
 
   len = strlen(d->fs_dirname);
   subdir_len = PATH_MAX - len;
-  
+
   fullpath = g_malloc0(subdir_len + len + 20); /* ensure null termination */
   strcpy(fullpath, d->fs_dirname);
-  
+
   fullpath_end = fullpath + len;
   *fullpath_end = '/';
   ++fullpath_end;
@@ -892,13 +892,13 @@ dir_rescan_subdirs (Dir* d, GError** err)
         }
       else
         continue; /* Shouldn't ever happen since PATH_MAX is available */
-      
+
       if (g_stat(fullpath, &statbuf) < 0)
         {
           /* This is some kind of cruft, not an XML directory */
           continue;
         }
-      
+
       retval = g_slist_prepend (retval, g_strdup(dent));
     }
 
@@ -940,10 +940,10 @@ dir_set_schema  (Dir         *d,
       g_return_if_fail ((err == NULL) || (*err != NULL));
       return;
     }
-  
+
   d->dirty = TRUE;
   d->last_access = time (NULL);
-  
+
   e = g_hash_table_lookup (d->entry_cache, relative_key);
 
   if (e == NULL)
@@ -968,7 +968,7 @@ dir_load_doc(Dir* d, GError** err)
   gboolean xml_already_exists = TRUE;
   gboolean need_backup = FALSE;
   struct stat statbuf;
-  
+
   g_return_if_fail(d->doc == NULL);
 
   if (stat(d->xml_filename, &statbuf) < 0)
@@ -1020,14 +1020,14 @@ dir_load_doc(Dir* d, GError** err)
            */
           if (tmp_err->domain == G_FILE_ERROR)
             error_was_fatal = TRUE;
-          
+
           g_error_free (tmp_err);
         }
 
       if (error_was_fatal)
         return;
     }
-  
+
   /* We recover from parse errors instead of passing them up */
 
   /* This has the potential to just blow away an entire corrupted
@@ -1036,23 +1036,23 @@ dir_load_doc(Dir* d, GError** err)
    *
    * Parse errors really should not happen from an XML file we created
    * ourselves anyway...
-   */  
+   */
 
   /* Also we create empty %mateconf.xml files when we create a new dir,
    * and those return a parse error, though they should be trapped
    * by the statbuf.st_size == 0 check above.
    */
-  
+
   if (d->doc == NULL)
     {
       if (xml_already_exists)
         need_backup = TRUE; /* rather uselessly save whatever broken stuff was in the file */
-          
+
       /* Create a new doc */
-      
+
       d->doc = xmlNewDoc((xmlChar *)"1.0");
     }
-  
+
   if (d->doc->xmlRootNode == NULL)
     {
       /* fill it in */
@@ -1078,22 +1078,22 @@ dir_load_doc(Dir* d, GError** err)
          we aren't going to be able to do anything if this call
          fails
       */
-      
+
       gchar* backup = g_strconcat(d->xml_filename, ".bak", NULL);
       int fd;
-      
+
       g_rename(d->xml_filename, backup);
-      
+
       /* Recreate %mateconf.xml to maintain our integrity and be sure
          all_subdirs works */
       /* If we failed to rename, we just give up and truncate the file */
       fd = g_open(d->xml_filename, O_CREAT | O_WRONLY | O_TRUNC, d->file_mode);
       if (fd >= 0)
         close(fd);
-      
+
       g_free(backup);
     }
-  
+
   g_assert(d->doc != NULL);
   g_assert(d->doc->xmlRootNode != NULL);
 }
@@ -1105,13 +1105,13 @@ dir_make_new_entry(Dir* d, const gchar* relative_key)
 
   g_return_val_if_fail(d->doc != NULL, NULL);
   g_return_val_if_fail(d->doc->xmlRootNode != NULL, NULL);
-  
+
   e = entry_new(relative_key);
 
   entry_set_node(e, xmlNewChild(d->doc->xmlRootNode, NULL, (xmlChar *)"entry", NULL));
-  
+
   safe_g_hash_table_insert(d->entry_cache, (gchar*)entry_get_name(e), e);
-  
+
   return e;
 }
 
@@ -1119,15 +1119,15 @@ static gboolean
 dir_forget_entry_if_useless(Dir* d, Entry* e)
 {
   MateConfValue* val;
-  
+
   if (entry_get_schema_name(e) != NULL)
     return FALSE;
-  
+
   val = entry_get_value(e, NULL, NULL);
-  
+
   if (val != NULL)
     return FALSE; /* not useless */
-      
+
   g_hash_table_remove(d->entry_cache, entry_get_name(e));
 
   entry_destroy(e);
@@ -1139,7 +1139,7 @@ static void
 dir_fill_cache_from_doc(Dir* d)
 {
   xmlNodePtr node;
-  
+
   if (d->doc == NULL ||
       d->doc->xmlRootNode == NULL ||
       d->doc->xmlRootNode->xmlChildrenNode == NULL)
@@ -1152,7 +1152,7 @@ dir_fill_cache_from_doc(Dir* d)
 
   while (node != NULL)
     {
-      if (node->type == XML_ELEMENT_NODE && 
+      if (node->type == XML_ELEMENT_NODE &&
           (strcmp((xmlChar *)node->name, "entry") == 0))
         {
           gchar* attr = my_xmlGetProp(node, "name");
@@ -1168,13 +1168,13 @@ dir_fill_cache_from_doc(Dir* d)
               else
                 {
                   Entry* e;
-                  
+
                   e = entry_new(attr);
 
                   entry_set_node(e, node);
-                  
+
                   entry_fill_from_node(e);
-                  
+
                   safe_g_hash_table_insert(d->entry_cache,
                                            (gchar*)entry_get_name(e), e);
                 }
@@ -1196,7 +1196,7 @@ dir_fill_cache_from_doc(Dir* d)
                       d->xml_filename,
                       node->name ? (char*) node->name : "unknown");
         }
-      
+
       node = node->next;
     }
 }
@@ -1211,7 +1211,7 @@ create_fs_dir(const gchar* dir, const gchar* xml_filename,
               GError** err)
 {
   g_return_val_if_fail(xml_filename != NULL, FALSE);
-  
+
   mateconf_log(GCL_DEBUG, "Enter create_fs_dir: %s", dir);
 
   if (g_file_test(xml_filename, G_FILE_TEST_IS_REGULAR))
@@ -1219,24 +1219,24 @@ create_fs_dir(const gchar* dir, const gchar* xml_filename,
       mateconf_log(GCL_DEBUG, "XML backend file %s already exists", xml_filename);
       return TRUE;
     }
-      
+
   /* Don't create anything above the root directory */
   if (strlen(dir) > root_dir_len)
     {
       gchar* parent;
-      
+
       parent = _mateconf_parent_dir (dir);
 
       mateconf_log (GCL_DEBUG, "Parent dir is %s", parent);
-      
+
       if (parent != NULL)
         {
           gchar* parent_xml = NULL;
           gboolean success = FALSE;
-          
+
           if (xml_filename)
             parent_xml = g_strconcat(parent, "/%mateconf.xml", NULL);
-          
+
           success = create_fs_dir(parent, parent_xml, root_dir_len,
                                   dir_mode, file_mode, err);
 
@@ -1244,10 +1244,10 @@ create_fs_dir(const gchar* dir, const gchar* xml_filename,
             mateconf_log(GCL_DEBUG, "created parent: %s", parent);
           else
             mateconf_log(GCL_DEBUG, "failed parent: %s", parent);
-          
+
           g_free(parent);
           g_free(parent_xml);
-          
+
           if (!success)
             return FALSE;
         }
@@ -1258,7 +1258,7 @@ create_fs_dir(const gchar* dir, const gchar* xml_filename,
     }
 
   mateconf_log(GCL_DEBUG, "Making directory %s", dir);
-  
+
   if (g_mkdir(dir, dir_mode) < 0)
     {
       if (errno != EEXIST)
@@ -1277,20 +1277,20 @@ create_fs_dir(const gchar* dir, const gchar* xml_filename,
       fd = g_open(xml_filename, O_CREAT | O_WRONLY, file_mode);
 
       mateconf_log(GCL_DEBUG, "Creating XML file %s", xml_filename);
-      
+
       if (fd < 0)
         {
           mateconf_set_error(err, MATECONF_ERROR_FAILED, _("Failed to create file `%s': %s"),
                           xml_filename, g_strerror(errno));
-          
+
           return FALSE;
         }
-      
+
       if (close(fd) < 0)
         {
           mateconf_set_error(err, MATECONF_ERROR_FAILED, _("Failed to close file `%s': %s"),
                           xml_filename, g_strerror(errno));
-          
+
           return FALSE;
         }
     }
@@ -1298,11 +1298,11 @@ create_fs_dir(const gchar* dir, const gchar* xml_filename,
     {
       mateconf_log(GCL_DEBUG, "No XML filename passed to create_fs_dir() for %s", dir);
     }
-  
+
   return TRUE;
 }
 
-gchar* 
+gchar*
 _mateconf_parent_dir (const gchar* dir)
 {
   /* We assume the dir doesn't have a trailing slash, since that's our
@@ -1324,10 +1324,10 @@ _mateconf_parent_dir (const gchar* dir)
 
   /* dir must have had at least the root slash in it */
   g_assert(last_slash != NULL);
-  
+
   if (last_slash != parent)
     *last_slash = '\0';
-  else 
+  else
     {
       ++last_slash;
       *last_slash = '\0';
@@ -1343,10 +1343,10 @@ _mateconf_mode_t_to_mode(mode_t orig)
   /* I don't think this is portable. */
   guint mode = 0;
   guint fullmask = S_IRWXG | S_IRWXU | S_IRWXO;
-  
+
 
   mode = orig & fullmask;
-  
+
   g_return_val_if_fail(mode <= 0777, 0700);
 
   return mode;
@@ -1359,10 +1359,10 @@ my_xml_parse_file (const char *filename,
   char *text;
   gsize length;
   xmlDocPtr doc;
-  
+
   text = NULL;
   length = 0;
-  
+
   if (!g_file_get_contents (filename,
                             &text,
                             &length,
@@ -1383,7 +1383,7 @@ my_xml_parse_file (const char *filename,
                    filename);
       return NULL;
     }
-  
+
   return doc;
 }
 
@@ -1392,7 +1392,7 @@ void
 xml_test_dir (void)
 {
 #ifndef MATECONF_DISABLE_TESTS
-  
+
 
 
 #endif

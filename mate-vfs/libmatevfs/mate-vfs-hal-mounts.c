@@ -251,7 +251,7 @@ _hal_drive_policy_get_icon (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 		cdrom_caps = libhal_drive_get_cdrom_caps (hal_drive);
 		cdrom_can_burn = ((cdrom_caps & (LIBHAL_DRIVE_CDROM_CAPS_CDROM|
 						 LIBHAL_DRIVE_CDROM_CAPS_DVDROM)) == cdrom_caps);
-	
+
 		name = _hal_lookup_icon (0x10000 + drive_type*0x100 + (cdrom_can_burn ? 0xff : 0x00));
 		break;
 	}
@@ -337,7 +337,7 @@ _hal_drive_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_d
 
 	/* Handle disks without removable media */
 	if ((drive_type == LIBHAL_DRIVE_TYPE_DISK) &&
-	    !libhal_drive_uses_removable_media (hal_drive) && 
+	    !libhal_drive_uses_removable_media (hal_drive) &&
 	    hal_volume != NULL) {
 		const char *label;
 		const char *size_str;
@@ -366,7 +366,7 @@ _hal_drive_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_d
 		const char *first;
 		const char *second;
 		LibHalDriveCdromCaps drive_cdrom_caps;
-			
+
 		drive_cdrom_caps = libhal_drive_get_cdrom_caps (hal_drive);
 
 		first = _("CD-ROM");
@@ -374,7 +374,7 @@ _hal_drive_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_d
 			first = _("CD-R");
 		if (drive_cdrom_caps & LIBHAL_DRIVE_CDROM_CAPS_CDRW)
 			first = _("CD-RW");
-		
+
 		second = NULL;
 		if (drive_cdrom_caps & LIBHAL_DRIVE_CDROM_CAPS_DVDROM)
 			second = _("DVD-ROM");
@@ -400,8 +400,8 @@ _hal_drive_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_d
 		} else {
 			name = g_strdup_printf (_("%s Drive"), first);
 		}
-			
-		may_prepend_external = TRUE;		
+
+		may_prepend_external = TRUE;
 	} else if (drive_type == LIBHAL_DRIVE_TYPE_FLOPPY) {
 		name = g_strdup (_("Floppy Drive"));
 		may_prepend_external = TRUE;
@@ -426,7 +426,7 @@ _hal_drive_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_d
 		const char *model;
 		vendor = libhal_drive_get_vendor (hal_drive);
 		model = libhal_drive_get_model (hal_drive);
-		name = g_strdup_printf (_("%s %s Music Player"), 
+		name = g_strdup_printf (_("%s %s Music Player"),
 					vendor != NULL ? vendor : "",
 					model != NULL ? model : "");
 	} else if (drive_type == LIBHAL_DRIVE_TYPE_CAMERA) {
@@ -434,7 +434,7 @@ _hal_drive_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_d
 		const char *model;
 		vendor = libhal_drive_get_vendor (hal_drive);
 		model = libhal_drive_get_model (hal_drive);
-		name = g_strdup_printf (_("%s %s Digital Camera"), 
+		name = g_strdup_printf (_("%s %s Digital Camera"),
 					vendor != NULL ? vendor : "",
 					model != NULL ? model : "");
 	}
@@ -507,39 +507,39 @@ _hal_volume_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_
 		case LIBHAL_VOLUME_DISC_TYPE_CDROM:
 			name = g_strdup (_("CD-ROM Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_CDR:
 			if (libhal_volume_disc_is_blank (hal_volume))
 				name = g_strdup (_("Blank CD-R Disc"));
 			else
 				name = g_strdup (_("CD-R Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_CDRW:
 			if (libhal_volume_disc_is_blank (hal_volume))
 				name = g_strdup (_("Blank CD-RW Disc"));
 			else
 				name = g_strdup (_("CD-RW Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_DVDROM:
 			name = g_strdup (_("DVD-ROM Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_DVDRAM:
 			if (libhal_volume_disc_is_blank (hal_volume))
 				name = g_strdup (_("Blank DVD-RAM Disc"));
 			else
 				name = g_strdup (_("DVD-RAM Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_DVDR:
 			if (libhal_volume_disc_is_blank (hal_volume))
 				name = g_strdup (_("Blank DVD-R Disc"));
 			else
 				name = g_strdup (_("DVD-R Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_DVDRW:
 			if (libhal_volume_disc_is_blank (hal_volume))
 				name = g_strdup (_("Blank DVD-RW Disc"));
@@ -554,7 +554,7 @@ _hal_volume_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_
 			else
 				name = g_strdup (_("DVD+R Disc"));
 			break;
-			
+
 		case LIBHAL_VOLUME_DISC_TYPE_DVDPLUSRW:
 			if (libhal_volume_disc_is_blank (hal_volume))
 				name = g_strdup (_("Blank DVD+RW Disc"));
@@ -562,7 +562,7 @@ _hal_volume_policy_get_display_name (MateVFSVolumeMonitorDaemon *volume_monitor_
 				name = g_strdup (_("DVD+RW Disc"));
 			break;
 		}
-		
+
 		/* Special case for pure audio disc */
 		if (libhal_volume_disc_has_audio (hal_volume) && !libhal_volume_disc_has_data (hal_volume)) {
 			free (name);
@@ -597,7 +597,7 @@ out:
 
 /* hal_volume may be NULL */
 static gboolean
-_hal_drive_policy_check (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_hal_drive_policy_check (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 			 LibHalDrive *hal_drive, LibHalVolume *hal_volume)
 {
 	gboolean ret;
@@ -617,7 +617,7 @@ _hal_drive_policy_check (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 }
 
 static gboolean
-_hal_volume_policy_check (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_hal_volume_policy_check (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 			  LibHalDrive *hal_drive, LibHalVolume *hal_volume)
 {
 #if 0
@@ -679,7 +679,7 @@ _hal_volume_policy_check (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 	if (libhal_volume_should_ignore (hal_volume))
 		goto out;
 
-	/* if mounted; discard if it got a FHS-2.3 name (to get /, /boot, /usr etc. out of the way) 
+	/* if mounted; discard if it got a FHS-2.3 name (to get /, /boot, /usr etc. out of the way)
 	 *
 	 * (yes, this breaks if the user mounts it later but that is not normally the case for such volumes)
 	 */
@@ -728,7 +728,7 @@ _hal_volume_temp_udi (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 }
 
 static gboolean
-_hal_volume_policy_show_on_desktop (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_hal_volume_policy_show_on_desktop (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 				    LibHalDrive *hal_drive, LibHalVolume *hal_volume)
 {
 	gboolean ret;
@@ -788,7 +788,7 @@ _hal_get_mate_vfs_device_type (LibHalDrive *hal_drive)
 }
 
 static void
-_hal_add_drive_without_volumes (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_hal_add_drive_without_volumes (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 				LibHalDrive *hal_drive)
 {
 	MateVFSDrive *drive;
@@ -800,7 +800,7 @@ _hal_add_drive_without_volumes (MateVFSVolumeMonitorDaemon *volume_monitor_daemo
 	g_return_if_fail (hal_drive != NULL);
 
 #ifdef HAL_SHOW_DEBUG
-	g_debug ("entering _hal_add_drive_without_volumes for\n  drive udi '%s'\n", 
+	g_debug ("entering _hal_add_drive_without_volumes for\n  drive udi '%s'\n",
 		 libhal_drive_get_udi (hal_drive));
 #endif
 
@@ -829,7 +829,7 @@ _hal_add_drive_without_volumes (MateVFSVolumeMonitorDaemon *volume_monitor_daemo
 	if (!libhal_drive_uses_removable_media (hal_drive)) {
 		goto out;
 	}
-	
+
  	dbus_error_init (&error);
  	media_check_enabled = libhal_device_get_property_bool (volume_monitor_daemon->hal_ctx,
  							       libhal_drive_get_udi (hal_drive),
@@ -841,7 +841,7 @@ _hal_add_drive_without_volumes (MateVFSVolumeMonitorDaemon *volume_monitor_daemo
  		dbus_error_free (&error);
  		media_check_enabled = FALSE;
  	}
-	
+
 	drive = g_object_new (MATE_VFS_TYPE_DRIVE, NULL);
 	drive->priv->activation_uri = g_strdup ("");
 	drive->priv->is_connected = 1;
@@ -851,7 +851,7 @@ _hal_add_drive_without_volumes (MateVFSVolumeMonitorDaemon *volume_monitor_daemo
 	name = _hal_drive_policy_get_display_name (volume_monitor_daemon, hal_drive, NULL);
 	drive->priv->display_name = _mate_vfs_volume_monitor_uniquify_drive_name (volume_monitor, name);
 	g_free (name);
-	drive->priv->is_user_visible = !media_check_enabled; /* See http://bugzilla.mate.org/show_bug.cgi?id=321320 */
+	drive->priv->is_user_visible = !media_check_enabled; /* See http://bugzilla.gnome.org/show_bug.cgi?id=321320 */
 	name = g_utf8_casefold (drive->priv->display_name, -1);
 	drive->priv->display_name_key = g_utf8_collate_key (name, -1);
 	g_free (name);
@@ -871,7 +871,7 @@ out:
 }
 
 static gboolean
-_hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 		 LibHalDrive *hal_drive, LibHalVolume *hal_volume)
 {
 	gboolean ret;
@@ -902,7 +902,7 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 #endif
 
 	if (!allowed_by_policy) {
-		/* make sure to completey delete any existing drive/volume for policy changes if the 
+		/* make sure to completey delete any existing drive/volume for policy changes if the
 		 * user_visible flag differs... */
 
 		vol = _mate_vfs_volume_monitor_find_volume_by_hal_udi (
@@ -947,7 +947,7 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 		_mate_vfs_volume_monitor_disconnected (volume_monitor, drive);
 	}
 
-	if (!allowed_by_policy && 
+	if (!allowed_by_policy &&
 	    libhal_volume_get_fsusage (hal_volume) != LIBHAL_VOLUME_USAGE_MOUNTABLE_FILESYSTEM)
 		goto out;
 
@@ -958,28 +958,28 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 	backing_udi = libhal_volume_crypto_get_backing_volume_udi (hal_volume);
 	if (backing_udi != NULL) {
 		MateVFSDrive *backing_drive;
-		
+
 		backing_drive = _mate_vfs_volume_monitor_find_drive_by_hal_udi (volume_monitor, backing_udi);
 		if (backing_drive != NULL) {
 #ifdef HAL_SHOW_DEBUG
 			g_debug ("Removing MateVFSDrive for crypto device with path %s "
-				 "(got cleartext device at path %s)", 
+				 "(got cleartext device at path %s)",
 				 backing_drive->priv->device_path,
 				 libhal_volume_get_device_file (hal_volume));
 #endif
 			_mate_vfs_volume_monitor_disconnected (volume_monitor, backing_drive);
 		}
-		
+
 	}
 
 	/* if we had a drive from here but where we weren't mounted, just use that drive since nothing actually
-	 * changed 
+	 * changed
 	 */
 	drive = _mate_vfs_volume_monitor_find_drive_by_hal_udi (volume_monitor, libhal_volume_get_udi (hal_volume));
 	if (drive == NULL && allowed_by_policy) {
 		drive = g_object_new (MATE_VFS_TYPE_DRIVE, NULL);
 		if (libhal_volume_disc_has_audio (hal_volume)) {
-			drive->priv->activation_uri = g_strdup_printf ("cdda://%s", 
+			drive->priv->activation_uri = g_strdup_printf ("cdda://%s",
 								       libhal_volume_get_device_file (hal_volume));
 		} else if (libhal_volume_disc_is_blank (hal_volume)) {
 			drive->priv->activation_uri = g_strdup ("burn:///");
@@ -995,7 +995,7 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 		drive->priv->is_connected = TRUE;
 		drive->priv->device_path = g_strdup (libhal_volume_get_device_file (hal_volume));
 		drive->priv->device_type = _hal_get_mate_vfs_device_type (hal_drive);
-	
+
 		/* TODO: could add an icon of a drive with media in it since this codepath only
 		 * handles drives with media in them
 		 */
@@ -1016,27 +1016,27 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 #ifdef HAL_SHOW_DEBUG
 		g_debug ("Adding MateVFSDrive for device path %s", libhal_volume_get_device_file (hal_volume));
 #endif
-	
+
 		_mate_vfs_volume_monitor_connected (volume_monitor, drive);
 		mate_vfs_drive_unref (drive);
 	}
 
 	vol = _mate_vfs_volume_monitor_find_volume_by_hal_udi (volume_monitor, libhal_volume_get_udi (hal_volume));
-	if (vol == NULL && 
-	    (libhal_volume_is_mounted (hal_volume) || 
+	if (vol == NULL &&
+	    (libhal_volume_is_mounted (hal_volume) ||
 	     libhal_volume_disc_has_audio (hal_volume) ||
 	     libhal_volume_disc_is_blank (hal_volume))) {
 
 		vol = g_object_new (MATE_VFS_TYPE_VOLUME, NULL);
-		
+
 		vol->priv->volume_type = MATE_VFS_VOLUME_TYPE_MOUNTPOINT;
 		vol->priv->device_path = g_strdup (libhal_volume_get_device_file (hal_volume));
-		vol->priv->unix_device = makedev (libhal_volume_get_device_major (hal_volume), 
+		vol->priv->unix_device = makedev (libhal_volume_get_device_major (hal_volume),
 						  libhal_volume_get_device_minor (hal_volume));
 
 		if (libhal_volume_disc_has_audio (hal_volume)) {
 			vol->priv->volume_type = MATE_VFS_VOLUME_TYPE_VFS_MOUNT;
-			vol->priv->activation_uri = g_strdup_printf ("cdda://%s", 
+			vol->priv->activation_uri = g_strdup_printf ("cdda://%s",
 								     libhal_volume_get_device_file (hal_volume));
 		} else if (libhal_volume_disc_is_blank (hal_volume)) {
 			vol->priv->volume_type = MATE_VFS_VOLUME_TYPE_VFS_MOUNT;
@@ -1050,7 +1050,7 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 									   libhal_volume_get_udi (hal_volume),
 									   "volume.is_mounted_read_only", NULL);
 		vol->priv->is_mounted = TRUE;
-		
+
 		vol->priv->device_type = _hal_get_mate_vfs_device_type (hal_drive);
 
 		name = _hal_volume_policy_get_display_name (volume_monitor_daemon, hal_drive, hal_volume);
@@ -1060,7 +1060,7 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 		vol->priv->display_name_key = g_utf8_collate_key (name, -1);
 		g_free (name);
 		vol->priv->icon = _hal_volume_policy_get_icon (volume_monitor_daemon, hal_drive, hal_volume);
-		vol->priv->is_user_visible = allowed_by_policy && 
+		vol->priv->is_user_visible = allowed_by_policy &&
 			_hal_volume_policy_show_on_desktop (volume_monitor_daemon, hal_drive, hal_volume);
 		vol->priv->hal_udi = g_strdup (libhal_volume_get_udi (hal_volume));
 		vol->priv->hal_drive_udi = g_strdup (libhal_drive_get_udi (hal_drive));
@@ -1077,14 +1077,14 @@ _hal_add_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 		_mate_vfs_volume_monitor_mounted (volume_monitor, vol);
 		mate_vfs_volume_unref (vol);
 	}
-	
+
 	ret = TRUE;
 out:
 
 	return ret;
 }
 
-static void 
+static void
 _hal_update_all (MateVFSVolumeMonitorDaemon *volume_monitor_daemon)
 {
 	char **drives;
@@ -1126,7 +1126,7 @@ _hal_update_all (MateVFSVolumeMonitorDaemon *volume_monitor_daemon)
 #ifdef HAL_SHOW_DEBUG
 						g_debug ("  volume = '%s'", volumes[j]);
 #endif
-						volume = libhal_volume_from_udi (volume_monitor_daemon->hal_ctx, 
+						volume = libhal_volume_from_udi (volume_monitor_daemon->hal_ctx,
 										 volumes[j]);
 
 						if (_hal_add_volume (volume_monitor_daemon, drive, volume))
@@ -1148,7 +1148,7 @@ _hal_update_all (MateVFSVolumeMonitorDaemon *volume_monitor_daemon)
 					/* if we didn't add any volumes show the drive_without_volumes drive */
 					_hal_add_drive_without_volumes (volume_monitor_daemon, drive);
 				}
-				
+
 				libhal_drive_free (drive);
 			}
 
@@ -1164,8 +1164,8 @@ _hal_update_all (MateVFSVolumeMonitorDaemon *volume_monitor_daemon)
 }
 
 
-static void 
-_hal_device_added (LibHalContext *hal_ctx, 
+static void
+_hal_device_added (LibHalContext *hal_ctx,
 		   const char *udi)
 {
 	MateVFSHalUserData *hal_userdata;
@@ -1174,7 +1174,7 @@ _hal_device_added (LibHalContext *hal_ctx,
 #ifdef HAL_SHOW_DEBUG
 	g_debug ("Entering %s for udi %s", G_STRFUNC, udi);
 #endif
-	
+
 	hal_userdata = (MateVFSHalUserData *) libhal_ctx_get_user_data (hal_ctx);
 	volume_monitor_daemon = hal_userdata->volume_monitor_daemon;
 
@@ -1189,7 +1189,7 @@ _hal_device_added (LibHalContext *hal_ctx,
 
 		dbus_error_init (&error);
 		drive_udi = libhal_device_get_property_string (hal_ctx, udi, "block.storage_device", &error);
-		if (dbus_error_is_set (&error)) {			
+		if (dbus_error_is_set (&error)) {
 			g_warning ("Error retrieving block.storage_device on '%s': Error: '%s' Message: '%s'",
 				   udi, error.name, error.message);
 			dbus_error_free (&error);
@@ -1200,16 +1200,16 @@ _hal_device_added (LibHalContext *hal_ctx,
 		volume = libhal_volume_from_udi (volume_monitor_daemon->hal_ctx, udi);
 		if (drive == NULL || volume == NULL)
 			goto vol_add_out;
-		
+
 		_hal_add_volume (volume_monitor_daemon, drive, volume);
 
 	vol_add_out:
 		if (drive_udi != NULL)
 			libhal_free_string (drive_udi);
-		
+
 		if (drive != NULL)
 			libhal_drive_free (drive);
-		
+
 		if (volume != NULL)
 			libhal_volume_free (volume);
 
@@ -1224,7 +1224,7 @@ _hal_device_added (LibHalContext *hal_ctx,
 		devs = libhal_manager_find_device_string_match (volume_monitor_daemon->hal_ctx,
 								"block.storage_device", udi,
 								&num_dev, &error);
-		if (dbus_error_is_set (&error)) {			
+		if (dbus_error_is_set (&error)) {
 			g_warning ("Error retrieving finding devs on '%s': Error: '%s' Message: '%s'",
 				   udi, error.name, error.message);
 			dbus_error_free (&error);
@@ -1249,7 +1249,7 @@ _hal_device_added (LibHalContext *hal_ctx,
 
 }
 
-static void 
+static void
 _hal_device_removed (LibHalContext *hal_ctx, const char *udi)
 {
 	MateVFSDrive *drive;
@@ -1261,7 +1261,7 @@ _hal_device_removed (LibHalContext *hal_ctx, const char *udi)
 #ifdef HAL_SHOW_DEBUG
 	g_debug ("Entering %s for udi %s", G_STRFUNC, udi);
 #endif
-	
+
 	hal_userdata = (MateVFSHalUserData *) libhal_ctx_get_user_data (hal_ctx);
 	volume_monitor_daemon = hal_userdata->volume_monitor_daemon;
 
@@ -1306,7 +1306,7 @@ _hal_device_removed (LibHalContext *hal_ctx, const char *udi)
 			crypto_volume = libhal_volume_from_udi (volume_monitor_daemon->hal_ctx, backing_udi);
 			if (crypto_volume != NULL) {
 				LibHalDrive *crypto_drive;
-				
+
 				crypto_drive = libhal_drive_from_udi (
 					volume_monitor_daemon->hal_ctx,
 					libhal_volume_get_storage_device_udi (crypto_volume));
@@ -1316,7 +1316,7 @@ _hal_device_removed (LibHalContext *hal_ctx, const char *udi)
 				}
 				libhal_volume_free (crypto_volume);
 			}
-			
+
 			g_free (backing_udi);
 		}
 
@@ -1327,7 +1327,7 @@ _hal_device_removed (LibHalContext *hal_ctx, const char *udi)
 #endif
 
 	/* if there are no other drives with the same hal_drive_udi as us, add a drive_without_volumes object  */
-	if (hal_drive_udi != NULL && 
+	if (hal_drive_udi != NULL &&
 	    _mate_vfs_volume_monitor_find_drive_by_hal_drive_udi (
 		    MATE_VFS_VOLUME_MONITOR (volume_monitor_daemon), hal_drive_udi) == NULL) {
 		LibHalDrive *drive;
@@ -1366,7 +1366,7 @@ _hal_device_property_modified (LibHalContext *hal_ctx,
 	volume = NULL;
 
 	hal_userdata = (MateVFSHalUserData *) libhal_ctx_get_user_data (hal_ctx);
-	volume_monitor_daemon = hal_userdata->volume_monitor_daemon;	
+	volume_monitor_daemon = hal_userdata->volume_monitor_daemon;
 	volume_monitor = MATE_VFS_VOLUME_MONITOR (volume_monitor_daemon);
 
 
@@ -1377,7 +1377,7 @@ _hal_device_property_modified (LibHalContext *hal_ctx,
 
 		dbus_error_init (&error);
 		is_mounted = libhal_device_get_property_bool (hal_ctx, udi, "volume.is_mounted", &error);
-		if (dbus_error_is_set (&error)) {			
+		if (dbus_error_is_set (&error)) {
 			g_warning ("Error retrieving volume.is_mounted on '%s': Error: '%s' Message: '%s'",
 				   udi, error.name, error.message);
 			dbus_error_free (&error);
@@ -1391,7 +1391,7 @@ _hal_device_property_modified (LibHalContext *hal_ctx,
 			/* add new volume since it's now mounted */
 
 			drive_udi = libhal_device_get_property_string (hal_ctx, udi, "block.storage_device", &error);
-			if (dbus_error_is_set (&error)) {			
+			if (dbus_error_is_set (&error)) {
 				g_warning ("Error retrieving block.storage_device on '%s': Error: '%s' Message: '%s'",
 					   udi, error.name, error.message);
 				dbus_error_free (&error);
@@ -1413,10 +1413,10 @@ _hal_device_property_modified (LibHalContext *hal_ctx,
 #ifdef HAL_SHOW_DEBUG
 		g_debug ("Removing MateVFSVolume for device path %s", vol->priv->device_path);
 #endif
-				_mate_vfs_volume_monitor_unmounted (volume_monitor, vol);				
+				_mate_vfs_volume_monitor_unmounted (volume_monitor, vol);
 			}
 		}
-		
+
 	}
 out:
 	if (drive_udi != NULL)
@@ -1442,7 +1442,7 @@ _mate_vfs_hal_mounts_init (MateVFSVolumeMonitorDaemon *volume_monitor_daemon)
 #endif
 
 	/* Initialise the connection to the hal daemon */
-	if ((volume_monitor_daemon->hal_ctx = 
+	if ((volume_monitor_daemon->hal_ctx =
 	     libhal_ctx_new ()) == NULL) {
 		g_warning ("libhal_ctx_new failed\n");
 		return FALSE;
@@ -1455,10 +1455,10 @@ _mate_vfs_hal_mounts_init (MateVFSVolumeMonitorDaemon *volume_monitor_daemon)
 			   error.message);
 		dbus_error_free (&error);
 		return FALSE;
-	}	
+	}
         dbus_connection_setup_with_g_main (dbus_connection, NULL);
 
-	libhal_ctx_set_dbus_connection (volume_monitor_daemon->hal_ctx, 
+	libhal_ctx_set_dbus_connection (volume_monitor_daemon->hal_ctx,
 					dbus_connection);
 
 	libhal_ctx_set_device_added (volume_monitor_daemon->hal_ctx,
@@ -1523,11 +1523,11 @@ _mate_vfs_hal_mounts_force_reprobe (MateVFSVolumeMonitorDaemon *volume_monitor_d
 /**************************************************************************/
 
 MateVFSDrive *
-_mate_vfs_hal_mounts_modify_drive (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_mate_vfs_hal_mounts_modify_drive (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 				    MateVFSDrive *drive)
 {
 	MateVFSDrive *result;
-	LibHalContext *hal_ctx; 
+	LibHalContext *hal_ctx;
 	LibHalDrive *hal_drive;
 	char path[PATH_MAX + 5] = "/dev/";
 	char *target = path + 5;
@@ -1543,7 +1543,7 @@ _mate_vfs_hal_mounts_modify_drive (MateVFSVolumeMonitorDaemon *volume_monitor_da
 	if (drive == NULL || drive->priv == NULL || drive->priv->device_path == NULL)
 		goto out;
 
-	/* Note, the device_path may point to what hal calls a volume, e.g. 
+	/* Note, the device_path may point to what hal calls a volume, e.g.
 	 * /dev/sda1 etc, however we get the Drive object for the parent if
 	 * that is the case. This is a feature of libhal-storage.
 	 */
@@ -1577,11 +1577,11 @@ out:
 }
 
 MateVFSVolume *
-_mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon, 
+_mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_daemon,
 				     MateVFSVolume *volume)
 {
 	MateVFSVolume *result;
-	LibHalContext *hal_ctx; 
+	LibHalContext *hal_ctx;
 	LibHalDrive *hal_drive;
 	char path[PATH_MAX + 5] = "/dev/";
 	char *target = path + 5;
@@ -1597,7 +1597,7 @@ _mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_d
 	if (volume == NULL || volume->priv == NULL || volume->priv->device_path == NULL)
 		goto out;
 
-	/* Note, the device_path may point to what hal calls a volume, e.g. 
+	/* Note, the device_path may point to what hal calls a volume, e.g.
 	 * /dev/sda1 etc, however we get the Drive object for the parent if
 	 * that is the case. This is a feature of libhal-storage.
 	 */
@@ -1605,7 +1605,7 @@ _mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_d
 	if (hal_drive != NULL) {
 
 		/* handle drives that HAL can't poll and the user can still mount */
-		if (libhal_device_get_property_bool (hal_ctx, 
+		if (libhal_device_get_property_bool (hal_ctx,
 						     libhal_drive_get_udi (hal_drive),
 						     "storage.media_check_enabled",
 						     NULL) == FALSE) {
@@ -1616,7 +1616,7 @@ _mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_d
 				     libhal_drive_get_udi (hal_drive))) != NULL) {
 				volume->priv->drive = drive;
 				mate_vfs_drive_add_mounted_volume_private (drive, volume);
-				
+
 				goto out;
 			}
 		}
@@ -1638,7 +1638,7 @@ _mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_d
 	hal_drive = libhal_drive_from_device_file (hal_ctx, target);
 	if (hal_drive != NULL) {
 		/* handle drives that HAL can't poll and the user can still mount */
-		if (libhal_device_get_property_bool (hal_ctx, 
+		if (libhal_device_get_property_bool (hal_ctx,
 						     libhal_drive_get_udi (hal_drive),
 						     "storage.media_check_enabled",
 						     NULL) == FALSE) {
@@ -1649,7 +1649,7 @@ _mate_vfs_hal_mounts_modify_volume (MateVFSVolumeMonitorDaemon *volume_monitor_d
 				     libhal_drive_get_udi (hal_drive))) != NULL) {
 				volume->priv->drive = drive;
 				mate_vfs_drive_add_mounted_volume_private (drive, volume);
-				
+
 				goto out;
 			}
 		}

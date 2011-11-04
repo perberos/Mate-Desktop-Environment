@@ -70,11 +70,11 @@ check(gboolean condition, const gchar* fmt, ...)
 {
   va_list args;
   gchar* description;
-  
+
   va_start (args, fmt);
   description = g_strdup_vprintf(fmt, args);
   va_end (args);
-  
+
   if (condition)
     {
       printf(".");
@@ -85,7 +85,7 @@ check(gboolean condition, const gchar* fmt, ...)
       fprintf(stderr, "\n*** FAILED: %s\n", description);
       exit(1);
     }
-  
+
   g_free(description);
 }
 
@@ -117,7 +117,7 @@ some_strings[] = {
   "hello this is a string with spaces and \t\t\t\ttabs",
   "hello this\nstring\nhas\nnewlines\n   \t\t\t\t\t\ttabs and spaces  \n",
   "<?xml version=\"1.0\"?>"
-	"<gmr:Workbook xmlns:gmr=\"http://www.mate.org/gnumeric/\">"
+	"<gmr:Workbook xmlns:gmr=\"http://www.gnome.org/gnumeric/\">"
 	  "<gmr:Style HAlign=\"1\" VAlign=\"1\" Fit=\"0\" Orient=\"1\" Shade=\"0\" Format=\"#,##0_);[red](#,##0)\">"
 	    "<gmr:Font Unit=\"14\" NAME=\"FontDef1\">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>"
 	  "</gmr:Style>"
@@ -181,7 +181,7 @@ static const guint n_bools = sizeof(bools)/sizeof(bools[0]);
 static gdouble floats[] = {
   0.0, 1.0, 2.0, 3.0, 4.0, -10.0,
   -10.34645764573475637657367346743734878734109870187200000000000009,
-  -100.39458694856908, 3.14159, 4.4532464e7, 9.35e-10, 4.5, 6.7, 8.3,  
+  -100.39458694856908, 3.14159, 4.4532464e7, 9.35e-10, 4.5, 6.7, 8.3,
   -5.1, G_MINFLOAT, G_MAXFLOAT
 };
 
@@ -211,7 +211,7 @@ check_unset(MateConfEngine* conf)
           gchar* valstr;
 
           sync_and_clear(conf);
-          
+
           val = mateconf_engine_get (conf, *keyp, &err);
 
 
@@ -219,12 +219,12 @@ check_unset(MateConfEngine* conf)
             valstr = mateconf_value_to_string(val);
           else
             valstr = g_strdup("(none)");
-          
+
           check(val == NULL, "unsetting a previously-set value `%s' the value `%s' existed", *keyp, valstr);
 
           g_free(valstr);
         }
-      
+
       ++keyp;
     }
 }
@@ -238,7 +238,7 @@ check_string_storage(MateConfEngine* conf)
 
   /* Loop over keys, storing all strings at each key then immediately
      retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -247,7 +247,7 @@ check_string_storage(MateConfEngine* conf)
       while (*valp)
         {
           gchar* gotten;
-          
+
           if (!mateconf_engine_set_string(conf, *keyp, *valp, &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%s': %s\n",
@@ -258,9 +258,9 @@ check_string_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_string(conf, *keyp, &err);
-              
+
               if (err != NULL)
                 {
                   check(gotten == NULL, "string was returned though there was an error");
@@ -273,11 +273,11 @@ check_string_storage(MateConfEngine* conf)
                 {
                   check (strcmp(gotten, *valp) == 0, "string set/get pair: `%s' set, `%s' got",
                          *valp, gotten);
-              
+
                   g_free(gotten);
                 }
             }
-          
+
           ++valp;
         }
 
@@ -285,16 +285,16 @@ check_string_storage(MateConfEngine* conf)
     }
 
   /* Now invert the loop and see if that causes problems */
-  
+
   valp = some_strings;
-  
+
   while (*valp)
     {
       keyp = keys;
       while (*keyp)
         {
           gchar* gotten;
-          
+
           if (!mateconf_engine_set_string(conf, *keyp, *valp, &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%s': %s\n",
@@ -304,7 +304,7 @@ check_string_storage(MateConfEngine* conf)
             }
 
           sync_and_clear(conf);
-          
+
           gotten = mateconf_engine_get_string(conf, *keyp, &err);
 
           if (err != NULL)
@@ -319,10 +319,10 @@ check_string_storage(MateConfEngine* conf)
             {
               check (strcmp(gotten, *valp) == 0, "string set/get pair: `%s' set, `%s' got",
                      *valp, null_safe(gotten));
-              
+
               g_free(gotten);
             }
-              
+
           ++keyp;
         }
 
@@ -338,10 +338,10 @@ check_bool_storage(MateConfEngine* conf)
 {
   GError* err = NULL;
   const gchar** keyp = NULL;
-  guint i; 
-  
+  guint i;
+
   /* Loop over keys, storing all bools at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -350,7 +350,7 @@ check_bool_storage(MateConfEngine* conf)
       while (i < n_bools)
         {
           gboolean gotten;
-          
+
           if (!mateconf_engine_set_bool(conf, *keyp, bools[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%d': %s\n",
@@ -361,7 +361,7 @@ check_bool_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_bool(conf, *keyp, &err);
 
               if (err != NULL)
@@ -380,25 +380,25 @@ check_bool_storage(MateConfEngine* conf)
 
                 }
             }
-          
+
           ++i;
         }
-      
+
       ++keyp;
     }
 
   /* Now invert the loop and see if that causes problems */
 
   i = 0;
-      
+
   while (i < n_bools)
     {
       keyp = keys;
-      
+
       while (*keyp)
         {
           gboolean gotten;
-          
+
           if (!mateconf_engine_set_bool(conf, *keyp, bools[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%d': %s\n",
@@ -409,9 +409,9 @@ check_bool_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_bool(conf, *keyp, &err);
-              
+
               if (err != NULL)
                 {
                   check(gotten == FALSE, "TRUE was returned though there was an error");
@@ -434,7 +434,7 @@ check_bool_storage(MateConfEngine* conf)
 
       ++i;
     }
-  
+
   check_unset(conf);
 }
 
@@ -443,11 +443,11 @@ check_float_storage(MateConfEngine* conf)
 {
   GError* err = NULL;
   const gchar** keyp = NULL;
-  guint i; 
+  guint i;
   const gdouble tolerance = 1e-5;
-  
+
   /* Loop over keys, storing all values at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -456,7 +456,7 @@ check_float_storage(MateConfEngine* conf)
       while (i < n_floats)
         {
           gdouble gotten;
-          
+
           if (!mateconf_engine_set_float(conf, *keyp, floats[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%g': %s\n",
@@ -467,7 +467,7 @@ check_float_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_float(conf, *keyp, &err);
 
               if (err != NULL)
@@ -487,10 +487,10 @@ check_float_storage(MateConfEngine* conf)
 
                 }
             }
-          
+
           ++i;
         }
-      
+
       ++keyp;
     }
 
@@ -505,7 +505,7 @@ check_float_storage(MateConfEngine* conf)
       while (*keyp)
         {
           gdouble gotten;
-          
+
           if (!mateconf_engine_set_float(conf, *keyp, floats[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%g': %s\n",
@@ -516,7 +516,7 @@ check_float_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_float(conf, *keyp, &err);
 
               if (err != NULL)
@@ -536,14 +536,14 @@ check_float_storage(MateConfEngine* conf)
 
                 }
             }
-          
-      
+
+
           ++keyp;
         }
 
       ++i;
     }
-          
+
   check_unset(conf);
 }
 
@@ -552,10 +552,10 @@ check_int_storage(MateConfEngine* conf)
 {
   GError* err = NULL;
   const gchar** keyp = NULL;
-  guint i; 
-  
+  guint i;
+
   /* Loop over keys, storing all values at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -564,7 +564,7 @@ check_int_storage(MateConfEngine* conf)
       while (i < n_ints)
         {
           gint gotten;
-          
+
           if (!mateconf_engine_set_int(conf, *keyp, ints[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%d': %s\n",
@@ -575,7 +575,7 @@ check_int_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_int(conf, *keyp, &err);
 
               if (err != NULL)
@@ -595,10 +595,10 @@ check_int_storage(MateConfEngine* conf)
 
                 }
             }
-          
+
           ++i;
         }
-      
+
       ++keyp;
     }
 
@@ -613,7 +613,7 @@ check_int_storage(MateConfEngine* conf)
       while (*keyp)
         {
           gint gotten;
-          
+
           if (!mateconf_engine_set_int(conf, *keyp, ints[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to `%d': %s\n",
@@ -624,7 +624,7 @@ check_int_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_int(conf, *keyp, &err);
 
               if (err != NULL)
@@ -644,14 +644,14 @@ check_int_storage(MateConfEngine* conf)
 
                 }
             }
-          
-      
+
+
           ++keyp;
         }
 
       ++i;
     }
-          
+
   check_unset(conf);
 }
 
@@ -663,11 +663,11 @@ compare_lists(MateConfValueType type, GSList* first, GSList* second)
 
   l1 = first;
   l2 = second;
-  
+
   while (l1 != NULL)
-    {      
+    {
       check(l2 != NULL, "second list too short");
-      
+
       switch (type)
         {
         case MATECONF_VALUE_INT:
@@ -675,13 +675,13 @@ compare_lists(MateConfValueType type, GSList* first, GSList* second)
                 "integer values %d and %d are not equal",
                 GPOINTER_TO_INT(l1->data), GPOINTER_TO_INT(l2->data));
           break;
-          
+
         case MATECONF_VALUE_BOOL:
           check(GPOINTER_TO_INT(l1->data) == GPOINTER_TO_INT(l2->data),
                 "boolean values %d and %d are not equal",
                 GPOINTER_TO_INT(l1->data), GPOINTER_TO_INT(l2->data));
           break;
-          
+
         case MATECONF_VALUE_FLOAT:
           {
             gdouble d1 = *((gdouble*)l1->data);
@@ -691,18 +691,18 @@ compare_lists(MateConfValueType type, GSList* first, GSList* second)
                   d1, d2, d2 - d1);
           }
           break;
-          
+
         case MATECONF_VALUE_STRING:
-          check(strcmp(l1->data, l2->data) == 0, 
+          check(strcmp(l1->data, l2->data) == 0,
                 "string values `%s' and `%s' are not equal",
                 l1->data, l2->data);
           break;
-          
+
         default:
           g_assert_not_reached();
           break;
         }
-      
+
       l1 = g_slist_next(l1);
       l2 = g_slist_next(l2);
     }
@@ -728,7 +728,7 @@ free_list(MateConfValueType type, GSList* list)
         case MATECONF_VALUE_STRING:
           g_free(tmp->data);
           break;
-          
+
         default:
           g_assert_not_reached();
           break;
@@ -746,9 +746,9 @@ list_of_ints(void)
   GSList* retval = NULL;
   guint i = 0;
   while (i < n_ints)
-    {      
+    {
       retval = g_slist_prepend(retval, GINT_TO_POINTER(ints[i]));
-      
+
       ++i;
     }
   return retval;
@@ -760,9 +760,9 @@ list_of_strings(void)
   GSList* retval = NULL;
   const gchar** stringp = some_strings;
   while (*stringp)
-    {     
+    {
       retval = g_slist_prepend(retval, g_strdup(*stringp));
-      
+
       ++stringp;
     }
   return retval;
@@ -774,9 +774,9 @@ list_of_bools(void)
   GSList* retval = NULL;
   guint i = 0;
   while (i < n_bools)
-    {      
+    {
       retval = g_slist_prepend(retval, GINT_TO_POINTER(bools[i]));
-      
+
       ++i;
     }
   return retval;
@@ -788,10 +788,10 @@ list_of_floats(void)
   GSList* retval = NULL;
   guint i = 0;
   while (i < n_floats)
-    {      
+    {
       retval = g_slist_prepend(retval,
                                g_memdup(&floats[i], sizeof(floats[i])));
-      
+
       ++i;
     }
   return retval;
@@ -828,19 +828,19 @@ check_list_storage(MateConfEngine* conf)
   /* of bool */
   lists[6] = list_of_bools();
   lists[7] = NULL;
-  
+
   /* Loop over keys, storing all values at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
     {
       i = 0;
-      
+
       while (i < n_lists)
         {
           GSList* gotten = NULL;
-          
+
           if (!mateconf_engine_set_list(conf, *keyp, list_types[i], lists[i], &err))
             {
               fprintf(stderr, "Failed to set key `%s' to list: %s\n",
@@ -851,7 +851,7 @@ check_list_storage(MateConfEngine* conf)
           else
             {
               sync_and_clear(conf);
-              
+
               gotten = mateconf_engine_get_list(conf, *keyp, list_types[i], &err);
 
               if (err != NULL)
@@ -871,7 +871,7 @@ check_list_storage(MateConfEngine* conf)
 
           ++i;
         }
-      
+
       ++keyp;
     }
 
@@ -885,14 +885,14 @@ check_list_storage(MateConfEngine* conf)
   check_unset(conf);
 }
 
-int 
+int
 main (int argc, char** argv)
 {
   MateConfEngine* conf;
   GError* err = NULL;
 
   setlocale (LC_ALL, "");
-  
+
   if (!mateconf_init(argc, argv, &err))
     {
       g_assert(err != NULL);
@@ -902,34 +902,34 @@ main (int argc, char** argv)
       err = NULL;
       return 1;
     }
-  
+
   conf = mateconf_engine_get_default();
 
   check(conf != NULL, "create the default conf engine");
 
   printf("\nChecking list storage:");
-  
+
   check_list_storage(conf);
-  
+
   printf("\nChecking integer storage:");
-  
+
   check_int_storage(conf);
 
   printf("\nChecking float storage:");
-  
+
   check_float_storage(conf);
 
   printf("\nChecking string storage:");
-  
+
   check_string_storage(conf);
 
   printf("\nChecking bool storage:");
-  
+
   check_bool_storage(conf);
-  
+
   mateconf_engine_unref(conf);
 
   printf("\n\n");
-  
+
   return 0;
 }

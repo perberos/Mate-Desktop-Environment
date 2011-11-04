@@ -56,7 +56,7 @@ foreach_recursive (MateConfSource     *source,
   GSList *entries;
   GSList *subdirs;
   GSList *tmp;
-  GError *error;  
+  GError *error;
 
   error = NULL;
   entries = (* source->backend->vtable.all_entries) (source, dir_key,
@@ -68,7 +68,7 @@ foreach_recursive (MateConfSource     *source,
     {
       MateConfEntry *entry;
       const char *key;
-      
+
       entry = tmp->data;
 
       key = mateconf_entry_get_key (entry);
@@ -81,7 +81,7 @@ foreach_recursive (MateConfSource     *source,
         }
 
       (* func) (entry, depth, data);
-      
+
 
       mateconf_entry_free (tmp->data);
       tmp = tmp->next;
@@ -102,14 +102,14 @@ foreach_recursive (MateConfSource     *source,
       fullname = mateconf_concat_dir_and_key (dir_key, tmp->data);
 
       foreach_recursive (source, fullname, depth + 1, func, data);
-      
+
       g_free (fullname);
 
       g_free (tmp->data);
       tmp = tmp->next;
     }
-  
-  g_slist_free (subdirs);  
+
+  g_slist_free (subdirs);
 }
 
 static const char*
@@ -138,13 +138,13 @@ sync_and_clear (MateConfSource *source)
 
   if (!sync_enabled)
     return;
-  
+
   err = NULL;
   if (!(* source->backend->vtable.sync_all) (source, &err))
     {
       g_printerr ("Failed to sync: %s\n", err->message);
       g_error_free (err);
-      
+
       exit (1);
     }
 
@@ -156,11 +156,11 @@ check (gboolean condition, const char* fmt, ...)
 {
   va_list args;
   char* description;
-  
+
   va_start (args, fmt);
   description = g_strdup_vprintf (fmt, args);
   va_end (args);
-  
+
   if (condition)
     {
       /* fputc ('.', stdout); */
@@ -171,7 +171,7 @@ check (gboolean condition, const char* fmt, ...)
       g_printerr ("\n*** FAILED: %s\n", description);
       exit (1);
     }
-  
+
   g_free (description);
 }
 
@@ -203,7 +203,7 @@ some_strings[] = {
   "hello this is a string with spaces and \t\t\t\ttabs",
   "hello this\nstring\nhas\nnewlines\n   \t\t\t\t\t\ttabs and spaces  \n",
   "<?xml version=\"1.0\"?>"
-  "<gmr:Workbook xmlns:gmr=\"http://www.mate.org/gnumeric/\">"
+  "<gmr:Workbook xmlns:gmr=\"http://www.gnome.org/gnumeric/\">"
   "<gmr:Style HAlign=\"1\" VAlign=\"1\" Fit=\"0\" Orient=\"1\" Shade=\"0\" Format=\"#,##0_);[red](#,##0)\">"
   "<gmr:Font Unit=\"14\" NAME=\"FontDef1\">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>"
   "</gmr:Style>"
@@ -267,7 +267,7 @@ static const guint n_bools = sizeof (bools)/sizeof (bools[0]);
 static gdouble floats[] = {
   0.0, 1.0, 2.0, 3.0, 4.0, -10.0,
   -10.34645764573475637657367346743734878734109870187200000000000009,
-  -100.39458694856908, 3.14159, 4.4532464e7, 9.35e-10, 4.5, 6.7, 8.3,  
+  -100.39458694856908, 3.14159, 4.4532464e7, 9.35e-10, 4.5, 6.7, 8.3,
   -5.1, G_MINFLOAT, G_MAXFLOAT
 };
 
@@ -300,7 +300,7 @@ check_unset (MateConfSource *source)
           char* valstr;
 
           sync_and_clear (source);
-          
+
           val = (* source->backend->vtable.query_value) (source,
 							 *keyp,
 							 locales,
@@ -311,12 +311,12 @@ check_unset (MateConfSource *source)
             valstr = mateconf_value_to_string (val);
           else
             valstr = g_strdup ("(none)");
-          
+
           check (val == NULL, "unsetting a previously-set value `%s' the value `%s' existed", *keyp, valstr);
 
           g_free (valstr);
         }
-      
+
       ++keyp;
     }
 }
@@ -345,7 +345,7 @@ set_string (MateConfSource *source,
 {
   MateConfValue *value;
   gboolean ret;
-  
+
   value = mateconf_value_new (MATECONF_VALUE_STRING);
   mateconf_value_set_string (value, str);
   ret = set_value (source, key, value, err);
@@ -361,7 +361,7 @@ set_int (MateConfSource *source,
 {
   MateConfValue *value;
   gboolean ret;
-  
+
   value = mateconf_value_new (MATECONF_VALUE_INT);
   mateconf_value_set_int (value, v);
   ret = set_value (source, key, value, err);
@@ -377,7 +377,7 @@ set_bool (MateConfSource *source,
 {
   MateConfValue *value;
   gboolean ret;
-  
+
   value = mateconf_value_new (MATECONF_VALUE_BOOL);
   mateconf_value_set_bool (value, v);
   ret = set_value (source, key, value, err);
@@ -393,7 +393,7 @@ set_float (MateConfSource *source,
 {
   MateConfValue *value;
   gboolean ret;
-  
+
   value = mateconf_value_new (MATECONF_VALUE_FLOAT);
   mateconf_value_set_float (value, v);
   ret = set_value (source, key, value, err);
@@ -411,7 +411,7 @@ set_list (MateConfSource   *source,
   MateConfValue *value_list;
   GError *tmp_err = NULL;
   gboolean ret;
-  
+
   g_return_val_if_fail (source != NULL, FALSE);
   g_return_val_if_fail (key != NULL, FALSE);
   g_return_val_if_fail (list_type != MATECONF_VALUE_INVALID, FALSE);
@@ -447,7 +447,7 @@ get_string (MateConfSource *source,
 {
   MateConfValue *val;
   char *s;
-  
+
   val = get_value (source, key, err);
 
   if (val)
@@ -471,7 +471,7 @@ get_bool (MateConfSource *source,
 {
   MateConfValue *val;
   gboolean b;
-  
+
   val = get_value (source, key, err);
 
   if (val)
@@ -495,7 +495,7 @@ get_int (MateConfSource *source,
 {
   MateConfValue *val;
   int i;
-  
+
   val = get_value (source, key, err);
 
   if (val)
@@ -519,7 +519,7 @@ get_float (MateConfSource *source,
 {
   MateConfValue *val;
   double d;
-  
+
   val = get_value (source, key, err);
 
   if (val)
@@ -572,7 +572,7 @@ check_string_storage (MateConfSource *source)
   /* Loop over keys, storing all strings at each key then immediately
    * retrieving them
    */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -581,7 +581,7 @@ check_string_storage (MateConfSource *source)
       while (*valp)
         {
           char* gotten;
-          
+
           if (!set_string (source, *keyp, *valp, &err))
             {
               g_printerr ("Failed to set key `%s' to `%s': %s\n",
@@ -592,9 +592,9 @@ check_string_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_string (source, *keyp, &err);
-              
+
               if (err != NULL)
                 {
                   check (gotten == NULL, "string was returned though there was an error");
@@ -607,11 +607,11 @@ check_string_storage (MateConfSource *source)
                 {
                   check (null_safe_strcmp (gotten, *valp) == 0, "string set/get pair: `%s' set, `%s' got",
                          *valp, gotten);
-              
+
                   g_free (gotten);
                 }
             }
-          
+
           ++valp;
         }
 
@@ -619,16 +619,16 @@ check_string_storage (MateConfSource *source)
     }
 
   /* Now invert the loop and see if that causes problems */
-  
+
   valp = some_strings;
-  
+
   while (*valp)
     {
       keyp = keys;
       while (*keyp)
         {
           char* gotten;
-          
+
           if (!set_string (source, *keyp, *valp, &err))
             {
               g_printerr ("Failed to set key `%s' to `%s': %s\n",
@@ -638,7 +638,7 @@ check_string_storage (MateConfSource *source)
             }
 
           sync_and_clear (source);
-          
+
           gotten = get_string (source, *keyp, &err);
 
           if (err != NULL)
@@ -653,10 +653,10 @@ check_string_storage (MateConfSource *source)
             {
               check (null_safe_strcmp (gotten, *valp) == 0, "string set/get pair: `%s' set, `%s' got",
                      *valp, null_safe (gotten));
-              
+
               g_free (gotten);
             }
-              
+
           ++keyp;
         }
 
@@ -672,10 +672,10 @@ check_bool_storage (MateConfSource *source)
 {
   GError* err = NULL;
   const char** keyp = NULL;
-  guint i; 
-  
+  guint i;
+
   /* Loop over keys, storing all bools at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -684,7 +684,7 @@ check_bool_storage (MateConfSource *source)
       while (i < n_bools)
         {
           gboolean gotten;
-          
+
           if (!set_bool (source, *keyp, bools[i], &err))
             {
               g_printerr ("Failed to set key `%s' to `%d': %s\n",
@@ -695,7 +695,7 @@ check_bool_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_bool (source, *keyp, &err);
 
               if (err != NULL)
@@ -714,25 +714,25 @@ check_bool_storage (MateConfSource *source)
 
                 }
             }
-          
+
           ++i;
         }
-      
+
       ++keyp;
     }
 
   /* Now invert the loop and see if that causes problems */
 
   i = 0;
-      
+
   while (i < n_bools)
     {
       keyp = keys;
-      
+
       while (*keyp)
         {
           gboolean gotten;
-          
+
           if (!set_bool (source, *keyp, bools[i], &err))
             {
               g_printerr ("Failed to set key `%s' to `%d': %s\n",
@@ -743,9 +743,9 @@ check_bool_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_bool (source, *keyp, &err);
-              
+
               if (err != NULL)
                 {
                   check (gotten == FALSE, "TRUE was returned though there was an error");
@@ -768,7 +768,7 @@ check_bool_storage (MateConfSource *source)
 
       ++i;
     }
-  
+
   check_unset (source);
 }
 
@@ -777,11 +777,11 @@ check_float_storage (MateConfSource *source)
 {
   GError* err = NULL;
   const char** keyp = NULL;
-  guint i; 
+  guint i;
   const gdouble tolerance = 1e-5;
-  
+
   /* Loop over keys, storing all values at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -790,7 +790,7 @@ check_float_storage (MateConfSource *source)
       while (i < n_floats)
         {
           gdouble gotten;
-          
+
           if (!set_float (source, *keyp, floats[i], &err))
             {
               g_printerr ("Failed to set key `%s' to `%g': %s\n",
@@ -801,7 +801,7 @@ check_float_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_float (source, *keyp, &err);
 
               if (err != NULL)
@@ -821,10 +821,10 @@ check_float_storage (MateConfSource *source)
 
                 }
             }
-          
+
           ++i;
         }
-      
+
       ++keyp;
     }
 
@@ -839,7 +839,7 @@ check_float_storage (MateConfSource *source)
       while (*keyp)
         {
           gdouble gotten;
-          
+
           if (!set_float (source, *keyp, floats[i], &err))
             {
               g_printerr ("Failed to set key `%s' to `%g': %s\n",
@@ -850,7 +850,7 @@ check_float_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_float (source, *keyp, &err);
 
               if (err != NULL)
@@ -870,14 +870,14 @@ check_float_storage (MateConfSource *source)
 
                 }
             }
-          
-      
+
+
           ++keyp;
         }
 
       ++i;
     }
-          
+
   check_unset (source);
 }
 
@@ -886,10 +886,10 @@ check_int_storage (MateConfSource *source)
 {
   GError* err = NULL;
   const char** keyp = NULL;
-  guint i; 
-  
+  guint i;
+
   /* Loop over keys, storing all values at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -898,7 +898,7 @@ check_int_storage (MateConfSource *source)
       while (i < n_ints)
         {
           gint gotten;
-          
+
           if (!set_int (source, *keyp, ints[i], &err))
             {
               g_printerr ("Failed to set key `%s' to `%d': %s\n",
@@ -909,7 +909,7 @@ check_int_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_int (source, *keyp, &err);
 
               if (err != NULL)
@@ -929,10 +929,10 @@ check_int_storage (MateConfSource *source)
 
                 }
             }
-          
+
           ++i;
         }
-      
+
       ++keyp;
     }
 
@@ -947,7 +947,7 @@ check_int_storage (MateConfSource *source)
       while (*keyp)
         {
           gint gotten;
-          
+
           if (!set_int (source, *keyp, ints[i], &err))
             {
               g_printerr ("Failed to set key `%s' to `%d': %s\n",
@@ -958,7 +958,7 @@ check_int_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_int (source, *keyp, &err);
 
               if (err != NULL)
@@ -978,14 +978,14 @@ check_int_storage (MateConfSource *source)
 
                 }
             }
-          
-      
+
+
           ++keyp;
         }
 
       ++i;
     }
-          
+
   check_unset (source);
 }
 
@@ -997,11 +997,11 @@ compare_lists (MateConfValueType type, GSList* first, GSList* second)
 
   l1 = first;
   l2 = second;
-  
+
   while (l1 != NULL)
-    {      
+    {
       check (l2 != NULL, "second list too short");
-      
+
       switch (type)
         {
         case MATECONF_VALUE_INT:
@@ -1009,13 +1009,13 @@ compare_lists (MateConfValueType type, GSList* first, GSList* second)
                  "integer values %d and %d are not equal",
                  GPOINTER_TO_INT (l1->data), GPOINTER_TO_INT (l2->data));
           break;
-          
+
         case MATECONF_VALUE_BOOL:
           check (GPOINTER_TO_INT (l1->data) == GPOINTER_TO_INT (l2->data),
                  "boolean values %d and %d are not equal",
                  GPOINTER_TO_INT (l1->data), GPOINTER_TO_INT (l2->data));
           break;
-          
+
         case MATECONF_VALUE_FLOAT:
           {
             gdouble d1 = *((gdouble*)l1->data);
@@ -1025,18 +1025,18 @@ compare_lists (MateConfValueType type, GSList* first, GSList* second)
                    d1, d2, d2 - d1);
           }
           break;
-          
+
         case MATECONF_VALUE_STRING:
-          check (null_safe_strcmp (l1->data, l2->data) == 0, 
+          check (null_safe_strcmp (l1->data, l2->data) == 0,
                  "string values `%s' and `%s' are not equal",
                  l1->data, l2->data);
           break;
-          
+
         default:
           g_assert_not_reached ();
           break;
         }
-      
+
       l1 = g_slist_next (l1);
       l2 = g_slist_next (l2);
     }
@@ -1062,7 +1062,7 @@ free_list (MateConfValueType type, GSList* list)
         case MATECONF_VALUE_STRING:
           g_free (tmp->data);
           break;
-          
+
         default:
           g_assert_not_reached ();
           break;
@@ -1080,9 +1080,9 @@ list_of_ints (void)
   GSList* retval = NULL;
   guint i = 0;
   while (i < n_ints)
-    {      
+    {
       retval = g_slist_prepend (retval, GINT_TO_POINTER (ints[i]));
-      
+
       ++i;
     }
   return retval;
@@ -1094,9 +1094,9 @@ list_of_strings (void)
   GSList* retval = NULL;
   const char** stringp = some_strings;
   while (*stringp)
-    {     
+    {
       retval = g_slist_prepend (retval, g_strdup (*stringp));
-      
+
       ++stringp;
     }
   return retval;
@@ -1108,9 +1108,9 @@ list_of_bools (void)
   GSList* retval = NULL;
   guint i = 0;
   while (i < n_bools)
-    {      
+    {
       retval = g_slist_prepend (retval, GINT_TO_POINTER (bools[i]));
-      
+
       ++i;
     }
   return retval;
@@ -1122,10 +1122,10 @@ list_of_floats (void)
   GSList* retval = NULL;
   guint i = 0;
   while (i < n_floats)
-    {      
+    {
       retval = g_slist_prepend (retval,
                                 g_memdup (&floats[i], sizeof (floats[i])));
-      
+
       ++i;
     }
   return retval;
@@ -1162,19 +1162,19 @@ check_list_storage (MateConfSource *source)
   /* of bool */
   lists[6] = list_of_bools ();
   lists[7] = NULL;
-  
+
   /* Loop over keys, storing all values at each then retrieving them */
-  
+
   keyp = keys;
 
   while (*keyp)
     {
       i = 0;
-      
+
       while (i < n_lists)
         {
           GSList* gotten = NULL;
-          
+
           if (!set_list (source, *keyp, list_types[i], lists[i], &err))
             {
               g_printerr ("Failed to set key `%s' to list: %s\n",
@@ -1185,7 +1185,7 @@ check_list_storage (MateConfSource *source)
           else
             {
               sync_and_clear (source);
-              
+
               gotten = get_list (source, *keyp, list_types[i], &err);
 
               if (err != NULL)
@@ -1205,7 +1205,7 @@ check_list_storage (MateConfSource *source)
 
           ++i;
         }
-      
+
       ++keyp;
     }
 
@@ -1234,11 +1234,11 @@ print_entry (MateConfEntry *entry,
   Stats *stats;
 
   stats = data;
-  
+
   stats->entry_count += 1;
 
   return; /* don't actually print all that junk */
-  
+
   while (depth > 0)
     {
       fputc (' ', stdout);
@@ -1251,7 +1251,7 @@ print_entry (MateConfEntry *entry,
     str = mateconf_value_to_string (val);
   else
     str = g_strdup ("<unset>");
-  
+
   g_print ("%s = %s\n", mateconf_entry_get_key (entry), str);
 
   g_free (str);
@@ -1263,7 +1263,7 @@ run_all_checks (const char *address)
   MateConfSource *source;
   GError *error;
   Stats stats;
-    
+
   error = NULL;
   source = mateconf_resolve_address (address, &error);
   if (error != NULL)
@@ -1274,36 +1274,36 @@ run_all_checks (const char *address)
     }
 
   g_assert (source != NULL);
-  
+
   stats.entry_count = 0;
   foreach_recursive (source, "/", 0, print_entry, &stats);
 
   g_print ("%d entries seen\n", stats.entry_count);
 
   g_print ("\nChecking list storage:");
-  
+
   check_list_storage (source);
 
   /* FIXME we aren't checking storage of pairs */
-  
+
   g_print ("\nChecking integer storage:");
-  
+
   check_int_storage (source);
 
   g_print ("\nChecking float storage:");
-  
+
   check_float_storage (source);
 
   g_print ("\nChecking string storage:");
-  
+
   check_string_storage (source);
 
   g_print ("\nChecking bool storage:");
-  
+
   check_bool_storage (source);
 
   sync_and_clear (source);
-  
+
   mateconf_source_free (source);
 
   g_print ("\n\n");
@@ -1311,7 +1311,7 @@ run_all_checks (const char *address)
 
 int
 main (int argc, char **argv)
-{ 
+{
   if (argc != 2)
     {
       g_printerr ("Must specify a config source address on the command line\n");
@@ -1325,6 +1325,6 @@ main (int argc, char **argv)
   run_all_checks (argv[1]);
   sync_enabled = TRUE;
   run_all_checks (argv[1]);
-  
+
   return 0;
 }

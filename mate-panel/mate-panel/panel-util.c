@@ -576,7 +576,7 @@ panel_make_unique_desktop_path_from_name (const char *dir,
 	char  filename[NAME_MAX];
 
 /* g_file_set_contents() use "%s.XXXXXX"
- * FIXME: waiting for http://bugzilla.mate.org/show_bug.cgi?id=437977 */
+ * FIXME: waiting for http://bugzilla.gnome.org/show_bug.cgi?id=437977 */
 #define LENGTH_FOR_TMPFILE_EXT 7
 
 	g_snprintf (filename,
@@ -938,7 +938,7 @@ panel_util_get_icon_for_uri_known_folders (const char *uri)
 	int         len;
 
 	icon = NULL;
-	
+
 	if (!g_str_has_prefix (uri, "file:"))
 		return NULL;
 

@@ -80,7 +80,7 @@ mate_vfs_mime_get_description (const char *mime_type)
 	if (strcmp (mime_type, "x-directory/normal") == 0) {
 		mime_type = "inode/directory";
 	}
-		
+
 	return mate_vfs_mime_get_value (mime_type, "description");
 }
 
@@ -88,10 +88,10 @@ mate_vfs_mime_get_description (const char *mime_type)
  * mate_vfs_mime_set_description:
  * @mime_type: a const char * containing a mime type.
  * @description: a description of this MIME type.
- * 
+ *
  * Set the @description of this MIME type in the MIME database. The @description
  * should be something like "Gnumeric spreadsheet".
- * 
+ *
  * Return value: #MateVFSResult indicating the success of the operation or any
  * errors that may have occurred.
  *
@@ -107,13 +107,13 @@ mate_vfs_mime_set_description (const char *mime_type, const char *description)
 /**
  * mate_vfs_mime_get_default_action_type:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
- * 
+ *
  * Query the MIME database for the type of action to be performed on @mime_type.
- * 
+ *
  * Deprecated: This function does not work with the new mime system.
  * It always returns none
  *
- * Return value: The type of action to be performed on a file of 
+ * Return value: The type of action to be performed on a file of
  * MIME type @mime_type by default.
  */
 MateVFSMimeActionType
@@ -125,9 +125,9 @@ mate_vfs_mime_get_default_action_type (const char *mime_type)
 /**
  * mate_vfs_mime_get_default_action:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
- * 
+ *
  * Query the MIME database for default action associated with @mime_type.
- * 
+ *
  * Deprecated: Use mate_vfs_mime_get_default_application() instead.
  *
  * Return value: a #MateVFSMimeAction representing the default action to perform upon
@@ -141,7 +141,7 @@ mate_vfs_mime_get_default_action (const char *mime_type)
 	action = g_new0 (MateVFSMimeAction, 1);
 
 	action->action_type = MATE_VFS_MIME_ACTION_TYPE_APPLICATION;
-	action->action.application = 
+	action->action.application =
 		mate_vfs_mime_get_default_application (mime_type);
 	if (action->action.application == NULL) {
 		g_free (action);
@@ -154,14 +154,14 @@ mate_vfs_mime_get_default_action (const char *mime_type)
 /**
  * mate_vfs_mime_get_default_application:
  * @mime_type: a const char * containing a mime type, e.g. "image/png".
- * 
+ *
  * Query the MIME database for the application to be executed on files of MIME type
  * @mime_type by default.
  *
  * If you know the actual uri of the file you should use mate_vfs_mime_get_default_application_for_uri
  * instead, as it will then be able to pick a better app. For instance it won't pick
  * an app that claims to only handle local files for a remote uri.
- * 
+ *
  * Return value: a #MateVFSMimeApplication representing the default handler of @mime_type.
  */
 MateVFSMimeApplication *
@@ -171,7 +171,7 @@ mate_vfs_mime_get_default_application (const char *mime_type)
 	GList *applications, *l;
 
 	app = NULL;
-	
+
 	applications = mate_vfs_mime_get_all_desktop_entries (mime_type);
 	for (l = applications; l != NULL; l = l->next) {
 		app = mate_vfs_mime_application_new_from_id (l->data);
@@ -180,7 +180,7 @@ mate_vfs_mime_get_default_application (const char *mime_type)
 			break;
 		}
 	}
-	
+
 	g_list_foreach (applications, (GFunc) g_free, NULL);
 	g_list_free (applications);
 
@@ -236,10 +236,10 @@ mate_vfs_mime_set_icon (const char *mime_type, const char *filename)
 /**
  * mate_vfs_mime_can_be_executable:
  * @mime_type: a const char * containing a mime type.
- * 
+ *
  * Check whether files of @mime_type might conceivably be executable.
  * Default for known types if %FALSE. Default for unknown types is %TRUE.
- * 
+ *
  * Return value: %TRUE if files of @mime_type
  * can be executable, %FALSE otherwise.
  */
@@ -248,7 +248,7 @@ mate_vfs_mime_can_be_executable (const char *mime_type)
 {
 	const char *result_as_string;
 	gboolean result;
-	
+
 	result_as_string = mate_vfs_mime_get_value (mime_type, "can_be_executable");
 	if (result_as_string != NULL) {
 		result = strcmp (result_as_string, "TRUE") == 0;
@@ -262,7 +262,7 @@ mate_vfs_mime_can_be_executable (const char *mime_type)
 			result = FALSE;
 		}
 	}
-	
+
 	return result;
 }
 
@@ -270,9 +270,9 @@ mate_vfs_mime_can_be_executable (const char *mime_type)
  * mate_vfs_mime_set_can_be_executable:
  * @mime_type: a const char * containing a mime type.
  * @new_value: a boolean value indicating whether @mime_type could be executable.
- * 
+ *
  * Set whether files of @mime_type might conceivably be executable.
- * 
+ *
  * Return value: a #MateVFSResult indicating the success of the operation or any
  * errors that may have occurred.
  */
@@ -286,17 +286,17 @@ mate_vfs_mime_set_can_be_executable (const char *mime_type, gboolean new_value)
 /**
  * mate_vfs_mime_get_short_list_applications:
  * @mime_type: a const char * containing a mime type, e.g. "image/png".
- * 
+ *
  * Return an alphabetically sorted list of #MateVFSMimeApplication data
  * structures for the @mime_type. mate-vfs no longer supports the
  * concept of a "short list" of applications that the user might be interested
  * in.
- * 
+ *
  * Return value: a #GList * where the elements are #MateVFSMimeApplication *
  * representing various applications to display in the short list for @mime_type.
  *
  * Deprecated: Use mate_vfs_mime_get_all_applications() instead.
- */ 
+ */
 GList *
 mate_vfs_mime_get_short_list_applications (const char *mime_type)
 {
@@ -306,14 +306,14 @@ mate_vfs_mime_get_short_list_applications (const char *mime_type)
 /**
  * mate_vfs_mime_get_all_applications:
  * @mime_type: a const char * containing a mime type, e.g. "image/png".
- * 
+ *
  * Return an alphabetically sorted list of #MateVFSMimeApplication
  * data structures representing all applications in the MIME database registered
  * to handle files of MIME type @mime_type (and supertypes).
- * 
+ *
  * Return value: a #GList * where the elements are #MateVFSMimeApplication *
  * representing applications that handle MIME type @mime_type.
- */ 
+ */
 GList *
 mate_vfs_mime_get_all_applications (const char *mime_type)
 {
@@ -350,10 +350,10 @@ mate_vfs_mime_get_all_applications (const char *mime_type)
  * mate_vfs_mime_set_default_action_type:
  * @mime_type: a const char * containing a mime type, e.g. "image/png".
  * @action_type: a #MateVFSMimeActionType containing the action to perform by default.
- * 
+ *
  * Sets the default action type to be performed on files of @mime_type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -369,12 +369,12 @@ mate_vfs_mime_set_default_action_type (const char *mime_type,
 /**
  * mate_vfs_mime_set_default_application:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
- * @application_id: a key representing an application in the MIME database 
+ * @application_id: a key representing an application in the MIME database
  * (#MateVFSMimeApplication->id, for example).
- * 
+ *
  * Sets the default application to be run on files of @mime_type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -391,10 +391,10 @@ mate_vfs_mime_set_default_application (const char *mime_type,
  * mate_vfs_mime_set_default_component:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @component_iid: OAFIID of a component.
- * 
+ *
  * Sets the default component to be activated for files of @mime_type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -411,11 +411,11 @@ mate_vfs_mime_set_default_component (const char *mime_type,
  * mate_vfs_mime_set_short_list_applications:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @application_ids: #GList of const char * application ids.
- * 
+ *
  * Set the short list of applications for the specified MIME type. The short list
  * contains applications recommended for possible selection by the user.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -432,11 +432,11 @@ mate_vfs_mime_set_short_list_applications (const char *mime_type,
  * mate_vfs_mime_set_short_list_components:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @component_iids: #GList of const char * OAFIIDs.
- * 
+ *
  * Set the short list of components for the @mime_type. The short list
  * contains companents recommended for possible selection by the user.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -449,7 +449,7 @@ mate_vfs_mime_set_short_list_components (const char *mime_type,
 	return MATE_VFS_ERROR_DEPRECATED_FUNCTION;
 }
 
-/* FIXME bugzilla.eazel.com 1148: 
+/* FIXME bugzilla.eazel.com 1148:
  * The next set of helper functions are all replicated in caja-mime-actions.c.
  * Need to refactor so they can share code.
  */
@@ -465,7 +465,7 @@ mate_vfs_mime_id_matches_application (const char *id, MateVFSMimeApplication *ap
 	return mate_vfs_mime_application_has_id (application, id);
 }
 
-static gint 
+static gint
 mate_vfs_mime_application_matches_id (MateVFSMimeApplication *application, const char *id)
 {
 	return mate_vfs_mime_id_matches_application (id, application);
@@ -476,12 +476,12 @@ mate_vfs_mime_application_matches_id (MateVFSMimeApplication *application, const
  * @id: an application id.
  * @applications: a #GList * whose nodes are #MateVFSMimeApplications, such as the
  * result of mate_vfs_mime_get_short_list_applications().
- * 
+ *
  * Check whether an application id is in a list of #MateVFSMimeApplications.
- * 
+ *
  * Return value: %TRUE if an application whose id matches @id is in @applications.
  *
- * Deprecated: 
+ * Deprecated:
  */
 gboolean
 mate_vfs_mime_id_in_application_list (const char *id, GList *applications)
@@ -495,9 +495,9 @@ mate_vfs_mime_id_in_application_list (const char *id, GList *applications)
  * mate_vfs_mime_id_list_from_application_list:
  * @applications: a #GList * whose nodes are MateVFSMimeApplications, such as the
  * result of mate_vfs_mime_get_short_list_applications().
- * 
+ *
  * Create a list of application ids from a list of #MateVFSMimeApplications.
- * 
+ *
  * Return value: a new list where each #MateVFSMimeApplication in the original
  * list is replaced by a char * with the application's id. The original list is
  * not modified.
@@ -511,9 +511,9 @@ mate_vfs_mime_id_list_from_application_list (GList *applications)
 	GList *node;
 
 	result = NULL;
-	
+
 	for (node = applications; node != NULL; node = node->next) {
-		result = g_list_append 
+		result = g_list_append
 			(result, g_strdup (((MateVFSMimeApplication *)node->data)->id));
 	}
 
@@ -525,11 +525,11 @@ mate_vfs_mime_id_list_from_application_list (GList *applications)
  * mate_vfs_mime_add_application_to_short_list:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @application_id: const char * containing the application's id in the MIME database.
- * 
+ *
  * Add an application to the short list for @mime_type. The short list contains
  * applications recommended for display as choices to the user for a particular MIME type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -549,16 +549,16 @@ mate_vfs_mime_add_application_to_short_list (const char *mime_type,
  * @application_id: id of an application to remove from @applications.
  * @did_remove: If non-NULL, this is filled in with %TRUE if the application
  * was found in the list, %FALSE otherwise.
- * 
+ *
  * Remove an application specified by id from a list of #MateVFSMimeApplications.
- * 
- * Return value: The modified list. If the application is not found, the list will 
+ *
+ * Return value: The modified list. If the application is not found, the list will
  * be unchanged.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
  */
 GList *
-mate_vfs_mime_remove_application_from_list (GList *applications, 
+mate_vfs_mime_remove_application_from_list (GList *applications,
 					     const char *application_id,
 					     gboolean *did_remove)
 {
@@ -570,11 +570,11 @@ mate_vfs_mime_remove_application_from_list (GList *applications,
  * mate_vfs_mime_remove_application_from_short_list:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @application_id: const char * containing the application's id in the MIME database.
- * 
+ *
  * Remove an application specified by @application_id from the short list for @mime_type. A short list contains
  * applications recommended for display as choices to the user for a particular MIME type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -591,11 +591,11 @@ mate_vfs_mime_remove_application_from_short_list (const char *mime_type,
  * mate_vfs_mime_add_component_to_short_list:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @iid: const char * containing the component's OAFIID.
- * 
+ *
  * Add a component to the short list for @mime_type. A short list contains
  * components recommended for display as choices to the user for a particular MIME type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -612,11 +612,11 @@ mate_vfs_mime_add_component_to_short_list (const char *mime_type,
  * mate_vfs_mime_remove_component_from_short_list:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @iid: const char * containing the component's OAFIID.
- * 
+ *
  * Remove a component from the short list for @mime_type. The short list contains
  * components recommended for display as choices to the user for a particular MIME type.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -633,9 +633,9 @@ mate_vfs_mime_remove_component_from_short_list (const char *mime_type,
  * mate_vfs_mime_add_extension:
  * @extension: extension to add (e.g. "txt").
  * @mime_type: mime type to add the mapping to.
- * 
+ *
  * Add a file extension to the specificed MIME type in the MIME database.
- * 
+ *
  * Return value: a #MateVFSResult indicating the success of the operation or any
  * errors that may have occurred.
  *
@@ -652,9 +652,9 @@ mate_vfs_mime_add_extension (const char *mime_type, const char *extension)
  * mate_vfs_mime_remove_extension:
  * @extension: extension to remove.
  * @mime_type: mime type to remove the extension from.
- * 
+ *
  * Removes a file extension from the @mime_type in the MIME database.
- * 
+ *
  * Return value: a #MateVFSResult indicating the success of the operation or any
  * errors that may have occurred.
  *
@@ -671,10 +671,10 @@ mate_vfs_mime_remove_extension (const char *mime_type, const char *extension)
  * mate_vfs_mime_extend_all_applications:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @application_ids: a #GList of const char * containing application ids.
- * 
+ *
  * Register @mime_type as being handled by all applications list in @application_ids.
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -691,10 +691,10 @@ mate_vfs_mime_extend_all_applications (const char *mime_type,
  * mate_vfs_mime_remove_from_all_applications:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @application_ids: a #GList of const char * containing application ids.
- * 
+ *
  * Remove @mime_type as a handled type from every application in @application_ids
- * 
- * Return value: a #MateVFSResult indicating the success of the operation or reporting 
+ *
+ * Return value: a #MateVFSResult indicating the success of the operation or reporting
  * any errors encountered.
  *
  * Deprecated: User modifications to the MIME database are no longer supported by mate-vfs.
@@ -711,9 +711,9 @@ mate_vfs_mime_remove_from_all_applications (const char *mime_type,
  * mate_vfs_mime_application_equal:
  * @app_a: a #MateVFSMimeApplication.
  * @app_b: a #MateVFSMimeApplication.
- * 
+ *
  * Compare @app_a and @app_b.
- * 
+ *
  * Return value: %TRUE if @app_a and @app_b are equal, %FALSE otherwise.
  *
  * Since: 2.10
@@ -731,9 +731,9 @@ mate_vfs_mime_application_equal (MateVFSMimeApplication *app_a,
 /**
  * mate_vfs_mime_application_copy:
  * @application: a #MateVFSMimeApplication to be duplicated.
- * 
+ *
  * Creates a newly referenced copy of a #MateVFSMimeApplication object.
- * 
+ *
  * Return value: a copy of @application.
  */
 MateVFSMimeApplication *
@@ -744,7 +744,7 @@ mate_vfs_mime_application_copy (MateVFSMimeApplication *application)
 	if (application == NULL) {
 		return NULL;
 	}
-	
+
 	result = g_new0 (MateVFSMimeApplication, 1);
 	result->id = g_strdup (application->id);
 	result->name = g_strdup (application->name);
@@ -753,14 +753,14 @@ mate_vfs_mime_application_copy (MateVFSMimeApplication *application)
 	result->expects_uris = application->expects_uris;
 	result->supported_uri_schemes = copy_str_list (application->supported_uri_schemes);
 	result->requires_terminal = application->requires_terminal;
-	
+
 	result->priv = g_new0 (MateVFSMimeApplicationPrivate, 1);
 	result->priv->desktop_file_path = g_strdup (application->priv->desktop_file_path);
 	result->priv->generic_name = g_strdup (application->priv->generic_name);
 	result->priv->icon = g_strdup (application->priv->icon);
-	result->priv->exec = g_strdup (application->priv->exec); 
+	result->priv->exec = g_strdup (application->priv->exec);
 	result->priv->binary_name = g_strdup (application->priv->binary_name);
-	result->priv->path = g_strdup (application->priv->path); 
+	result->priv->path = g_strdup (application->priv->path);
 	result->priv->supports_uris = application->priv->supports_uris;
 	result->priv->startup_notification = application->priv->startup_notification;
 	result->priv->startup_wm_class = g_strdup (application->priv->startup_wm_class);
@@ -771,16 +771,16 @@ mate_vfs_mime_application_copy (MateVFSMimeApplication *application)
 /**
  * mate_vfs_mime_application_free:
  * @application: a #MateVFSMimeApplication to be freed.
- * 
+ *
  * Frees a #MateVFSMimeApplication *.
- * 
+ *
  */
 void
-mate_vfs_mime_application_free (MateVFSMimeApplication *application) 
+mate_vfs_mime_application_free (MateVFSMimeApplication *application)
 {
 	if (application != NULL) {
 		MateVFSMimeApplicationPrivate *priv = application->priv;
-	
+
 		if (priv != NULL) {
 			g_free (priv->desktop_file_path);
 			g_free (priv->generic_name);
@@ -806,14 +806,14 @@ mate_vfs_mime_application_free (MateVFSMimeApplication *application)
 /**
  * mate_vfs_mime_action_free:
  * @action: a #MateVFSMimeAction to be freed.
- * 
+ *
  * Frees a #MateVFSMimeAction *.
  *
  * Deprecated: #MateVFSMimeAction structures should not be used in new
  * code.
  */
 void
-mate_vfs_mime_action_free (MateVFSMimeAction *action) 
+mate_vfs_mime_action_free (MateVFSMimeAction *action)
 {
 	switch (action->action_type) {
 	case MATE_VFS_MIME_ACTION_TYPE_APPLICATION:
@@ -829,7 +829,7 @@ mate_vfs_mime_action_free (MateVFSMimeAction *action)
 /**
  * mate_vfs_mime_application_list_free:
  * @list: a #GList of #MateVFSApplication * to be freed.
- * 
+ *
  * Frees lists of #MateVFSApplications, as returned from functions such
  * as mate_vfs_get_all_applications().
  */
@@ -843,7 +843,7 @@ mate_vfs_mime_application_list_free (GList *list)
 /**
  * mate_vfs_mime_application_new_from_id:
  * @id: a const char * containing an application id.
- * 
+ *
  * Fetches the #MateVFSMimeApplication associated with the specified
  * application @id from the MIME database.
  *
@@ -858,12 +858,12 @@ mate_vfs_mime_application_new_from_id (const char *id)
 	return mate_vfs_mime_application_new_from_desktop_id (id);
 }
 
-/** 
+/**
  * mate_vfs_mime_action_launch:
  * @action: the #MateVFSMimeAction to launch.
  * @uris: parameters for the #MateVFSMimeAction.
  *
- * Launches the given mime @action with the given parameters. If 
+ * Launches the given mime @action with the given parameters. If
  * the @action is an application the command line parameters will
  * be expanded as required by the application. The application
  * will also be launched in a terminal if that is required. If the
@@ -923,18 +923,18 @@ mate_vfs_mime_action_launch_with_env (MateVFSMimeAction *action,
 
 	switch (action->action_type) {
 	case MATE_VFS_MIME_ACTION_TYPE_APPLICATION:
-	
+
 		return mate_vfs_mime_application_launch_with_env
 			 		(action->action.application,
 			 		 uris, envp);
-					 
+
 	case MATE_VFS_MIME_ACTION_TYPE_COMPONENT:
-		return MATE_VFS_OK;		
-	
+		return MATE_VFS_OK;
+
 	default:
 		g_assert_not_reached ();
 	}
-	
+
 	return MATE_VFS_ERROR_BAD_PARAMETERS;
 }
 
@@ -946,11 +946,11 @@ mate_vfs_mime_action_launch_with_env (MateVFSMimeAction *action,
  * Launches the given mime application with the given parameters.
  * Command line parameters will be expanded as required by the
  * application. The application will also be launched in a terminal
- * if that is required. If the application only supports one argument 
- * per instance then multiple instances of the application will be 
+ * if that is required. If the application only supports one argument
+ * per instance then multiple instances of the application will be
  * launched.
  *
- * Return value: 
+ * Return value:
  * %MATE_VFS_OK if the application was launched.
  * %MATE_VFS_ERROR_NOT_SUPPORTED if the uri protocol is not
  * supported by the application.
@@ -982,7 +982,7 @@ mate_vfs_mime_application_launch (MateVFSMimeApplication *app,
  *
  * Since: 2.4
  */
-MateVFSResult 
+MateVFSResult
 mate_vfs_mime_application_launch_with_env (MateVFSMimeApplication *app,
                                             GList                   *uris,
                                             char                   **envp)
@@ -990,15 +990,15 @@ mate_vfs_mime_application_launch_with_env (MateVFSMimeApplication *app,
 	MateVFSResult result;
 	char **argv;
 	int argc;
-	
+
 	g_return_val_if_fail (app != NULL, MATE_VFS_ERROR_BAD_PARAMETERS);
 	g_return_val_if_fail (uris != NULL, MATE_VFS_ERROR_BAD_PARAMETERS);
-	
+
 	while (uris != NULL) {
-		
+
 		result = expand_application_parameters (app, &uris,
 							&argc, &argv);
-		
+
 		if (result != MATE_VFS_OK) {
 			return result;
 		}
@@ -1009,7 +1009,7 @@ mate_vfs_mime_application_launch_with_env (MateVFSMimeApplication *app,
 				return MATE_VFS_ERROR_INTERNAL;
 			}
 		}
-		
+
 		if (!g_spawn_async (app->priv->path,  /* working directory */
 				    argv,
 				    envp,
@@ -1021,11 +1021,11 @@ mate_vfs_mime_application_launch_with_env (MateVFSMimeApplication *app,
 			g_strfreev (argv);
 			return MATE_VFS_ERROR_LAUNCH;
 		}
-		
+
 		g_strfreev (argv);
 	}
-	
-	return MATE_VFS_OK;		
+
+	return MATE_VFS_OK;
 }
 
 static char *
@@ -1035,7 +1035,7 @@ expand_macro_single (char macro, const char *uri)
 
 	switch (macro) {
 		case 'u':
-		case 'U':	
+		case 'U':
 			result = g_shell_quote (uri);
 			break;
 		case 'f':
@@ -1092,7 +1092,7 @@ expand_macro (char macro, GString *exec, MateVFSMimeApplication *application, GL
 			}
 			uris = uris->next;
 			break;
-		case 'U':	
+		case 'U':
 		case 'F':
 		case 'D':
 		case 'N':
@@ -1139,7 +1139,7 @@ static MateVFSResult
 expand_application_parameters (MateVFSMimeApplication *application,
 			       GList         **uris,
 			       int            *argc,
-			       char         ***argv)		   
+			       char         ***argv)
 {
 	GList *uri_list = *uris;
 	const char *p = application->priv->exec;
@@ -1232,7 +1232,7 @@ void
 test_exec_macro_expansion (void)
 {
 	GList *uris = NULL;
-	
+
 	const char *local[] = { "test --open-file=%f",
 				"test --open-files %F",
 				"test %d",
@@ -1295,10 +1295,10 @@ static GList *
 copy_str_list (GList *string_list)
 {
 	GList *copy, *node;
-       
+
 	copy = NULL;
 	for (node = string_list; node != NULL; node = node->next) {
-		copy = g_list_prepend (copy, 
+		copy = g_list_prepend (copy,
 				       g_strdup ((char *) node->data));
 				       }
 	return g_list_reverse (copy);
@@ -1320,10 +1320,10 @@ guess_deprecated_fields_from_exec (MateVFSMimeApplication *application)
 	  	do {
 			*p = '\0';
 			p--;
-		} while (p >= application->command && g_ascii_isspace (*p)); 
-		
+		} while (p >= application->command && g_ascii_isspace (*p));
+
 		application->can_open_multiple_files = FALSE;
-		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_PATHS; 
+		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_PATHS;
 		application->supported_uri_schemes = NULL;
 	} else if ((p = strstr (application->command, "%F")) != NULL
 		   || (p = strstr (application->command, "%D")) != NULL
@@ -1331,34 +1331,34 @@ guess_deprecated_fields_from_exec (MateVFSMimeApplication *application)
 	  	do {
 			*p = '\0';
 			p--;
-		} while (p >= application->command && g_ascii_isspace (*p)); 
-		
+		} while (p >= application->command && g_ascii_isspace (*p));
+
 		application->can_open_multiple_files = TRUE;
-		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_PATHS; 
+		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_PATHS;
 		application->supported_uri_schemes = NULL;
 	} else if ((p = strstr (application->command, "%u")) != NULL) {
 		do {
 			*p = '\0';
 			p--;
-		} while (p >= application->command && g_ascii_isspace (*p)); 
+		} while (p >= application->command && g_ascii_isspace (*p));
 
 		application->can_open_multiple_files = FALSE;
-		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS; 
+		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS;
 		application->supported_uri_schemes = _mate_vfs_configuration_get_methods_list ();
 	} else if ((p = strstr (application->command, "%U")) != NULL) {
 		do {
 			*p = '\0';
 			p--;
-		} while (p >= application->command && g_ascii_isspace (*p)); 
+		} while (p >= application->command && g_ascii_isspace (*p));
 
 		application->can_open_multiple_files = TRUE;
-		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS; 
+		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS;
 		application->supported_uri_schemes = _mate_vfs_configuration_get_methods_list ();
 	} else {
 		application->can_open_multiple_files = FALSE;
-		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS_FOR_NON_FILES; 
+		application->expects_uris = MATE_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS_FOR_NON_FILES;
 		application->supported_uri_schemes = _mate_vfs_configuration_get_methods_list ();
-	} 
+	}
 }
 
 /**
@@ -1423,7 +1423,7 @@ mate_vfs_mime_application_new_from_desktop_id (const char *id)
 	app->priv->path = g_key_file_get_string (key_file, DESKTOP_ENTRY_GROUP,
 						 "Path", NULL);
 
-	/* 'Path=' .desktop item is not working. bugzilla.mate.org/389273 */
+	/* 'Path=' .desktop item is not working. bugzilla.gnome.org/389273 */
 	if (app->priv->path != NULL && *app->priv->path == 0) {
 		g_free (app->priv->path);
 		app->priv->path = NULL;
@@ -1447,10 +1447,10 @@ mate_vfs_mime_application_new_from_desktop_id (const char *id)
 
 	app->priv->generic_name = g_key_file_get_locale_string
 			(key_file, DESKTOP_ENTRY_GROUP, "GenericName", NULL, NULL);
- 
+
 	app->priv->icon = g_key_file_get_string
-			(key_file, DESKTOP_ENTRY_GROUP, "Icon", NULL);	
-	
+			(key_file, DESKTOP_ENTRY_GROUP, "Icon", NULL);
+
 	app->priv->startup_wm_class = g_key_file_get_string
 			(key_file, DESKTOP_ENTRY_GROUP, "StartupWMClass", NULL);
 
@@ -1479,7 +1479,7 @@ uri_is_local (const char *uri)
 	gboolean local;
 
 	local = FALSE;
-	
+
 	scheme = mate_vfs_get_uri_scheme (uri);
 	if (scheme != NULL) {
 		local = (strcmp (scheme, "file") == 0);
@@ -1495,7 +1495,7 @@ uri_is_local (const char *uri)
  *
  * Query the MIME database for the application to be executed on the file
  * identified by @uri of @mime_type by default.
- * 
+ *
  * Return value: a #MateVFSMimeApplication representing the default handler.
  *
  * Since: 2.10
@@ -1507,12 +1507,12 @@ mate_vfs_mime_get_default_application_for_uri (const char *uri,
 	GList *applications, *l;
 	MateVFSMimeApplication *app = NULL;
 	gboolean local;
-	
+
 	g_return_val_if_fail (uri != NULL, NULL);
 	g_return_val_if_fail (mime_type != NULL, NULL);
 
 	local = uri_is_local (uri);
-	
+
 	applications = mate_vfs_mime_get_all_desktop_entries (mime_type);
 
 	for (l = applications; l != NULL; l = l->next) {
@@ -1538,11 +1538,11 @@ mate_vfs_mime_get_default_application_for_uri (const char *uri,
  * mate_vfs_mime_get_all_applications_for_uri:
  * @mime_type: a const char * containing a mime type, e.g. "application/x-php".
  * @uri: a stringified uri.
- * 
+ *
  * Return an alphabetically sorted list of #MateVFSMimeApplication
  * data structures representing all applications in the MIME database able
  * to handle the file identified by @uri of @mime_type (and supertypes).
- * 
+ *
  * Return value: a #GList * where the elements are #MateVFSMimeApplication *
  * representing all possible handlers
  *
@@ -1555,10 +1555,10 @@ mate_vfs_mime_get_all_applications_for_uri (const char *uri,
 	GList *applications, *l, *result = NULL;
 	MateVFSMimeApplication *app;
 	gboolean local;
-	
+
 	g_return_val_if_fail (uri != NULL, NULL);
 	g_return_val_if_fail (mime_type != NULL, NULL);
-	
+
 	local = uri_is_local (uri);
 
 	applications = mate_vfs_mime_get_all_desktop_entries (mime_type);
@@ -1574,7 +1574,7 @@ mate_vfs_mime_get_all_applications_for_uri (const char *uri,
 				mate_vfs_mime_application_free (app);
 			}
 		}
-	}		
+	}
 
 	g_list_foreach (applications, (GFunc) g_free, NULL);
 	g_list_free (applications);
@@ -1596,7 +1596,7 @@ const char *
 mate_vfs_mime_application_get_desktop_id (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;
@@ -1621,7 +1621,7 @@ const char *
 mate_vfs_mime_application_get_desktop_file_path (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;
@@ -1644,7 +1644,7 @@ const char *
 mate_vfs_mime_application_get_name (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	return app->name;
 }
 
@@ -1662,7 +1662,7 @@ const char *
 mate_vfs_mime_application_get_generic_name (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;
@@ -1688,7 +1688,7 @@ const char *
 mate_vfs_mime_application_get_icon (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;
@@ -1714,7 +1714,7 @@ const char *
 mate_vfs_mime_application_get_exec (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;
@@ -1744,7 +1744,7 @@ const char *
 mate_vfs_mime_application_get_binary_name (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;
@@ -1768,7 +1768,7 @@ gboolean
 mate_vfs_mime_application_supports_uris (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, FALSE);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return FALSE;
@@ -1791,7 +1791,7 @@ gboolean
 mate_vfs_mime_application_requires_terminal (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, FALSE);
-	
+
 	return app->requires_terminal;
 }
 
@@ -1812,7 +1812,7 @@ gboolean
 mate_vfs_mime_application_supports_startup_notification (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, FALSE);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return FALSE;
@@ -1835,7 +1835,7 @@ const char *
 mate_vfs_mime_application_get_startup_wm_class (MateVFSMimeApplication *app)
 {
 	g_return_val_if_fail (app != NULL, NULL);
-	
+
 	if (app->priv == NULL) {
 		g_warning (MIXED_API_WARNING);
 		return NULL;

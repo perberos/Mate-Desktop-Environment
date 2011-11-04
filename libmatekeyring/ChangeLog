@@ -15,7 +15,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-09-12
 
     autogen.sh: require automake 1.7
-    
+
     automake 1.4 does not have AM_PROG_CC_C_O
 
  autogen.sh |    8 +++++---
@@ -26,10 +26,10 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-09-11
 
     [egg] Fix secure memory assertion.
-    
+
     Fix assertion that occurs when searching for pool to free memory from.
-    
-    https://bugzilla.mate.org/show_bug.cgi?id=616175
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=616175
 
  egg/egg-secure-memory.c |    3 ++-
  1 files changed, 2 insertions(+), 1 deletions(-)
@@ -39,11 +39,11 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-09-10
 
     Don't try to run daemon tests if DBus is not running.
-    
+
      * Check for DBUS_SESSION_BUS_ADDRESS and don't run daemon tests.
      * Cleanup test makefile variables a bit
-    
-    https://bugzilla.mate.org/show_bug.cgi?id=626455
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=626455
 
  egg/tests/Makefile.am     |    4 ++--
  library/tests/Makefile.am |    7 +++++--
@@ -56,11 +56,11 @@ Author: Arun Raghavan <ford_prefect@gentoo.org>
 Date:   2010-09-08
 
     Access GArray members using g_array_index()
-    
+
     This handles type-casting internally to avoid alignment warnings on
     platforms that need to deal with these issues.
-    
-    https://bugzilla.mate.org/show_bug.cgi?id=628875
+
+    https://bugzilla.gnome.org/show_bug.cgi?id=628875
 
  library/mate-keyring.c |   43 ++++++++++++++++++++++---------------------
  1 files changed, 22 insertions(+), 21 deletions(-)
@@ -89,7 +89,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-08-29
 
     Fix memory leak related to dbus_message_iter_get_signature()
-    
+
     Discovered by David Woodhouse. Need to free memory returned
     by dbus_message_iter_get_signature()
 
@@ -98,11 +98,11 @@ Date:   2010-08-29
  2 files changed, 30 insertions(+), 4 deletions(-)
 
 commit ad6da9a5377d98a7af0f543e0745a83735df4bcd
-Author: Pablo Castellano <pablog@src.mate.org>
+Author: Pablo Castellano <pablog@src.gnome.org>
 Date:   2010-07-27
 
     [dbus] Fix encoding problems with keyring names and foreign characters.
-    
+
      * Creating keyrings with a label that contained non-ascii charaters
        was broken.
 
@@ -110,7 +110,7 @@ Date:   2010-07-27
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 commit ddf8c4c3b053ba941b26af9607f06718ad289b1c
-Author: Pablo Castellano <pablog@src.mate.org>
+Author: Pablo Castellano <pablog@src.gnome.org>
 Date:   2010-07-18
 
     g_string_append_c_inline is used implicitly
@@ -119,7 +119,7 @@ Date:   2010-07-18
  1 files changed, 2 insertions(+), 2 deletions(-)
 
 commit 688370ff6cac657107128714717672fb39a671c3
-Author: Pablo Castellano <pablog@src.mate.org>
+Author: Pablo Castellano <pablog@src.gnome.org>
 Date:   2010-07-18
 
     Fixed typos
@@ -159,7 +159,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-06-22
 
     Try to fix broken usage on multiple threads in libmate-keyring
-    
+
      * This has to do with operations completing in the mainloop thread
        before the async function which starts them returns in another
        thread.
@@ -212,10 +212,10 @@ Author: Tomas Bzatek <tbzatek@redhat.com>
 Date:   2010-04-28
 
     [dist] Use tar-ustar instead of an old tar-v7
-    
+
     Certain file names were too long, and were being truncated.
     Update to newer tar version which supports longer file names.
-    
+
     Fixes bug #613594
 
  configure.in |    5 +++--
@@ -288,7 +288,7 @@ Date:   2010-04-18
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 commit d3cbc3d417bdb8736aeb01083036d9a7b86577e6
-Author: Matej Urbančič <mateju@svn.mate.org>
+Author: Matej Urbančič <mateju@svn.gnome.org>
 Date:   2010-04-14
 
     Updated Slovenian translation
@@ -301,13 +301,13 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-04-09
 
     Workaround for problem with endless loop during blocking operations.
-    
+
     Research done by Hiroyuki Ikezoe
-    
+
     This is due to a bug in libdbus where the pending call is completed
     without the relevant callback being called when used in certain
     threading situations.
-    
+
     Fixes bug #606902
 
  library/gkr-operation.c |   14 +++++++++++++-
@@ -347,7 +347,7 @@ Author: Vincent Untz <vuntz@gnome.org>
 Date:   2010-03-30
 
     Fix build with -Werror and gcc 4.5
-    
+
     There's this new warning with gcc 4.5 (I think):
      comparison between ‘MateKeyringResult’ and ‘enum <anonymous>’
     which requires us to add some cast to avoid an error with -Werror.
@@ -360,9 +360,9 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-03-30
 
     Return MATE_KEYRING_RESULT_NO_MATCH when no secret is found
-    
+
     This reverts 18affdaa, but really fixes
-    https://bugzilla.mate.org/show_bug.cgi?id=608510
+    https://bugzilla.gnome.org/show_bug.cgi?id=608510
 
  library/mate-keyring.c       |    2 +-
  library/tests/test-keyrings.c |    9 ++++-----
@@ -425,7 +425,7 @@ Date:   2010-03-26
  1 files changed, 53 insertions(+), 0 deletions(-)
 
 commit 2b3a5e66352b0f32ac075d38c5ad754d5dc3ff4f
-Author: Miloš Popović <mpopovic@src.mate.org>
+Author: Miloš Popović <mpopovic@src.gnome.org>
 Date:   2010-03-25
 
     Added Serbian translations
@@ -434,7 +434,7 @@ Date:   2010-03-25
  1 files changed, 2 insertions(+), 0 deletions(-)
 
 commit 3c034dfa13bc40efdb5d4306398192c8b0910bd1
-Author: Miloš Popović <mpopovic@src.mate.org>
+Author: Miloš Popović <mpopovic@src.gnome.org>
 Date:   2010-03-25
 
     Added Serbian translations
@@ -486,9 +486,9 @@ Author: Alexander Sack <asac@jwsdot.com>
 Date:   2010-03-19
 
     Don't assert on va_list, which isn't necessarily a pointer.
-    
+
     Using g_assert((va_list) something) isnt portable.
-    
+
     Fixes bug #612127
 
  library/mate-keyring.c |    2 --
@@ -499,11 +499,11 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-03-19
 
     Hold reference to operation while waiting for prompt result.
-    
+
     We need to hold a reference to the prompt while waiting
     for a prompt result. We tie this reference to the dbus filter
     with which we wait for the prompt result signals.
-    
+
     Fixes bug #611310
 
  library/gkr-operation.c |   30 ++++++++++++++++++++++--------
@@ -514,13 +514,13 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-03-19
 
     Try to return MATE_KEYRING_ALREADY_EXISTS where possible.
-    
+
     The secrets API has a significantly different model with creating of
     keyrings, where we never get an 'already exists' error. However this
     breaks certain strange uses of mate_keyring_create ().
-    
+
     So we simulate 'already exists' in a fairly good, but 'racy' manner.
-    
+
     Fixes bug #611449
 
  library/mate-keyring.c       |   86 ++++++++++++++++++++++++++++-------------
@@ -637,7 +637,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-03-10
 
     NULL password from mate_keyring_find_password() when not found.
-    
+
     Regression. We used to return a NULL password from
     mate_keyring_find_password() and friends when no such item was
     found in the keyring.
@@ -650,7 +650,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-03-10
 
     Fix starting of test service during tests.
-    
+
     The args array was too short.
 
  tests/gtest-helpers.c |    2 +-
@@ -671,7 +671,7 @@ Author: Vincent Untz <vuntz@gnome.org>
 Date:   2010-03-10
 
     Fix make dist
-    
+
     We need mate-keyring-overrides.txt for the API doc, and there's no
     test-data file to dist in library/tests.
 
@@ -948,7 +948,7 @@ Date:   2010-02-24
  2 files changed, 56 insertions(+), 0 deletions(-)
 
 commit f9f151cf0c684b63e0e0e8f8a7494ae82c67ecb9
-Author: Jorge González <jorgegonz@svn.mate.org>
+Author: Jorge González <jorgegonz@svn.gnome.org>
 Date:   2010-02-24
 
     Added Spanish translation
@@ -957,7 +957,7 @@ Date:   2010-02-24
  1 files changed, 55 insertions(+), 0 deletions(-)
 
 commit c04ca0d4be1cd20903dc36a6fc52ebafabad32d8
-Author: Jorge González <jorgegonz@svn.mate.org>
+Author: Jorge González <jorgegonz@svn.gnome.org>
 Date:   2010-02-24
 
     Added es to LINGUAS
@@ -986,7 +986,7 @@ Date:   2010-02-24
  2 files changed, 59 insertions(+), 0 deletions(-)
 
 commit 472d43ace5ed12db168a3f62ca35e50629321d98
-Author: Matej Urbančič <mateju@svn.mate.org>
+Author: Matej Urbančič <mateju@svn.gnome.org>
 Date:   2010-02-24
 
     Added Slovenian translation
@@ -995,7 +995,7 @@ Date:   2010-02-24
  1 files changed, 9 insertions(+), 8 deletions(-)
 
 commit 9c5f693b68cdf0646edb2c18c2b716859e67b4be
-Author: Matej Urbančič <mateju@svn.mate.org>
+Author: Matej Urbančič <mateju@svn.gnome.org>
 Date:   2010-02-24
 
     Added sl for Slovenian translation
@@ -1004,7 +1004,7 @@ Date:   2010-02-24
  1 files changed, 1 insertions(+), 0 deletions(-)
 
 commit a3c612b2468664edbda76ff9dccb4736e174fc1e
-Author: Matej Urbančič <mateju@svn.mate.org>
+Author: Matej Urbančič <mateju@svn.gnome.org>
 Date:   2010-02-24
 
     Added Slovenian translation
@@ -1084,11 +1084,11 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-02-18
 
     Can create a new default keyring when creating item.
-    
+
     When no default keyring exists, and creating an item, and
     the default keyring was the desired keyring for the item,
     prompt to create a new default keyring.
-    
+
     This mirrors the behavior in the old mate-keyring-daemon.
     However this functionality has now been moved to the library.
 
@@ -1103,10 +1103,10 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2010-02-14
 
     No assertion when password is not found.
-    
+
     Would crash when mate_keyring_find_password_xx() was called and
     no password was found.
-    
+
     Fixes bug #608709
 
  library/mate-keyring.c       |   15 ++++++++++++---
@@ -1127,7 +1127,7 @@ Author: Stefan Walter <stef@ws.local>
 Date:   2010-02-14
 
     Allow predictable testing by setting up a test path and service.
-    
+
     Tell the daemon which path to use for data, control sockets, and
     dbus service, during testing.
 
@@ -1192,7 +1192,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-21
 
     Release version 2.29.4.
-    
+
     This is the initial release.
 
  .gitignore   |    1 +
@@ -1363,7 +1363,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-12
 
     Implement mate-keyring specific way of creating collection with pass.
-    
+
     An internal interface for mate-keyring to be able to pass a master
     password while creating a collection.
 
@@ -1403,7 +1403,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-11
 
     Fix problems negotiating sessions.
-    
+
     Initialize libgcrypt properly, and fix encoding and other
     problems with sessions and secrets.
 
@@ -1458,7 +1458,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-10
 
     Remove irrelevant test.
-    
+
     We no longer return this error code. The different collections
     are created with different unique names.
 
@@ -1470,7 +1470,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-10
 
     Free connection after operation callbacks.
-    
+
     Some operation callbacks need operation conn during destroy
 
  library/gkr-operation.c |    3 ++-
@@ -1490,7 +1490,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-10
 
     Use correct interface names according to spec.
-    
+
     The interfaces have 'Secret' rather than 'Secrets'.
 
  library/mate-keyring-private.h |   18 +++++++++---------
@@ -1501,7 +1501,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-10
 
     This test didn't make sense.
-    
+
     You can't set the default keyring to nothing.
 
  library/tests/test-keyrings.c |    4 ----
@@ -1512,10 +1512,10 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-12-10
 
     Return NO_SUCH_KEYRING result when appropriate.
-    
+
     Return NoSuchObject from DBus Service, and convert into
     MATE_KEYRING_RESULT_NO_SUCH_KEYRING when appropriate.
-    
+
     Refactor the keyring/item path encoding stuff.
 
  library/Makefile.am             |    1 +
@@ -1629,7 +1629,7 @@ Author: nobody <nobody@localhost.localdomain>
 Date:   2009-12-03
 
     Implement mate_keyring_xxx_item_info_*() and mate_keyring_set_attributes_*()
-    
+
     Also add support for session negotiation, secret transfer etc...
 
  egg/Makefile.am                 |    4 +-
@@ -1654,7 +1654,7 @@ Author: nobody <nobody@localhost.localdomain>
 Date:   2009-12-03
 
     Implement sync usinc same code path as async.
-    
+
     Remove duplicate code for sync functions by calling async
     and then blocking for a result.
 
@@ -1670,11 +1670,11 @@ Author: nobody <nobody@localhost.localdomain>
 Date:   2009-12-01
 
     Refactor operation and callback code.
-    
+
     Move operation and callback code into own files. Callbacks are
     now pretty generic and pushed onto a stack, allowing for lots
     of nesting which is needed by prompts and session code.
-    
+
     Important to note that all callback user_data is freed at the end
     when the operation goes away.
 
@@ -1739,7 +1739,7 @@ Author: nobody <nobody@localhost.localdomain>
 Date:   2009-11-28
 
     Make async operations more thread-safe.
-    
+
     In particular mate_keyring_cancel_request() can be called from
     another thread. Operation structures are reference counted, and
     the result is set atomically.
@@ -1761,7 +1761,7 @@ Author: Stefan Walter <Stefan Walter>
 Date:   2009-10-30
 
     Implement get_attributes operation.
-    
+
      * Rework how the encoding and decoding of object paths work.
 
  library/mate-keyring.c |  248 +++++++++++++++++++++++++++++-----------------
@@ -1772,7 +1772,7 @@ Author: Stefan Walter <Stefan Walter>
 Date:   2009-10-30
 
     Stub out ACL related functionality.
-    
+
      * ACLs are no longer supported, so just stub out these calls.
      * Also move non operation functions to mate-keyring-utils.c
 
@@ -1785,7 +1785,7 @@ Author: Stefan Walter <Stefan Walter>
 Date:   2009-10-30
 
     Implement list_item_ids and set_info.
-    
+
      * Change how various property responses are parsed.
      * Organize things better with regards to parsing
 
@@ -1797,7 +1797,7 @@ Author: nobody <nobody@localhost.localdomain>
 Date:   2009-10-29
 
     Implement mate_keyring_get_info operation.
-    
+
      * Includes basic construction of dbus secrets paths.
      * Parsing of {sv}
      * GetAll properties method.
@@ -1837,7 +1837,7 @@ Author: Stef Walter <stef@memberwebs.com>
 Date:   2009-10-25
 
     Fork the libmate-keyring library out of mate-keyring.
-    
+
     This initial fork has no functionality, and much old code
     is commented out. It however does build.
 

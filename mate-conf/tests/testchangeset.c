@@ -57,11 +57,11 @@ check(gboolean condition, const gchar* fmt, ...)
 {
   va_list args;
   gchar* description;
-  
+
   va_start (args, fmt);
   description = g_strdup_vprintf(fmt, args);
   va_end (args);
-  
+
   if (condition)
     {
       printf(".");
@@ -72,7 +72,7 @@ check(gboolean condition, const gchar* fmt, ...)
       fprintf(stderr, "\n*** FAILED: %s\n", description);
       exit(1);
     }
-  
+
   g_free(description);
 }
 
@@ -103,7 +103,7 @@ some_strings[] = {
   "hello this is a string with spaces and \t\t\t\ttabs",
   "hello this\nstring\nhas\nnewlines\n   \t\t\t\t\t\ttabs and spaces  \n",
   "<?xml version=\"1.0\"?>"
-	"<gmr:Workbook xmlns:gmr=\"http://www.mate.org/gnumeric/\">"
+	"<gmr:Workbook xmlns:gmr=\"http://www.gnome.org/gnumeric/\">"
 	  "<gmr:Style HAlign=\"1\" VAlign=\"1\" Fit=\"0\" Orient=\"1\" Shade=\"0\" Format=\"#,##0_);[red](#,##0)\">"
 	    "<gmr:Font Unit=\"14\" NAME=\"FontDef1\">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>"
 	  "</gmr:Style>"
@@ -177,7 +177,7 @@ check_unset(MateConfEngine* conf)
   MateConfChangeSet* cs;
 
   cs = mateconf_change_set_new();
-  
+
   keyp = keys;
 
   while (*keyp)
@@ -187,9 +187,9 @@ check_unset(MateConfEngine* conf)
       ++keyp;
     }
 
-  
+
   mateconf_engine_commit_change_set(conf, cs, TRUE, &err);
-  
+
   if (err != NULL)
     {
       fprintf(stderr, "unset commit failed: %s\n", err->message);
@@ -199,24 +199,24 @@ check_unset(MateConfEngine* conf)
     }
 
   mateconf_change_set_unref(cs);
-  
+
   keyp = keys;
   while (*keyp)
     {
       MateConfValue* val;
       gchar* valstr;
-      
+
       val = mateconf_engine_get (conf, *keyp, &err);
-      
+
       if (val)
         valstr = mateconf_value_to_string(val);
       else
         valstr = g_strdup("(none)");
-      
+
       check(val == NULL, "unsetting a previously-set value `%s' the value `%s' existed", *keyp, valstr);
-      
+
       g_free(valstr);
-      
+
       ++keyp;
     }
 }
@@ -230,10 +230,10 @@ check_string_storage(MateConfEngine* conf)
   MateConfChangeSet* cs;
 
   cs = mateconf_change_set_new();
-  
+
   keyp = keys;
   valp = some_strings;
-  
+
   while (*keyp && *valp)
     {
       mateconf_change_set_set_string(cs, *keyp, *valp);
@@ -243,7 +243,7 @@ check_string_storage(MateConfEngine* conf)
     }
 
   mateconf_engine_commit_change_set(conf, cs, TRUE, &err);
-  
+
   if (err != NULL)
     {
       fprintf(stderr, "set commit failed: %s\n", err->message);
@@ -253,16 +253,16 @@ check_string_storage(MateConfEngine* conf)
     }
 
   mateconf_change_set_unref(cs);
-  
+
   keyp = keys;
   valp = some_strings;
-  
+
   while (*keyp && *valp)
     {
       gchar* gotten;
-      
+
       gotten = mateconf_engine_get_string(conf, *keyp, &err);
-      
+
       if (err != NULL)
         {
           check(gotten == NULL, "string was returned though there was an error");
@@ -276,10 +276,10 @@ check_string_storage(MateConfEngine* conf)
         {
           check (strcmp(gotten, *valp) == 0, "string set/get pair: `%s' set, `%s' got",
                  *valp, gotten);
-          
+
           g_free(gotten);
         }
-      
+
       ++valp;
       ++keyp;
     }
@@ -287,14 +287,14 @@ check_string_storage(MateConfEngine* conf)
   check_unset(conf);
 }
 
-int 
+int
 main (int argc, char** argv)
 {
   MateConfEngine* conf;
   GError* err = NULL;
 
   setlocale (LC_ALL, "");
-  
+
   if (!mateconf_init(argc, argv, &err))
     {
       fprintf(stderr, "Failed to init MateConf: %s\n", err->message);
@@ -302,18 +302,18 @@ main (int argc, char** argv)
       err = NULL;
       return 1;
     }
-  
+
   conf = mateconf_engine_get_default();
 
   check(conf != NULL, "create the default conf engine");
 
   printf("\nChecking string storage via MateConfChangeSet:");
-  
+
   check_string_storage(conf);
-  
+
   mateconf_engine_unref(conf);
 
   printf("\n\n");
-  
+
   return 0;
 }

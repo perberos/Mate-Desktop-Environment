@@ -55,131 +55,52 @@
 extern "C" {
 #endif
 
-#define MATE_TYPE_SCORES            (mate_scores_get_type ())
-#define MATE_SCORES(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), MATE_TYPE_SCORES, MateScores))
-#define MATE_SCORES_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_SCORES, MateScoresClass))
-#define MATE_IS_SCORES(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MATE_TYPE_SCORES))
-#define MATE_IS_SCORES_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_SCORES))
-#define MATE_SCORES_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MATE_TYPE_SCORES, MateScoresClass))
+#define MATE_TYPE_SCORES \
+	(mate_scores_get_type())
+#define MATE_SCORES(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), MATE_TYPE_SCORES, MateScores))
+#define MATE_SCORES_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), MATE_TYPE_SCORES, MateScoresClass))
+#define MATE_IS_SCORES(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((obj), MATE_TYPE_SCORES))
+#define MATE_IS_SCORES_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((klass), MATE_TYPE_SCORES))
+#define MATE_SCORES_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS((obj), MATE_TYPE_SCORES, MateScoresClass))
 
-typedef struct _MateScores        MateScores;
+typedef struct _MateScores MateScores;
 typedef struct _MateScoresPrivate MateScoresPrivate;
-typedef struct _MateScoresClass   MateScoresClass;
+typedef struct _MateScoresClass MateScoresClass;
 
-struct _MateScores
-{
-  GtkDialog dialog;
+struct _MateScores {
+	GtkDialog dialog;
 
-  /*< private >*/
-  MateScoresPrivate *_priv;
+	/*< private >*/
+	MateScoresPrivate* _priv;
 };
 
-struct _MateScoresClass
-{
-  GtkDialogClass parent_class;
+struct _MateScoresClass {
+	GtkDialogClass parent_class;
 
-  /* Padding for possible expansion */
-  gpointer padding1;
-  gpointer padding2;
+	/* Padding for possible expansion */
+	gpointer padding1;
+	gpointer padding2;
 };
 
-GType      mate_scores_get_type (void) G_GNUC_CONST;
+GType mate_scores_get_type(void) G_GNUC_CONST;
+GtkWidget* mate_scores_display(const gchar* title, const gchar* app_name, const gchar* level, int pos);
+GtkWidget* mate_scores_display_with_pixmap(const gchar* pixmap_logo, const gchar* app_name, const gchar* level, int pos);
+GtkWidget* mate_scores_new(guint n_scores, gchar** names, gfloat* scores, time_t* times, gboolean clear);
+void mate_scores_construct(MateScores* gs, guint n_scores, gchar** names, gfloat* scores, time_t* times, gboolean clear);
+void mate_scores_set_logo_label(MateScores* gs, const gchar* txt, const gchar* font, GdkColor* col);
+void mate_scores_set_logo_pixmap(MateScores* gs, const gchar* pix_name);
+void mate_scores_set_logo_widget(MateScores* gs, GtkWidget* w);
+void mate_scores_set_color(MateScores* gs, guint n, GdkColor* col);
+void mate_scores_set_def_color(MateScores* gs, GdkColor* col);
+void mate_scores_set_colors(MateScores* gs, GdkColor* col);
+void mate_scores_set_logo_label_title(MateScores* gs, const gchar* txt);
+void mate_scores_set_current_player(MateScores* gs, gint i);
 
-/* Does all the work of displaying the best scores.
-
-   It calls mate_score_get_notables to retrieve the info,
-   creates the window, and show it.
-
-   USAGE:
-
-   pos = mate_score_log(score, level, TRUE);
-   mate_scores_display (_("Mi game"), "migame", level, pos);
-   */
-GtkWidget *       /* returns the pointer to the displayed window */
-	mate_scores_display (
-		const gchar *title,    /* Title. */
-		const gchar *app_name, /* Name of the application, as in
-				    mate_score_init. */
-		const gchar *level, 	 /* Level of the game or NULL. */
-		int pos		 /* Position in the top ten of the
-				    current player, as returned by
-				    mate_score_log. */
-		);
-/* Same as above, but with a pixmap logo instead of just text */
-GtkWidget *
-	mate_scores_display_with_pixmap (const gchar *pixmap_logo,
-					  const gchar *app_name,
-					  const gchar *level,
-					  int pos);
-
-/* Creates the high-scores window. */
-GtkWidget* mate_scores_new (
-		guint n_scores, 	/* Number of positions. */
-		gchar **names,  	/* Names of the players. */
-		gfloat *scores,		/* Scores */
-		time_t *times, 		/* Time in which the scores were done */
-		gboolean clear		/* Add a "Clear" Button? */
-		);
-
-/* Constructor for bindings / subclassing */
-void mate_scores_construct (MateScores *gs,
-			     guint n_scores,
-			     gchar **names,
-			     gfloat *scores,
-			     time_t *times,
-			     gboolean clear);
-
-/* Creates a label to be the logo */
-void mate_scores_set_logo_label (
-		MateScores *gs,	/* MATE Scores widget. */
-		const gchar *txt,	/* Text in the label. */
-		const gchar *font,	/* Font to use in the label. */
-		GdkColor *col		/* Color to use in the label. */
-		);
-
-/* Creates a pixmap to be the logo */
-void mate_scores_set_logo_pixmap (
-		MateScores *gs,	/* MATE Scores widget. */
-		const gchar *pix_name	/* Name of the .xpm. */
-		);
-
-/* Set an arbitrary widget to be the logo. */
-void mate_scores_set_logo_widget (
-		MateScores *gs,	/* MATE Scores widget. */
-		GtkWidget *w 		/* Widget to be used as logo. */
-		);
-
-/* Set the color of one entry. */
-void mate_scores_set_color (
-		MateScores *gs,	/* MATE Scores widget. */
-		guint n,		/* Entry to be changed. */
-		GdkColor *col		/* Color. */
-		);
-
-/* Set the default color of the entries. */
-void mate_scores_set_def_color (
-		MateScores *gs,	/* MATE Scores widget. */
-		GdkColor *col		/* Color. */
-		);
-
-/* Set the color of all the entries. */
-void mate_scores_set_colors (
-		MateScores *gs,
-		GdkColor *col		/* Array of colors. */
-		);
-
-
-/* Creates a label to be the logo */
-void mate_scores_set_logo_label_title (
-		MateScores *gs,	/* MATE Scores widget. */
-		const gchar *txt	/* Name of the logo. */
-		);
-
-/* Set the index of the current player in top ten. */
-void mate_scores_set_current_player (
-		MateScores *gs,	/* MATE Scores widget. */
-		gint i			/* Index of the current(from 0 to 9). */
-		);
 #ifdef __cplusplus
 }
 #endif

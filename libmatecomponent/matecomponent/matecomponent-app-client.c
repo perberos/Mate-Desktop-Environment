@@ -31,7 +31,7 @@ matecomponent_app_client_get_type (void)
 				0,		/* n_preallocs */
 				(GInstanceInitFunc) matecomponent_app_client_init
 			};
-		
+
 		app_client_type = g_type_register_static
 			(G_TYPE_OBJECT, "MateComponentAppClient", &app_client_info, 0);
 	}
@@ -81,13 +81,13 @@ matecomponent_app_client_init (MateComponentAppClient *app_client)
  * @app_server: object reference to a MateComponent::Application; this
  * function takes ownership of this reference (use
  * matecomponent_object_dup_ref() if you want to keep your own reference.)
- * 
+ *
  * Create an application client object connected to the remote (or
  * local) MateComponent::Application object.
  *
  * <warning>Applications should not use this function. See
  * matecomponent_application_register_unique().</warning>
- * 
+ *
  * Return value: a #MateComponentAppClient object.
  **/
 MateComponentAppClient *
@@ -107,10 +107,10 @@ matecomponent_app_client_new (MateComponent_Application app_server)
  * @message: message name
  * @argv: %NULL-terminated vector of pointers to GValue, the arguments
  * to pass with the message.
- * 
+ *
  * Like matecomponent_app_client_msg_send(), except that it receives a single
  * argument vector instead of a variable number of arguments.
- * 
+ *
  * Return value: the message return value
  **/
 GValue *
@@ -162,7 +162,7 @@ matecomponent_app_client_msg_send_argv (MateComponentAppClient   *app_client,
 	}
 	if (!opt_env)
 		CORBA_exception_free (&ev1);
-	
+
 	if (ret->_type != TC_void) {
 		rv = g_new0 (GValue, 1);
 		matecomponent_arg_to_gvalue_alloc (ret, rv);
@@ -180,9 +180,9 @@ matecomponent_app_client_msg_send_argv (MateComponentAppClient   *app_client,
  * @opt_env: optional corba environment
  * @first_arg_type: first message parameter
  * @var_args: remaining parameters
- * 
+ *
  * See matecomponent_app_client_msg_send().
- * 
+ *
  * Return value: return value
  **/
 GValue *
@@ -235,18 +235,18 @@ matecomponent_app_client_msg_send_valist (MateComponentAppClient   *app_client,
  * to which we wish to send a message
  * @message: message name
  * @...: arguments
- * 
+ *
  * Send a message to the application server. Takes a variable length
  * argument list of GType, value pairs, terminated with
  * %G_TYPE_NONE. Values are direct C values, not GValues! Example:
  * <informalexample><programlisting>
  * GValue *retval;
  * retval = matecomponent_app_client_msg_send (app_client, "openURL",
- *                                      G_TYPE_STRING, "http://www.mate.org",
+ *                                      G_TYPE_STRING, "http://www.gnome.org",
  *                                      G_TYPE_BOOLEAN, TRUE,
  *                                      G_TYPE_NONE);
  * </programlisting></informalexample>
- * 
+ *
  * Return value: a GValue containing the value returned from the
  * aplication server.
  **/
@@ -259,7 +259,7 @@ matecomponent_app_client_msg_send (MateComponentAppClient   *app_client,
 {
 	GValue  *rv;
 	va_list  var_args;
-	
+
 	va_start (var_args, first_arg_type);
 	rv = matecomponent_app_client_msg_send_valist (app_client, message, opt_env,
 						first_arg_type, var_args);
@@ -277,7 +277,7 @@ _typecode_to_gtype (CORBA_TypeCode tc)
 		hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 #define mapping(gtype, corba_type)\
 		g_hash_table_insert (hash, corba_type, GUINT_TO_POINTER (gtype));
-		
+
 		mapping (G_TYPE_NONE,    TC_void);
 		mapping (G_TYPE_BOOLEAN, TC_CORBA_boolean);
 		mapping (G_TYPE_LONG,    TC_CORBA_long);
@@ -296,7 +296,7 @@ static void
 matecomponent_app_client_free_msgdescs (MateComponentAppClient *self)
 {
 	int i;
-	
+
 	for (i = 0; self->msgdescs[i].name; ++i) {
 		g_free (self->msgdescs[i].name);
 		g_free (self->msgdescs[i].types);
@@ -345,9 +345,9 @@ matecomponent_app_client_get_msgdescs (MateComponentAppClient *self)
 
 /**
  * matecomponent_app_client_msg_list:
- * 
+ *
  * Obtain a list of messages supported by the application server.
- * 
+ *
  * Return value: a NULL terminated vector of strings; use g_strfreev()
  * to free it.
  **/
@@ -369,10 +369,10 @@ matecomponent_app_client_msg_list (MateComponentAppClient *app_client)
  * @argc: length of @argv
  * @argv: array of command-line arguments
  * @opt_env: a #CORBA_Environment, or %NULL.
- * 
+ *
  * Ask the application server to emit a "new-instance" signal
  * containing the specified string vector.
- * 
+ *
  * Return value: the message return value
  **/
 gint

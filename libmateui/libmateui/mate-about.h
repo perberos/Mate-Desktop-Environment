@@ -26,6 +26,7 @@
 #define __MATE_ABOUT_H__
 
 #ifndef MATE_DISABLE_DEPRECATED
+/** Parece que esto está deprecated **/
 
 #include <gtk/gtk.h>
 
@@ -33,22 +34,28 @@
 extern "C" {
 #endif
 
-#define MATE_TYPE_ABOUT            (mate_about_get_type ())
-#define MATE_ABOUT(object)         (G_TYPE_CHECK_INSTANCE_CAST ((object), MATE_TYPE_ABOUT, MateAbout))
-#define MATE_ABOUT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), MATE_TYPE_ABOUT, MateAboutClass))
-#define MATE_IS_ABOUT(object)      (G_TYPE_CHECK_INSTANCE_TYPE ((object), MATE_TYPE_ABOUT))
-#define MATE_IS_ABOUT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MATE_TYPE_ABOUT))
-#define MATE_ABOUT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), MATE_TYPE_ABOUT, MateAboutClass))
+#define MATE_TYPE_ABOUT \
+	(mate_about_get_type())
+#define MATE_ABOUT(object) \
+	(G_TYPE_CHECK_INSTANCE_CAST((object), MATE_TYPE_ABOUT, MateAbout))
+#define MATE_ABOUT_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), MATE_TYPE_ABOUT, MateAboutClass))
+#define MATE_IS_ABOUT(object) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((object), MATE_TYPE_ABOUT))
+#define MATE_IS_ABOUT_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((klass), MATE_TYPE_ABOUT))
+#define MATE_ABOUT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS((obj), MATE_TYPE_ABOUT, MateAboutClass))
 
-typedef struct _MateAbout        MateAbout;
-typedef struct _MateAboutClass   MateAboutClass;
+typedef struct _MateAbout MateAbout;
+typedef struct _MateAboutClass MateAboutClass;
 typedef struct _MateAboutPrivate MateAboutPrivate;
 
 struct _MateAbout {
 	GtkDialog parent_instance;
 
 	/*< private >*/
-	MateAboutPrivate *_priv;
+	MateAboutPrivate* _priv;
 };
 
 struct _MateAboutClass {
@@ -59,28 +66,13 @@ struct _MateAboutClass {
 	gpointer padding2;
 };
 
-GType mate_about_get_type (void) G_GNUC_CONST;
+GType mate_about_get_type(void) G_GNUC_CONST;
 
-GtkWidget *mate_about_new (const gchar  *name,
-			    const gchar  *version,
-			    const gchar  *copyright,
-			    const gchar  *comments,
-			    const gchar **authors,
-			    const gchar **documenters,
-			    const gchar  *translator_credits,
-			    GdkPixbuf    *logo_pixbuf);
+GtkWidget* mate_about_new(const gchar* name, const gchar* version, const gchar* copyright, const gchar* comments, const gchar** authors, const gchar** documenters, const gchar* translator_credits, GdkPixbuf* logo_pixbuf);
 
 /* Only for use by bindings to languages other than C; don't use
    in applications. */
-void mate_about_construct (MateAbout *about,
-			    const gchar  *name,
-			    const gchar  *version,
-			    const gchar  *copyright,
-			    const gchar  *comments,
-			    const gchar **authors,
-			    const gchar **documenters,
-			    const gchar  *translator_credits,
-			    GdkPixbuf    *logo_pixbuf);
+void mate_about_construct(MateAbout* about, const gchar* name, const gchar* version, const gchar* copyright, const gchar* comments, const gchar** authors, const gchar** documenters, const gchar* translator_credits, GdkPixbuf* logo_pixbuf);
 
 #ifdef __cplusplus
 }

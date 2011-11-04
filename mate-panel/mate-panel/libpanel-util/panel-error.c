@@ -78,7 +78,7 @@ panel_error_dialog (GtkWindow  *parent,
 		/* FIXME: We need a title in this case, but we don't know what
 		 * the format should be. Let's put something simple until
 		 * the following bug gets fixed:
-		 * http://bugzilla.mate.org/show_bug.cgi?id=165132 */
+		 * http://bugzilla.gnome.org/show_bug.cgi?id=165132 */
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Error"));
 	}
 

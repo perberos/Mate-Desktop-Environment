@@ -175,7 +175,7 @@ panel_action_logout (GtkWidget *widget)
 	else
 		/* FIXME: we need to use widget to get the screen for the
 		 * confirmation dialog, see
-		 * http://bugzilla.mate.org/show_bug.cgi?id=536914 */
+		 * http://bugzilla.gnome.org/show_bug.cgi?id=536914 */
 		panel_session_manager_request_logout (manager,
 						      PANEL_SESSION_MANAGER_LOGOUT_MODE_NORMAL);
 }

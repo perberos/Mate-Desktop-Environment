@@ -348,7 +348,7 @@ fi
 
 if $want_intltool; then
     version_check intltool INTLTOOLIZE intltoolize $REQUIRED_INTLTOOL_VERSION \
-        "http://ftp.mate.org/pub/MATE/sources/intltool/"
+        "http://ftp.gnome.org/pub/MATE/sources/intltool/"
     require_m4macro intltool.m4
 fi
 
@@ -360,13 +360,13 @@ fi
 
 if $want_gtk_doc; then
     version_check gtk-doc GTKDOCIZE gtkdocize $REQUIRED_GTK_DOC_VERSION \
-        "http://ftp.mate.org/pub/MATE/sources/gtk-doc/"
+        "http://ftp.gnome.org/pub/MATE/sources/gtk-doc/"
     require_m4macro gtk-doc.m4
 fi
 
 if $want_mate_doc_utils; then
     version_check mate-doc-utils MATE_DOC_PREPARE mate-doc-prepare $REQUIRED_MATE_DOC_UTILS_VERSION \
-        "http://ftp.mate.org/pub/MATE/sources/mate-doc-utils/"
+        "http://ftp.gnome.org/pub/MATE/sources/mate-doc-utils/"
 fi
 
 if [ "x$USE_COMMON_DOC_BUILD" = "xyes" ]; then

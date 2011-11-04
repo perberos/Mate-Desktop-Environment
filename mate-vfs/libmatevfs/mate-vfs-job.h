@@ -29,7 +29,7 @@
 /*
  * The following includes help Solaris copy with its own headers.  (With 64-
  * bit stuff enabled they like to #define open open64, etc.)
- * See http://bugzilla.mate.org/show_bug.cgi?id=71184 for details.
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=71184 for details.
  */
 #ifndef _WIN32
 #include <unistd.h>
@@ -80,8 +80,8 @@ G_STMT_START{					\
 
 #endif
 
-/* MATE_VFS_OP_MODULE_CALLBACK: is not a real OpType; 
- * its intended to mark MateVFSAsyncModuleCallback's in the 
+/* MATE_VFS_OP_MODULE_CALLBACK: is not a real OpType;
+ * its intended to mark MateVFSAsyncModuleCallback's in the
  * job_callback queue
  */
 
@@ -369,7 +369,7 @@ typedef struct {
 	 * We find out by checking this flag.
 	 */
 	gboolean cancelled;
-	
+
 	/* ID of the job (e.g. open, create, close...). */
 	MateVFSOpType type;
 
@@ -403,7 +403,7 @@ struct MateVFSJob {
 	 * ready for notification to take place.
 	 */
 	MateVFSOp *op;
-	
+
 	/* Unique identifier of this job (a uint, really) */
 	MateVFSAsyncHandle *job_handle;
 

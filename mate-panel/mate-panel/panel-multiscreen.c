@@ -4,8 +4,8 @@
  * Copyright (C) 2001 George Lebl <jirka@5z.com>
  *               2002 Sun Microsystems Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -128,7 +128,7 @@ panel_multiscreen_get_randr_monitors_for_screen (GdkScreen     *screen,
 	 *
 	 * See https://bugzilla.novell.com/show_bug.cgi?id=479684 for this
 	 * particular bug, and and
-	 * http://bugzilla.mate.org/show_bug.cgi?id=562944 for a more
+	 * http://bugzilla.gnome.org/show_bug.cgi?id=562944 for a more
 	 * long-term solution.
 	 */
 
@@ -142,7 +142,7 @@ panel_multiscreen_get_randr_monitors_for_screen (GdkScreen     *screen,
 			/* This might happen if nothing tried to get randr
 			 * resources from the server before, so we need an
 			 * active probe. See comment #27 in
-			 * https://bugzilla.mate.org/show_bug.cgi?id=597101 */
+			 * https://bugzilla.gnome.org/show_bug.cgi?id=597101 */
 			XRRFreeScreenResources (resources);
 			resources = XRRGetScreenResources (xdisplay, xroot);
 		}
@@ -297,7 +297,7 @@ panel_multiscreen_compress_overlapping_monitors (int           *num_monitors_ino
 	num_monitors = *num_monitors_inout;
 	geometries = *geometries_inout;
 
-	/* http://bugzilla.mate.org/show_bug.cgi?id=530969
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=530969
 	 * https://bugzilla.novell.com/show_bug.cgi?id=310208
 	 * and many other such bugs...
 	 *
@@ -522,7 +522,7 @@ panel_multiscreen_reinit (void)
 
 	g_list_free (toplevels);
 }
-	
+
 int
 panel_multiscreen_screens (void)
 {
@@ -606,7 +606,7 @@ panel_multiscreen_locate_widget_monitor (GtkWidget *widget)
 	toplevel = gtk_widget_get_toplevel (widget);
 	if (!toplevel)
 		return -1;
-	
+
 	g_object_get (toplevel, "monitor", &retval, NULL);
 
 	return retval;
@@ -717,7 +717,7 @@ panel_multiscreen_is_at_visible_extreme (GdkScreen *screen,
 	g_return_if_fail (n_monitor >= 0 && n_monitor < monitors [n_screen]);
 
 	get_monitor_bounds (n_screen, n_monitor, &monitor);
-	
+
 	/* go through each monitor and try to find one either right,
 	 * below, above, or left of the specified monitor
 	 */

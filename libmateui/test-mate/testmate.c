@@ -56,7 +56,7 @@ test_exit (TestMateApp *app)
 	matecomponent_object_unref (MATECOMPONENT_OBJECT (app->ui_component));
 
 	gtk_widget_destroy (app->app);
-	
+
 	g_free (app);
 
 	gtk_main_quit ();
@@ -97,7 +97,7 @@ verb_HelpAbout_cb (MateComponentUIComponent *uic, gpointer user_data, const char
 			"comments", "Program to display MATE functions.",
 			"authors", authors,
 			"documenters", documentors,
-			"website", "http://www.mate.org/",
+			"website", "http://www.gnome.org/",
 			"website-label", "MATE Web Site",
 			NULL);
 }
@@ -146,7 +146,7 @@ create_newwin(gboolean normal, gchar *appname, gchar *title)
 			       appname, NULL);
 
 	matecomponent_ui_component_add_verb_list_with_data (app->ui_component, verbs, app);
-	
+
 	return app;
 }
 
@@ -512,7 +512,7 @@ create_font_picker (void)
 	gtk_box_pack_start(GTK_BOX(vbox),frPixmap,TRUE,TRUE,0);
 	vbox1=gtk_vbox_new(FALSE,FALSE);
 	gtk_container_add(GTK_CONTAINER(frPixmap),vbox1);
-	
+
 	/* MateFontPicker with pixmap */
 	fontpicker1 = mate_font_picker_new();
 	gtk_container_set_border_width(GTK_CONTAINER(fontpicker1),5);
@@ -575,7 +575,7 @@ create_font_picker (void)
 	gtk_box_pack_start(GTK_BOX(vbox),frUser,TRUE,TRUE,0);
 	vbox3=gtk_vbox_new(FALSE,FALSE);
 	gtk_container_add(GTK_CONTAINER(frUser),vbox3);
-	
+
 	/* MateFontPicker with User Widget */
 	fontpicker3 = mate_font_picker_new();
 	mate_font_picker_set_mode(MATE_FONT_PICKER(fontpicker3),MATE_FONT_PICKER_MODE_USER_WIDGET);
@@ -632,7 +632,7 @@ create_href(void)
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
 	matecomponent_window_set_contents(MATECOMPONENT_WINDOW(app->app), vbox);
 
-	href = mate_href_new("http://www.mate.org/", "Mate Website");
+	href = mate_href_new("http://www.gnome.org/", "Mate Website");
 	gtk_box_pack_start(GTK_BOX(vbox), href, FALSE, FALSE, 0);
 
 	wid = gtk_hseparator_new();
@@ -643,7 +643,7 @@ create_href(void)
 	gtk_box_pack_start(GTK_BOX(vbox), wid, TRUE, FALSE, 0);
 
 	ent1 = gtk_entry_new();
-	gtk_entry_set_text (GTK_ENTRY(ent1), "http://www.mate.org/");
+	gtk_entry_set_text (GTK_ENTRY(ent1), "http://www.gnome.org/");
 	gtk_box_pack_start (GTK_BOX(vbox), ent1, TRUE, TRUE, 0);
 
 	ent2 = gtk_entry_new ();
@@ -885,7 +885,7 @@ insert_red (GtkWidget *widget, gpointer data)
 	GtkWidget *entry;
 
 	g_print ("in callback, data is: %p\n", data);
-	
+
 	entry = GTK_WIDGET (data);
 
 	pos = gtk_editable_get_position (GTK_EDITABLE (entry));
@@ -1061,7 +1061,7 @@ create_app_helper (GtkWidget *widget, gpointer data)
 	gtk_box_pack_start (GTK_BOX (vbox2), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 	mate_popup_menu_attach (popup, w, w);
-	
+
 	w = gtk_entry_new ();
 	gtk_box_pack_start (GTK_BOX (vbox2), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
@@ -1129,7 +1129,7 @@ create_about_box (void)
 						NULL /* logo pixbuf */);
 	gtk_widget_show (about_box);
 }
-				
+
 int
 main (int argc, char **argv)
 {

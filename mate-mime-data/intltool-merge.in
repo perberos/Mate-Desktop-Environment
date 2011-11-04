@@ -8,7 +8,7 @@
 #  Copyright (C) 2000, 2001 Eazel, Inc
 #
 #  Intltool is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License 
+#  modify it under the terms of the GNU General Public License
 #  version 2 published by the Free Software Foundation.
 #
 #  Intltool is distributed in the hope that it will be useful,
@@ -38,7 +38,7 @@ my $PACKAGE = "intltool";
 my $VERSION = "0.35.0";
 
 ## Loaded modules
-use strict; 
+use strict;
 use Getopt::Long;
 use Text::Wrap;
 use File::Basename;
@@ -67,7 +67,7 @@ my $MULTIPLE_OUTPUT = 0;
 my $cache_file;
 
 ## Handle options
-GetOptions 
+GetOptions
 (
  "help" => \$HELP_ARG,
  "version" => \$VERSION_ARG,
@@ -100,64 +100,64 @@ my $w = "[-A-Za-z0-9._:]";
 # XML quoted string contents
 my $q = "[^\\\"]*";
 
-## Check for options. 
+## Check for options.
 
-if ($VERSION_ARG) 
+if ($VERSION_ARG)
 {
 	&print_version;
-} 
-elsif ($HELP_ARG) 
+}
+elsif ($HELP_ARG)
 {
 	&print_help;
-} 
-elsif ($BA_STYLE_ARG && @ARGV > 2) 
+}
+elsif ($BA_STYLE_ARG && @ARGV > 2)
 {
 	&utf8_sanity_check;
 	&preparation;
 	&print_message;
 	&ba_merge_translations;
 	&finalize;
-} 
-elsif ($XML_STYLE_ARG && @ARGV > 2) 
+}
+elsif ($XML_STYLE_ARG && @ARGV > 2)
 {
 	&utf8_sanity_check;
 	&preparation;
 	&print_message;
 	&xml_merge_output;
 	&finalize;
-} 
-elsif ($KEYS_STYLE_ARG && @ARGV > 2) 
+}
+elsif ($KEYS_STYLE_ARG && @ARGV > 2)
 {
 	&utf8_sanity_check;
 	&preparation;
 	&print_message;
 	&keys_merge_translations;
 	&finalize;
-} 
-elsif ($DESKTOP_STYLE_ARG && @ARGV > 2) 
+}
+elsif ($DESKTOP_STYLE_ARG && @ARGV > 2)
 {
 	&utf8_sanity_check;
 	&preparation;
 	&print_message;
 	&desktop_merge_translations;
 	&finalize;
-} 
-elsif ($SCHEMAS_STYLE_ARG && @ARGV > 2) 
+}
+elsif ($SCHEMAS_STYLE_ARG && @ARGV > 2)
 {
 	&utf8_sanity_check;
 	&preparation;
 	&print_message;
 	&schemas_merge_translations;
 	&finalize;
-} 
-elsif ($RFC822DEB_STYLE_ARG && @ARGV > 2) 
+}
+elsif ($RFC822DEB_STYLE_ARG && @ARGV > 2)
 {
 	&preparation;
 	&print_message;
 	&rfc822deb_merge_translations;
 	&finalize;
-} 
-else 
+}
+else
 {
 	&print_help;
 }
@@ -196,10 +196,10 @@ Mandatory options: (exactly one must be specified)
   -x, --xml-style        includes translations in the standard xml style
 
 Other options:
-  -u, --utf8             convert all strings to UTF-8 before merging 
+  -u, --utf8             convert all strings to UTF-8 before merging
                          (default for everything except RFC822 style)
   -p, --pass-through     deprecated, does nothing and issues a warning
-  -m, --multiple-output  output one localized file per locale, instead of 
+  -m, --multiple-output  output one localized file per locale, instead of
 	                 a single file containing all localized elements
   -c, --cache=FILE       specify cache file name
                          (usually \$top_builddir/po/.intltool-merge-cache)
@@ -207,7 +207,7 @@ Other options:
       --help             display this help and exit
       --version          output version information and exit
 
-Report bugs to http://bugzilla.mate.org/ (product name "$PACKAGE")
+Report bugs to http://bugzilla.gnome.org/ (product name "$PACKAGE")
 or send email to <xml-i18n-tools\@gnome.org>.
 _EOF_
     exit;
@@ -222,13 +222,13 @@ sub print_error
 }
 
 
-sub print_message 
+sub print_message
 {
     print "Merging translations into $OUTFILE.\n" unless $QUIET_ARG;
 }
 
 
-sub preparation 
+sub preparation
 {
     $PO_DIR = $ARGV[0];
     $FILE = $ARGV[1];
@@ -242,9 +242,9 @@ sub preparation
 
 sub po_file2lang
 {
-    my ($tmp) = @_; 
-    $tmp =~ s/^.*\/(.*)\.po$/$1/; 
-    return $tmp; 
+    my ($tmp) = @_;
+    $tmp =~ s/^.*\/(.*)\.po$/$1/;
+    return $tmp;
 }
 
 sub gather_po_files
@@ -261,9 +261,9 @@ sub get_local_charset
 
     # seek character encoding aliases in charset.alias (glib)
 
-    if (open CHARSET_ALIAS, $alias_file) 
+    if (open CHARSET_ALIAS, $alias_file)
     {
-	while (<CHARSET_ALIAS>) 
+	while (<CHARSET_ALIAS>)
         {
             next if /^\#/;
             return $1 if (/^\s*([-._a-zA-Z0-9]+)\s+$encoding\b/i)
@@ -283,18 +283,18 @@ sub get_po_encoding
     my $encoding = "";
 
     open IN_PO_FILE, $in_po_file or die;
-    while (<IN_PO_FILE>) 
+    while (<IN_PO_FILE>)
     {
         ## example: "Content-Type: text/plain; charset=ISO-8859-1\n"
-        if (/Content-Type\:.*charset=([-a-zA-Z0-9]+)\\n/) 
+        if (/Content-Type\:.*charset=([-a-zA-Z0-9]+)\\n/)
         {
-            $encoding = $1; 
+            $encoding = $1;
             last;
         }
     }
     close IN_PO_FILE;
 
-    if (!$encoding) 
+    if (!$encoding)
     {
         print STDERR "Warning: no encoding found in $in_po_file. Assuming ISO-8859-1\n" unless $QUIET_ARG;
         $encoding = "ISO-8859-1";
@@ -308,7 +308,7 @@ sub get_po_encoding
     return $encoding
 }
 
-sub utf8_sanity_check 
+sub utf8_sanity_check
 {
     print STDERR "Warning: option --pass-through has been removed.\n" if $PASS_THROUGH_ARG;
     $UTF8_ARG = 1;
@@ -327,7 +327,7 @@ sub get_newest_po_age
 {
     my $newest_age;
 
-    foreach my $file (values %po_files_by_lang) 
+    foreach my $file (values %po_files_by_lang)
     {
 	my $file_age = -M $file;
 	$newest_age = $file_age if !$newest_age || $file_age < $newest_age;
@@ -349,7 +349,7 @@ sub create_cache
     close CACHE;
 }
 
-sub load_cache 
+sub load_cache
 {
     print "Found cached translation database\n" unless $QUIET_ARG;
 
@@ -366,9 +366,9 @@ sub load_cache
 sub get_cached_translation_database
 {
     my $cache_file_age = -M $cache_file;
-    if (defined $cache_file_age) 
+    if (defined $cache_file_age)
     {
-        if ($cache_file_age <= &get_newest_po_age) 
+        if ($cache_file_age <= &get_newest_po_age)
         {
             &load_cache;
             return;
@@ -381,28 +381,28 @@ sub get_cached_translation_database
 
 sub create_translation_database
 {
-    for my $lang (keys %po_files_by_lang) 
+    for my $lang (keys %po_files_by_lang)
     {
     	my $po_file = $po_files_by_lang{$lang};
 
-        if ($UTF8_ARG) 
+        if ($UTF8_ARG)
         {
             my $encoding = get_po_encoding ($po_file);
 
-            if (lc $encoding eq "utf-8") 
+            if (lc $encoding eq "utf-8")
             {
-                open PO_FILE, "<$po_file";	
-            } 
-            else 
+                open PO_FILE, "<$po_file";
+            }
+            else
             {
 		print "NOTICE: $po_file is not in UTF-8 but $encoding, converting...\n" unless $QUIET_ARG;;
 
-                open PO_FILE, "$iconv -f $encoding -t UTF-8 $po_file|";	
+                open PO_FILE, "$iconv -f $encoding -t UTF-8 $po_file|";
             }
-        } 
-        else 
+        }
+        else
         {
-            open PO_FILE, "<$po_file";	
+            open PO_FILE, "<$po_file";
         }
 
 	my $nextfuzzy = 0;
@@ -411,11 +411,11 @@ sub create_translation_database
 	my $msgid = "";
 	my $msgstr = "";
 
-        while (<PO_FILE>) 
+        while (<PO_FILE>)
         {
 	    $nextfuzzy = 1 if /^#, fuzzy/;
-       
-	    if (/^msgid "((\\.|[^\\])*)"/ ) 
+
+	    if (/^msgid "((\\.|[^\\])*)"/ )
             {
 		$translations{$lang, $msgid} = $msgstr if $inmsgstr && $msgid && $msgstr;
 		$msgid = "";
@@ -431,14 +431,14 @@ sub create_translation_database
 		$nextfuzzy = 0;
 	    }
 
-	    if (/^msgstr "((\\.|[^\\])*)"/) 
+	    if (/^msgstr "((\\.|[^\\])*)"/)
             {
 	        $msgstr = unescape_po_string($1);
 		$inmsgstr = 1;
 		$inmsgid = 0;
 	    }
 
-	    if (/^"((\\.|[^\\])*)"/) 
+	    if (/^"((\\.|[^\\])*)"/)
             {
 	        $msgid .= unescape_po_string($1) if $inmsgid;
 	        $msgstr .= unescape_po_string($1) if $inmsgstr;
@@ -483,7 +483,7 @@ sub unescape_po_string
     return $string;
 }
 
-## NOTE: deal with < - &lt; but not > - &gt;  because it seems its ok to have 
+## NOTE: deal with < - &lt; but not > - &gt;  because it seems its ok to have
 ## > in the entity. For further info please look at #84738.
 sub entity_decode
 {
@@ -496,7 +496,7 @@ sub entity_decode
 
     return $_;
 }
- 
+
 # entity_encode: (string)
 #
 # Encode the given string to XML format (encode '<' etc).
@@ -546,7 +546,7 @@ sub ba_merge_translations
     # Binmode so that selftest works ok if using a native Win32 Perl...
     binmode (OUTPUT) if $^O eq 'MSWin32';
 
-    while ($source =~ s|^(.*?)([ \t]*<\s*$w+\s+($w+\s*=\s*"$q"\s*)+/?>)([ \t]*\n)?||s) 
+    while ($source =~ s|^(.*?)([ \t]*<\s*$w+\s+($w+\s*=\s*"$q"\s*)+/?>)([ \t]*\n)?||s)
     {
         print OUTPUT $1;
 
@@ -560,15 +560,15 @@ sub ba_merge_translations
 	print OUTPUT;
 
 	my %langs;
-	for my $string (@strings) 
+	for my $string (@strings)
         {
-	    for my $lang (keys %po_files_by_lang) 
+	    for my $lang (keys %po_files_by_lang)
             {
                 $langs{$lang} = 1 if $translations{$lang, $string};
 	    }
 	}
-	
-	for my $lang (sort keys %langs) 
+
+	for my $lang (sort keys %langs)
         {
 	    $_ = $node;
 	    s/(\sname\s*=\s*)"($q)"/$1"$2-$lang"/s;
@@ -599,10 +599,10 @@ sub getAttributeString
 	my $key    = $e;
 	my $string = $sub->{$e};
 	my $quote = '"';
-	
+
 	$string =~ s/^[\s]+//;
 	$string =~ s/[\s]+$//;
-	
+
 	if ($string =~ /^'.*'$/)
 	{
 	    $quote = "'";
@@ -625,7 +625,7 @@ sub getAttributeString
                  $$translate = 2 if ($translate && (!$$translate)); # watch not to "overwrite" $translate
             }
 	}
-	
+
 	$result .= " $key=$quote$string$quote";
     }
     return $result;
@@ -709,7 +709,7 @@ sub isWellFormedXmlFragment
     my $ret = eval 'require XML::Parser';
     if(!$ret) {
         die "You must have XML::Parser installed to run $0\n\n";
-    } 
+    }
 
     my $fragment = shift;
     return 0 if (!$fragment);
@@ -723,7 +723,7 @@ sub isWellFormedXmlFragment
 
 sub traverse
 {
-    my $fh = shift; 
+    my $fh = shift;
     my $nodename = shift;
     my $content = shift;
     my $language = shift || "";
@@ -936,7 +936,7 @@ sub readXml
     my $ret = eval 'require XML::Parser';
     if(!$ret) {
         die "You must have XML::Parser installed to run $0\n\n";
-    } 
+    }
     my $xp = new XML::Parser(Style => 'Tree');
     $xp->setHandlers(Char => \&intltool_tree_char);
     $xp->setHandlers(Start => \&intltool_tree_start);
@@ -987,7 +987,7 @@ sub parseTree
 
     my $name = shift @{ $ref };
     my $cont = shift @{ $ref };
-    
+
     while (!$name || "$name" eq "1") {
         $name = shift @{ $ref };
         $cont = shift @{ $ref };
@@ -1017,7 +1017,7 @@ sub xml_merge_output
             close OUTPUT;
             print "CREATED $lang/$OUTFILE\n" unless $QUIET_ARG;
         }
-    } 
+    }
     open OUTPUT, ">$OUTFILE" or die "Cannot open $OUTFILE: $!\n";
     binmode (OUTPUT) if $^O eq 'MSWin32';
     my $tree = readXml($FILE);
@@ -1033,9 +1033,9 @@ sub keys_merge_translations
     open OUTPUT, ">${OUTFILE}" or die;
     binmode (OUTPUT) if $^O eq 'MSWin32';
 
-    while (<INPUT>) 
+    while (<INPUT>)
     {
-        if (s/^(\s*)_(\w+=(.*))/$1$2/)  
+        if (s/^(\s*)_(\w+=(.*))/$1$2/)
         {
 	    my $string = $3;
 
@@ -1043,7 +1043,7 @@ sub keys_merge_translations
 
 	    my $non_translated_line = $_;
 
-            for my $lang (sort keys %po_files_by_lang) 
+            for my $lang (sort keys %po_files_by_lang)
             {
 		my $translation = $translations{$lang, $string};
                 next if !$translation;
@@ -1052,8 +1052,8 @@ sub keys_merge_translations
 		s/(\w+)=.*/[$lang]$1=$translation/;
                 print OUTPUT;
             }
-	} 
-        else 
+	}
+        else
         {
             print OUTPUT;
         }
@@ -1069,9 +1069,9 @@ sub desktop_merge_translations
     open OUTPUT, ">${OUTFILE}" or die;
     binmode (OUTPUT) if $^O eq 'MSWin32';
 
-    while (<INPUT>) 
+    while (<INPUT>)
     {
-        if (s/^(\s*)_(\w+=(.*))/$1$2/)  
+        if (s/^(\s*)_(\w+=(.*))/$1$2/)
         {
 	    my $string = $3;
 
@@ -1079,7 +1079,7 @@ sub desktop_merge_translations
 
 	    my $non_translated_line = $_;
 
-            for my $lang (sort keys %po_files_by_lang) 
+            for my $lang (sort keys %po_files_by_lang)
             {
                 my $translation = $translations{$lang, $string};
                 next if !$translation;
@@ -1088,8 +1088,8 @@ sub desktop_merge_translations
                 s/(\w+)=.*/${1}[$lang]=$translation/;
                 print OUTPUT;
             }
-	} 
-        else 
+	}
+        else
         {
             print OUTPUT;
         }
@@ -1126,7 +1126,7 @@ sub schemas_merge_translations
                             (<short>\s*(?:<!--[^>]*?-->\s*)?(.*?)\s*<\/short>)?(\s*)
                             (<long>\s*(?:<!--[^>]*?-->\s*)?(.*?)\s*<\/long>)?(\s*)
                         <\/locale>)
-                       //sx) 
+                       //sx)
     {
         print OUTPUT $1;
 
@@ -1149,18 +1149,18 @@ sub schemas_merge_translations
 	$long_string =~ s/\s+/ /g;
 	$long_string = entity_decode($long_string);
 
-	for my $lang (sort keys %po_files_by_lang) 
+	for my $lang (sort keys %po_files_by_lang)
         {
 	    my $default_translation = $translations{$lang, $default_string};
 	    my $short_translation = $translations{$lang, $short_string};
 	    my $long_translation  = $translations{$lang, $long_string};
 
-	    next if (!$default_translation && !$short_translation && 
+	    next if (!$default_translation && !$short_translation &&
                      !$long_translation);
 
 	    print OUTPUT "\n$locale_start_spaces<locale name=\"$lang\">";
 
-        print OUTPUT "$default_spaces";    
+        print OUTPUT "$default_spaces";
 
         if ($default_translation)
         {
@@ -1182,7 +1182,7 @@ sub schemas_merge_translations
 	    {
 			$long_translation = entity_encode($long_translation);
 			print OUTPUT "<long>$long_translation</long>";
-	    }	    
+	    }
 
 	    print OUTPUT "$locale_end_spaces</locale>";
         }
@@ -1229,22 +1229,22 @@ sub rfc822deb_merge_translations
 	    $non_translated_line .= $stripped;
 
 	    print OUTPUT $sep.$non_translated_line;
-    
-	    if ($underscore) 
+
+	    if ($underscore)
 	    {
 	        my @str_list = rfc822deb_split($underscore, $string);
 
-	        for my $lang (sort keys %po_files_by_lang) 
+	        for my $lang (sort keys %po_files_by_lang)
                 {
                     my $is_translated = 1;
                     my $str_translated = '';
                     my $first = 1;
-                
-                    for my $str (@str_list) 
+
+                    for my $str (@str_list)
                     {
                         my $translation = $translations{$lang, $str};
-                    
-                        if (!$translation) 
+
+                        if (!$translation)
                         {
                             $is_translated = 0;
                             last;
@@ -1253,8 +1253,8 @@ sub rfc822deb_merge_translations
 	                #  $translation may also contain [] dummy
                         #  strings, mostly to indicate an empty string
 	                $translation =~ s/\[\s[^\[\]]*\]$//;
-                        
-                        if ($first) 
+
+                        if ($first)
                         {
                             if ($underscore eq 2)
                             {
@@ -1266,8 +1266,8 @@ sub rfc822deb_merge_translations
                                     Text::Tabs::expand($translation) .
                                     "\n";
                             }
-                        } 
-                        else 
+                        }
+                        else
                         {
                             if ($underscore eq 2)
                             {
@@ -1302,7 +1302,7 @@ sub rfc822deb_merge_translations
     close INPUT;
 }
 
-sub rfc822deb_split 
+sub rfc822deb_split
 {
     # Debian defines a special way to deal with rfc822-style files:
     # when a value contain newlines, it consists of
@@ -1323,7 +1323,7 @@ sub rfc822deb_split
     my @list = ($1);
     my $str = '';
 
-    for my $line (split (/\n/, $text)) 
+    for my $line (split (/\n/, $text))
     {
         chomp $line;
         if ($line =~ /^\.\s*$/)
@@ -1332,15 +1332,15 @@ sub rfc822deb_split
             $str =~ s/\s*$//;
             push(@list, $str);
             $str = '';
-        } 
-        elsif ($line =~ /^\s/) 
+        }
+        elsif ($line =~ /^\s/)
         {
             #  Line which must not be reformatted
             $str .= "\n" if length ($str) && $str !~ /\n$/;
             $line =~ s/\s+$//;
             $str .= $line."\n";
-        } 
-        else 
+        }
+        else
         {
             #  Continuation line, remove newline
             $str .= " " if length ($str) && $str !~ /\n$/;

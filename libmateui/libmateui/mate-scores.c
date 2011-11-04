@@ -43,32 +43,29 @@
 
 #include "mate-scores.h"
 
-struct _MateScoresPrivate
-{
-  GtkWidget  *but_clear;
-  GtkTable   *table;
+struct _MateScoresPrivate {
+	GtkWidget* but_clear;
+	GtkTable* table;
 
-  GtkWidget  *logo_container;
-  GtkWidget  *logo;
-  GtkWidget **label_names;
-  GtkWidget **label_scores;
-  GtkWidget **label_times;
+	GtkWidget* logo_container;
+	GtkWidget* logo;
+	GtkWidget** label_names;
+	GtkWidget** label_scores;
+	GtkWidget** label_times;
 
-  guint	      n_scores;
+	guint n_scores;
 };
 
-static void mate_scores_finalize   (GObject          *object);
+static void mate_scores_finalize(GObject* object);
 
 /**
  * mate_scores_get_type:
  *
  * Returns the GType for the MateScores widget
  */
-MATE_CLASS_BOILERPLATE (MateScores, mate_scores,
-			 GtkDialog, GTK_TYPE_DIALOG)
+MATE_CLASS_BOILERPLATE(MateScores, mate_scores, GtkDialog, GTK_TYPE_DIALOG)
 
-static void
-mate_scores_instance_init (MateScores *gs)
+static void mate_scores_instance_init(MateScores* gs)
 {
 	GtkWidget *label;
 
@@ -117,8 +114,7 @@ mate_scores_instance_init (MateScores *gs)
 			  FALSE, FALSE, 0);
 }
 
-static void
-mate_scores_class_init (MateScoresClass *class)
+static void mate_scores_class_init(MateScoresClass* class)
 {
 	GObjectClass *gobject_class;
 
@@ -127,8 +123,7 @@ mate_scores_class_init (MateScoresClass *class)
 	gobject_class->finalize = mate_scores_finalize;
 }
 
-static void
-mate_scores_finalize(GObject *object)
+static void mate_scores_finalize(GObject* object)
 {
 	MateScores *gs = MATE_SCORES(object);
 
@@ -157,13 +152,7 @@ mate_scores_finalize(GObject *object)
  * Description: useful for language bindings and subclassing, not to be used by
  * itself, see #mate_scores_new.
  */
-void
-mate_scores_construct (  MateScores *gs,
-			  guint n_scores,
-			  gchar **names,
-			  gfloat *scores,
-			  time_t *times,
-			  gboolean clear)
+void mate_scores_construct(MateScores* gs, guint n_scores, gchar** names, gfloat* scores, time_t* times, gboolean clear)
 {
 	gchar     	tmp[10];
 	gchar     	tmp2[256];
@@ -227,12 +216,7 @@ mate_scores_construct (  MateScores *gs,
  *
  * Returns: A new #MateScores widget
  */
-GtkWidget *
-mate_scores_new (  guint n_scores,
-		    gchar **names,
-		    gfloat *scores,
-		    time_t *times,
-		    gboolean clear)
+GtkWidget* mate_scores_new(guint n_scores, gchar** names, gfloat* scores, time_t* times, gboolean clear)
 {
 	GtkWidget *retval = g_object_new (MATE_TYPE_SCORES, NULL);
 
@@ -249,8 +233,7 @@ mate_scores_new (  guint n_scores,
  *
  * Description: Set the color of one entry.
  */
-void
-mate_scores_set_color(MateScores *gs, guint n, GdkColor *col)
+void mate_scores_set_color(MateScores* gs, guint n, GdkColor* col)
 {
 	GtkStyle *s = gtk_style_new();
 
@@ -277,8 +260,7 @@ mate_scores_set_color(MateScores *gs, guint n, GdkColor *col)
  *
  * Description: Set the default color of the entries.
  */
-void
-mate_scores_set_def_color(MateScores *gs, GdkColor *col)
+void mate_scores_set_def_color(MateScores* gs, GdkColor* col)
 {
 	unsigned int i;
 
@@ -298,8 +280,7 @@ mate_scores_set_def_color(MateScores *gs, GdkColor *col)
  *
  * Description: Set the color of all the entries.
  */
-void
-mate_scores_set_colors(MateScores *gs, GdkColor *col)
+void mate_scores_set_colors(MateScores* gs, GdkColor* col)
 {
 	unsigned int i;
 
@@ -319,8 +300,7 @@ mate_scores_set_colors(MateScores *gs, GdkColor *col)
  *
  * Description: Set the index of the current player in top ten.
  */
-void
-mate_scores_set_current_player (MateScores *gs, gint i)
+void mate_scores_set_current_player(MateScores* gs, gint i)
 {
 	g_return_if_fail(gs != NULL);
 	g_return_if_fail(MATE_IS_SCORES(gs));
@@ -338,8 +318,7 @@ mate_scores_set_current_player (MateScores *gs, gint i)
  *
  * Description: Creates a label to be the logo
  */
-void
-mate_scores_set_logo_label_title (MateScores *gs, const gchar *txt)
+void mate_scores_set_logo_label_title(MateScores* gs, const gchar* txt)
 {
 	g_return_if_fail(gs != NULL);
 	g_return_if_fail(MATE_IS_SCORES(gs));
@@ -366,11 +345,7 @@ mate_scores_set_logo_label_title (MateScores *gs, const gchar *txt)
  *
  * Description: Creates a label to be the logo
  */
-void
-mate_scores_set_logo_label (MateScores *gs,
-			     const gchar *txt,
-			     const gchar *font,
-			     GdkColor *col)
+void mate_scores_set_logo_label(MateScores* gs, const gchar* txt, const gchar* font, GdkColor* col)
 {
 	GtkStyle *s = gtk_style_new(); /* i believe that i should copy the default style
 					  and change only the fg & font fields, how? */
@@ -409,8 +384,7 @@ mate_scores_set_logo_label (MateScores *gs,
  *
  * Description:  Set an arbitrary widget to be the logo.
  */
-void
-mate_scores_set_logo_widget (MateScores *gs, GtkWidget *w)
+void mate_scores_set_logo_widget(MateScores* gs, GtkWidget* w)
 {
 	g_return_if_fail(gs != NULL);
 	g_return_if_fail(MATE_IS_SCORES(gs));
@@ -435,8 +409,7 @@ mate_scores_set_logo_widget (MateScores *gs, GtkWidget *w)
  *
  * Description:  Sets the logo on the scores dialog box to a pixmap
  */
-void
-mate_scores_set_logo_pixmap (MateScores *gs, const gchar *pix_name)
+void mate_scores_set_logo_pixmap(MateScores* gs, const gchar* pix_name)
 {
 	g_return_if_fail(gs != NULL);
 	g_return_if_fail(MATE_IS_SCORES(gs));
@@ -467,11 +440,15 @@ mate_scores_set_logo_pixmap (MateScores *gs, const gchar *pix_name)
  * and show it. If there are no scores nothing is displayed and the recommended practise
  * is to disable the scores menu entry in this case.
  *
+ * USAGE:
+ *
+ * pos = mate_score_log(score, level, TRUE);
+ * mate_scores_display (_("Mi game"), "migame", level, pos);
+ *
  * Returns:  If a dialog is displayed return it's pointer.  It can also
  * be %NULL if no dialog is displayed
  */
-GtkWidget *
-mate_scores_display (const gchar *title, const gchar *app_name, const gchar *level, int pos)
+GtkWidget* mate_scores_display(const gchar* title, const gchar* app_name, const gchar* level, int pos)
 {
 	GtkWidget *hs = NULL;
 	gchar **names = NULL;
@@ -510,8 +487,7 @@ mate_scores_display (const gchar *title, const gchar *app_name, const gchar *lev
  * Returns:  If a dialog is displayed return it's pointer.  It can also
  * be %NULL if no dialog is displayed
  */
-GtkWidget *
-mate_scores_display_with_pixmap (const gchar *pixmap_logo, const gchar *app_name, const gchar *level, int pos)
+GtkWidget* mate_scores_display_with_pixmap(const gchar* pixmap_logo, const gchar* app_name, const gchar* level, int pos)
 {
 	GtkWidget *hs = NULL;
 	gchar **names = NULL;

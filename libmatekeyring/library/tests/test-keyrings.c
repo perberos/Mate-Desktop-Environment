@@ -266,7 +266,7 @@ DEFINE_TEST(find_keyrings)
 
 /*
  * A find that does not match should return 'Not Found':
- * http://bugzilla.mate.org/show_bug.cgi?id=476682
+ * http://bugzilla.gnome.org/show_bug.cgi?id=476682
  */
 DEFINE_TEST(find_invalid)
 {

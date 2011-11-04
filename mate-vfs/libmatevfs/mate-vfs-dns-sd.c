@@ -43,7 +43,7 @@
 #include <avahi-common/simple-watch.h>
 #include <avahi-common/timeval.h>
 #include <avahi-glib/glib-watch.h>
-#endif 
+#endif
 
 #ifdef HAVE_HOWL
 /* Need to work around howl exporting its config file... */
@@ -58,8 +58,8 @@
 #define DNS_REPLY_SIZE (64*1024)
 
 
-/* Some systems don't those namespaced constants defined, see 
- * http://bugzilla.mate.org/show_bug.cgi?id=162289
+/* Some systems don't those namespaced constants defined, see
+ * http://bugzilla.gnome.org/show_bug.cgi?id=162289
  * I'm assuming that if 1 constant isn't defined, then all the others
  * are missing too, please file a bug if that's not the case on your system
  */
@@ -121,21 +121,21 @@ decode_txt_record (char *raw_txt,
 
 	if (raw_txt == NULL)
 		return NULL;
-	
+
 	hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	i = 0;
 	while (i < raw_txt_len) {
 		len = raw_txt[i++];
-		
+
 		if (i + len > raw_txt_len) {
 			break;
 		}
-		
+
 		if (len == 0) {
 			continue;
 		}
-		
+
 		key = &raw_txt[i];
 		end = &raw_txt[i + len];
 		i += len;
@@ -144,7 +144,7 @@ decode_txt_record (char *raw_txt,
 			/* 6.4 - silently ignore keys starting with = */
 			continue;
 		}
-		
+
 		value = memchr (key, '=', len);
 		if (value) {
 			key_dup = g_strndup (key, value - key);
@@ -215,7 +215,7 @@ split_service_instance (char *name,
 		}
 	}
 	service[i] = 0;
-	
+
 	i = 0;
 	n_dots = 0;
 	while (*name != 0) {
@@ -229,7 +229,7 @@ split_service_instance (char *name,
 		type[i++] = *name++;
 	}
 	type[i] = 0;
-	
+
 	i = 0;
 	while (*name != 0) {
 		domain[i++] = *name++;
@@ -272,24 +272,24 @@ parse_qs (unsigned char *reply, int reply_len,
 {
 	int len;
 	unsigned char *start, *end;
-	
+
 	start = p;
 	end = reply + reply_len;
-	
+
 	if (p >= end)
 		return -1;
 	len = dn_expand (reply, reply + reply_len, p, name, name_size);
 	if (len < 0)
 		return -1;
-	
+
 	p += len;
-	
+
 	if (p + 4 > end)
 		return -1;
-	
+
 	*qtype = decode_16 (p); p += 2;
 	*qclass = decode_16 (p); p += 2;
-	
+
 	return p - start;
 }
 
@@ -300,25 +300,25 @@ parse_rr (unsigned char *reply, int reply_len,
 {
 	int len;
 	unsigned char *start, *end;
-	
+
 	start = p;
 	end = reply + reply_len;
-	
+
 	if (p >= end)
 		return -1;
 	len = dn_expand (reply, reply + reply_len, p, rr->name, sizeof (rr->name));
 	if (len < 0)
 		return -1;
 	p += len;
-	
+
 	if (p + 10 > end)
 		return -1;
-	
+
 	rr->type = decode_16 (p); p += 2;
 	rr->class = decode_16 (p); p += 2;
 	rr->ttl = decode_32 (p); p += 4;
 	rr->rdlength = decode_16 (p); p += 2;
-	
+
 	if (p + rr->rdlength > end)
 		return -1;
 
@@ -340,12 +340,12 @@ unicast_list_domains_sync (const char *domain,
 	GList *l;
 
 	*domains = NULL;
-	
+
 	res = res_init ();
 	if (res != 0) {
 		return MATE_VFS_ERROR_INTERNAL;
 	}
-	
+
 	/* Use TCP to support large queries */
 	_res.options |= RES_USEVC;
 	searchdomain = g_strconcat ("_browse._dns-sd._udp.", domain, NULL);
@@ -355,22 +355,22 @@ unicast_list_domains_sync (const char *domain,
 	if (reply_len == -1) {
 		return MATE_VFS_ERROR_GENERIC;
 	}
-  
+
 	/* Parse out query */
 	p = reply;
-	
+
 	len = parse_header (reply, reply_len, p,
 			    &header);
 	if (len < 0) {
 		goto error;
 	}
 	p += len;
-	
+
 	if ((header.flags & (1 << 15)) == 0) {
 		/* Not a reply */
 		goto error;
 	}
-	
+
 	if (header.flags & (1 << 9)) {
 		/* Truncated */
 		goto error;
@@ -378,59 +378,59 @@ unicast_list_domains_sync (const char *domain,
 
 	for (i = 0; i < header.qdcount; i++) {
 		int qtype, qclass;
-		
+
 		len = parse_qs (reply, reply_len, p,
 				name, sizeof(name),
 				&qtype, &qclass);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
 	}
 
 	for (i = 0; i < header.ancount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		if (rr.type == ns_t_ptr) {
 			len = dn_expand (reply, reply + reply_len, p, name, sizeof(name));
-			if (len < 0) 
+			if (len < 0)
 				goto error;
 
 			*domains = g_list_prepend (*domains, g_strdup (name));
 		}
-		
+
 		p += rr.rdlength;
 	}
-	
+
 	for (i = 0; i < header.nscount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		p += rr.rdlength;
 	}
-	
+
 	for (i = 0; i < header.arcount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		p += rr.rdlength;
 	}
 
 	return MATE_VFS_OK;
-	
+
  error:
 	for (l = *domains; l != NULL; l = l->next) {
 		g_free (l->data);
 	}
 	g_list_free (*domains);
 	*domains = NULL;
-	
+
 	return MATE_VFS_ERROR_GENERIC;
 }
 
@@ -452,12 +452,12 @@ unicast_browse_sync (const char *domain, const char *type,
 	int res;
 
 	array = NULL;
-	
+
 	res = res_init ();
 	if (res != 0) {
 		return MATE_VFS_ERROR_INTERNAL;
 	}
-	
+
 	/* Use TCP to support large queries */
 	_res.options |= RES_USEVC;
 	searchdomain = g_strconcat (type, ".", domain, NULL);
@@ -467,22 +467,22 @@ unicast_browse_sync (const char *domain, const char *type,
 	if (reply_len == -1) {
 		return MATE_VFS_ERROR_GENERIC;
 	}
-  
+
 	/* Parse out query */
 	p = reply;
-	
+
 	len = parse_header (reply, reply_len, p,
 			    &header);
 	if (len < 0) {
 		goto error;
 	}
 	p += len;
-	
+
 	if ((header.flags & (1 << 15)) == 0) {
 		/* Not a reply */
 		goto error;
 	}
-	
+
 	if (header.flags & (1 << 9)) {
 		/* Truncated */
 		goto error;
@@ -490,11 +490,11 @@ unicast_browse_sync (const char *domain, const char *type,
 
 	for (i = 0; i < header.qdcount; i++) {
 		int qtype, qclass;
-		
+
 		len = parse_qs (reply, reply_len, p,
 				name, sizeof(name),
 				&qtype, &qclass);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
 	}
@@ -503,20 +503,20 @@ unicast_browse_sync (const char *domain, const char *type,
 
 	for (i = 0; i < header.ancount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		if (rr.type == ns_t_ptr) {
 			MateVFSDNSSDService service;
 			char ptr_service[NS_MAXDNAME];
 			char ptr_type[NS_MAXDNAME];
 			char ptr_domain[NS_MAXDNAME];
-			
+
 			len = dn_expand (reply, reply + reply_len, p, name, sizeof(name));
-			if (len < 0) 
+			if (len < 0)
 				goto error;
-			
+
 			split_service_instance (name, ptr_service, ptr_type, ptr_domain);
 
 			if (is_valid_dns_sd_type (ptr_type)) {
@@ -527,33 +527,33 @@ unicast_browse_sync (const char *domain, const char *type,
 				g_array_append_val(array, service);
 			}
 		}
-		
+
 		p += rr.rdlength;
 	}
-	
+
 	for (i = 0; i < header.nscount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		p += rr.rdlength;
 	}
-	
+
 	for (i = 0; i < header.arcount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		p += rr.rdlength;
 	}
 
 	*num_services = array->len;
 	*services = (MateVFSDNSSDService *)g_array_free (array, FALSE);
-	
+
 	return MATE_VFS_OK;
-	
+
  error:
 	for (i = 0; i < array->len; i++) {
 		service = &g_array_index (array, MateVFSDNSSDService, i);
@@ -562,7 +562,7 @@ unicast_browse_sync (const char *domain, const char *type,
 		g_free (service->domain);
 	}
 	g_array_free (array, TRUE);
-	
+
 	return MATE_VFS_ERROR_GENERIC;
 }
 
@@ -577,9 +577,9 @@ service_to_dns_name (const char *name, const char *type, const char *domain)
 	p = name;
 
 	while (*p) {
-		if (*p == '\\') 
+		if (*p == '\\')
 			g_string_append (string, "\\\\");
-		else if (*p == '.') 
+		else if (*p == '.')
 			g_string_append (string, "\\.");
 		else
 			g_string_append_c (string, *p);
@@ -615,7 +615,7 @@ unicast_resolve_sync (const char *name,
 	*port_out = 0;
 	*text_raw_len_out = 0;
 	*text_raw_out = NULL;
-	
+
 	res = res_init ();
 	if (res != 0) {
 		return MATE_VFS_ERROR_INTERNAL;
@@ -623,7 +623,7 @@ unicast_resolve_sync (const char *name,
 
 	/* Use TCP to support large queries */
 	_res.options |= RES_USEVC;
-  
+
 	full_name = service_to_dns_name (name, type, domain);
 	reply_len = res_search (full_name, ns_c_in, ns_t_any,
 				reply, sizeof (reply));
@@ -631,56 +631,56 @@ unicast_resolve_sync (const char *name,
 	if (reply_len == -1) {
 		return MATE_VFS_ERROR_GENERIC;
 	}
-  
+
 	/* Parse out query */
 	p = reply;
-	
+
 	len = parse_header (reply, reply_len, p,
 			    &header);
 	if (len < 0)
 		goto error;
 	p += len;
-	
+
 	if ((header.flags & (1 << 15)) == 0) {
 		/* Not a reply */
 		goto error;
 	}
-	
+
 	if (header.flags & (1 << 9)) {
 		/* Truncated */
 		g_warning ("dns-sd reply truncated!\n");
 		goto error;
 	}
-	
+
 	for (i = 0; i < header.qdcount; i++) {
 		int qtype, qclass;
-		
+
 		len = parse_qs (reply, reply_len, p,
 				dnsname, sizeof(dnsname),
 				&qtype, &qclass);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
 	}
-	
+
 	for (i = 0; i < header.ancount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		if (rr.type == ns_t_srv) {
 			unsigned char *pp;
 			int priority, weight, port;
-			
+
 			pp = p;
-			
+
 			priority = decode_16 (pp); pp += 2;
 			weight = decode_16 (pp); pp += 2;
 			port = decode_16 (pp); pp += 2;
-			
+
 			len = dn_expand (reply, reply + reply_len, pp, dnsname, sizeof(dnsname));
-			if (len < 0) 
+			if (len < 0)
 				goto error;
 
 			/* TODO: look at prio and weigth. For now use the first */
@@ -689,42 +689,42 @@ unicast_resolve_sync (const char *name,
 				*port_out = port;
 			}
 		}
-		
+
 		if (rr.type == ns_t_txt) {
 			*text_raw_out = g_memdup (p, rr.rdlength);
 			*text_raw_len_out = rr.rdlength;
 		}
-		
+
 		p += rr.rdlength;
 	}
-	
+
 	for (i = 0; i < header.nscount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		p += rr.rdlength;
-		
+
 	}
-	
+
 	for (i = 0; i < header.arcount; i++) {
 		len = parse_rr (reply, reply_len, p, &rr);
-		if (len < 0) 
+		if (len < 0)
 			goto error;
 		p += len;
-		
+
 		p += rr.rdlength;
 	}
 
 	return MATE_VFS_OK;
-	
+
  error:
 	g_free (*host);
 	*host = NULL;
 	g_free (*text_raw_out);
 	*text_raw_out = NULL;
-	
+
 	return MATE_VFS_ERROR_GENERIC;
 }
 
@@ -749,7 +749,7 @@ avahi_client_callback (AvahiClient *client, AvahiClientState state, void *userda
 		if (avahi_client_errno (client) == AVAHI_ERR_DISCONNECTED) {
 			/* Remove the service browsers from the handles */
 			g_slist_foreach (browse_handles, remove_service_browser_cb, NULL);
-			
+
 			/* Destroy old client */
 			avahi_client_free (client);
 			global_client = NULL;
@@ -781,7 +781,7 @@ get_global_avahi_client (void) {
 						  glib_poll,
 						  &error);
 
-		if (global_client == NULL) {    
+		if (global_client == NULL) {
 			/* Print out the error string */
 			g_warning ("Error initializing Avahi: %s", avahi_strerror (error));
 			avahi_glib_poll_free (glib_poll);
@@ -868,7 +868,7 @@ struct MateVFSDNSSDBrowseHandle {
 #ifdef HAVE_HOWL
 	sw_discovery_oid howl_id;
 #endif
-	
+
 	/* unicast data: */
 	int n_services;
 	MateVFSDNSSDService *services;
@@ -881,21 +881,21 @@ static void
 free_browse_handle (MateVFSDNSSDBrowseHandle *handle)
 {
 	int i;
-	
+
 	g_free (handle->domain);
 	g_free (handle->type);
-	
+
 	for (i = 0; i < handle->n_services; i++) {
 		g_free (handle->services[i].name);
 		g_free (handle->services[i].type);
 		g_free (handle->services[i].domain);
 	}
-	
+
 	g_free (handle->services);
 
 	if (handle->callback_data_destroy_func != NULL)
 		handle->callback_data_destroy_func (handle->callback_data);
-	
+
 	g_free (handle);
 }
 
@@ -904,9 +904,9 @@ unicast_browse_idle (gpointer data)
 {
 	MateVFSDNSSDBrowseHandle *handle;
 	int i;
-	
+
 	handle = data;
-	
+
 	if (!handle->cancelled &&
 	    handle->res == MATE_VFS_OK) {
 		for (i = 0; i < handle->n_services; i++) {
@@ -918,10 +918,10 @@ unicast_browse_idle (gpointer data)
 	}
 
 	handle->finished = TRUE;
-	
+
 	if (handle->cancelled)
 		free_browse_handle (handle);
-	
+
 	return FALSE;
 }
 
@@ -931,7 +931,7 @@ unicast_browse_thread (gpointer data)
 {
 	MateVFSDNSSDBrowseHandle *handle;
 	handle = data;
-	
+
 	handle->res = unicast_browse_sync (handle->domain,
 					   handle->type,
 					   &handle->n_services,
@@ -943,7 +943,7 @@ unicast_browse_thread (gpointer data)
 
 #ifdef HAVE_AVAHI
 
-static void 
+static void
 avahi_browse_callback (AvahiServiceBrowser *b,
 		       AvahiIfIndex interface,
 		       AvahiProtocol protocol,
@@ -957,17 +957,17 @@ avahi_browse_callback (AvahiServiceBrowser *b,
 	MateVFSDNSSDBrowseHandle *handle;
 	MateVFSDNSSDService service;
 	handle = userdata;
-    
+
 	service.name = (char *)name;
 	service.type = (char *)type;
 	service.domain = (char *)domain;
-	
+
 	if (event == AVAHI_BROWSER_FAILURE ||
 	    event == AVAHI_BROWSER_ALL_FOR_NOW ||
 	    event == AVAHI_BROWSER_CACHE_EXHAUSTED) {
 		return;
 	}
-	
+
 	if (!handle->cancelled) {
 		handle->callback (handle,
 				  (event == AVAHI_BROWSER_NEW) ? MATE_VFS_DNS_SD_SERVICE_ADDED : MATE_VFS_DNS_SD_SERVICE_REMOVED,
@@ -989,12 +989,12 @@ add_service_browser_cb (gpointer data, gpointer user_data)
 	MateVFSDNSSDBrowseHandle *handle = data;
 	AvahiServiceBrowser *sb;
 	AvahiClient *client;
-    
+
 	client = get_global_avahi_client ();
 	if (!client)
 		return;
-	
-	sb = avahi_service_browser_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, handle->type, NULL, 
+
+	sb = avahi_service_browser_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, handle->type, NULL,
 					AVAHI_LOOKUP_USE_MULTICAST, avahi_browse_callback, handle);
 	if (sb != NULL) {
 		handle->avahi_sb = sb;
@@ -1012,7 +1012,7 @@ struct howl_browse_idle_data {
 	MateVFSDNSSDBrowseHandle *handle;
 	MateVFSDNSSDServiceStatus status;
 	MateVFSDNSSDService service;
-	
+
 };
 
 
@@ -1032,7 +1032,7 @@ howl_browse_idle (gpointer data)
 			  idle_data->status,
 			  &idle_data->service,
 			  handle->callback_data);
-	
+
 	return FALSE;
 }
 
@@ -1067,20 +1067,20 @@ howl_browse_reply (sw_discovery                 discovery,
 	int len;
 
 	handle = extra;
-	
+
 	if (status == SW_DISCOVERY_BROWSE_RELEASE) {
 		/* free in an idle to make sure the other idles are done,
 		   and to give sane environment for destroy callback */
 		g_idle_add (free_browse_handle_idle, handle);
 		return SW_OKAY;
 	}
-	
+
 	if (handle->cancelled)
 		return SW_OKAY;
 
 	idle_data = g_new (struct howl_browse_idle_data, 1);
 	idle_data->handle = handle;
-	
+
 	if (status == SW_DISCOVERY_BROWSE_ADD_SERVICE) {
 		idle_data->status = MATE_VFS_DNS_SD_SERVICE_ADDED;
 	} else if (status == SW_DISCOVERY_BROWSE_REMOVE_SERVICE) {
@@ -1090,7 +1090,7 @@ howl_browse_reply (sw_discovery                 discovery,
 		g_free (idle_data);
 		return SW_OKAY;
 	}
-	
+
 	idle_data->service.name = g_strdup (name);
 	idle_data->service.type = g_strdup (type);
 	idle_data->service.domain = g_strdup (domain);
@@ -1102,7 +1102,7 @@ howl_browse_reply (sw_discovery                 discovery,
 	len = strlen (idle_data->service.domain);
 	if (len > 0 && idle_data->service.domain[len-1] == '.')
 		idle_data->service.domain[len-1] = 0;
-	
+
 	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
 			 howl_browse_idle,
 			 idle_data,
@@ -1145,14 +1145,14 @@ mate_vfs_dns_sd_browse (MateVFSDNSSDBrowseHandle **handle_out,
 	MateVFSDNSSDBrowseHandle *handle;
 
 	*handle_out = NULL;
-	
+
 	handle = g_new0 (MateVFSDNSSDBrowseHandle, 1);
 	handle->domain = g_strdup (domain);
 	handle->type = g_strdup (type);
 	handle->callback = callback;
 	handle->callback_data = callback_data;
 	handle->callback_data_destroy_func = callback_data_destroy_func;
-	
+
 	if (strcmp (domain, "local") == 0) {
 #ifdef HAVE_AVAHI
 		AvahiClient *client;
@@ -1161,7 +1161,7 @@ mate_vfs_dns_sd_browse (MateVFSDNSSDBrowseHandle **handle_out,
 		handle->is_local = TRUE;
 		client = get_global_avahi_client ();
 		if (client) {
-			sb = avahi_service_browser_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, type, NULL, 
+			sb = avahi_service_browser_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, type, NULL,
 							AVAHI_LOOKUP_USE_MULTICAST,
 							avahi_browse_callback, handle);
 			if (sb != NULL) {
@@ -1176,18 +1176,18 @@ mate_vfs_dns_sd_browse (MateVFSDNSSDBrowseHandle **handle_out,
 #elif defined (HAVE_HOWL)
 		sw_result res;
 		sw_discovery session;
-		
+
 		handle->is_local = TRUE;
 
 		session = get_global_howl_session ();
 		if (session) {
 			res = sw_discovery_browse (session,
-						   0, 
+						   0,
 						   type, domain,
 						   howl_browse_reply,
 						   handle,
 						   &handle->howl_id);
-			
+
 			if (res == SW_OKAY) {
 				*handle_out = handle;
 				return MATE_VFS_OK;
@@ -1229,7 +1229,7 @@ mate_vfs_dns_sd_stop_browse (MateVFSDNSSDBrowseHandle *handle)
 
         if (handle->avahi_sb)
 		avahi_service_browser_free (handle->avahi_sb);
-		
+
 	browse_handles = g_slist_remove (browse_handles, handle);
 	free_browse_handle (handle);
 #endif
@@ -1261,7 +1261,7 @@ struct MateVFSDNSSDResolveHandle {
 	int port;
 	char *text;
 	int text_len;
-	
+
 	/* multicast: */
 #ifdef HAVE_AVAHI
 	AvahiServiceResolver *avahi_sr;
@@ -1271,7 +1271,7 @@ struct MateVFSDNSSDResolveHandle {
 	sw_discovery_oid howl_id;
 	guint timeout_tag;
 #endif
-	
+
 	/* unicast data: */
 	gboolean cancelled;
 	MateVFSResult res;
@@ -1285,13 +1285,13 @@ free_resolve_handle (MateVFSDNSSDResolveHandle *handle)
 	g_free (handle->name);
 	g_free (handle->domain);
 	g_free (handle->type);
-	
+
 	g_free (handle->host);
 	g_free (handle->text);
 
 	if (handle->callback_data_destroy_func != NULL)
 		handle->callback_data_destroy_func (handle->callback_data);
-	
+
 	g_free (handle);
 }
 
@@ -1303,7 +1303,7 @@ unicast_resolve_idle (gpointer data)
 	GHashTable *hash;
 
 	handle = data;
-	
+
 	if (!handle->cancelled) {
 		service.name = handle->name;
 		service.type = handle->type;
@@ -1311,7 +1311,7 @@ unicast_resolve_idle (gpointer data)
 
 		hash = decode_txt_record (handle->text,
 					  handle->text_len);
-		
+
 		handle->callback (data,
 				  handle->res,
 				  &service,
@@ -1327,7 +1327,7 @@ unicast_resolve_idle (gpointer data)
 	}
 
 	free_resolve_handle (handle);
-	
+
 	return FALSE;
 }
 
@@ -1344,7 +1344,7 @@ unicast_resolve_thread (gpointer data)
 					    &handle->text_len, &handle->text);
 	g_idle_add (unicast_resolve_idle,
 		    handle);
-	
+
 	return NULL;
 }
 
@@ -1380,14 +1380,14 @@ avahi_resolve_host_name_sync_callback (AvahiHostNameResolver *r,
                                        AvahiResolverEvent event,
                                        const char *name G_GNUC_UNUSED,
                                        const AvahiAddress *address,
-                                       AvahiLookupResultFlags flags G_GNUC_UNUSED, 
+                                       AvahiLookupResultFlags flags G_GNUC_UNUSED,
                                        void *user_data)
 {
 	struct sync_resolve_data *data;
         char a[128];
 
         data = user_data;
-        
+
 	if (event == AVAHI_RESOLVER_FOUND) {
 		if (address->proto == AVAHI_PROTO_INET6 &&
 		    address->data.ipv6.address[0] == 0xfe &&
@@ -1418,7 +1418,7 @@ avahi_resolve_host_name (AvahiIfIndex interface,
         int error = 0;
 
  retry:
-	
+
 	resolve_data.got_data = FALSE;
 	resolve_data.got_link_local_ipv6 = FALSE;
         resolve_data.poll = avahi_simple_poll_new ();
@@ -1428,18 +1428,18 @@ avahi_resolve_host_name (AvahiIfIndex interface,
                 goto cleanup;
         }
 
-        client = avahi_client_new (avahi_simple_poll_get (resolve_data.poll), 0, 
+        client = avahi_client_new (avahi_simple_poll_get (resolve_data.poll), 0,
 				   avahi_resolve_sync_client_callback, &resolve_data, &error);
-		
+
 	/* Check wether creating the client object succeeded */
 	if (client == NULL) {
 		g_warning ("Failed to create client: %s\n", avahi_strerror (error));
 		goto cleanup;
 	}
 
-        hr = avahi_host_name_resolver_new (client, interface, protocol, 
+        hr = avahi_host_name_resolver_new (client, interface, protocol,
                                            host_name, AVAHI_PROTO_UNSPEC, 0,
-                                           avahi_resolve_host_name_sync_callback, 
+                                           avahi_resolve_host_name_sync_callback,
                                            &resolve_data);
 
         if (hr == NULL) {
@@ -1450,7 +1450,7 @@ avahi_resolve_host_name (AvahiIfIndex interface,
         for (;;)
                 if (avahi_simple_poll_iterate (resolve_data.poll, -1) != 0)
                         break;
-        
+
 	if (resolve_data.got_link_local_ipv6) {
 		/* We ignore non-routable ipv6 link-local addresses here, because our
 		   api doesn't give the iface, so they are useless. Prefer ipv4 address instead */
@@ -1460,7 +1460,7 @@ avahi_resolve_host_name (AvahiIfIndex interface,
                 avahi_simple_poll_free (resolve_data.poll);
 		client = NULL;
 		resolve_data.poll = NULL;
-		
+
 		goto retry;
 	}
 
@@ -1530,7 +1530,7 @@ avahi_resolve_async_callback (AvahiServiceResolver *r,
 				host = host_name;
 			}
 		}
-		
+
 		handle->callback (handle,
 				  MATE_VFS_OK,
 				  &service,
@@ -1542,7 +1542,7 @@ avahi_resolve_async_callback (AvahiServiceResolver *r,
 				  handle->callback_data);
 
 		g_free (resolved);
-		
+
 		if (hash) {
 			g_hash_table_destroy (hash);
 		}
@@ -1556,7 +1556,7 @@ avahi_resolve_async_callback (AvahiServiceResolver *r,
 				  NULL, 0, NULL,
 				  handle->callback_data);
 	}
-	
+
 	avahi_service_resolver_free (r);
 	free_resolve_handle (handle);
 }
@@ -1596,7 +1596,7 @@ howl_resolve_idle (gpointer data)
 	}
 
 	free_resolve_handle (handle);
-	
+
 	return FALSE;
 }
 
@@ -1631,7 +1631,7 @@ howl_resolve_reply (sw_discovery                   discovery,
 	sw_discovery_cancel (get_global_howl_session (),
 			     handle->howl_id);
 	g_source_remove (handle->timeout_tag);
-	
+
 	handle->idle_tag = g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
 					    howl_resolve_idle,
 					    handle,
@@ -1643,7 +1643,7 @@ static gboolean
 howl_resolve_timeout (gpointer data)
 {
 	MateVFSDNSSDResolveHandle *handle;
-	
+
 	handle = data;
 
 	handle->callback (handle,
@@ -1663,9 +1663,9 @@ howl_resolve_timeout (gpointer data)
 		sw_discovery_cancel (get_global_howl_session (),
 				     handle->howl_id);
 	}
-	
+
 	free_resolve_handle (handle);
-	
+
 	return FALSE;
 }
 
@@ -1692,10 +1692,10 @@ howl_resolve_timeout (gpointer data)
  *
  * The @timeout argument is primarily useful for local resolves, since the
  * host owning the service might no longer be around to answer.
- * 
+ *
  * Return value: an integer representing the result of the operation.
  */
-MateVFSResult			      
+MateVFSResult
 mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle_out,
 			  const char *name,
 			  const char *type,
@@ -1708,7 +1708,7 @@ mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle_out,
 	MateVFSDNSSDResolveHandle *handle;
 
 	*handle_out = NULL;
-	
+
 	handle = g_new0 (MateVFSDNSSDResolveHandle, 1);
 	handle->name = g_strdup (name);
 	handle->domain = g_strdup (domain);
@@ -1716,7 +1716,7 @@ mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle_out,
 	handle->callback = callback;
 	handle->callback_data = callback_data;
 	handle->callback_data_destroy_func = callback_data_destroy_func;
-	
+
 	if (strcmp (domain, "local") == 0) {
 #ifdef HAVE_AVAHI
 		AvahiClient *client;
@@ -1725,8 +1725,8 @@ mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle_out,
 		handle->is_local = TRUE;
 		client = get_global_avahi_client ();
 		if (client) {
-			sr = avahi_service_resolver_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 
-							 name, type, domain, AVAHI_PROTO_UNSPEC, 
+			sr = avahi_service_resolver_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC,
+							 name, type, domain, AVAHI_PROTO_UNSPEC,
 							 AVAHI_LOOKUP_NO_ADDRESS,
 							 avahi_resolve_async_callback, handle);
 			if (sr != NULL) {
@@ -1739,13 +1739,13 @@ mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle_out,
 #elif defined (HAVE_HOWL)
 		sw_result res;
 		sw_discovery session;
-		
+
 		handle->is_local = TRUE;
 
 		session = get_global_howl_session ();
 		if (session) {
 			res = sw_discovery_resolve (session,
-						    0, 
+						    0,
 						    name,
 						    type,
 						    domain,
@@ -1758,7 +1758,7 @@ mate_vfs_dns_sd_resolve (MateVFSDNSSDResolveHandle **handle_out,
 									     howl_resolve_timeout,
 									     handle);
 				}
-				
+
 				*handle_out = handle;
 				return MATE_VFS_OK;
 			}
@@ -1810,7 +1810,7 @@ mate_vfs_dns_sd_cancel_resolve (MateVFSDNSSDResolveHandle *handle)
 					     handle->howl_id);
 		}
 		free_resolve_handle (handle);
-		
+
 #endif
 		return MATE_VFS_OK;
 	} else {
@@ -1828,7 +1828,7 @@ find_existing_service (GArray *array,
 {
 	MateVFSDNSSDService *existing;
 	int i;
-	
+
 	for (i = 0; i < array->len; i++) {
 		existing = &g_array_index (array, MateVFSDNSSDService, i);
 		if (strcmp (existing->name, name) == 0 &&
@@ -1838,7 +1838,7 @@ find_existing_service (GArray *array,
 		}
 	}
 	return -1;
-		    
+
 }
 #endif
 
@@ -1860,7 +1860,7 @@ avahi_browse_sync_client_callback (AvahiClient *client, AvahiClientState state, 
 	}
 }
 
-static void 
+static void
 avahi_browse_sync_callback (AvahiServiceBrowser *b,
 			    AvahiIfIndex interface,
 			    AvahiProtocol protocol,
@@ -1877,18 +1877,18 @@ avahi_browse_sync_callback (AvahiServiceBrowser *b,
 	gboolean free_service;
 
 	data = user_data;
-	
+
 	free_service = TRUE;
 	service.name = g_strdup (name);
 	service.type = g_strdup (type);
 	service.domain = g_strdup (domain);
-	
+
 	if (event == AVAHI_BROWSER_NEW) {
 		if (find_existing_service (data->array, service.name, service.type,
 					   service.domain) == -1) {
 			free_service = FALSE;
 			g_array_append_val (data->array, service);
-		} 
+		}
 	} else if (event == AVAHI_BROWSER_REMOVE) {
 		i = find_existing_service (data->array, service.name, service.type,
 					   service.domain);
@@ -1908,14 +1908,14 @@ avahi_browse_sync_callback (AvahiServiceBrowser *b,
 		g_free (service.name);
 		g_free (service.type);
 		g_free (service.domain);
-	}	
+	}
 }
 
 static void
 stop_poll_timeout (AvahiTimeout *timeout, void *user_data)
 {
 	AvahiSimplePoll *poll = user_data;
-	
+
 	avahi_simple_poll_quit (poll);
 }
 
@@ -1941,7 +1941,7 @@ howl_browse_reply_sync (sw_discovery                  discovery,
 	gboolean free_service;
 
 	array = extra;
-	
+
 	if (status == SW_DISCOVERY_BROWSE_RELEASE) {
 		/* free in an idle to make sure the other idles are done,
 		   and to give sane environment for destroy callback */
@@ -1952,7 +1952,7 @@ howl_browse_reply_sync (sw_discovery                  discovery,
 	service.name = g_strdup (name);
 	service.type = g_strdup (type);
 	service.domain = g_strdup (domain);
-	
+
 	/* We don't want last dots in the domain or type */
 	len = strlen (service.type);
 	if (len > 0 && service.type[len-1] == '.')
@@ -1960,13 +1960,13 @@ howl_browse_reply_sync (sw_discovery                  discovery,
 	len = strlen (service.domain);
 	if (len > 0 && service.domain[len-1] == '.')
 		service.domain[len-1] = 0;
-	
+
 	if (status == SW_DISCOVERY_BROWSE_ADD_SERVICE) {
 		if (find_existing_service (array, service.name, service.type,
 					   service.domain) == -1) {
 			free_service = FALSE;
 			g_array_append_val (array, service);
-		} 
+		}
 	} else if (status == SW_DISCOVERY_BROWSE_REMOVE_SERVICE) {
 		i = find_existing_service (array, service.name, service.type,
 					   service.domain);
@@ -1980,12 +1980,12 @@ howl_browse_reply_sync (sw_discovery                  discovery,
 	} else {
 		g_warning ("Unknown browse status\n");
 	}
-	
+
 	if (free_service) {
 		g_free (service.name);
 		g_free (service.type);
 		g_free (service.domain);
-	}	
+	}
 	return SW_OKAY;
 }
 #endif /* HAVE_HOWL */
@@ -2006,7 +2006,7 @@ howl_browse_reply_sync (sw_discovery                  discovery,
  * know when you've gotten the full set of return values when using multicast.
  *
  * The returned list can be freed with mate_vfs_dns_sd_service_list_free().
- * 
+ *
  * This is a synchronous version of mate_vfs_dns_sd_browse(), see that for
  * more details.
  *
@@ -2021,7 +2021,7 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 {
 	*n_services = 0;
 	*services = NULL;
-	
+
 	if (strcmp (domain, "local") == 0) {
 #ifdef HAVE_AVAHI
 		AvahiSimplePoll *simple_poll;
@@ -2043,7 +2043,7 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 		poll = avahi_simple_poll_get (simple_poll);
 		client = avahi_client_new (poll, 0,
 					   avahi_browse_sync_client_callback, &data, &error);
-		
+
 		/* Check wether creating the client object succeeded */
 		if (client == NULL) {
 			g_warning ("Failed to create client: %s\n", avahi_strerror (error));
@@ -2054,7 +2054,7 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 
 		array = g_array_new (FALSE, FALSE, sizeof (MateVFSDNSSDService));
 		data.array = array;
-		sb = avahi_service_browser_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, type, NULL, 
+		sb = avahi_service_browser_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, type, NULL,
 						AVAHI_LOOKUP_USE_MULTICAST, avahi_browse_sync_callback, &data);
 		if (sb == NULL) {
 			g_warning ("Failed to create service browser: %s\n", avahi_strerror (avahi_client_errno (client)));
@@ -2073,14 +2073,14 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 			if (avahi_simple_poll_iterate (simple_poll, -1) != 0)
 				break;
 
-		
+
 		avahi_service_browser_free (sb);
 		avahi_client_free (client);
 		avahi_simple_poll_free (simple_poll);
 
 		*n_services = array->len;
 		*services = (MateVFSDNSSDService *)g_array_free (array, FALSE);
-		
+
 		return MATE_VFS_OK;
 #elif defined (HAVE_HOWL)
 		sw_discovery session;
@@ -2101,7 +2101,7 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 			sw_discovery_fina (session);
 			return MATE_VFS_ERROR_GENERIC;
 		}
-		
+
 		array = g_array_new (FALSE, FALSE, sizeof (MateVFSDNSSDService));
 		res = sw_discovery_browse (session,
 					   0,
@@ -2115,31 +2115,31 @@ mate_vfs_dns_sd_browse_sync (const char *domain,
 			sw_discovery_fina (session);
 			return MATE_VFS_ERROR_GENERIC;
 		}
-		
+
 		gettimeofday (&end_tv, NULL);
 		tv = end_tv;
-		
+
 		end_tv.tv_sec += timeout_msec / 1000;
 		end_tv.tv_usec += (timeout_msec % 1000) * 1000;
 		end_tv.tv_sec += end_tv.tv_usec / 1000000;
 		end_tv.tv_usec %= 1000000;
-		
+
 		do {
 			timeout = timeout_msec;
 			sw_salt_step (salt, &timeout);
 
 			gettimeofday (&tv, NULL);
-			timeout_msec = (end_tv.tv_sec - tv.tv_sec) * 1000 + 
+			timeout_msec = (end_tv.tv_sec - tv.tv_sec) * 1000 +
 				(end_tv.tv_usec - tv.tv_usec) / 1000;
 		} while (timeout_msec > 0);
-		
+
 		sw_discovery_cancel (session, browse_id);
-					  
+
 		sw_discovery_fina (session);
 
 		*n_services = array->len;
 		*services = (MateVFSDNSSDService *)g_array_free (array, FALSE);
-		
+
 		return MATE_VFS_OK;
 #else
 		return MATE_VFS_ERROR_NOT_SUPPORTED;
@@ -2180,7 +2180,7 @@ avahi_resolve_sync_callback (AvahiServiceResolver *r,
 		data->text = g_malloc (data->text_len);
 		avahi_string_list_serialize (txt, data->text, data->text_len);
 	}
-	
+
 	avahi_service_resolver_free (r);
         avahi_simple_poll_quit (data->poll);
 }
@@ -2218,7 +2218,7 @@ howl_resolve_reply_sync (sw_discovery                   discovery,
 	data->port = port;
 	data->text = g_memdup (text_record, text_record_len);
 	data->text_len = text_record_len;
-	
+
 	return SW_OKAY;
 }
 #endif
@@ -2244,7 +2244,7 @@ howl_resolve_reply_sync (sw_discovery                   discovery,
  *
  * Return value: an integer representing the result of the operation.
  */
-MateVFSResult			      
+MateVFSResult
 mate_vfs_dns_sd_resolve_sync (const char *name,
 			       const char *type,
 			       const char *domain,
@@ -2258,7 +2258,7 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 	int text_raw_len;
 	char *text_raw;
 	MateVFSResult res;
-	
+
 	if (strcmp (domain, "local") == 0) {
 #ifdef HAVE_AVAHI
 		AvahiSimplePoll *simple_poll;
@@ -2275,9 +2275,9 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 			return MATE_VFS_ERROR_GENERIC;
 		}
 
-		client = avahi_client_new (avahi_simple_poll_get (simple_poll), 0, 
+		client = avahi_client_new (avahi_simple_poll_get (simple_poll), 0,
 					   avahi_resolve_sync_client_callback, &resolve_data, &error);
-		
+
 		/* Check wether creating the client object succeeded */
 		if (client == NULL) {
 			g_warning ("Failed to create client: %s\n", avahi_strerror (error));
@@ -2288,8 +2288,8 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 		if (!text && !text_raw_out)
 			flags|= AVAHI_LOOKUP_NO_TXT;
 
-		sr = avahi_service_resolver_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 
-						 name, type, domain, AVAHI_PROTO_UNSPEC, 
+		sr = avahi_service_resolver_new (client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC,
+						 name, type, domain, AVAHI_PROTO_UNSPEC,
 						 flags, avahi_resolve_sync_callback, &resolve_data);
 		if (sr == NULL) {
 			g_warning ("Failed to resolve service '%s': %s\n", name, avahi_strerror (avahi_client_errno (client)));
@@ -2308,7 +2308,7 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 
 		if (resolve_data.got_data) {
 			MateVFSResult result = MATE_VFS_OK;
-			
+
 			if (g_str_has_suffix (resolve_data.host, ".local")) {
 				result = avahi_resolve_host_name (
 					resolve_data.interface, resolve_data.protocol,
@@ -2330,7 +2330,7 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 			}
 			return result;
 		}
-		
+
 		return MATE_VFS_ERROR_HOST_NOT_FOUND;
 #elif defined (HAVE_HOWL)
 		sw_discovery session;
@@ -2340,7 +2340,7 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 		sw_discovery_oid resolve_id;
 		struct timeval end_tv, tv;
 		struct sync_resolve_data resolve_data = {0};
-		
+
 		if (sw_discovery_init (&session) != SW_OKAY) {
 			g_warning ("mate_vfs_dns_sd_resolve_sync - howl init failed\n");
 			return MATE_VFS_ERROR_GENERIC;
@@ -2351,9 +2351,9 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 			sw_discovery_fina (session);
 			return MATE_VFS_ERROR_GENERIC;
 		}
-		
+
 		res = sw_discovery_resolve (session,
-					    0, 
+					    0,
 					    name, type, domain,
 					    howl_resolve_reply_sync,
 					    &resolve_data,
@@ -2363,26 +2363,26 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 			sw_discovery_fina (session);
 			return MATE_VFS_ERROR_GENERIC;
 		}
-		
+
 		gettimeofday (&end_tv, NULL);
 		tv = end_tv;
-		
+
 		end_tv.tv_sec += timeout_msec / 1000;
 		end_tv.tv_usec += (timeout_msec % 1000) * 1000;
 		end_tv.tv_sec += end_tv.tv_usec / 1000000;
 		end_tv.tv_usec %= 1000000;
-		
+
 		do {
 			timeout = timeout_msec;
 			sw_salt_step (salt, &timeout);
 
 			gettimeofday (&tv, NULL);
-			timeout_msec = (end_tv.tv_sec - tv.tv_sec) * 1000 + 
+			timeout_msec = (end_tv.tv_sec - tv.tv_sec) * 1000 +
 				(end_tv.tv_usec - tv.tv_usec) / 1000;
 		} while (!resolve_data.got_data && timeout_msec > 0);
-		
+
 		sw_discovery_cancel (session, resolve_id);
-					  
+
 		sw_discovery_fina (session);
 
 		if (resolve_data.got_data) {
@@ -2398,7 +2398,7 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 			}
 			return MATE_VFS_OK;
 		}
-		
+
 		return MATE_VFS_ERROR_HOST_NOT_FOUND;
 #else
 		return MATE_VFS_ERROR_NOT_SUPPORTED;
@@ -2412,7 +2412,7 @@ mate_vfs_dns_sd_resolve_sync (const char *name,
 			if (text != NULL) {
 				*text = decode_txt_record (text_raw, text_raw_len);
 			}
-			
+
 			if (text_raw_len_out != NULL) {
 				*text_raw_len_out = text_raw_len;
 				*text_raw_out = text_raw;
@@ -2437,7 +2437,7 @@ mate_vfs_dns_sd_service_list_free (MateVFSDNSSDService *services,
 				    int n_services)
 {
 	int i;
-	
+
 	for (i = 0; i < n_services; i++) {
 		g_free (services[i].name);
 		g_free (services[i].type);
@@ -2498,7 +2498,7 @@ mate_vfs_get_default_browse_domains (void)
 	char **domainsv;
 	MateConfClient *client;
 	int i;
-	
+
 	domain = NULL;
 	if (gethostname (hostname, sizeof(hostname)) == 0) {
 		dot = strchr (hostname, '.');
@@ -2514,7 +2514,7 @@ mate_vfs_get_default_browse_domains (void)
 		mate_vfs_dns_sd_list_browse_domains_sync (domain,
 							   2000,
 							   &domains);
-		
+
 	}
 
 	if (!mateconf_is_initialized ()) {
@@ -2529,16 +2529,16 @@ mate_vfs_get_default_browse_domains (void)
 
 	if (extra_domains != NULL) {
 		domainsv = g_strsplit (extra_domains, ",", 0);
-		
+
 		for (i = 0; domainsv[i] != NULL; i++) {
 			domains = g_list_prepend (domains, g_strdup (domainsv[i]));
 		}
-		
+
 		g_strfreev (domainsv);
 	}
 
 	g_free (extra_domains);
-	
+
 	g_object_unref (G_OBJECT (client));
 
 	return domains;

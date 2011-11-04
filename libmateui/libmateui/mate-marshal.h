@@ -4,9 +4,7 @@
 
 #include	<glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+G_BEGIN_DECLS
 
 /* BOOLEAN:INT,ENUM,BOOLEAN,ENUM,BOOLEAN (./mate-marshal.list:1) */
 extern void _mate_marshal_BOOLEAN__INT_ENUM_BOOLEAN_ENUM_BOOLEAN (GClosure     *closure,
@@ -75,9 +73,7 @@ extern void _mate_marshal_VOID__UINT_UINT_UINT_UINT (GClosure     *closure,
                                                      gpointer      invocation_hint,
                                                      gpointer      marshal_data);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif /* ___mate_marshal_MARSHAL_H__ */
 

@@ -88,7 +88,7 @@ mateweather_mateconf_set_bool (MateWeatherMateConf  *ctx,
 			 GError        **opt_error)
 {
     gchar *full_key;
-    
+
     g_return_if_fail (ctx != NULL);
     g_return_if_fail (key != NULL);
     g_return_if_fail (opt_error == NULL || *opt_error == NULL);
@@ -105,7 +105,7 @@ mateweather_mateconf_set_int (MateWeatherMateConf  *ctx,
 			GError        **opt_error)
 {
     gchar *full_key;
-    
+
     g_return_if_fail (ctx != NULL);
     g_return_if_fail (key != NULL);
     g_return_if_fail (opt_error == NULL || *opt_error == NULL);
@@ -122,7 +122,7 @@ mateweather_mateconf_set_string (MateWeatherMateConf  *ctx,
 			   GError        **opt_error)
 {
     gchar *full_key;
-    
+
     g_return_if_fail (ctx != NULL);
     g_return_if_fail (key != NULL);
     g_return_if_fail (opt_error == NULL || *opt_error == NULL);
@@ -221,12 +221,12 @@ mateweather_mateconf_get_location (MateWeatherMateConf *ctx)
         /* TRANSLATOR: Change this to the code of your default location that
 	 * corresponds to the DEFAULT_LOCATION name you put above. This is
 	 * normally a four-letter (ICAO) code and can be found in
-	 * http://git.mate.org/cgit/libmateweather/plain/data/Locations.xml.in
+	 * http://git.gnome.org/cgit/libmateweather/plain/data/Locations.xml.in
 	 * NB. The web page is over 1.7MB in size.
 	 * Pick a default location like a capital city so that it would be ok
 	 * for more of your users. For example, for Greek, we use "LGAV" for
 	 * the capital city, Athens.
-	 * 
+	 *
 	 * If you do not require a DEFAULT_CODE, set this to "DEFAULT_CODE".
 	 */
         if (strcmp ("DEFAULT_CODE", _("DEFAULT_CODE")))
@@ -242,10 +242,10 @@ mateweather_mateconf_get_location (MateWeatherMateConf *ctx)
 	 * corresponds to the DEFAULT_LOCATION and DEFAULT_CODE you put above.
 	 * Normally, US and Canada locations have zones while the rest do not.
 	 * Check
-	 * http://git.mate.org/cgit/libmateweather/plain/data/Locations.xml.in
+	 * http://git.gnome.org/cgit/libmateweather/plain/data/Locations.xml.in
 	 * as any zone you put here must also be present in the Locations.xml
 	 * file.
-	 * 
+	 *
 	 * If your default location does not have a zone, set this to
 	 * "DEFAULT_ZONE".
 	 */
@@ -262,7 +262,7 @@ mateweather_mateconf_get_location (MateWeatherMateConf *ctx)
 	 * corresponds to the DEFAULT_LOCATION and DEFAULT_CODE you put above.
 	 * Normally, US and Canada locations have radar names while the rest do
 	 * not. Check
-	 * http://git.mate.org/cgit/libmateweather/plain/data/Locations.xml.in
+	 * http://git.gnome.org/cgit/libmateweather/plain/data/Locations.xml.in
 	 * as any radar you put here must also be present in the Locations.xml
 	 * file.
 	 *
@@ -282,10 +282,10 @@ mateweather_mateconf_get_location (MateWeatherMateConf *ctx)
         /* TRANSLATOR: Change this to the coordinates of your default location
 	 * that corresponds to the DEFAULT_LOCATION and DEFAULT_CODE you put
 	 * above. Check
-	 * http://git.mate.org/cgit/libmateweather/plain/data/Locations.xml.in
+	 * http://git.gnome.org/cgit/libmateweather/plain/data/Locations.xml.in
 	 * as any coordinates you put here must also be present in the
 	 * Locations.xml file.
-	 * 
+	 *
 	 * If your default location does not have known coordinates, set this
 	 * to " " (or space).
 	 * If you do not have a default location, set this to

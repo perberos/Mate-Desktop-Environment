@@ -3,7 +3,7 @@
 	<refentrytitle>Monikers in the MateComponent Component System</refentrytitle>
 	<refmiscinfo>LIBMATECOMPONENT Library</refmiscinfo>
     </refmeta>
-    
+
     <para>Monikers in the MateComponent Component System.</para>
     <para>Miguel de Icaza (miguel@ximian.com)</para>
 
@@ -34,7 +34,7 @@
 		monikers either because you created the moniker
 		manually, or from a stringified representation of a
 		moniker.</para>
-	    
+
 	    <para>Here is a list of stringified monikers, and an
 		interpretation of it:</para>
 
@@ -65,7 +65,7 @@
 			oafid:MATE:Gnumeric:WorkbookFactory:1.0:new:
 			</literal></term>
 		    <listitem> <para>
-			This moniker represents a Gnumeric Workbook instance. 
+			This moniker represents a Gnumeric Workbook instance.
 			Notice that we are using the exact same OAFID
 			as the example before, but there is a "new:"
 			suffix at the end.
@@ -112,7 +112,7 @@
 
 		<varlistentry>
 		    <term><literal>
-			http://www.mate.org
+			http://www.gnome.org
 			</literal></term>
 		    <listitem> <para>
 			This one represents the MATE web site.
@@ -178,11 +178,11 @@
 
 		<varlistentry>
 		    <term><literal>
-			http://www.mate.org/index.html!title
+			http://www.gnome.org/index.html!title
 			</literal></term>
 		    <listitem> <para>
 			This represents the title element in the HTML
-			web page at <literal>www.mate.org</literal>.
+			web page at <literal>www.gnome.org</literal>.
 			</para>
 		    </listitem>
 		</varlistentry>
@@ -240,24 +240,24 @@
 
 		<varlistentry>
 		    <term><literal>
-			http://www.mate.org/index.html.gz#gunzip#html:title
+			http://www.gnome.org/index.html.gz#gunzip#html:title
 			</literal></term>
 		    <listitem> <para>
 			This will reutrn the title element of the
-			compressed HTML file at 
-			<literal>http://www.mate.org/index.html.gz</literal>
+			compressed HTML file at
+			<literal>http://www.gnome.org/index.html.gz</literal>
 			</para>
 		    </listitem>
 		</varlistentry>
 
 		<varlistentry>
 		    <term><literal>
-			ftp://ftp.mate.org/mate-core-1.0.tar.gz#utar/mate-core-1.0/ChangeLog
+			ftp://ftp.gnome.org/mate-core-1.0.tar.gz#utar/mate-core-1.0/ChangeLog
 			</literal></term>
 		    <listitem> <para>
 			A reference to the ChangeLog file contained in
 			the compressed mate-core-1.0.tar.gz tar file
-			at <literal>ftp://ftp.mate.org</literal>.
+			at <literal>ftp://ftp.gnome.org</literal>.
 			</para>
 		    </listitem>
 		</varlistentry>
@@ -346,7 +346,7 @@
 	    <programlisting>
 	moniker = matecomponent_moniker_client_new_from_name (moniker_string);
 	    </programlisting>
-	    
+
 	    <para>
 		Now, a moniker is only interesting because it can
 		yield other objects when resolved.  During the
@@ -360,7 +360,7 @@
 
 	control = moniker-&gt;resolve ("MateComponent/Control")
 	    </programlisting>
-	    
+
 	    <para> This would request the moniker to return an object
 		that implements the IDL:MateComponent/Control:1.0 interface.
 		This means that the object could be embedded as a
@@ -380,17 +380,17 @@
 	    <programlisting>
 	MateComponent::Unknown matecomponent_object_get (char *moniker_string, char *interface);
 	    </programlisting>
-	    
+
 	    <para> Now, as I said, the resolution process might yield
 		very different objects depending on the interface
 		being requested, for example:</para>
 	    <programlisting>
-	x = matecomponent_object_get ("http://www.mate.org", "MateComponent/Control")
-	y = matecomponent_object_get ("http://www.mate.org", "MateComponent/Stream")
+	x = matecomponent_object_get ("http://www.gnome.org", "MateComponent/Control")
+	y = matecomponent_object_get ("http://www.gnome.org", "MateComponent/Stream")
 	    </programlisting>
 
 	    <para>The "x" object might launch Mozilla which would in turn load
-		<literal>www.mate.org</literal>, and the returned
+		<literal>www.gnome.org</literal>, and the returned
 		object can be used as a MateComponent Control, and used in
 		your application as a widget.</para>
 	    <para> The "y" object on the other hand does not need all
@@ -400,7 +400,7 @@
 		maybe a wget-based matecomponent server, or a libghttp
 		server. </para>
 	    <para> Note that even if the stringified versions of the
-		monikers were the same (ie, "http://www.mate.org")
+		monikers were the same (ie, "http://www.gnome.org")
 		the resulting objects might differ wildely depending
 		on the interface being requested. </para>
 
@@ -464,7 +464,7 @@
 		    </listitem>
 		</varlistentry>
 	    </variablelist>
-	    
+
 	</refsect2>
 
 	<refsect2><title>Creating Monikers</title>
@@ -479,15 +479,15 @@
 
 	    <refsect3><title>Comparing the Moniker name space with the
 		Unix Name Space</title>
-		
+
 		<para> Lets start simple.  A moniker is a reference to
 		    an object[1].  To actually use the object, you
 		    have to "resolve" the moniker.  The term used in
 		    the literature is "binding the object". </para>
-		
+
 		<para> The result of resolving the moniker is a
 		    <literal>MateComponent::Unknown</literal> object.</para>
-		
+
 		<para>Think of a moniker as a pathname.  And think of the
 		    binding process as the "open" system call on Unix.</para>
 
@@ -553,7 +553,7 @@
 		given object that would fully identify it, and pass it
 		through a drag and drop operation or a cut and paste
 		operation to the recipient application.</para>
-	
+
 	    <para>The recipient application then can resolve the
 		moniker against the interface required (in the MateComponent
 		case, MateComponent/Embeddable, or MateComponent/Control would be a
@@ -588,7 +588,7 @@
 	    <programlisting>
 	matecomponent_get_object ("http://www.helixcode.com", "MateComponent/Control");
 	    </programlisting>
-	    
+
 	    <para>This could return an embeddable Mozilla component
 		that is suitable to be embedded into your application
 		as a widget (because we are requesting the moniker to
@@ -609,13 +609,13 @@
 		the <literal>item</literal> moniker,
 		the <literal>oafid</literal> moniker and
 		the <literal>new</literal> moniker.</para>
-	    
+
 	    <refsect3><title>The file moniker</title>
-		
+
 		<para>The file moniker is used to reference files.
 		    For instance:</para>
 		<programlisting>file:sales.gnumeric</programlisting>
-		
+
 		<para> The file moniker will scan its argument until
 		    it reaches the special characters `#' or `!' which
 		    indicate the end of the filename.</para>
@@ -628,7 +628,7 @@
 		    PersistFile interface, and if this is not
 		    supported, through the PersistStream interface.</para>
 	    </refsect3>
-	    
+
 	    <refsect3><title>The item moniker</title>
 
 
@@ -680,7 +680,7 @@
 
 		<para> For example, lets consider an image viewer
 		    component that can be configured, like this: </para>
-	
+
 		<programlisting>
 	image = matecomponent_get_object ("file.jpg!convert_to_gray=on", "MateComponent/Control")
 		</programlisting>
@@ -718,7 +718,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 	    </refsect3>
 
 	    <refsect3><title>The "new:" moniker</title>
-		
+
 		<para>The new moniker requests from its parent the
 		    "MateComponent/GenericFactory" interface and invokes the
 		    method create_instance in the interface.</para>
@@ -727,7 +727,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		<programlisting>
 		matecomponent_get_object ("oafid:RandomFactory:new:", iface);
 		</programlisting>
-		
+
 		<para>In the example above "RandomFactory" is the
 		    OAFID for the factory for a certain object.
 		    During the resolution process, the "new:" moniker
@@ -736,7 +736,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		    the traditional factory interface in MATE for
 		    creating new object instances) and then invoke the
 		    new_instance method on it.</para>
-		    
+
 		<para>Historically GNORBA (the old MATE object
 		    activation system) and OAF (the new object
 		    activation system) implemented a special "hack" to
@@ -744,7 +744,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		    description files for the object activation system
 		    was overloaded, there were three types of
 		    activation mechanism defined:</para>
-		
+
 		<itemizedlist>
 		    <listitem><para>activate object implementation from an
 			executable.</para></listitem>
@@ -805,7 +805,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		<programlisting>
 	MateComponent_Property auto_save;
 	CORBA_Any value;
-	
+
 	auto_save = matecomponent_get_object (
 		"config:gnumeric/auto-save", "/MateComponent/Property");
 	value = matecomponent_property_get_value (auto_save, &amp;ev);
@@ -1004,7 +1004,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		    load the actual configuration file, and provide
 		    access to it.
 		    </para>
-		
+
 		<formalpara><title>Transactional setting of values.</title>
 
 		    <para>It might make sense to "batch" a number of
@@ -1017,7 +1017,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		</formalpara>
 		<programlisting>
 	background = matecomponent_get_object ("config:desktop/background", "PropertyBag");
-	matecomponent_property_bag_set_values (background, 
+	matecomponent_property_bag_set_values (background,
 		matecomponent_property_list_new (
 			"gradient", "string", "true",
 			"color1",   "string"  "red",
@@ -1045,7 +1045,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		</programlisting>
 		<para>This would allow the listener code to batch all
 		    the expensive requests into a single pass.</para>
-		
+
 		<formalpara><title>Configuration handlers</title>
 		    <para>Consider the example above, we would like to
 			be able to change properties on the system and
@@ -1111,7 +1111,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 		    basically a shared library moniker handler that
 		    provides a cache for the IDL:MateComponent/Stream:1.0
 		    interface.</para>
-		
+
 		<para>This moniker is very simple, during resolution
 		    it requests the IDL:MateComponent/Stream:1.0 interface
 		    from its parent and it can only expose the
@@ -1151,7 +1151,7 @@ eog_item_container_get_object (MateComponentObject *o, char *name)
 	file:/home/miguel/mail-backup.tar#utar:2000/may/1001
 	ftp://ftp.helixcode.com/pub/sources/mate-libs-1.2.tar.gz#gunzip#utar:/README
 		</programlisting>
-		
+
 		<para>The beauty of this system is that if two
 		    applications use the same moniker, they would be
 		    sharing the same data without having to uncompress

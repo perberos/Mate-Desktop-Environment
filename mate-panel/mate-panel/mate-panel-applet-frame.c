@@ -100,7 +100,7 @@ mate_panel_applet_frame_paint (GtkWidget    *widget,
 
 	if (!frame->priv->has_handle)
 		return;
-  
+
 	if (gtk_widget_is_drawable (widget)) {
 		GtkOrientation orientation = GTK_ORIENTATION_HORIZONTAL;
 
@@ -309,7 +309,7 @@ mate_panel_applet_frame_size_allocate (GtkWidget     *widget,
 
 	if (child && gtk_widget_get_visible (child))
 		gtk_widget_size_allocate (child, &new_allocation);
-  
+
 	frame->priv->child_allocation = new_allocation;
 
 	mate_panel_applet_frame_update_background_size (frame,
@@ -741,7 +741,7 @@ _mate_panel_applet_frame_applet_broken (MatePanelAppletFrame *frame)
 
 	panel_widget_register_open_dialog (frame->priv->panel, dialog);
 	gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
-	/* FIXME: http://bugzilla.mate.org/show_bug.cgi?id=165132 */
+	/* FIXME: http://bugzilla.gnome.org/show_bug.cgi?id=165132 */
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Error"));
 
 	gtk_widget_show (dialog);
@@ -911,7 +911,7 @@ mate_panel_applet_frame_loading_failed (const char  *iid,
 
 	panel_widget_register_open_dialog (panel, dialog);
 	gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
-	/* FIXME: http://bugzilla.mate.org/show_bug.cgi?id=165132 */
+	/* FIXME: http://bugzilla.gnome.org/show_bug.cgi?id=165132 */
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Error"));
 
 	gtk_widget_show_all (dialog);

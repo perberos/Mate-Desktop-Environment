@@ -29,7 +29,7 @@
 /*
  * The following include helps Solaris copy with its own headers.  (With 64-
  * bit stuff enabled they like to #define open open64, etc.)
- * See http://bugzilla.mate.org/show_bug.cgi?id=71184 for details.
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=71184 for details.
  */
 #ifndef _WIN32
 #include <unistd.h>

@@ -31,7 +31,7 @@ static gboolean     matecorba_use_ipv4           = TRUE;
 #else
 static gboolean     matecorba_use_ipv4           = FALSE;
 #endif
-static gboolean     matecorba_use_ipv6           = FALSE; 
+static gboolean     matecorba_use_ipv6           = FALSE;
 #ifdef G_OS_WIN32
 static gboolean     matecorba_use_usocks         = FALSE;
 #else
@@ -52,7 +52,7 @@ static char        *matecorba_ipsock             = NULL;
 static const char  *matecorba_ipname             = NULL;
 static char        *matecorba_debug_options      = NULL;
 static char        *matecorba_naming_ref         = NULL;
-static GSList      *matecorba_initref_list       = NULL; 
+static GSList      *matecorba_initref_list       = NULL;
 static gboolean     matecorba_use_corbaloc       = FALSE;
 static guint        matecorba_timeout_msec       = 60000; /* 60 seconds - 0 will disable timeouts altogether */
 
@@ -63,7 +63,7 @@ MateCORBA_ORB_start_servers (CORBA_ORB orb)
 	LinkConnectionOptions create_options = 0;
 
 	LINK_MUTEX_LOCK (orb->lock);
-	
+
 	if (orb->servers) { /* beaten to it */
 		LINK_MUTEX_UNLOCK (orb->lock);
 		return;
@@ -98,7 +98,7 @@ MateCORBA_ORB_start_servers (CORBA_ORB orb)
 			link_set_local_hostname(matecorba_net_id);
 		} while (0);
 	}
-		    
+
 	if (!matecorba_ipname)
 		matecorba_ipname = link_get_local_hostname();
 	else
@@ -172,7 +172,7 @@ MateCORBA_ORB_shutdown_servers (CORBA_ORB orb)
 	orb->profiles = NULL;
 
 	g_slist_foreach (orb->servers, (GFunc) g_object_unref, NULL);
-	g_slist_free (orb->servers); 
+	g_slist_free (orb->servers);
 	orb->servers = NULL;
 
 	LINK_MUTEX_UNLOCK (orb->lock);
@@ -300,7 +300,7 @@ shutdown_orb (void)
 
 	init_level = 1; /* clobber it */
 	atexit_shutdown = TRUE;
-	
+
 	CORBA_exception_init (&ev);
 
 	CORBA_ORB_destroy (orb, &ev);
@@ -319,9 +319,9 @@ MateCORBA_initial_reference_protected_id (gchar* id)
         return (!strncmp (id, "RootPOA", strlen("RootPOA")) ||
                 !strncmp (id, "POACurrent", strlen("POACurrent")));
 }
-  
-static void 
-MateCORBA_initial_references_by_user (CORBA_ORB          orb, 
+
+static void
+MateCORBA_initial_references_by_user (CORBA_ORB          orb,
 				  gchar             *naming_ref,
 				  GSList            *initref_list,
 				  CORBA_Environment *ev)
@@ -334,17 +334,17 @@ MateCORBA_initial_references_by_user (CORBA_ORB          orb,
 
 	if (naming_ref) {
 		objref = CORBA_ORB_string_to_object (orb, naming_ref, ev);
-		
+
 		/* FIXME, should abort if invalid option, don't forget
-		 * to free resources allocated by ORB */ 
+		 * to free resources allocated by ORB */
 		if (ev->_major != CORBA_NO_EXCEPTION) {
-			g_warning ("Option ORBNamingIOR has invalid object reference: %s", 
+			g_warning ("Option ORBNamingIOR has invalid object reference: %s",
 				   naming_ref);
 			CORBA_exception_free (ev);
 		} else {
 			/* FIXME, test type of object for
 			 * IDL:omg.org/CosNaming/NamingContext using _is_a()
-			 * operation */ 
+			 * operation */
 			MateCORBA_set_initial_reference (orb, "NameService", objref);
 			MateCORBA_RootObject_release (objref);
 		}
@@ -356,14 +356,14 @@ MateCORBA_initial_references_by_user (CORBA_ORB          orb,
 		g_assert (tuple != NULL);
 		g_assert (tuple->key   != (gchar*)NULL);
 		g_assert (tuple->value != (gchar*)NULL);
-			
+
 		objref = CORBA_ORB_string_to_object (orb, tuple->value, ev);
 
 		/* FIXME, should abort if invalid option,
 		 * don't forget to free resources allocated by
-		 * ORB */ 
+		 * ORB */
 		if (ev->_major != CORBA_NO_EXCEPTION) {
-			g_warning ("Option ORBInitRef has invalid object reference: %s=%s",  
+			g_warning ("Option ORBInitRef has invalid object reference: %s=%s",
 				   tuple->key, tuple->value);
 			CORBA_exception_free (ev);
 		} else {
@@ -373,7 +373,7 @@ MateCORBA_initial_references_by_user (CORBA_ORB          orb,
 			} else {
 				MateCORBA_set_initial_reference (orb, tuple->key, objref);
 			}
-			
+
 			MateCORBA_RootObject_release (objref);
 		}
 	}
@@ -407,7 +407,7 @@ CORBA_ORB_init (int *argc, char **argv,
 		thread_safe = TRUE;
 
 	MateCORBA_option_parse (argc, argv, matecorba_supported_options);
-	
+
 #ifdef G_ENABLE_DEBUG
 	MateCORBA_setup_debug_flags ();
 
@@ -470,16 +470,16 @@ CORBA_ORB_init (int *argc, char **argv,
 	retval->forw_binds = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		g_free,
-		NULL); 
+		NULL);
 
 	MateCORBA_init_internals (retval, ev);
-	/* FIXME, handle exceptions */ 
+	/* FIXME, handle exceptions */
 
-	MateCORBA_initial_references_by_user (retval, 
+	MateCORBA_initial_references_by_user (retval,
 					  matecorba_naming_ref,
 					  matecorba_initref_list,
 					  ev);
-	/* FIXME, handle exceptions */ 
+	/* FIXME, handle exceptions */
 
 	return MateCORBA_RootObject_duplicate (retval);
 }
@@ -508,10 +508,10 @@ CORBA_ORB_object_to_string (CORBA_ORB          orb,
 		if (ev->_major == CORBA_NO_EXCEPTION)
 			return out;
 
-		CORBA_exception_free (ev);	
-		/* fall thru, common marshalling */ 
+		CORBA_exception_free (ev);
+		/* fall thru, common marshalling */
 	}
-	
+
 	buf = giop_send_buffer_use (orb->default_giop_version);
 
 	g_assert (buf->num_used == 1);
@@ -547,7 +547,7 @@ CORBA_ORB_object_to_string (CORBA_ORB          orb,
 	}
 
 	out [k++] = '\0';
-  
+
 	giop_send_buffer_unuse (buf);
 
 	return out;
@@ -593,7 +593,7 @@ CORBA_ORB_string_to_object (CORBA_ORB          orb,
 				return CORBA_OBJECT_NIL;
 			}
 			string = ior;
-		} else 
+		} else
 #endif
 		{
 			CORBA_exception_set_system (
@@ -611,39 +611,39 @@ CORBA_ORB_string_to_object (CORBA_ORB          orb,
 		len = strlen (string);
 		while (len > 0 && !g_ascii_isxdigit (string [len - 1]))
 			len--;
-		
+
 		if (len % 2) {
 #if defined ENABLE_HTTP
 			g_free (ior);
 #endif
 			return CORBA_OBJECT_NIL;
 		}
-		
+
 		tmpbuf = g_alloca (len / 2);
-		
+
 		for (i = 0; i < len; i += 2)
 			tmpbuf [i/2] = (g_ascii_xdigit_value (string [i]) << 4) |
 				g_ascii_xdigit_value (string [i + 1]);
-		
+
 		buf = giop_recv_buffer_use_encaps (tmpbuf, len / 2);
-		
+
 		if (MateCORBA_demarshal_object (&retval, buf, orb)) {
 			CORBA_exception_set_system (
 				ev,
 				ex_CORBA_MARSHAL,
 				CORBA_COMPLETED_NO);
-			
+
 			retval = CORBA_OBJECT_NIL;
 		}
-		
+
 		giop_recv_buffer_unuse (buf);
-#if defined ENABLE_HTTP		
+#if defined ENABLE_HTTP
 		g_free (ior);
 #endif
 		return retval;
 	} else {
 		return MateCORBA_object_by_corbaloc (orb, string, ev);
-	} 
+	}
 }
 
 void
@@ -704,8 +704,8 @@ CORBA_ORB_get_service_information (CORBA_ORB                  orb,
 				   CORBA_ServiceInformation **service_information,
 				   CORBA_Environment         *ev)
 {
-	/* FIXME: 
-         * see http://mail.mate.org/archives/matecorba-list/2003-May/msg00093.html
+	/* FIXME:
+         * see http://mail.gnome.org/archives/matecorba-list/2003-May/msg00093.html
 
 	 * Assigning NULL to parameter service_information is not
 	 * compliant to CORBA spec. This operation is part of pseudo
@@ -730,7 +730,7 @@ CORBA_ORB_get_service_information (CORBA_ORB                  orb,
          * TRUE. If no information for the requested services type is
          * available, the operation returns FALSE (i.e., the service
          * is not supported by this ORB).
-	 */	
+	 */
 	*service_information = NULL;
 
 	return CORBA_FALSE;
@@ -799,11 +799,11 @@ CORBA_ORB_resolve_initial_references (CORBA_ORB          orb,
 	/* FIXME, verify identifier and raise exception for invalid
 	 * service names, valid names might be: NameService, RootPOA,
 	 * SecurityCurrent, PolicyCurrent, etc. */
- 
+
 	if (!orb->initial_refs ||
 	    !(objref = g_hash_table_lookup (orb->initial_refs, identifier)))
 		return CORBA_OBJECT_NIL;
-	
+
 	return MateCORBA_RootObject_duplicate (objref);
 #if 0
  raise_invalid_name:
@@ -902,7 +902,7 @@ CORBA_ORB_create_union_tc (CORBA_ORB                   orb,
 	retval = MateCORBA_TypeCode_allocate ();
 
 	retval->discriminator = MateCORBA_RootObject_duplicate (discriminator_type);
-		
+
 	retval->subtypes  = g_new0 (CORBA_TypeCode, members->_length);
 	retval->subnames  = g_new0 (char *, members->_length);
 	retval->sublabels = g_new0 (CORBA_long, members->_length);
@@ -967,7 +967,7 @@ CORBA_ORB_create_alias_tc (CORBA_ORB             orb,
 	CORBA_TypeCode retval;
 
 	retval = MateCORBA_TypeCode_allocate ();
-	
+
 	retval->subtypes = g_new0 (CORBA_TypeCode, 1);
 
 	retval->kind      = CORBA_tk_alias;
@@ -1324,7 +1324,7 @@ CORBA_ORB_destroy (CORBA_ORB          orb,
 	/* destroy the forward bind hashtable*/
 	g_hash_table_destroy (orb->forw_binds);
 	orb->forw_binds = NULL;
-	
+
 	orb->life_flags |= MateCORBA_LifeF_Destroyed;
 
 	if (orb->lock) {
@@ -1400,13 +1400,13 @@ MateCORBA_ORB_forw_bind (CORBA_ORB                   orb,
 		     CORBA_Object                obj,
 		     CORBA_Environment          *ev)
 {
-	
+
 	if (obj)
 		g_hash_table_insert (orb->forw_binds, objkey->_buffer, obj);
 	else {
 		g_hash_table_remove(orb->forw_binds, objkey->_buffer);
 	}
-	
+
 }
 
 gboolean
@@ -1414,9 +1414,9 @@ MateCORBA_proto_use (const char *name)
 {
 
 	if ((matecorba_use_ipv4   && !strcmp ("IPv4", name)) ||
-	    (matecorba_use_ipv6   && !strcmp ("IPv6", name)) || 
-	    (matecorba_use_usocks && !strcmp ("UNIX", name)) || 
-	    (matecorba_use_irda   && !strcmp ("IrDA", name)) || 
+	    (matecorba_use_ipv6   && !strcmp ("IPv6", name)) ||
+	    (matecorba_use_usocks && !strcmp ("UNIX", name)) ||
+	    (matecorba_use_irda   && !strcmp ("IrDA", name)) ||
 	    (matecorba_use_ssl    && !strcmp ("SSL",  name)))
 		return TRUE;
 
@@ -1425,12 +1425,12 @@ MateCORBA_proto_use (const char *name)
 
 /**
  * MateCORBA_get_giop_recv_limit:
- * 
+ *
  * This function will return the GIOP receive limit. The
  * GIOP receive limit is the maximum number of bytes that
- * are allowed be received in any one ingoing GIOP 
+ * are allowed be received in any one ingoing GIOP
  * communication. This function is essential if an application
- * is about to receive a big amount of data. Knowing the GIOP 
+ * is about to receive a big amount of data. Knowing the GIOP
  * receive limit will enable the application to poll to data
  * in chunks that are below the receive limit.
  *

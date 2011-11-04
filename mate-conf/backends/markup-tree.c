@@ -37,7 +37,7 @@
 #ifdef G_OS_WIN32
 #include <io.h>
 #include <conio.h>
-#define _WIN32_WINNT 0x0500 
+#define _WIN32_WINNT 0x0500
 #include <windows.h>
 
 static int
@@ -166,12 +166,12 @@ markup_tree_get (const char *root_dir,
   tree->file_mode = file_mode;
   tree->merged = merged != FALSE;
 
-  tree->root = markup_dir_new (tree, NULL, "/");  
+  tree->root = markup_dir_new (tree, NULL, "/");
 
   tree->refcount = 1;
 
   g_hash_table_insert (trees_by_root_dir, tree->dirname, tree);
-  
+
   return tree;
 }
 
@@ -208,7 +208,7 @@ markup_tree_rebuild (MarkupTree *tree)
   g_return_if_fail (!markup_dir_needs_sync (tree->root));
 
   markup_dir_free (tree->root);
-  tree->root = markup_dir_new (tree, NULL, "/");  
+  tree->root = markup_dir_new (tree, NULL, "/");
 }
 
 struct _MarkupDir
@@ -357,7 +357,7 @@ markup_tree_get_dir_internal (MarkupTree *tree,
   char **components;
   int i;
   MarkupDir *dir;
-  
+
   g_return_val_if_fail (*full_key == '/', NULL);
 
   /* Split without leading '/' */
@@ -397,7 +397,7 @@ markup_tree_get_dir_internal (MarkupTree *tree,
               dir = NULL;
               goto out;
             }
-          
+
           ++i;
         }
     }
@@ -412,7 +412,7 @@ MarkupDir*
 markup_tree_lookup_dir (MarkupTree *tree,
                         const char *full_key,
                         GError    **err)
-     
+
 {
   return markup_tree_get_dir_internal (tree, full_key, FALSE, err);
 }
@@ -422,7 +422,7 @@ markup_tree_ensure_dir (MarkupTree *tree,
                         const char *full_key,
                         GError    **err)
 {
-  return markup_tree_get_dir_internal (tree, full_key, TRUE, err);  
+  return markup_tree_get_dir_internal (tree, full_key, TRUE, err);
 }
 
 gboolean
@@ -436,7 +436,7 @@ markup_tree_sync (MarkupTree *tree,
           g_set_error (err, MATECONF_ERROR,
                        MATECONF_ERROR_FAILED,
                        _("Failed to write some configuration data to disk\n"));
-          return FALSE;          
+          return FALSE;
         }
     }
 
@@ -575,7 +575,7 @@ static gboolean
 load_entries (MarkupDir *dir)
 {
   /* Load the entries in this directory */
-  
+
   if (dir->entries_loaded)
     return TRUE;
 
@@ -618,7 +618,7 @@ load_entries (MarkupDir *dir)
 
 static gboolean
 load_subdirs (MarkupDir *dir)
-{  
+{
   GDir* dp;
   const char* dent;
   struct stat statbuf;
@@ -627,10 +627,10 @@ load_subdirs (MarkupDir *dir)
   guint len;
   guint subdir_len;
   char *markup_dir;
-  
+
   if (dir->subdirs_loaded)
     return TRUE;
-  
+
   /* We mark it loaded even if the next stuff
    * fails, because we don't want to keep trying and
    * failing, plus we have invariants
@@ -645,9 +645,9 @@ load_subdirs (MarkupDir *dir)
     return TRUE;
 
   markup_dir = markup_dir_build_dir_path (dir, TRUE);
-  
+
   dp = g_dir_open (markup_dir, 0, NULL);
-  
+
   if (dp == NULL)
     {
       /* This is debug-only since it usually happens when creating a
@@ -661,12 +661,12 @@ load_subdirs (MarkupDir *dir)
     }
 
   len = strlen (markup_dir);
-  
+
   subdir_len = PATH_MAX - len;
-  
+
   fullpath = g_new0 (char, subdir_len + len + 2); /* ensure null termination */
   strcpy (fullpath, markup_dir);
-  
+
   fullpath_end = fullpath + len;
   if (*(fullpath_end - 1) != '/')
     {
@@ -685,9 +685,9 @@ load_subdirs (MarkupDir *dir)
        */
       if (dent[0] == '%')
         continue;
-      
+
       len = strlen (dent);
-      
+
       if (len < subdir_len)
         {
           strcpy (fullpath_end, dent);
@@ -704,7 +704,7 @@ load_subdirs (MarkupDir *dir)
               /* This is some kind of cruft, not an XML directory */
               continue;
             }
-        }      
+        }
 
       markup_dir_new (dir->tree, dir, dent);
     }
@@ -728,7 +728,7 @@ markup_dir_lookup_entry (MarkupDir   *dir,
   GSList *tmp;
 
   load_entries (dir);
-  
+
   tmp = dir->entries;
   while (tmp != NULL)
     {
@@ -736,7 +736,7 @@ markup_dir_lookup_entry (MarkupDir   *dir,
 
       if (strcmp (relative_key, entry->name) == 0)
         return entry;
-      
+
       tmp = tmp->next;
     }
 
@@ -750,7 +750,7 @@ markup_dir_ensure_entry (MarkupDir   *dir,
 {
   MarkupEntry *entry;
   GError *tmp_err;
-  
+
   tmp_err = NULL;
   entry = markup_dir_lookup_entry (dir, relative_key, &tmp_err);
   if (tmp_err != NULL)
@@ -758,19 +758,19 @@ markup_dir_ensure_entry (MarkupDir   *dir,
       g_propagate_error (err, tmp_err);
       return NULL;
     }
-  
+
   if (entry != NULL)
     return entry;
 
   g_return_val_if_fail (dir->entries_loaded, NULL);
-  
+
   /* Create a new entry */
   entry = markup_entry_new (dir, relative_key);
 
   /* Need to save this */
   markup_dir_set_entries_need_save (dir);
   markup_dir_queue_sync (dir);
-  
+
   return entry;
 }
 
@@ -780,7 +780,7 @@ markup_dir_lookup_subdir (MarkupDir   *dir,
                           GError     **err)
 {
   GSList *tmp;
-  
+
   load_subdirs (dir);
 
   tmp = dir->subdirs;
@@ -804,7 +804,7 @@ markup_dir_ensure_subdir (MarkupDir   *dir,
 {
   MarkupDir *subdir;
   GError *tmp_err;
-  
+
   tmp_err = NULL;
   subdir = markup_dir_lookup_subdir (dir, relative_key, &tmp_err);
   if (tmp_err != NULL)
@@ -817,14 +817,14 @@ markup_dir_ensure_subdir (MarkupDir   *dir,
     return subdir;
 
   g_return_val_if_fail (dir->subdirs_loaded, NULL);
-      
+
   subdir = markup_dir_new (dir->tree, dir, relative_key);
   markup_dir_set_entries_need_save (subdir); /* so we save empty %mateconf.xml */
-      
+
   /* we don't need to load stuff, since we know the dir didn't exist */
   subdir->entries_loaded = TRUE;
   subdir->subdirs_loaded = TRUE;
-      
+
   return subdir;
 }
 
@@ -862,7 +862,7 @@ static void
 markup_dir_set_entries_need_save (MarkupDir *dir)
 {
   dir->entries_need_save = TRUE;
-  
+
   if (dir->not_in_filesystem)
     {
       /* root must be a filesystem dir */
@@ -880,13 +880,13 @@ clean_old_local_schemas (MarkupEntry *entry)
   GSList *kept_schemas;
 
   kept_schemas = NULL;
-  
+
   tmp = entry->local_schemas;
   while (tmp != NULL)
     {
       LocalSchemaInfo *local_schema = tmp->data;
       gboolean dead = FALSE;
-          
+
       local_schema = tmp->data;
 
       if (entry->value &&
@@ -900,7 +900,7 @@ clean_old_local_schemas (MarkupEntry *entry)
         {
           dead = TRUE;
         }
-          
+
       if (dead)
         {
           local_schema_info_free (local_schema);
@@ -914,7 +914,7 @@ clean_old_local_schemas (MarkupEntry *entry)
     }
 
   g_slist_free (entry->local_schemas);
-  
+
   entry->local_schemas = g_slist_reverse (kept_schemas);
 }
 
@@ -976,12 +976,12 @@ delete_useless_subdirs (MarkupDir *dir)
 
   some_deleted = FALSE;
   kept_subdirs = NULL;
-  
+
   tmp = dir->subdirs;
   while (tmp != NULL)
     {
       MarkupDir *subdir = tmp->data;
-      
+
       if (subdir->entries_loaded && subdir->entries == NULL &&
           subdir->subdirs_loaded && subdir->subdirs == NULL)
         {
@@ -989,7 +989,7 @@ delete_useless_subdirs (MarkupDir *dir)
 	    {
 	      char *fs_dirname;
 	      char *fs_filename;
-          
+
 	      fs_dirname = markup_dir_build_dir_path (subdir, TRUE);
 	      fs_filename = markup_dir_build_file_path (subdir,
 							subdir->save_as_subtree,
@@ -1008,7 +1008,7 @@ delete_useless_subdirs (MarkupDir *dir)
 			     _("Could not remove \"%s\": %s\n"),
 			     fs_dirname, g_strerror (errno));
 		}
-          
+
 	      g_free (fs_dirname);
 	      g_free (fs_filename);
 	    }
@@ -1021,10 +1021,10 @@ delete_useless_subdirs (MarkupDir *dir)
         {
           kept_subdirs = g_slist_prepend (kept_subdirs, subdir);
         }
-      
+
       tmp = tmp->next;
     }
- 
+
   g_slist_free (dir->subdirs);
   dir->subdirs = g_slist_reverse (kept_subdirs);
 
@@ -1062,7 +1062,7 @@ delete_useless_entries (MarkupDir *dir)
   gboolean some_deleted;
 
   some_deleted = FALSE;
-  
+
   kept_entries = NULL;
 
   tmp = dir->entries;
@@ -1071,7 +1071,7 @@ delete_useless_entries (MarkupDir *dir)
       MarkupEntry *entry = tmp->data;
 
       /* mod_user and mod_time don't keep an entry alive */
-      
+
       if (entry->value == NULL &&
           entry->local_schemas == NULL &&
           entry->schema_name == NULL)
@@ -1164,7 +1164,7 @@ markup_dir_sync (MarkupDir *dir)
       dir->save_as_subtree = TRUE;
       recursively_load_subtree (dir);
     }
-  
+
   fs_dirname = markup_dir_build_dir_path (dir, TRUE);
   fs_filename = markup_dir_build_file_path (dir, FALSE, NULL);
   fs_subtree = markup_dir_build_file_path (dir, TRUE, NULL);
@@ -1174,12 +1174,12 @@ markup_dir_sync (MarkupDir *dir)
    * file.  Thus when creating a new dir, we set dir->entries_need_save
    * even though the entry list is initially empty.
    */
-  
+
   if (dir->entries_need_save ||
       (dir->some_subdir_needs_sync && dir->save_as_subtree))
     {
       GError *err;
-      
+
       g_return_val_if_fail (dir->entries_loaded, FALSE);
 
       if (!dir->save_as_subtree)
@@ -1192,14 +1192,14 @@ markup_dir_sync (MarkupDir *dir)
 	  if (delete_useless_entries_recurse (dir))
 	    some_useless_entries = TRUE;
 	}
-      
+
       /* Be sure the directory exists */
       if (!dir->filesystem_dir_probably_exists)
         {
           if (create_filesystem_dir (fs_dirname, dir->tree->dir_mode))
             dir->filesystem_dir_probably_exists = TRUE;
         }
-      
+
       /* Now write the file */
       err = NULL;
       save_tree (dir, dir->save_as_subtree, dir->tree->file_mode, &err);
@@ -1208,7 +1208,7 @@ markup_dir_sync (MarkupDir *dir)
           mateconf_log (GCL_WARNING,
                      _("Failed to write \"%s\": %s\n"),
                      !dir->save_as_subtree ? fs_filename : fs_subtree, err->message);
-          
+
           g_error_free (err);
         }
       else
@@ -1225,9 +1225,9 @@ markup_dir_sync (MarkupDir *dir)
       gboolean one_failed;
 
       g_return_val_if_fail (dir->subdirs_loaded, FALSE);
-      
+
       one_failed = FALSE;
-      
+
       tmp = dir->subdirs;
       while (tmp != NULL)
         {
@@ -1244,7 +1244,7 @@ markup_dir_sync (MarkupDir *dir)
                   if (create_filesystem_dir (fs_dirname, dir->tree->dir_mode))
                     dir->filesystem_dir_probably_exists = TRUE;
                 }
-              
+
               if (!markup_dir_sync (subdir))
                 one_failed = TRUE;
             }
@@ -1278,7 +1278,7 @@ markup_dir_sync (MarkupDir *dir)
       if (delete_useless_subdirs_recurse (dir))
 	some_useless_subdirs = TRUE;
     }
-  
+
   g_free (fs_dirname);
   g_free (fs_filename);
   g_free (fs_subtree);
@@ -1447,7 +1447,7 @@ find_unloaded_locale (const char *locale,
     return FALSE;
 
   *any_unloaded = TRUE;
-  
+
   return TRUE;
 }
 
@@ -1510,7 +1510,7 @@ markup_entry_set_value (MarkupEntry       *entry,
   g_return_if_fail (entry->dir != NULL);
   g_return_if_fail (entry->dir->entries_loaded);
   g_return_if_fail (value != NULL);
-  
+
   if (value->type != MATECONF_VALUE_SCHEMA)
     {
       if (entry->value == value)
@@ -1672,9 +1672,9 @@ markup_entry_unset_value (MarkupEntry *entry,
           g_slist_foreach (entry->local_schemas,
                            (GFunc) local_schema_info_free,
                            NULL);
-          
+
           g_slist_free (entry->local_schemas);
-          
+
           entry->local_schemas = NULL;
         }
       else
@@ -1729,10 +1729,10 @@ markup_entry_set_schema_name (MarkupEntry *entry,
   g_return_if_fail (entry->dir->entries_loaded);
 
   /* schema_name may be NULL to unset it */
-  
+
   g_free (entry->schema_name);
   entry->schema_name = g_strdup (schema_name);
-  
+
   /* Update mod time */
   entry->mod_time = time (NULL);
 
@@ -1943,8 +1943,8 @@ typedef struct
 
   MarkupDir   *root;
   GSList      *dir_stack;
- 
-  MarkupEntry *current_entry;  
+
+  MarkupEntry *current_entry;
   GSList      *value_stack;
   GSList      *value_freelist;
 
@@ -2045,7 +2045,7 @@ parse_info_free (ParseInfo *info)
   g_free (info->locale);
 
   g_slist_free (info->dir_stack);
-  
+
   /* Don't free current_entry - always owned by tree */
 
   g_slist_foreach (info->local_schemas,
@@ -2373,7 +2373,7 @@ parse_value_element (GMarkupParseContext  *context,
 
   MateConfValueType vtype;
   const char *dummy1, *dummy2, *dummy3, *dummy4, *dummy5;
-  
+
 #if 0
   g_assert (ELEMENT_IS ("entry") ||
             ELEMENT_IS ("default") ||
@@ -2422,7 +2422,7 @@ parse_value_element (GMarkupParseContext  *context,
                  "type", element_name); */
       return;
     }
-  
+
   vtype = mateconf_value_type_from_string (type);
   if (vtype == MATECONF_VALUE_INVALID)
     {
@@ -2501,13 +2501,13 @@ parse_value_element (GMarkupParseContext  *context,
 
         if (schema_vtype == MATECONF_VALUE_PAIR)
           {
-            
+
 #if 0
             /* We have to allow missing car_type/cdr_type because
              * old versions of mateconf would write it out that way
              * (if a schema was provided by an app and the
              *  schema was missing these fields)
-             */ 
+             */
             if (car_type == NULL)
               {
                 set_error (error, context, MATECONF_ERROR_PARSE_ERROR,
@@ -2570,7 +2570,7 @@ parse_value_element (GMarkupParseContext  *context,
              * old versions of mateconf would write it out that way
              * (if a schema was provided by an app and the
              *  schema was missing these fields)
-             */ 
+             */
             if (list_type == NULL)
               {
                 set_error (error, context, MATECONF_ERROR_PARSE_ERROR,
@@ -2737,7 +2737,7 @@ parse_entry_element (GMarkupParseContext  *context,
                               "schema", &schema,
                               "type", &type,
                               "gettext_domain", &gettext_domain,
-                          
+
                               /* These are allowed but we don't use them until
                                * parse_value_element
                                */
@@ -2779,14 +2779,14 @@ parse_entry_element (GMarkupParseContext  *context,
           else
             g_error_free (tmp_err);
         }
-  
+
       entry = markup_entry_new (dir_stack_peek (info), name);
       if (value != NULL)
         {
           entry->value = value;
           value_stack_push (info, value, FALSE); /* FALSE since entry owns it */
         }
-      
+
       if (muser)
         markup_entry_set_mod_user (entry, muser);
 
@@ -2795,7 +2795,7 @@ parse_entry_element (GMarkupParseContext  *context,
           GTime vmtime;
 
           vmtime = mateconf_string_to_gulong (mtime);
-      
+
           markup_entry_set_mod_time (entry, vmtime);
         }
 
@@ -2813,7 +2813,7 @@ parse_entry_element (GMarkupParseContext  *context,
       MarkupDir  *dir;
       GSList     *tmp;
       const char *name;
-  
+
       name = NULL;
 
       if (!locate_attributes (context, element_name, attribute_names, attribute_values,
@@ -2866,7 +2866,7 @@ parse_dir_element (GMarkupParseContext  *context,
   MarkupDir  *parent;
   MarkupDir  *dir;
   const char *name;
-  
+
   g_return_if_fail (peek_state (info) == STATE_MATECONF || peek_state (info) == STATE_DIR);
   g_return_if_fail (ELEMENT_IS ("dir"));
 
@@ -2949,7 +2949,7 @@ parse_local_schema_child_element (GMarkupParseContext  *context,
   if (ELEMENT_IS ("default") && !info->parsing_local_descs)
     {
       MateConfValue *value;
-      
+
       push_state (info, STATE_DEFAULT);
 
       value = NULL;
@@ -3136,7 +3136,7 @@ parse_li_element (GMarkupParseContext  *context,
   current_state = peek_state (info);
 
   push_state (info, STATE_LI);
-  
+
   value = NULL;
   parse_value_element (context, element_name, attribute_names,
                        attribute_values, &value,
@@ -3155,7 +3155,7 @@ parse_li_element (GMarkupParseContext  *context,
           slist = mateconf_value_steal_list (list);
           slist = g_slist_append (slist, value);
           mateconf_value_set_list_nocopy (list, slist);
-          
+
           value_stack_push (info, value, FALSE); /* FALSE since list owns it */
         }
       else
@@ -3202,7 +3202,7 @@ parse_value_child_element (GMarkupParseContext  *context,
           g_assert (info->current_entry->value == value_stack_peek (info));
         }
     }
-  
+
   if (ELEMENT_IS ("stringvalue") && !info->parsing_local_descs)
     {
       MateConfValue *value;
@@ -3333,7 +3333,7 @@ start_element_handler (GMarkupParseContext *context,
       break;
 
     case STATE_MATECONF:
-    case STATE_DIR:      
+    case STATE_DIR:
       if (ELEMENT_IS ("entry"))
         {
           parse_entry_element (context, element_name,
@@ -3367,7 +3367,7 @@ start_element_handler (GMarkupParseContext *context,
                                         attribute_names, attribute_values,
                                         info, error);
       break;
-      
+
     case STATE_STRINGVALUE:
       set_error (error, context, MATECONF_ERROR_PARSE_ERROR,
                  _("Element <%s> is not allowed inside a <%s> element"),
@@ -3393,7 +3393,7 @@ end_element_handler (GMarkupParseContext *context,
     {
     case STATE_START:
       break;
-      
+
     case STATE_ENTRY:
       if (!info->parsing_local_descs)
         {
@@ -3458,7 +3458,7 @@ end_element_handler (GMarkupParseContext *context,
               local_schema_info_free (local_schema);
             }
         }
-      
+
       info->current_entry = NULL;
 
       pop_state (info);
@@ -3493,7 +3493,7 @@ end_element_handler (GMarkupParseContext *context,
     case STATE_MATECONF:
       {
 	MarkupDir *dir;
-      
+
 	dir = dir_stack_pop (info);
 
         if (!info->parsing_local_descs)
@@ -3553,7 +3553,7 @@ text_handler (GMarkupParseContext *context,
   if (all_whitespace (text, text_len))
     return;
 
-  /* FIXME http://bugzilla.mate.org/show_bug.cgi?id=70448 would
+  /* FIXME http://bugzilla.gnome.org/show_bug.cgi?id=70448 would
    * allow a nice cleanup here.
    */
 
@@ -3625,7 +3625,7 @@ parse_tree (MarkupDir   *root,
     g_assert (locale == NULL);
 
   filename = markup_dir_build_file_path (root, parse_subtree, locale);
-  
+
   parse_info_init (&info, root, parse_subtree, locale);
 
   error = NULL;
@@ -3652,7 +3652,7 @@ parse_tree (MarkupDir   *root,
     {
       char  text[4096];
       gsize n_bytes;
-      
+
       n_bytes = fread (text, 1, sizeof (text), f);
       if (n_bytes > 0)
 	{
@@ -3714,7 +3714,7 @@ static gboolean write_schema_children (MateConfValue  *value,
                                        gboolean     save_as_subtree);
 
 /* the common case - before we start interning */
-static const char write_indents_static[] = 
+static const char write_indents_static[] =
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"  /* 16 */
   "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"; /* 32 */
 
@@ -3736,30 +3736,30 @@ write_value_element (MateConfValue *value,
   /* We are at the "<foo bar="whatever"" stage here,
    * <foo> still missing the closing >
    */
-  
+
   if (fprintf (f, " type=\"%s\"",
                mateconf_value_type_to_string (value->type)) < 0)
     return FALSE;
-  
+
   switch (value->type)
-    {          
+    {
     case MATECONF_VALUE_LIST:
       if (fprintf (f, " ltype=\"%s\"",
                    mateconf_value_type_to_string (mateconf_value_get_list_type (value))) < 0)
         return FALSE;
       break;
-      
+
     case MATECONF_VALUE_SCHEMA:
       {
         MateConfSchema *schema;
         MateConfValueType stype;
         const char *owner;
         const char *gettext_domain;
-        
+
         schema = mateconf_value_get_schema (value);
 
         stype = mateconf_schema_get_type (schema);
-        
+
         if (fprintf (f, " stype=\"%s\"",
                      mateconf_value_type_to_string (stype)) < 0)
           return FALSE;
@@ -3771,33 +3771,33 @@ write_value_element (MateConfValue *value,
             char *s;
 
             s = g_markup_escape_text (owner, -1);
-            
+
             if (fprintf (f, " owner=\"%s\"", s) < 0)
               {
                 g_free (s);
                 return FALSE;
               }
-            
+
             g_free (s);
           }
 
         gettext_domain = mateconf_schema_get_gettext_domain (schema);
-        
+
         if (gettext_domain)
           {
             char *s;
 
             s = g_markup_escape_text (gettext_domain, -1);
-            
+
             if (fprintf (f, " gettext_domain=\"%s\"", s) < 0)
               {
                 g_free (s);
                 return FALSE;
               }
-            
+
             g_free (s);
           }
-        
+
         if (stype == MATECONF_VALUE_LIST)
           {
             MateConfValueType list_type = mateconf_schema_get_list_type (schema);
@@ -3866,13 +3866,13 @@ write_value_element (MateConfValue *value,
     case MATECONF_VALUE_PAIR:
       break;
     }
-    
+
   switch (value->type)
     {
     case MATECONF_VALUE_STRING:
       {
         char *s;
-        
+
         s = g_markup_escape_text (mateconf_value_get_string (value),
                                   -1);
         if (fprintf (f, ">\n%s<stringvalue>%s</stringvalue>\n",
@@ -3881,25 +3881,25 @@ write_value_element (MateConfValue *value,
             g_free (s);
             return FALSE;
           }
-        
+
         g_free (s);
       }
       break;
-      
+
     case MATECONF_VALUE_LIST:
       if (fputs (">\n", f) < 0)
 	return FALSE;
       if (!write_list_children (value, f, indent + INDENT_SPACES))
         return FALSE;
       break;
-      
+
     case MATECONF_VALUE_PAIR:
       if (fputs (">\n", f) < 0)
 	return FALSE;
       if (!write_pair_children (value, f, indent + INDENT_SPACES))
         return FALSE;
       break;
-      
+
     case MATECONF_VALUE_SCHEMA:
       if (fputs (">\n", f) < 0)
 	return FALSE;
@@ -3926,7 +3926,7 @@ write_value_element (MateConfValue *value,
       return FALSE;
 
   return TRUE;
-}    
+}
 
 static gboolean
 write_list_children (MateConfValue  *value,
@@ -3943,7 +3943,7 @@ write_list_children (MateConfValue  *value,
 
       if (fputs (make_whitespace (indent), f) < 0)
 	goto out;
-      
+
       if (fputs ("<li", f) < 0)
 	goto out;
 
@@ -3988,7 +3988,7 @@ write_pair_children (MateConfValue  *value,
     {
       if (fputs (make_whitespace (indent), f) < 0)
 	goto out;
-      
+
       if (fputs ("<cdr", f) < 0)
 	goto out;
 
@@ -3997,7 +3997,7 @@ write_pair_children (MateConfValue  *value,
     }
 
   retval = TRUE;
- 
+
  out:
 
   return retval;
@@ -4031,7 +4031,7 @@ write_local_schema_info (LocalSchemaInfo *local_schema,
   if (!is_locale_file)
     {
       g_assert (local_schema->locale);
-      
+
       s = g_markup_escape_text (local_schema->locale, -1);
 
       if (fprintf (f, " locale=\"%s\"", s) < 0)
@@ -4039,7 +4039,7 @@ write_local_schema_info (LocalSchemaInfo *local_schema,
           g_free (s);
           goto out;
         }
-      
+
       g_free (s);
     }
 
@@ -4052,7 +4052,7 @@ write_local_schema_info (LocalSchemaInfo *local_schema,
           g_free (s);
           goto out;
         }
-          
+
       g_free (s);
     }
 
@@ -4082,13 +4082,13 @@ write_local_schema_info (LocalSchemaInfo *local_schema,
         goto out;
 
       s = g_markup_escape_text (local_schema->long_desc, -1);
-          
+
       if (fputs (s, f) < 0)
         {
           g_free (s);
           goto out;
         }
-          
+
       g_free (s);
 
       if (fputs ("</longdesc>\n", f) < 0)
@@ -4139,10 +4139,10 @@ write_schema_children (MateConfValue *value,
 				    FALSE,
 				    write_descs))
 	return FALSE;
-      
+
       tmp = tmp->next;
     }
-  
+
   return TRUE;
 }
 
@@ -4221,7 +4221,7 @@ write_entry (MarkupEntry *entry,
     }
 
   g_assert (entry->name != NULL);
-  
+
   if (fprintf (f, "%s<entry name=\"%s\"", make_whitespace (indent), entry->name) < 0)
     goto out;
 
@@ -4229,7 +4229,7 @@ write_entry (MarkupEntry *entry,
     {
       if (fprintf (f, " mtime=\"%lu\"", (unsigned long) entry->mod_time) < 0)
 	goto out;
-  
+
       if (entry->schema_name)
 	{
 	  if (fprintf (f, " schema=\"%s\"", entry->schema_name) < 0)
@@ -4269,7 +4269,7 @@ write_entry (MarkupEntry *entry,
                                     TRUE,
                                     TRUE))
         goto out;
-                                    
+
       if (fprintf (f, "%s</entry>\n", make_whitespace (indent)) < 0)
         goto out;
     }
@@ -4298,7 +4298,7 @@ write_dir (MarkupDir  *dir,
     return TRUE;
 
   g_assert (dir->name != NULL);
-  
+
   if (fprintf (f, "%s<dir name=\"%s\">\n",
 	       make_whitespace (indent), dir->name) < 0)
     goto out;
@@ -4307,7 +4307,7 @@ write_dir (MarkupDir  *dir,
   while (tmp != NULL)
     {
       MarkupEntry *entry = tmp->data;
-      
+
       if (!write_entry (entry,
 			f,
 			indent + INDENT_SPACES,
@@ -4315,7 +4315,7 @@ write_dir (MarkupDir  *dir,
 			locale,
 			other_locales))
 	goto out;
-        
+
       tmp = tmp->next;
     }
 
@@ -4323,7 +4323,7 @@ write_dir (MarkupDir  *dir,
   while (tmp != NULL)
     {
       MarkupDir *subdir = tmp->data;
-      
+
       if (!write_dir (subdir,
 		      f,
 		      indent + INDENT_SPACES,
@@ -4331,7 +4331,7 @@ write_dir (MarkupDir  *dir,
 		      locale,
 		      other_locales))
 	goto out;
-        
+
       tmp = tmp->next;
     }
 
@@ -4411,7 +4411,7 @@ save_tree_with_locale (MarkupDir  *dir,
   f = NULL;
 
   filename = markup_dir_build_file_path (dir, save_as_subtree, locale);
-  
+
   new_filename = g_strconcat (filename, ".new", NULL);
 #ifdef G_OS_WIN32
   tmp_filename = g_strconcat (filename, ".tmp", NULL);
@@ -4434,7 +4434,7 @@ save_tree_with_locale (MarkupDir  *dir,
       new_fd = -1;
       goto done_writing;
     }
-  
+
   f = fdopen (new_fd, "w");
   if (f == NULL)
     {
@@ -4452,19 +4452,19 @@ save_tree_with_locale (MarkupDir  *dir,
       write_failed = TRUE;
       goto done_writing;
     }
-  
+
   if (fputs ("<mateconf>\n", f) < 0)
     {
       write_failed = TRUE;
       goto done_writing;
     }
 
-    
+
   tmp = dir->entries;
   while (tmp != NULL)
     {
       MarkupEntry *entry = tmp->data;
-      
+
       if (!write_entry (entry,
 			f,
 			INDENT_SPACES,
@@ -4475,7 +4475,7 @@ save_tree_with_locale (MarkupDir  *dir,
 	  write_failed = TRUE;
 	  goto done_writing;
 	}
-        
+
       tmp = tmp->next;
     }
 
@@ -4527,16 +4527,16 @@ save_tree_with_locale (MarkupDir  *dir,
     }
 
   f = NULL;
-  
+
  done_writing:
-  
+
   if (write_failed)
     {
       err_str = g_strdup_printf (_("Error writing file \"%s\": %s"),
                                  new_filename, g_strerror (errno));
       goto out;
     }
-  
+
 #ifdef G_OS_WIN32
   g_remove (tmp_filename);
   target_renamed = (g_rename (filename, tmp_filename) == 0);
@@ -4557,11 +4557,11 @@ save_tree_with_locale (MarkupDir  *dir,
         }
         chmod (new_filename, st.st_mode);
     }
-#endif 
+#endif
 
   if (g_rename (new_filename, filename) < 0)
     {
-      err_str = g_strdup_printf (_("Failed to move temporary file \"%s\" to final location \"%s\": %s"),                                 
+      err_str = g_strdup_printf (_("Failed to move temporary file \"%s\" to final location \"%s\": %s"),
                                  new_filename, filename, g_strerror (errno));
 #ifdef G_OS_WIN32
       if (target_renamed)
@@ -4574,14 +4574,14 @@ save_tree_with_locale (MarkupDir  *dir,
   if (target_renamed)
     g_remove (tmp_filename);
 #endif
-  
+
  out:
 #ifdef G_OS_WIN32
   g_free (tmp_filename);
 #endif
   g_free (new_filename);
   g_free (filename);
-  
+
   if (err_str)
     {
       if (err)
@@ -4591,7 +4591,7 @@ save_tree_with_locale (MarkupDir  *dir,
 
       g_free (err_str);
     }
-  
+
   if (new_fd >= 0)
     close (new_fd);
 

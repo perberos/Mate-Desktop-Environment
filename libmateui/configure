@@ -841,6 +841,7 @@ with_x
 enable_compile_warnings
 enable_iso_c
 enable_debug
+with_gtk
 with_html_dir
 enable_gtk_doc
 enable_gtk_doc_html
@@ -1530,6 +1531,7 @@ Optional Packages:
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
   --with-x                use the X Window System
+  --with-gtk=2.0|3.0      which gtk+ version to compile against (default: 2.0)
   --with-html-dir=PATH    path to installed docs
 
 Some influential environment variables:
@@ -16613,6 +16615,35 @@ $as_echo "#define HAVE_LIBSM 1" >>confdefs.h
 fi
 
 
+GTK_API_VERSION=2.0
+GTK_REQUIRED=2.12.0
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking which gtk+ version to compile against" >&5
+$as_echo_n "checking which gtk+ version to compile against... " >&6; }
+
+# Check whether --with-gtk was given.
+if test "${with_gtk+set}" = set; then :
+  withval=$with_gtk; case "$with_gtk" in
+     2.0|3.0) ;;
+     *) as_fn_error $? "invalid gtk version specified" "$LINENO" 5 ;;
+   esac
+else
+  with_gtk=2.0
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $with_gtk" >&5
+$as_echo "$with_gtk" >&6; }
+
+case "$with_gtk" in
+  2.0) GTK_API_VERSION=2.0
+       GTK_REQUIRED=2.12.0
+       ;;
+  3.0) GTK_API_VERSION=3.0
+       GTK_REQUIRED=3.0.0
+       ;;
+esac
+
+
 MATEUI_MODULES="  libxml-2.0 >= 2.4.20   libmate-2.0 >= 2.13.7   libmatecanvas-2.0 >= 2.0.0   libmatecomponentui-2.0 >= 2.13.1   mateconf-2.0 >= 1.1.11   pango >= 1.1.2   glib-2.0 >= 2.16.0
   gio-2.0 >= 2.16.0
   mate-vfs-2.0 >= 2.7.3   $mate_keyring_requirement"
@@ -17401,12 +17432,12 @@ fi
 
 
 
-GTK_VERSION=`$PKG_CONFIG --modversion gtk+-2.0`
+GTK_VERSION=`$PKG_CONFIG --modversion gtk+-$GTK_REQUIRED`
 
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gtk+ multihead support" >&5
 $as_echo_n "checking for gtk+ multihead support... " >&6; }
-if $PKG_CONFIG --atleast-version 2.1.0 gtk+-2.0; then
+if $PKG_CONFIG --atleast-version 2.1.0 gtk+-$GTK_API_VERSION; then
 
 $as_echo "#define HAVE_GTK_MULTIHEAD /**/" >>confdefs.h
 
@@ -20163,6 +20194,9 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
-echo "configuration:
-	doc build:   ${enable_gtk_doc}
+echo "
+configuration:
+
+	Gtk+ version:    ${GTK_API_VERSION}
+	doc build:       ${enable_gtk_doc}
 "

@@ -1,4 +1,4 @@
-#!@INTLTOOL_PERL@ -w 
+#!@INTLTOOL_PERL@ -w
 # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
 
 #
@@ -35,7 +35,7 @@ my $PACKAGE      = "intltool";
 my $VERSION      = "0.35.0";
 
 ## Loaded modules
-use strict; 
+use strict;
 use File::Basename;
 use Getopt::Long;
 
@@ -81,7 +81,7 @@ GetOptions (
 &split_on_argument;
 
 
-## Check for options. 
+## Check for options.
 ## This section will check for the different options.
 
 sub split_on_argument {
@@ -91,7 +91,7 @@ sub split_on_argument {
 
     } elsif ($HELP_ARG) {
 	&help;
-        
+
     } elsif ($LOCAL_ARG) {
         &place_local;
         &extract;
@@ -108,19 +108,19 @@ sub split_on_argument {
     } else {
 	&help;
 
-    }  
-}    
+    }
+}
 
 sub place_normal {
     $FILE	 = $ARGV[0];
     $OUTFILE     = "$FILE.h";
-}   
+}
 
 sub place_local {
     $FILE	 = $ARGV[0];
     $OUTFILE     = fileparse($FILE, ());
-    if (!-e "tmp/") { 
-        system("mkdir tmp/"); 
+    if (!-e "tmp/") {
+        system("mkdir tmp/");
     }
     $OUTFILE     = "./tmp/$OUTFILE.h"
 }
@@ -159,14 +159,14 @@ XML files. Read manpage (man ${PROGRAM}) for more info.
                     "gettext/scheme", "gettext/xml"
   -l, --local       Writes output into current working directory
                     (conflicts with --update)
-      --update      Writes output into the same directory the source file 
+      --update      Writes output into the same directory the source file
                     reside (conflicts with --local)
       --srcdir      Root of the source tree
   -v, --version     Output version information and exit
   -h, --help        Display this help and exit
   -q, --quiet       Quiet mode
 
-Report bugs to http://bugzilla.mate.org/ (product name "$PACKAGE")
+Report bugs to http://bugzilla.gnome.org/ (product name "$PACKAGE")
 or send email to <xml-i18n-tools\@gnome.org>.
 _EOF_
     exit;
@@ -276,7 +276,7 @@ sub type_xml {
 sub print_var {
     my $var = shift;
     my $vartype = ref $var;
-    
+
     if ($vartype =~ /ARRAY/) {
         my @arr = @{$var};
         print "[ ";
@@ -311,10 +311,10 @@ sub getAttributeString
 	my $key    = $e;
 	my $string = $sub->{$e};
 	my $quote = '"';
-	
+
 	$string =~ s/^[\s]+//;
 	$string =~ s/[\s]+$//;
-	
+
 	if ($string =~ /^'.*'$/)
 	{
 	    $quote = "'";
@@ -603,7 +603,7 @@ sub readXml
 
 # <foo><!-- comment --><head id="a">Hello <em>there</em></head><bar>Howdy<ref/></bar>do</foo>
 # would be:
-# [foo, [{}, 1, "comment", head, [{id => "a"}, 0, "Hello ",  em, [{}, 0, "there"]], bar, 
+# [foo, [{}, 1, "comment", head, [{id => "a"}, 0, "Hello ",  em, [{}, 0, "there"]], bar,
 # [{}, 0, "Howdy",  ref, [{}]], 0, "do" ] ]
 
     return $tree;
@@ -611,7 +611,7 @@ sub readXml
 
 sub type_schemas {
     ### For schemas XML files ###
-         
+
     # FIXME: We should handle escaped < (less than)
     while ($input =~ /
                       <locale\ name="C">\s*
@@ -722,7 +722,7 @@ sub type_glade {
         # translating strings that only includes something like label4 or window1.
 	$messages{entity_decode($2)} = [] unless $2 =~ /^(window|label|dialog)[0-9]+$/;
     }
-    
+
     while ($input =~ /<items>(..[^<]*)<\/items>/sg) {
 	for my $item (split (/\n/, $1)) {
 	    $messages{entity_decode($item)} = [];
@@ -812,28 +812,28 @@ sub msg_write {
    	print OUT "/* ".$comments{$message}." */\n"
                 if defined $comments{$message};
    	print OUT "/* xgettext:no-c-format */\n" if $message =~ /%/;
-        
+
     	my @lines = split (/\n/, $message, -1);
     	for (my $n = 0; $n < @lines; $n++)
 	{
             if ($n == 0)
             {
- 		print OUT "char *s = N_(\""; 
+ 		print OUT "char *s = N_(\"";
             }
             else
-            {  
-                print OUT "             \""; 
+            {
+                print OUT "             \"";
             }
 
             print OUT escape($lines[$n]);
 
             if ($n < @lines - 1)
             {
-                print OUT "\\n\"\n"; 
+                print OUT "\\n\"\n";
             }
             else
             {
-                print OUT "\");\n";  
+                print OUT "\");\n";
 	    }
         }
     }

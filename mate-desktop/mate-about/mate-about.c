@@ -164,8 +164,8 @@ void mate_about_run(void)
 	//gtk_about_dialog_set_documenters(GTK_ABOUT_DIALOG(mate_about_dialog), documenters);
 
 	#if GTK_CHECK_VERSION(3, 0, 0)
-		//gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(mate_about_dialog), GTK_LICENSE_GPL_3_0);
-		//gtk_about_dialog_set_wrap_license(GTK_ABOUT_DIALOG(mate_about_dialog), FALSE);
+		gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(mate_about_dialog), GTK_LICENSE_GPL_3_0);
+		gtk_about_dialog_set_wrap_license(GTK_ABOUT_DIALOG(mate_about_dialog), TRUE);
 	#endif
 
 	#ifdef USE_UNIQUE

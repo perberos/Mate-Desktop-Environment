@@ -1029,7 +1029,7 @@ panel_menu_button_set_dnd_enabled (PanelMenuButton *button,
  * An AtkObject implementation for PanelMenuButton.
  * We need all this just so we can create the menu in ref_child()
  *
- * See http://bugzilla.mate.org/show_bug.cgi?id=138535 for details
+ * See http://bugzilla.gnome.org/show_bug.cgi?id=138535 for details
  *
  * If we ever remove the on-demand creation of the menu, we should
  * can just remove all this again

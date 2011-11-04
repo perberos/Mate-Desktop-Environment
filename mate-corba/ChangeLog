@@ -45,7 +45,7 @@
 	* test/everything/client.c (main)
 	* test/everything/server.c (main)
 	* test/poa/poatest-basic-shell.c (main)
-	* test/test-corbaloc.c (main) 
+	* test/test-corbaloc.c (main)
 	* test/test-dynany.c (main)
 	* test/test-giop.c (main)
 	* test/test-mem.c (main)
@@ -105,7 +105,7 @@
 
 2008-09-16  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* NEWS: Updated. 
+	* NEWS: Updated.
 	* configure.in: Bump again.
 
 ======================= 2.14.16 ============================
@@ -272,8 +272,8 @@
 
 2007-11-12  Jules Colding  <colding@omesc.com>
 
-	* src/orb/orb-core/corba-any.c (giop_byteswap): This function is only 
-	used in this file so there is really no need to keep giop-endian.[ch] 
+	* src/orb/orb-core/corba-any.c (giop_byteswap): This function is only
+	used in this file so there is really no need to keep giop-endian.[ch]
 	around any more.
 
 2007-10-30  Tor Lillqvist  <tml@novell.com>
@@ -323,7 +323,7 @@
 	IOR file than really needed
 
 	* test/timeout-client.c (main): Fix memory leaks
-	(object_ref_from_file): Do not allocate more memory than 
+	(object_ref_from_file): Do not allocate more memory than
 	really needed
 
 2007-09-24  Jules Colding  <colding@omesc.com>
@@ -331,24 +331,24 @@
 	* MateCORBA2: Add G_OBJECT() casts to all cases of g_unref_object()
 
 	* MateCORBA2: Removed MATECORBA_DEBUG_CFLAGS from all Makefile.am's.
-	Instead appended the debug flags directly to CFLAGS in 
+	Instead appended the debug flags directly to CFLAGS in
 	configure.in. The debug flags would otherwise be masked by
 	CFLAGS and have next to no effect in terms of debug symbols.
 
 	* MateCORBA2: It is now possible to use the ORBNetID command
 	line option to specify a specific NIC to be used by MateCORBA2
-	when creating externally visible objects. This is supported 
-	by adding LINK_NET_ID_IS_CUSTOM to the LinkNetIdType enum 
-	type. Previously the first NIC which wasn't "127.0.0.1" was 
+	when creating externally visible objects. This is supported
+	by adding LINK_NET_ID_IS_CUSTOM to the LinkNetIdType enum
+	type. Previously the first NIC which wasn't "127.0.0.1" was
 	unconditionally used.
-	
-	The ORBNetID argument must be of a format that is compatible 
-	to the address format that is returned by inet_ntoa(3) on a 
+
+	The ORBNetID argument must be of a format that is compatible
+	to the address format that is returned by inet_ntoa(3) on a
 	return value of the SIOCGIFCONF ioctl. A specific IP address,
 	such as '192.168.2.45', would be an acceptable format.
 
-	The previous behavior of just using the first non "127.0.0.1" 
-	NIC is maintained if the net id isn't LINK_NET_ID_IS_CUSTOM. 
+	The previous behavior of just using the first non "127.0.0.1"
+	NIC is maintained if the net id isn't LINK_NET_ID_IS_CUSTOM.
 
 	If, on the other hand, the net id is LINK_NET_ID_IS_CUSTOM then
 	the used NIC will be:
@@ -357,37 +357,37 @@
 	list as	returned by SIOCGIFCONF.
 
 	2) If the requested net id isn't found in the list then it will
-	be the last non "0.0.0.0" addressed NIC in said list. This may 
+	be the last non "0.0.0.0" addressed NIC in said list. This may
 	or may not be "127.0.0.1".
 
-	I considered if we should use assert() if the specified net id 
-	isn't found or if it is invalid, but I decided against it on the 
+	I considered if we should use assert() if the specified net id
+	isn't found or if it is invalid, but I decided against it on the
 	grounds that not doing so is more in line with current behavior.
 
-	* src/orb/orb-core/corba-orb.c (MateCORBA_ORB_start_servers): 
+	* src/orb/orb-core/corba-orb.c (MateCORBA_ORB_start_servers):
 	Support the new LINK_NET_ID_IS_CUSTOM functionality
 
 2007-09-24  Jules Colding  <colding@omesc.com>
 
-	* src/orb/orb-core/matecorba-small.c (async_recv_cb): 
+	* src/orb/orb-core/matecorba-small.c (async_recv_cb):
 	Set CORBA_TIMEOUT exception if state is LINK_TIMEOUT
 
 2007-09-22  Jules Colding  <colding@omesc.com>
 
-	* configure.in: Added -O0 to MATECORBA_DEBUG_CFLAGS. 
-	TODO: Still need to fix the debug CFLAGS so that they are 
+	* configure.in: Added -O0 to MATECORBA_DEBUG_CFLAGS.
+	TODO: Still need to fix the debug CFLAGS so that they are
 	effective in the Makefile.am's.
 
-	* src/orb/GIOP/giop-connection.c (giop_connection_close): 
+	* src/orb/GIOP/giop-connection.c (giop_connection_close):
 	Added a check for the link being in LINK_TIMEOUT state. Not
 	doing this would result in link_connection_finalize() being
 	invoked twice for the same link. We can not have that...
 
-	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_buffer_get): 
+	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_buffer_get):
 	Use giop_connection_unref() instead of linc_connection_unref()
 	as we really are manipulating a GIOPConnection not a LinkConnection.
-	(giop_timeout): Use the giop_connection_(un)ref() functions. Same 
-	reasoning as above. 
+	(giop_timeout): Use the giop_connection_(un)ref() functions. Same
+	reasoning as above.
 	Do not call link_connection_state_changed() or giop_incoming_signal_T()
 	if the link is in the LINK_DISCONNECTED state. Doing so would make
 	link_connection_state_changed() very unhappy (invalid read of size 1).
@@ -405,11 +405,11 @@
 
 2007-08-22  Jules Colding  <colding@omesc.com>
 
-	* src/orb/GIOP/giop-recv-buffer.c (giop_timeout_add): 
+	* src/orb/GIOP/giop-recv-buffer.c (giop_timeout_add):
 	Use LinkConnection native ref function instead of g_object_ref()
-	(giop_recv_buffer_get): Use LinkConnection native unref function 
+	(giop_recv_buffer_get): Use LinkConnection native unref function
 	instead of g_object_unref()
-	(giop_timeout): Use LinkConnection native unref function instead 
+	(giop_timeout): Use LinkConnection native unref function instead
 	of g_object_unref()
 
 	* configure.in: Fix 'if test' statement
@@ -417,14 +417,14 @@
 2007-08-14  Jules Colding  <colding@omesc.com>
 
 	* src/orb/GIOP/giop-send-buffer.c (giop_send_buffer_write): Do
-	not enter giop_timeout_add() if a timeout is already present. This 
+	not enter giop_timeout_add() if a timeout is already present. This
 	check is not thread safe, but the additional check in giop_timeout_add()
 	is.
 
 	* src/orb/GIOP/giop-recv-buffer.c (giop_timeout_add): Fix
 	race when creating the timeout mutex.
-	Do not depend on the dynamically created "struct timeout_thread_data". 
-	The right thing to do is to pass the connection directly and add an 
+	Do not depend on the dynamically created "struct timeout_thread_data".
+	The right thing to do is to pass the connection directly and add an
 	additional member to the LincConnection	to hold the GIOPThread.
 	(giop_timeout): Correct to use new input data (LincConnection*).
 	(giop_recv_buffer_get): Fix memory leak.
@@ -444,11 +444,11 @@
 
 	* test/timeout-client.c (main): Silence timeout testing somewhat
 
-	* test/timeout-server.c (create_ipv4_orb): 
+	* test/timeout-server.c (create_ipv4_orb):
 	Removed non-working ORBNetID option. Use default instead.
 
-	* test/timeout-client.c (create_timeout_orb): 
-	Simplified regression client 
+	* test/timeout-client.c (create_timeout_orb):
+	Simplified regression client
 
 2007-07-07  Gustavo J. A. M. Carneiro  <gjc@gnome.org>
 
@@ -480,7 +480,7 @@
 	  LINC_PROTOCOL_NEEDS_BIND flag in the
 	  static_link_protocols array for both IPv4 and IPv6
 	  This is needed on Solaris because bind is needed to
-	  open the ports securely when ORBLocalOnly is being 
+	  open the ports securely when ORBLocalOnly is being
 	  used.  The maintainers decided that it would be best
 	  to simply turn the flag on for all platorms rather
 	  than support complicated ifdefs since this should not
@@ -533,7 +533,7 @@
 2007-02-09  Sebastien Bacher  <seb128@ubuntu.com>
 
 	* src/orb/orb-core/corba-orb.c: (CORBA_ORB_destroy):
-	  - explicitly set variable for better debugging, patch by Kees Cook 
+	  - explicitly set variable for better debugging, patch by Kees Cook
 
 2007-01-24  Brian Cameron  <Brian.Cameron@sun.com>
 
@@ -586,7 +586,7 @@
 
 	* configure.in: Release 2.14.4.
 
-2006-12-12  Christian Persch  <chpe@cvs.mate.org>
+2006-12-12  Christian Persch  <chpe@cvs.gnome.org>
 
 	* autogen.sh:
 	* configure.in:
@@ -594,55 +594,55 @@
 
 2006-12-05  Jules Colding  <colding@omesc.com>
 
-	* MateCORBA2: The previous two ChangeLog entries are hiding a lot of 
-	details which I'll hereby try to expand upon. 
+	* MateCORBA2: The previous two ChangeLog entries are hiding a lot of
+	details which I'll hereby try to expand upon.
 
-	The rationale for these changes is that any and all occurrences of 
-	g_cond_wait() in MateCORBA2 has the potential to block forever if it 
-	waits for a connection attempt to complete if said connection 
-	attempt is made towards a remote server which happens to be 
-	physically disconnected or powered off. 
+	The rationale for these changes is that any and all occurrences of
+	g_cond_wait() in MateCORBA2 has the potential to block forever if it
+	waits for a connection attempt to complete if said connection
+	attempt is made towards a remote server which happens to be
+	physically disconnected or powered off.
 
-	This blocking behavior can be demonstrated by invoking an operation 
+	This blocking behavior can be demonstrated by invoking an operation
 	on a remote object that is physically inaccessible such as when
 	the remote server is powered down or physically disconnected.
 
 	Pseudo code:
-	
+
 	{
 	    CORBA_ORB orb = get_orb();
 	    char *objref = get_corbaloc_str();
 	    CORBA_Object obj = CORBA_OBJECT_NIL;
 	    CORBA_Environment ev[1];
-	
+
 	    CORBA_exception_init(ev);
 	    obj = CORBA_ORB_string_to_object(orb, objref, ev);
 
-	    FOO_INTERFACE_method(obj, <arguments>, ev); 
+	    FOO_INTERFACE_method(obj, <arguments>, ev);
 	}
 
 	The last statement above will block forever in g_cond_wait() while
-	waiting for the recieve buffer to be ready if the remote server is, 
-	say, powered down. An exception is on the other hand immediately 
+	waiting for the recieve buffer to be ready if the remote server is,
+	say, powered down. An exception is on the other hand immediately
 	thrown if the server object is merely gone.
 
-	The changes to the code therefore boils down to the implementation 
-	of the ex_CORBA_TIMEOUT system exception being thrown if 
-	g_cond_timed_wait() times out. Most occurrences of g_cond_wait() 
-	has been replaced by g_cond_timed_wait(). 
+	The changes to the code therefore boils down to the implementation
+	of the ex_CORBA_TIMEOUT system exception being thrown if
+	g_cond_timed_wait() times out. Most occurrences of g_cond_wait()
+	has been replaced by g_cond_timed_wait().
 
-	The only remaining instance of g_cond_wait() is found in 
-	link_exec_command(). I haven't observed any problems with 
+	The only remaining instance of g_cond_wait() is found in
+	link_exec_command(). I haven't observed any problems with
 	link_exec_command() so I've not touched that code.
 
 	The affected code is:
 
-	1) A new ORB command line option: GIOPTimeoutLimit - timeout limit 
+	1) A new ORB command line option: GIOPTimeoutLimit - timeout limit
 	in microseconds. Defaults to 30 seconds.
 
-	2) giop_recv_buffer_get(). This one is obvious. We do not want to 
-	wait indefinitely for data to be received from a downed host. The 
-	waiting interval is configurable with the new GIOPTimeoutLimit ORB 
+	2) giop_recv_buffer_get(). This one is obvious. We do not want to
+	wait indefinitely for data to be received from a downed host. The
+	waiting interval is configurable with the new GIOPTimeoutLimit ORB
 	option.
 
 	3) Any code invoking link_wait():
@@ -653,13 +653,13 @@
 	   d) MateCORBA_try_connection_T(), calls giop_connection_try_reconnect()
 	   e) MateCORBA_object_get_connection(), calls MateCORBA_try_connection_T()
 
-	4) The waiting time in link_wait() is set at compile time to 
+	4) The waiting time in link_wait() is set at compile time to
 	LINK_WAIT_TIMEOUT_USEC which is presently 10 seconds.
 
 	5) link_wait() has been modified to return a gboolean. FALSE if the
 	timeout expired, TRUE otherwise.
 
-	6) link_connection_wait_connected_T() and link_connection_try_reconnect() 
+	6) link_connection_wait_connected_T() and link_connection_try_reconnect()
 	will both disconnect the connection if link_wait() experienced a timeout.
 
 2006-12-04  Jules Colding  <colding@omesc.com>
@@ -670,15 +670,15 @@
 
 	* include/matecorba/GIOP/giop.h: Declare giop_recv_set_timeout().
 
-	* src/orb/orb-core/corba-orb.c (CORBA_ORB_init): Set GIOP timeout 
+	* src/orb/orb-core/corba-orb.c (CORBA_ORB_init): Set GIOP timeout
 	limit from the ORB option.
 	Added new ORB option - GIOPTimeoutLimit.
 
-	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_invoke_stub): Throw a 
+	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_invoke_stub): Throw a
 	TIMEOUT exception if a reply hasn't been recieved within the GIOP
 	timeout limit.
 
-	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_buffer_get): Replaced 
+	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_buffer_get): Replaced
 	a g_cond_wait() with a g_cond_timed_wait(). The original g_cond_wait()
 	could potentially block forever if a remote server was physically
 	offline.
@@ -838,7 +838,7 @@
 	* test/matecorba-typelib-dump.c: (dump_tc): Plug leak. Closes bug #344977.
 	Both found by the Coverity checker.
 
-2006-05-29  Christian Persch  <chpe@cvs.mate.org>
+2006-05-29  Christian Persch  <chpe@cvs.gnome.org>
 
 	* configure.in: Remove popt check.
 	* src/idl-compiler/matecorba-idl-main.c: (cl_libIDL_version_callback),
@@ -932,13 +932,13 @@
 
 2006-04-05  Jules Colding  <colding@omesc.com>
 
-	* MateCORBA.spec.in: linc is now intagrated into MateCORBA2 so the requirements in 
+	* MateCORBA.spec.in: linc is now intagrated into MateCORBA2 so the requirements in
 	the spec file must go.
-	(%files): Fix rpmbuild issues with missing files in this section. 
+	(%files): Fix rpmbuild issues with missing files in this section.
 
 2006-04-04  Jules Colding  <colding@omesc.com>
 
-	* configure.in (MATECORBA_VERSION): Version 1.14.1. The micro version must be 
+	* configure.in (MATECORBA_VERSION): Version 1.14.1. The micro version must be
 	bumped as a new function has been added.
 
 	* src/orb/orb-core/orb-core-private.h: Declared MateCORBA_get_giop_recv_limit()
@@ -949,7 +949,7 @@
 	* src/orb/orb-core/corba-orb.c (MateCORBA_get_giop_recv_limit): Added function
 	to retrieve the maximum allowed GIOP receive limit.
 
-	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_get_limit): New function. 
+	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_get_limit): New function.
 	Clients must be able to retrieve the maximum allowed GIOP receive limit.
 
 2006-03-14  Gustavo J. A. M. Carneiro  <gjc@gnome.org>
@@ -964,7 +964,7 @@
 2006-02-17  Tor Lillqvist  <tml@novell.com>
 
 	Fix build on Cygwin, patch by "Cygwin Ports maintainer" (#331487)
-	
+
 	* configure.in: Check for winsock2.h only on Windows.
 
 	* include/matecorba/orb-core/matecorba-object.h: Need to #define
@@ -1013,28 +1013,28 @@
 2005-11-08  Richard Hult  <richard@imendio.com>
 
 	* Release 2.13.2.
-	
+
 	* configure.in (LT_VERSION): Set back to 2.13.2, the version was
 	already bumped.
 
 2005-11-08  Anders Carlsson  <andersca@imendio.com>
-   
+
 	* configure.in: Up version to 2.13.3
 
 2005-11-08  Anders Carlsson  <andersca@imendio.com>
 
-	* src/orb/orb-core/corba-object.c (CORBA_Object_release_cb): 
+	* src/orb/orb-core/corba-object.c (CORBA_Object_release_cb):
 	Allow releasing objects even if orb is NULL.
 
         (MateCORBA_object_get_connection):
 	Make sure to remove and re-add the object from the objref hash
 	table so we won't be left with dangling references which will lead
 	to crashes when trying to shut down the ORB.
-	
-	* src/orb/orb-core/corba-orb.c (strip_object_profiles): 
+
+	* src/orb/orb-core/corba-orb.c (strip_object_profiles):
 	Set object's orb to NULL.
 
-	* src/orb/poa/poa.c (MateCORBA_POA_deactivate_object_T): 
+	* src/orb/poa/poa.c (MateCORBA_POA_deactivate_object_T):
 	Write out an error message here instead of "assertion failed".
 
 2005-09-26  Martin Blom  <martin@blom.org>
@@ -1055,14 +1055,14 @@
 
 2005-09-16  Jules Colding  <colding@omesc.com>
 
-	* include/matecorba/orb-core/corba-orb.h: Added MateCORBA_proto_use() to 
+	* include/matecorba/orb-core/corba-orb.h: Added MateCORBA_proto_use() to
 	MATECORBA2_EXTENSIONS section. This is needed to deduce protocol
-	capabilities if you are not the fortunate first thread to invoke 
+	capabilities if you are not the fortunate first thread to invoke
 	CORBA_ORB_init().
 
 2005-09-07  Jules Colding  <colding@omesc.com>
 
-	* configure.in (LT_VERSION): Version 2.13.2. This is needed as the change 
+	* configure.in (LT_VERSION): Version 2.13.2. This is needed as the change
 	below actually makes some programs run when they would otherwise not.
 
 	* src/orb/GIOP/giop.c (giop_main_run): Remove g_assert().
@@ -1082,10 +1082,10 @@
 
 2005-08-26  Brian Cameron  <Brian.Cameron@sun.com>
 
-	* configure.in: Bumping minor LT_VERSION since 
+	* configure.in: Bumping minor LT_VERSION since
 	  interfaces have changed since the initial MateCORBA2
-	  release and it has never been bumped, but 
-	  interfaces have been added since that time. 
+	  release and it has never been bumped, but
+	  interfaces have been added since that time.
 	  Sorry for commiting this twice, but I didn't
 	  read the comments closely to see that you
 	  modify it to C+1:0:A+1 to indicate interfaces
@@ -1103,7 +1103,7 @@
 	Gustavo Gama, #313274.
 
 2005-08-13  Davyd Madeley  <davyd@madeley.id.au>
-	
+
 	* configure.in:
 	* linc2/src/linc-protocols.c: Check for sys/sockio.h, required for
 	  building on Solaris 9. Patch from James Andrewartha
@@ -1143,7 +1143,7 @@
 
 	* include/matecorba/orb-core/corba-orb-type.h:
 	* src/orb/orb-core/corba-orb.c: (CORBA_ORB_init),
-	(CORBA_ORB_destroy), (MateCORBA_ORB_forw_bind): 
+	(CORBA_ORB_destroy), (MateCORBA_ORB_forw_bind):
 	* src/orb/poa/matecorba-adaptor.c: (MateCORBA_forw_bind_find),
 	(MateCORBA_handle_request): implement forward binding.
 
@@ -1153,7 +1153,7 @@
 
 2005-06-03  Jules Colding  <colding@omesc.com>
 
-	* docs/README: Added pointers to documentation and sample code 
+	* docs/README: Added pointers to documentation and sample code
 	for developers using MateCORBA2, not MateCORBA2 hackers.
 
 2005-06-02  Sandie Vanderme  <sandie.vanderme@bull.net>
@@ -1232,20 +1232,20 @@
 
 2005-04-06  Anders Carlsson  <andersca@imendio.com>
 
-	* src/orb/orb-core/corba-orb.c: 
+	* src/orb/orb-core/corba-orb.c:
 	(MateCORBA_initial_references_by_user):
 	Release objects.
-	
+
 	(MateCORBA_set_initial_reference):
 	Release existing objects.
-	
+
 2005-04-06  Anders Carlsson  <andersca@imendio.com>
 
-	* src/orb/orb-core/corba-object.c: 
+	* src/orb/orb-core/corba-object.c:
 	(MateCORBA_handle_location_forward):
-	Reset the connection since the forwarded object has a new 
+	Reset the connection since the forwarded object has a new
 	connection.
-	
+
 2005-03-29  Brian Cameron  <Brian.Cameron@Sun.Com>
 
 	* docs/internals/matecorbarc.txt:  Docs file explaining how to
@@ -1267,7 +1267,7 @@
 	matecorba_output_tcstruct_anon_sublabels_array, cbe_tc_generate): Use
 	MATECORBA2_MAYBE_CONST. This reintroduces constness on Unix, saving
 	some memory. (#169428)
-	
+
 2005-03-10  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Bump version to 2.13.0 to distinguish from the
@@ -1374,7 +1374,7 @@
 	are using LocalOnly option or only UNIX sockets then set
 	hostname to be "localhost"
 	Patch reviewed by Michael Meeks
-	
+
 2005-02-11  Tor Lillqvist  <tml@novell.com>
 
 	* src/orb/orb-core/matecorba-trace.c (MateCORBA_trace_value): Print also
@@ -1542,7 +1542,7 @@
 	* include/matecorba/orb-core/corba-orb-type.h
 	* include/matecorba/orb-core/corba-typecode.h: Drop the constness of
 	extern structs as it causes problems when building libMateCORBA-2 as a
-	DLL on Win32 and Cygwin. 
+	DLL on Win32 and Cygwin.
 
 	* src/idl-compiler/matecorba-idl-c-headers.c (ch_type_alloc_and_tc)
 	* src/idl-compiler/matecorba-idl-c-typecode.c
@@ -1557,7 +1557,7 @@
 
 	* src/idl-compiler/matecorba-idl-main.c: Drop constness from
 	a poptOption array, for obscure Win32 DLL reasons.
-	
+
 2005-01-26  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Check also for utime.h, and sys/utime.h (where
@@ -1579,21 +1579,21 @@
 	Excessive output of newline characters are fixed by checking the last
 	character written: If it is '\n' then do not write another '\n'.
 	(cbe_ski_do_list): The correct fix for exessive newline output.
-	
+
 	Generation of skelimpl files has been fixed by protecting definitions and
-	declarations with #ifdef blocks. This is *not* the right fix. The right fix 
+	declarations with #ifdef blocks. This is *not* the right fix. The right fix
 	would be to generate header files with the proper extern declarations. The
-	current "fix" has the drawback of forcing the developer to include the 
-	skelimpl files in inheritance order: Most common ancestor first, then 
-	progressively later descendants. The right fix requires more redesign of 
-	the code than I would like to do now, so this hack must suffice for the time 
-	being. 
+	current "fix" has the drawback of forcing the developer to include the
+	skelimpl files in inheritance order: Most common ancestor first, then
+	progressively later descendants. The right fix requires more redesign of
+	the code than I would like to do now, so this hack must suffice for the time
+	being.
 
 	* src/idl-compiler/matecorba-idl-c-backend.c (out_for_pass): Change the opening
-	mode of output files to "w+". This is needed to support the correct fix for 
+	mode of output files to "w+". This is needed to support the correct fix for
 	excessive newline output in skelimpl files.
 
-	* src/idl-compiler/matecorba-idl-c-skelimpl.c: I had a really hard time parsing 
+	* src/idl-compiler/matecorba-idl-c-skelimpl.c: I had a really hard time parsing
 	the code with the former indentation level of 2, so I changed it to a more
 	reasonable 8.
 
@@ -1603,22 +1603,22 @@
 
 2005-01-01  Jules Colding  <colding@omesc.com>
 
-	* src/idl-compiler/matecorba-idl-c-skelimpl.c (cbe_ski_do_list): Fix the former 
+	* src/idl-compiler/matecorba-idl-c-skelimpl.c (cbe_ski_do_list): Fix the former
 	fix for excessive newline output (integer overflow bug fixed).
 
 2004-12-28  Jules Colding  <colding@omesc.com>
 
-	* src/idl-compiler/matecorba-idl-c-skelimpl.c (cbe_ski_do_list): Prevent excessive 
+	* src/idl-compiler/matecorba-idl-c-skelimpl.c (cbe_ski_do_list): Prevent excessive
 	output of newlines for skelimpl files.
 
 2004-12-27  Jules Colding  <colding@omesc.com>
 
 	* configure.in: Remove support for external indentation command.
 
-	* src/idl-compiler/matecorba-idl-main.c: Removed all traces of the output formatter 
+	* src/idl-compiler/matecorba-idl-main.c: Removed all traces of the output formatter
 	command line option but leave a warning.
 
-	* src/idl-compiler/matecorba-idl-c-backend.c (out_for_pass): "popen ==> fopen" for 
+	* src/idl-compiler/matecorba-idl-c-backend.c (out_for_pass): "popen ==> fopen" for
 	all output files. The reason is to avoid opening a pipe as we don't want to use
 	an externally invoked indentation process.
 
@@ -1628,7 +1628,7 @@
 
 	* test/everything/everything.idl: Added test for bug#161879.
 
-	* src/idl-compiler/matecorba-idl-c-utils.c (matecorba_cbe_get_const): Fix IDL compilation 
+	* src/idl-compiler/matecorba-idl-c-utils.c (matecorba_cbe_get_const): Fix IDL compilation
 	of "const char N = '\x0A';" definitions (bug#161879).
 
 	* src/idl-compiler/matecorba-idl3-types.h: Added output_directory to OIDL_Run_Info.
@@ -1649,7 +1649,7 @@
 	* test/everything/client.c (testAnySequence),
 	* test/everything/server.c (SequenceServer_opAnySeq):
 	implement test for TC_void bug.
-	
+
 2004-12-13  Joe McCann  <joem@gentoo.org>
 
 	* configure.in: bump libIDL dep to 0.8.2.
@@ -1700,7 +1700,7 @@
 
 	* test/everything/client.c: bin stderr printfs
 	during thread tests, to avoid unhelpful rescheduling.
-	
+
 	* src/orb/orb-core/matecorba-small.c
 	(MateCORBA_small_unlisten_for_broken_full): use the
 	peek method, no need to try re-connecting just to
@@ -1801,7 +1801,7 @@
 2004-05-14  Fernando Herrera  <fherrera@onirica.com>
 
 	* src/idl-compiler/matecorba-idl-c-backend.c: (out_for_pass):
-	 clobber LC_ALL because cpp tranlates some strings in some 
+	 clobber LC_ALL because cpp tranlates some strings in some
 	locales during dep files generation that makes compilation
 	fails. Fixes bug #142546.
 
@@ -1830,7 +1830,7 @@
 	constants defined for CSSIOP
 
 	* src/orb/orb-core/iop-defs.idl: add IIOP.idl and CORBA Security
-	Ineterop. attributes in files CSI.idl and CSIIOP.idl 
+	Ineterop. attributes in files CSI.idl and CSIIOP.idl
 
 2004-05-01  Frank Rehberger <frehberg@mate-de.org>
 
@@ -1851,7 +1851,7 @@
 
 	* src/services/name/Makefile.am (libMateCORBACosNaming_2_la_LDFLAGS):
 	Likewise
-	
+
 2004-04-24  Frank Rehberger  <frehberg@fresa.casa.in-berlin.de>
 
 	* MAINTAINERS: maintainer-ship handed over to  frehberg@mate-de.org
@@ -1988,7 +1988,7 @@
 
 2004-01-16  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/corba-any.c (MateCORBA_copy_value_core): 
+	* src/orb/orb-core/corba-any.c (MateCORBA_copy_value_core):
 	fetch the union tag only after pre-aligning correctly,
 	vicious PPC snafu; thanks to Jeroen Zwartepoorte for
 	his patience.
@@ -2049,7 +2049,7 @@
 	method flags to:
 	(MateCORBA_poa_allow_cross_thread_call): if we
 	have an non-std. threading policy, then do
-	a 'true' oneway call. 
+	a 'true' oneway call.
 
 2004-01-06  Michael Meeks  <michael@ximian.com>
 
@@ -2104,7 +2104,7 @@
 	* src/idl-compiler/matecorba-idl-c-skelimpl.c (cbe_ski_do_interface):
 	fix mem-leak in generated code: g_free (servant) in destructor
 	impl_*__destroy() by default
-	
+
 2003-11-13  Michael Meeks  <michael@ximian.com>
 
 	* Version 2.9.1
@@ -2125,19 +2125,19 @@
 	and dispatch(). Fixes bug #126209.
 
 2003-11-03  Frank Rehberger  <frehberg@xtradyne.com>
- 
+
         * src/orb/poa/poa.c (MateCORBA_POA_invocation_stack_pop)
         (MateCORBA_POA_invocation_stack_push)
         (MateCORBA_POA_invocation_stack_lookup_objid)
         (MateCORBA_POA_invocation_stack_lookup_objref)
         (MateCORBA_POA_invocation_stack_peek): refactore code managing
         invocation stack; done for later thread aware management of stack.
- 
+
 2003-11-03  Justin Schoeman <justin@expertron.co.za>
 
 	* src/orb/orb-core/corba-orb.c (MateCORBA_initial_references_by_user):
-	Destroy the NameService object after calling 
-	MateCORBA_set_initial_reference on it, as MateCORBA_set_initial_reference 
+	Destroy the NameService object after calling
+	MateCORBA_set_initial_reference on it, as MateCORBA_set_initial_reference
 	dup's the object.
 
 2003-10-31  Michael Meeks  <michael@ximian.com>
@@ -2238,7 +2238,7 @@
 	for MATECORBA_ADAPTOR_POA to pre the cast, check that we're
 	not walking over the end of vepvmap_cache.
 	(MateCORBA_skel_class_register): setup VEPV_CACHE_SIZE
-	using the 0'th element of vepvcache.	
+	using the 0'th element of vepvcache.
 
 2003-10-01  Michael Meeks  <michael@ximian.com>
 
@@ -2289,13 +2289,13 @@
 	(giop_request_handler_fn), (giop_init):
 	Allow GIOPThreads to have several keys.
 	Don't leak some GIOPThread contents.
-	
+
 	* src/orb/poa/matecorba-adaptor.c:
 	* include/matecorba/poa/matecorba-adaptor.h:
 	Add MATECORBA_THREAD_HINT_ON_CONTEXT to case to fix warning.
 	Fix recursion in MateCORBA_ObjectAdaptor_set_thread_hint
 	Implement MateCORBA_ObjectAdaptor_object_bind_to_current_thread.
-	
+
 	* src/orb/poa/poa.c: (MateCORBA_POA_handle_request):
 	Add comment about thread binding.
 
@@ -2348,7 +2348,7 @@
 
 2003-09-29  Olivier Andrieu  <oliv__a@users.sourceforge.net>
 
-	* src/orb/orb-core/matecorba-typelib.c (add_if_unique) 
+	* src/orb/orb-core/matecorba-typelib.c (add_if_unique)
 	(MateCORBA_get_typelib_paths): update typelib_path semantics
 	to be more sane.
 
@@ -2384,14 +2384,14 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2003-09-08  Padraig O'Briain <padraig.obriain@sun.com>
 
 	* linc2/src/linc-private.h: Add field was_disconnected  in order to
-	deal with the case where connecting after disconnection returns 
+	deal with the case where connecting after disconnection returns
 	EINPROGRESS.
 	* linc2/src/linc-connection.c:
 	(linc_connection_state_changed_T_R): Do not emit "broken" signal if
 	disconnected field is set.
 	(linc_connection_try_disconnect): Set was_disconnected field before
 	calling link_connection_wait_connected_T.
-	(link_connection_init): Initialize was_disconnected to FALSE. 
+	(link_connection_init): Initialize was_disconnected to FALSE.
 
 	This fixes bug #121246.
 
@@ -2413,7 +2413,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/corba-loc.c (MateCORBA_corbaloc_from): encode
 	giop-version in corbaloc
-	
+
 	* src/orb/orb-core/corba-object.c (MateCORBA_object_to_corbaloc):
 	representation for empty object reference
 	(MateCORBA_object_by_corbaloc): accept corbaloc representation for
@@ -2684,7 +2684,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-06-30  Padraig O'Briain <padraig.obriain@sun.com>
 
-	* linc2/src/linc-connection.c: Move link_source_remove and 
+	* linc2/src/linc-connection.c: Move link_source_remove and
 	link_source_add to before link_connection_state_changed_T_R.
 
 	This fixes bug #116350.
@@ -2700,7 +2700,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-06-27  Frank Rehberger  <Frank.Rehberger@web.de>
 
-	* src/orb/orb-core/corba-orb.c (CORBA_ORB_resolve_initial_references): 
+	* src/orb/orb-core/corba-orb.c (CORBA_ORB_resolve_initial_references):
 	feature-disabled: disabled exceptions that broke MATE in
 	matecomponent_arg_new().  Feature should be re-enabled for later release.
 
@@ -2708,15 +2708,15 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* test/everything/client.c (testUnboundedSequence): fix silly.
 
-	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_listen_for_broken) 
+	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_listen_for_broken)
 	(MateCORBA_small_unlisten_for_broken_full): upd.
 
 2003-06-22  Frank Rehberger <Frank.Rehberger@web.de>
 
 	* src/orb/util/matecorba_optionss.h: introducing type MateCORBA_OptionKeyValue
-	* src/orb/orb-core/corba-orb.c:  bugfix in CORBA_init() of initial 
-	-ORBInitRef and -ORBNamingIOR option parsing 	
-	
+	* src/orb/orb-core/corba-orb.c:  bugfix in CORBA_init() of initial
+	-ORBInitRef and -ORBNamingIOR option parsing
+
 2003-06-22  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
 
 	* docs/api/MateCORBA2-sections.txt: Created the matecorba2-small section.
@@ -2787,10 +2787,10 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-06-18  Frank Rehberger  <Frank.Rehberger@web.de>
 
-	* src/orb/util/matecorba-options.c: enable parsing of command line options 
+	* src/orb/util/matecorba-options.c: enable parsing of command line options
 	* src/orb/util/matecorba-options.h: declare MATECORBA_OPTION_KEY_VALUE
 	* src/orb/util/matecorba-options.c: code for option MATECORBA_OPTION_KEY_VALUE
-	* src/orb/orb-core/corba-orb.c: support for -ORBNamingIOR, -ORBInitRef 
+	* src/orb/orb-core/corba-orb.c: support for -ORBNamingIOR, -ORBInitRef
 
 2003-06-11  Michael Meeks  <michael@ximian.com>
 
@@ -2923,7 +2923,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(giop_recv_buffer_get): use giop_thread_io instead
 	of tdata != NULL.
 
-	* src/orb/poa/poa.c (pool_push_request_for_T) 
+	* src/orb/poa/poa.c (pool_push_request_for_T)
 	(MateCORBA_POA_handle_request, MateCORBA_POA_handle_request):
 	use giop_thread_io.
 	(MateCORBA_POA_handle_request): invoke_incoming_req
@@ -2942,8 +2942,8 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(giop_shutdown, giop_thread_set_main_handler),
 	(giop_thread_self, giop_thread_key_release),
 	(giop_invoke_async, giop_main_run): upd.
-	
-	* src/orb/Makefile.am (libMateCORBA_2_la_LIBADD): 
+
+	* src/orb/Makefile.am (libMateCORBA_2_la_LIBADD):
 	libadd the link library.
 
 2003-06-03  Michael Meeks  <michael@ximian.com>
@@ -3003,7 +3003,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_invoke_stub_n):
 	validate the index into the sequence.
-	
+
 2003-05-29  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/orb-core/matecorba-small.c
@@ -3025,7 +3025,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	stub/skelish builds.
 
 	* src/orb/poa/poa.c (MateCORBA_stub_post_invoke): kill.
-	(MateCORBA_stub_pre_get_epv): rename to 
+	(MateCORBA_stub_pre_get_epv): rename to
 	(get_c_method): this and re-hash.
 	(MateCORBA_c_stub_invoke): impl. - a new plan.
 
@@ -3034,7 +3034,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-05-27  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/poa/poa.c (MateCORBA_stub_pre_get_epv) 
+	* src/orb/poa/poa.c (MateCORBA_stub_pre_get_epv)
 	(MateCORBA_stub_post_invoke): impl. to get this
 	out of the stubs.
 
@@ -3061,10 +3061,10 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/GIOP/giop-connection.c
 	(giop_connection_initiate): use new linc API.
-	(giop_connection_list_lookup_T): bin. 
+	(giop_connection_list_lookup_T): bin.
 	(giop_connection_list_add, giop_connection_list_init),
 	(giop_connection_list_remove): bin.
-	
+
 	* src/orb/GIOP/giop.c (giop_init): upd.
 
 	* src/orb/GIOP/giop.c (giop_thread_request_push_key):
@@ -3076,23 +3076,23 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-05-21  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/GIOP/giop-recv-buffer.c (handle_reply): 
+	* src/orb/GIOP/giop-recv-buffer.c (handle_reply):
 	re-work the code for a simpler, more readable flow,
 	and fix async/ent ownership silly.
 
-	* src/orb/orb-core/corba-orb.c (MateCORBA_setup_debug_flags): 
+	* src/orb/orb-core/corba-orb.c (MateCORBA_setup_debug_flags):
 	add 'force_threaded' debug option.
 	(CORBA_ORB_init): do the dirty bits.
 
 2003-05-14  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/matecorba-small.c (matecorba_small_demarshal): 
+	* src/orb/orb-core/matecorba-small.c (matecorba_small_demarshal):
 	split out giop_recv_buffer_get, and pass the recv buffer in,
 	remove the recv release argument.
 	(MateCORBA_small_demarshal_async): pass the buffer straight in.
 	(MateCORBA_small_invoke_stub): unref the recv buffer here.
 
-	* src/orb/GIOP/giop.c (giop_thread_request_process) 
+	* src/orb/GIOP/giop.c (giop_thread_request_process)
 	(giop_thread_request_push): use a GQueue for request_queue.
 	(giop_incoming_signal_T, giop_incoming_signal): impl.
 
@@ -3160,12 +3160,12 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2003-05-08  Michael Meeks  <michael@ximian.com>
 
 	* test/everything/server.c (simple_finalize): impl.
-	(test_TestFactory__fini, create_TestFactory): 
+	(test_TestFactory__fini, create_TestFactory):
 	allocate servant.
-	(simple_servant, TestFactory_createDeadReferenceObj) 
+	(simple_servant, TestFactory_createDeadReferenceObj)
 	(test_TestFactory__init): allocate the servants, so
 	we're thread-safe.
-	
+
 	* test/everything/*.c: use Simple_base_epv to
 	finalize the servant where appropriate.
 
@@ -3181,7 +3181,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	de-register threading keys.
 
 	* src/orb/GIOP/giop.c (giop_thread_key_release_T)
-	(giop_request_handler_fn, giop_thread_key_release) 
+	(giop_request_handler_fn, giop_thread_key_release)
 	(giop_thread_request_push_for): impl.
 	(giop_init): create the thread pool.
 
@@ -3229,9 +3229,9 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2003-04-25  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/orb-core/matecorba-small.c
-	(MateCORBA_small_invoke_stub, MateCORBA_small_invoke_async) 
-	(MateCORBA_small_get_connection_status) 
-	(MateCORBA_small_unlisten_for_broken, get_status) 
+	(MateCORBA_small_invoke_stub, MateCORBA_small_invoke_async)
+	(MateCORBA_small_get_connection_status)
+	(MateCORBA_small_unlisten_for_broken, get_status)
 	(MateCORBA_small_get_connection): update to handle cnx.
 	reference correctly.
 	(MateCORBA_small_connection_unref): impl.
@@ -3326,18 +3326,18 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/GIOP/giop-recv-buffer.c (giop_connection_handle_input):
 	hold neither ref nor lock, linc does it.
 
-	* src/orb/GIOP/giop-connection.c (giop_connection_real_state_changed) 
+	* src/orb/GIOP/giop-connection.c (giop_connection_real_state_changed)
 	(giop_connection_dispose, giop_connection_init): bin locking action.
 
 	* include/matecorba/GIOP/giop-connection.h: bin incoming and
 	outgoing mutex; all locking is in linc-connection now.
 
 2003-04-18  Gustavo J. A. M. Carneiro  <gustavo@users.sourceforge.net>
-                                                                                
+
         * src/orb/poa/matecorba-adaptor.c
         (MateCORBA_ObjectAdaptor_set_thread_hint): Update debugging check to
         consider the new _IDLE thread hints.
-                                                                                
+
 2003-04-17  Michael Meeks  <michael@ximian.com>
 
 	* test/everything/client.c (test_basic_server):
@@ -3363,14 +3363,14 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/Makefile.am: add -no-undefined to libMateCORBA_2_la_LDFLAGS.
 
 	* src/services/imodule/Makefile.am: add -no-undefined to
-	libMateCORBA_imodule_2_la_LDFLAGS and write dependency libraries in 
+	libMateCORBA_imodule_2_la_LDFLAGS and write dependency libraries in
 	libMateCORBA_imodule_2_la_LIBADD explicitly.
 
 	* src/services/name/Makefile.am: add -no-undefined to
 	libMateCORBACosNaming_2_la_LDFLAGS and write dependency libraries in
 	libMateCORBACosNaming_2_la_LIBADD explicitly.
 
-	* test/everything/Makefile.am: add -no-undefined to 
+	* test/everything/Makefile.am: add -no-undefined to
 	Everything_module_la_LDFLAGS.
 
 2003-04-10  Michael Meeks  <michael@ximian.com>
@@ -3434,7 +3434,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2003-04-01  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/GIOP/giop.c (giop_shutdown, giop_main_run):
-	add shared seperate 'main-thread' glib mainloop, 
+	add shared seperate 'main-thread' glib mainloop,
 	If you are running your own loop, you get to quit that
 	yourself on CORBA_ORB_shutdown, we only break out of
 	CORBA_ORB_run's loop, if it's going.
@@ -3502,13 +3502,13 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2003-03-29  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/orb-core/corba-orb.c (CORBA_ORB_run):
-	add a nasty hack to not do a linc_mainloop in the 
+	add a nasty hack to not do a linc_mainloop in the
 	threaded case, since that causes acute problems.
 
 	* test/everything/test.sh: add --threaded test.
 
 	* src/orb/GIOP/giop-connection.c
-	(giop_connection_dispose): 
+	(giop_connection_dispose):
 	(giop_connection_init): bin outgoing_mutex, move this
 	into linc for easier cross thread output task transfer.
 
@@ -3524,7 +3524,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-03-28  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/GIOP/giop-send-buffer.c (giop_send_buffer_write): 
+	* src/orb/GIOP/giop-send-buffer.c (giop_send_buffer_write):
 	do the nasty re-entering connection wait phase here
 	instead of in linc, so we can make it thread safe later.
 
@@ -3567,12 +3567,12 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2003-03-18  Archana Shah  <archana.shah@wipro.com>
 
-	* /configure.in: Put a check to read the argument for, 
+	* /configure.in: Put a check to read the argument for,
 	whether to enable orbhttp compilation.
 
-	* /src/orb/orb-core/Makefile.am: Changed so that orbhttp.c 
+	* /src/orb/orb-core/Makefile.am: Changed so that orbhttp.c
 	and orbhttp.h will be compiled only if mentioned.
-	
+
 	* /src/orb/orb-core/corba-orb.c (CORBA_ORB_init):
 	Put checks for compilation of http-ior segment.
 
@@ -3623,14 +3623,14 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2003-03-11  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/orb-core/corba-any.c (MateCORBA_sequence_alloc)
-	(MateCORBA_sequence_append, MateCORBA_sequence_set_size) 
+	(MateCORBA_sequence_append, MateCORBA_sequence_set_size)
 	(MateCORBA_sequence_concat): impl & stub sequence helpers.
 	(SKIP_ALIAS): use this throught.
 
 	* src/orb/orb-core/allocators.c
 	(MateCORBA_alloc_get_tcval): impl.
 
-	* src/orb/poa/poa.c (MateCORBA_POAObject_handle_request): 
+	* src/orb/poa/poa.c (MateCORBA_POAObject_handle_request):
 	only lookup CORBA_Object small skels in-proc.
 
 2003-03-03  Michael Meeks  <michael@localhost.localdomain>
@@ -3719,7 +3719,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/GIOP/giop-recv-buffer.c
 	(giop_connection_handle_input): ditto.
-	
+
 2002-10-31  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/orb-core/corba-orb.c
@@ -3734,8 +3734,8 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(giop_connection_remove_by_orb): rename to
 	(giop_connections_shutdown): this & upd.
 	(giop_connection_unref): use linc_object_unref.
-	
-	* src/orb/GIOP/giop.c (giop_init): 
+
+	* src/orb/GIOP/giop.c (giop_init):
 	actually start the IO thread ;-)
 
 2002-10-31  Michael Meeks  <michael@ximian.com>
@@ -3874,7 +3874,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
         * configure.in:
           - require pkg-config 0.14.0
-          - make AC_DEFINE* three-argument 
+          - make AC_DEFINE* three-argument
             (someone might want to remove acconfig.h)
         * autogen.sh:
           - fail if configure failed
@@ -4143,7 +4143,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* Version 2.4.3
 
 2002-08-23  Michael Meeks  <michael@ximian.com>
-	
+
 	* src/orb/orb-core/corba-any.c
 	(MateCORBA_demarshal_value): don't do expensive re-allocs
 	on every sequence from length 1 upwards, re-assuring
@@ -4201,11 +4201,11 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/dynamic/dynany.c
 	(MAKE_DYNANY_INSERT): prune redundant ';'s
-	(DynamicAny_DynSequence_get_elements_as_dyn_any): 
+	(DynamicAny_DynSequence_get_elements_as_dyn_any):
 	kill redundant cast.
 
 	* src/orb/GIOP/giop-recv-buffer.c
-	(giop_recv_buffer_demarshal_request_1_1), 
+	(giop_recv_buffer_demarshal_request_1_1),
 	(giop_recv_buffer_demarshal_request_1_2):
 	signedness string casts.
 
@@ -4224,7 +4224,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2002-08-05  Michael Meeks  <michael@ximian.com>
 
-	* src/idl-compiler/matecorba-idl-c-backend.h: 
+	* src/idl-compiler/matecorba-idl-c-backend.h:
 	use guint instead of guint8 for bitfields.
 
 	* src/orb/poa/poa.c
@@ -4278,12 +4278,12 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(MateCORBA_recv_buffer_return_sys_exception): into here
 
 2002-07-01  Murray Cumming  <murrayc@usa.net>
- 
+
  	* src/idl-compiler/matecorba-idl3-types.h:
  	Applied Felix Breuer's "namespace -> ns" patch, and added
  	comment to code so that it won't be reverted again. The C++
  	keyword "namespace" was being used as a struct field name.
-	
+
 2002-06-27  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_list_zap):
@@ -4296,7 +4296,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/GIOP/giop-connection.c
 	(giop_connection_dispose): dispose the fragments.
-	
+
 	* src/orb/orb-core/matecorba-small.c (async_recv_cb): treat
 	a NULL cnx, like the disconnection it is.
 
@@ -4343,7 +4343,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2002-06-25  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/GIOP/giop-recv-buffer.c
-	(alloc_buffer): 
+	(alloc_buffer):
 	(giop_recv_msg_reading_body): handle the out of
 	memory situation gracefully.
 
@@ -4446,7 +4446,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/util/matecorba-options.c
 	(MateCORBA_option_command_line_parse): properly erase
-	arguments we chew, instead of nulling them via 
+	arguments we chew, instead of nulling them via
 	argv [j++] = '\0' - odd indeed. We decrement argc
 	anyway.
 
@@ -4842,7 +4842,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2002-04-09  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/util/genrand.c
-	(genrand_openssl): rename to 
+	(genrand_openssl): rename to
 	(genuid_rand_openssl): this to be consistant and work.
 	[thanks to Colin Campbell].
 
@@ -4852,13 +4852,13 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(shutdown_orb): impl. we need it to close floating UDS.
 
 2002-04-01  Murray Cumming  <murrayc@usa.net>
- 
+
  	* Added --headerguardprefix option to matecorba-idl-2. This allows the
  	C++ bindings to use generated C bindings which in turn #include
  	already-generated installed C bindings.
 	This has already been applied to the cpp branch. Applying it here
 	should simplify merging.
-	
+
 2002-03-30  ERDI Gergo  <cactus@cactus.rulez.org>
 
 	* src/idl-compiler/matecorba-idl-c-utils.c (cs_small_unflatten_ref):
@@ -4895,7 +4895,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* MateCORBA.spec.in:  Lots of re-writing and such.
 	* configure.in: Added AC_SUBST for a couple of missing variables
-	used in the spec file 
+	used in the spec file
 
 2002-03-20  Mark McLoughlin  <mark@skynet.ie>
 
@@ -5075,7 +5075,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2002-01-30  Mark McLoughlin  <mark@skynet.ie>
 
 	* include/matecorba/orb-core/corba-any.h: kill dup_strings
-	arg from demarshal funcs. Kill duplicated 
+	arg from demarshal funcs. Kill duplicated
 	MateCORBA_demarshal_value.
 
 	* src/orb/GIOP/giop-recv-buffer.c:
@@ -5227,7 +5227,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* test/everything/client.c (main): upd.
 
 2002-01-17  Mark McLoughlin  <mark@skynet.ie>
-	
+
 	Allow MateCORBA2 debugging to be switched on/off at runtime.
 	Based on a patch by Jacob Berkman <jacob@ximian.com>
 
@@ -5237,7 +5237,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	  src/orb/dynamic/Makefile.am, src/orb/orb-core/Makefile.am,
 	  src/orb/poa/Makefile.am, src/orb/util/Makefile.am:
 	use MATECORBA_DEBUG_CFLAGS.
-	
+
 	* src/orb/orb-core/corba-object.c: (g_CORBA_Object_equal),
 	(MateCORBA_objref_find), (MateCORBA_object_get_connection),
 	(MateCORBA_marshal_object): upd.
@@ -5248,7 +5248,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/matecorba-debug.h: kill old debug stuff and
 	make everything conditional on G_ENABLE_DEBUG.
-	
+
 	* src/orb/orb-core/matecorba-small.c: (MateCORBA_handle_exception_array),
 	(MateCORBA_small_send_user_exception), (matecorba_small_marshal),
 	(matecorba_small_demarshal), (MateCORBA_small_invoke_stub),
@@ -5325,7 +5325,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(cbe_skel_interface_print_vepvmap_initializer): kill.
 	(cbe_skel_interface_print_vepvmap_line), (cbe_skel_do_interface):
 	initialise the vepvmap in servant init. No need for init_vepvmap method.
-	
+
 	* src/orb/orb-core/corba-orb.c: (CORBA_ORB_destroy): s/poa/adaptor/.
 
 	* src/orb/poa/matecorba-adaptor.c: (MateCORBA_adaptor_setup): move here from
@@ -5432,7 +5432,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/idl-compiler/matecorba-idl-c-stubs.c: (cs_small_output_stub):
 	output local case code to check to see if the operation is
 	implemented and return NO_IMPLEMENT if not.
-	
+
 	* src/idl-compiler/matecorba-idl2.h: add MATECORBA_EPV_VAR_NAME.
 
 	* test/everything/client.c: (testMisc): test this in the local
@@ -5675,7 +5675,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-11-29  Mark McLoughlin  <mark@skynet.ie>
 
-	* src/orb/GIOP/giop.c: (giop_dump_recv): print the 
+	* src/orb/GIOP/giop.c: (giop_dump_recv): print the
 	  header as well as the message body.
 
 2001-11-26  Michael Meeks  <michael@ximian.com>
@@ -5683,7 +5683,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* Version 2.3.99
 
 	* configure.in: bump serial.
-	
+
 2001-11-26  Michael Meeks  <michael@ximian.com>
 
 	* src/idl-compiler/matecorba-idl-c-typecode.c
@@ -5769,7 +5769,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/orb-core/corba-object.c
 	(MateCORBA_start_servers): move into the ORB.
 	(MateCORBA_objref_find): add some debug.
-	
+
 	* src/orb/orb-core/corba-orb.c
 	(MateCORBA_ORB_start_servers): here.
 
@@ -5820,7 +5820,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(CORBA_Object__freekids): kill.
 
 	* src/orb/orb-core/allocators.c
-	(MateCORBA_alloc_kidfnc): rename to 
+	(MateCORBA_alloc_kidfnc): rename to
 	(MateCORBA_alloc_with_free_fn): this
 
 	* src/orb/orb-core/corba-any.c
@@ -5922,7 +5922,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(DynamicAny_DynSequence_get_elements_as_dyn_any): rename to
 	DynamicAny_DynSequence_get_elements_as_dyn_any, its correct
 	name.
-	
+
 	* src/orb/orb-core/corba-nvlist.c,
 	  src/orb/orb-core/corba-object.c:
 	  src/orb/orb-core/corba-orb.c,
@@ -5932,7 +5932,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	include correct headers, make some functions static and kill
 	unused variables.
 
-	* src/orb/poa/poa.c: 
+	* src/orb/poa/poa.c:
 	(MateCORBA_classinfo_lookup_id): kill unused fuction.
 	(MateCORBA_POA_obj_to_ref): kill unused variable.
 
@@ -5951,7 +5951,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* include/matecorba/poa/poa.h: kill MateCORBA_POA_object_to_shutdown.
 
-	* src/orb/orb-core/corba-object.c: 
+	* src/orb/orb-core/corba-object.c:
 	(CORBA_Object_release_cb): upd.
 
 	* src/orb/poa/poa.c:
@@ -5967,7 +5967,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-11-16  Michael Meeks  <michael@ximian.com>
 
 	* configure.in: require a linc we can work with.
-	
+
 	* src/orb/orb-core/corba-object.c
 	(MateCORBA_try_connection): use giop_connection_unref.
 	(MateCORBA_objref_find): release the object key - don't
@@ -5992,7 +5992,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-11-16  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/poa/poa.c (PortableServer_POA_servant_to_reference): 
+	* src/orb/poa/poa.c (PortableServer_POA_servant_to_reference):
 	dup the reference we return if we return the same twice ...
 
 	* src/orb/orb-core/matecorba-small.c
@@ -6009,7 +6009,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	MateCORBA_POA_object_shutdown instead of an unref - the poa
 	holds a ref too ...
 
-	* test/everything/deadReference.c (DeadReferenceObj_test): 
+	* test/everything/deadReference.c (DeadReferenceObj_test):
 	release references, kill spurious global.
 
 	* test/everything/server.c (TestFactory_createDeadReferenceObj):
@@ -6208,17 +6208,17 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/corba-object.c
 	(CORBA_Object_release_cb): p_free
-	
-	* src/orb/util/matecorba-options.c, 
-	* src/orb/util/genrand.c, 
+
+	* src/orb/util/matecorba-options.c,
+	* src/orb/util/genrand.c,
 	* src/orb/util/matecorba-util.c,
-	* src/orb/poa/matecorba-adaptor.c, 
-	* src/orb/poa/poa.c, 
-	* src/orb/poa/poa-servants.c, 
-	* src/orb/poa/poa-policy.c, 
-	* src/orb/poa/poa-manager.c, 
+	* src/orb/poa/matecorba-adaptor.c,
+	* src/orb/poa/poa.c,
+	* src/orb/poa/poa-servants.c,
+	* src/orb/poa/poa-policy.c,
+	* src/orb/poa/poa-manager.c,
 	* src/orb/GIOP/giop-endian.c,
-	* src/orb/orb-core/corba-orb.c, 
+	* src/orb/orb-core/corba-orb.c,
 	* src/orb/orb-core/matecorba-object.c,
 	* src/orb/orb-core/iop-profiles.c: include config.h
 
@@ -6256,7 +6256,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-11-06  Johan Dahlin  <jdahlin@telia.com>
 
-	* test/everything/Makefile.am (Everything_module_la_LIBADD): 
+	* test/everything/Makefile.am (Everything_module_la_LIBADD):
 	Add $(top_builddir)/src/orb/libMateCORBA-2.la
 
 	* src/orb/orb-core/Makefile.am (TYPELIB_DIR): fix
@@ -6380,8 +6380,8 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* test/poa/Makefile.am: add poatest-basic-shell.h.
 
 2001-10-31  Mark McLoughlin  <mark@skynet.ie>
-	
-	I feel violated. What's matecomponent-config doing poking 
+
+	I feel violated. What's matecomponent-config doing poking
 	around with this stuff?
 
 	* include/matecorba/orb-core/allocators.h: expose
@@ -6504,7 +6504,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-10-29  Mark McLoughlin  <mark@skynet.ie>
 
 	* include/matecorba/poa/poa-basics.h
-	(PortableServer_ServantBase__epv): added extra members 
+	(PortableServer_ServantBase__epv): added extra members
 	to the epv to handle servant refcounting and CORBA::Object
 	method overiding.
 
@@ -6524,7 +6524,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(PortableServer_ServantBase__fini): upd.
 
 	* include/matecorba/orb-core/corba-orb-type.h: add
-	CORBA_InterfaceDef definition to keep poa headers 
+	CORBA_InterfaceDef definition to keep poa headers
 	happy.
 
 2001-10-30  Michael Meeks  <michael@ximian.com>
@@ -6643,7 +6643,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* test/everything/Makefile.am (matecorbatypelibdir):
 	install in matecorba-2.0
 
-	* src/orb/orb-core/matecorba-typelib.c (add_if_unique): 
+	* src/orb/orb-core/matecorba-typelib.c (add_if_unique):
 	use the matecorba-2.0 directory for type libs.
 
 2001-10-23  Mark McLoughlin  <mark@skynet.ie>
@@ -6653,7 +6653,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-10-24  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/GIOP/giop-server.c (giop_server_destroy): 
+	* src/orb/GIOP/giop-server.c (giop_server_destroy):
 	kill misleadingly named method.
 	(giop_server_class_init): don't init it, or setup
 	parent_class
@@ -6714,7 +6714,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* test/everything/client.c, test/everything/everything.idl,
 	  test/everything/server.c, test/everything/deadReference.c,
-	  test/everything/test.sh: added regression test for dead 
+	  test/everything/test.sh: added regression test for dead
 	server-side references and ORB initial services.
 
 	* src/idl-compiler/matecorba-idl-c-stubs.c (cs_small_output_stub):
@@ -6750,10 +6750,10 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-10-18  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/GIOP/giop-connection.c (giop_connection_handle_input): 
+	* src/orb/GIOP/giop-connection.c (giop_connection_handle_input):
 	hold a ref on the connection whilst handling the input.
 
-	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_list_push): 
+	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_list_push):
 	release the incoming mutex around the ent. call,
 	set the cnx->incoming_msg to NULL much earlier.
 
@@ -6816,7 +6816,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-10-16  Mark McLoughlin <mark@skynet.ie>
 
 	* Makefile.am (EXTRA_DIST): add HACKING AND MAINTAINERS.
-	Remove MateCORBA.spec.in, *.pc.in which are automatically 
+	Remove MateCORBA.spec.in, *.pc.in which are automatically
 	included.
 
 	* include/matecorba/Makefile.am (EXTRA_DIST): remove
@@ -6926,13 +6926,13 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-09-24  Mark McLoughlin <mark@skynet.ie>
 
-	* Makefile.am(SUBDIRS): remove libIDL - this is to built 
+	* Makefile.am(SUBDIRS): remove libIDL - this is to built
 	seperately.
 
 	* configure.in: cleanup libtool versioning. Use pkg-config
 	to check for dependancies. Remove libIDL config call.
 
-	* MateCORBA-2.0.pc.in, MateCORBA-CosNaming-2.0.pc.in, 
+	* MateCORBA-2.0.pc.in, MateCORBA-CosNaming-2.0.pc.in,
 	  MateCORBA.spec.in: update.
 
 	* src/idl-compiler/Makefile.am: update and remove all libIDL
@@ -6949,7 +6949,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	  src/services/name/Makefile.am, test/Makefile.am,
 	  test/everything/Makefile.am, test/inhibit/Makefile.am,
 	  test/poa/Makefile.am: update.
-	
+
 2001-09-24  Mark McLoughlin <mark@skynet.ie>
 
 	* test/Makefile.am: -lm for test-dynany.
@@ -6963,7 +6963,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-09-21  Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/orb-core/corba-typecode.c (CDR_get): remove
-	unused align param. Tidy up macros, hard code the 
+	unused align param. Tidy up macros, hard code the
 	CDR alignments. Fixes a forte build problem.
 
 2001-09-20  Mark McLoughlin <mark@skynet.ie>
@@ -6973,7 +6973,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	of 0, then the connection has been closed. Unlock incoming_mutex
 	and change state to LINC_DISCONNECTED. Clients should no longer
 	hang when servers have dumped code while servicing a request.
-	
+
 2001-09-20  Mark McLoughlin <mark@skynet.ie>
 
 	*  MateCORBA-2.0.pc.in (Requires): add linc.
@@ -6984,16 +6984,16 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-09-19  Havoc Pennington  <hp@redhat.com>
 
 	* src/idl-compiler/Makefile.am (matecorba_idl_2_SOURCES): don't
-	install matecorba-idl2.h, apparently it isn't used. 
+	install matecorba-idl2.h, apparently it isn't used.
 
 	* MateCORBA-CosNaming-2.0.pc.in (Libs): update
 
 	* MateCORBA-2.0.pc.in (matecorba_idl): matecorba-idl-2
-	
+
 	* test/Makefile.am (ior_decode_2_SOURCES): rename ior-decode to
 	matecorba-ior-decode-2
 
-	* src/services/name/Makefile.am (libMateCORBAservicesincludedir): put 
+	* src/services/name/Makefile.am (libMateCORBAservicesincludedir): put
 	MateCORBAservices inside /usr/include/matecorba to avoid MateCORBA1 conflicts
 	(lib_LIBRARIES): rename libname-matecorba-server to libname-matecorba-server-2
 
@@ -7040,8 +7040,8 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-09-19  Raja R Harinath  <harinath@cs.umn.edu>
 
-	* src/orb/orb-core/corba-typecode.c: Have 
-	definitions of '*_struct's agree with declarations 
+	* src/orb/orb-core/corba-typecode.c: Have
+	definitions of '*_struct's agree with declarations
 	in include/matecorba/orb-core/corba-typecode.h.
 
 2001-09-19  Raja R Harinath  <harinath@cs.umn.edu>
@@ -7055,7 +7055,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	Port command line option handling from MateCORBA-0.5.x.
 
-	* src/orb/util/matecorba-options.[ch]: two new files with two 
+	* src/orb/util/matecorba-options.[ch]: two new files with two
 	new functions - MateCORBA_option_set and MateCORBA_option_parse
 	courtesy of Dick I think.
 
@@ -7075,9 +7075,9 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/Makefile.am: depend on $(IDL_COMPILER)
 	not on $(IDL). hmmm.
-	
+
 2001-09-18  Jens Finke <jens@gnome.org>
-	
+
 	* MateCORBA.spec.in: Updated, matches gpp requirements now, renamed the
 	package to MateCORBA2 and reworked the files section.
 
@@ -7085,7 +7085,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* Makefile.shared: s/DEPS_MAGIC/IDL_DEPS_MAGIC/. Using
 	the same variable name used by automake causes automake
-	to get confused. This was causing automatic Makefile 
+	to get confused. This was causing automatic Makefile
 	dependancy tracking to not work.
 
 2001-09-17  Mark McLoughlin <mark@skynet.ie>
@@ -7127,7 +7127,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* include/matecorba/GIOP/giop-server.h,
 	  src/orb/GIOP/giop-server.c: minor tidying.
-	
+
 2001-09-09  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/orb-core/corba-object.c
@@ -7170,7 +7170,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(IOP_profile_equal): don't compare object keys.
 	(IOP_component_free, IOP_TAG_INTERNET_IOP_free,
 	 IOP_TAG_MATECORBA_SPECIFIC_free): don't free the object key.
-	
+
 2001-09-04 Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/poa/Makefile.am,
@@ -7188,7 +7188,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* Makefile.shared: Re-enable generating deps, fixing a potential
 	distcheck-breaking problem.
-	
+
 	* src/orb/orb-core/Makefile.am: Re-disable generating headers;
 	they are generated in include/matecorba/orb-core.
 
@@ -7196,7 +7196,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/idl-compiler/matecorba-idl-c-headers.c
 	(ch_output_const_dcl): implement the unsigned
-	check correctly. Michael should have more faith 
+	check correctly. Michael should have more faith
 	in the splendifuredness of libIDL ;)
 
 2001-09-03 Mark McLoughlin <mark@skynet.ie>
@@ -7246,7 +7246,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-08-30 Mark McLoughlin <mark@skynet.ie>
 
-	* acconfig.h, configure.in, 
+	* acconfig.h, configure.in,
 	  include/matecorba/matecorba-config.h.in:
 	move ALIGNOF defines out of config.h
 	and into public view. Rename to MATECORBA_ALIGNOF*.
@@ -7255,7 +7255,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	  src/idl-compiler/matecorba-idl-passes.c,
 	  src/orb/orb-core/allocators.c,
 	  src/orb/orb-core/corba-any.c: update.
-	
+
 2001-08-29 Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/orb-core/corba-any.c: minor cleanups.
@@ -7271,7 +7271,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(MateCORBA_value_equivalent): ditto.
 	(MateCORBA_marhsal_value): ditto and fix silly bug with
 	previous commit.
-	
+
 2001-08-28 Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/orb-core/corba-any.c(MateCORBA_marhsal_value):
@@ -7280,7 +7280,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-08-28 Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/GIOP/giop-send-buffer.c
-	(giop_send_buffer_append_aligned): kill 
+	(giop_send_buffer_append_aligned): kill
 	unused indirect_left.
 
 	* src/orb/orb-core/corba-any.c(MateCORBA_marhsal_value):
@@ -7290,7 +7290,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* test/everything/: added long long regression test.
 
 2001-08-28 Mark McLoughlin <mark@skynet.ie>
-	
+
 	* include/matecorba/orb-core/corba-any-type.h:
 	kill MateCORBA_marshal_value_info_struct.
 
@@ -7307,7 +7307,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/matecorba-trace.c
 	(MateCORBA_trace_value): kill MateCORBA_marshal_value_info.
-	
+
 2001-08-27 Mark McLoughlin <mark@skynet.ie>
 
 	* test/everything/server.c
@@ -7320,7 +7320,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	(IOP_component_free): free object key.
 	(IOP_TAG_INTERNET_IOP_free): ditto.
 	(IOP_TAG_MATECORBA_SPECIFIC_free): ditto.
-	Note: To avoid deadlock use MateCORBA_free_T, even 
+	Note: To avoid deadlock use MateCORBA_free_T, even
 	      though the lock is not neccessarily taken.
 	      This doesn't matter, because no RootObjects
 	      are affected.
@@ -7358,9 +7358,9 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	to open...
 
 2001-08-23  Mark McLoughlin <mark@skynet.ie>
-	
+
 	* src/orb/orb-core/allocators.c
-	(MateCORBA_freekids_via_TypeCode_T): unref the 
+	(MateCORBA_freekids_via_TypeCode_T): unref the
 	object reference.
 
 	* src/orb/orb-core/corba-policy.c
@@ -7377,7 +7377,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* configure.in: check for popt.h
 
 2001-08-23  Mark McLoughlin <mark@skynet.ie>
-	
+
 	* test/poa/poatest-basic??.c:
 	do the policy thang correctly.
 
@@ -7386,7 +7386,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	Bunch of warnings fixes.
 
 	* libIDL/lexer.l, libIDL/parser.y,
-	  libIDL/util.c, 
+	  libIDL/util.c,
 	  src/idl-compiler/matecorba-idl-c-headers.c:
 	cast char to int for isspace() etc.
 
@@ -7406,7 +7406,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* test/test-dynany.c(test_struct): pass dyn_struct
 	to DynamicAny_DynStruct_* instead of dyn_any.
-	  
+
 2001-08-23  Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/orb-core/corba-context.c,
@@ -7414,7 +7414,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	  src/orb/orb-core/corba-object.c,
 	  src/orb/orb-core/corba-orb.c,
 	  src/orb/orb-core/corba-request.c,
-	  src/orb/poa/poa.c: The implications of Maciej's 
+	  src/orb/poa/poa.c: The implications of Maciej's
 	patch. Match up API defs with IDL generated defs.
 
 	 * src/orb/orb-core/iop-profiles.c:
@@ -7472,7 +7472,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	mode.
 
 2001-08-20  Mark McLoughlin <mark@skynet.ie>
-	
+
 	* src/orb/poa/poa-policy.c: create policy
 	methods with macros. Simplifies things.
 
@@ -7483,10 +7483,10 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/matecorba-init.c: Include <sys/time.h> to fix build.
 
 2001-08-19  Mark McLoughlin <mark@skynet.ie>
-	
+
 	* src/orb/poa/poa.c: code movement, cleaning etc.
 
-	* src/orb/poa/matecorba-poa.h: only export what's 
+	* src/orb/poa/matecorba-poa.h: only export what's
 	neccessary.
 
 2001-08-18  Michael Meeks  <michael@ximian.com>
@@ -7522,7 +7522,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	s/O_MUTEX/LINC_MUTEX/ fix stylistic ugliness,
 	remove redundant forward prototypes.
 
-	* src/orb/GIOP/giop-connection.c 
+	* src/orb/GIOP/giop-connection.c
 	(giop_connection_dispose): update lock destruction.
 	(giop_connection_handle_input): FIXME: introduced
 	possible re-enterancy deadlock here.
@@ -7623,7 +7623,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/idl-compiler/matecorba-idl3-types.h: Add dependency pass and a
 	#define for the number of passes, to help avoid magic numbers in
 	code.
-	* src/idl-compiler/Makefile.am: Add matecorba-idl-c-deps.c to build. 
+	* src/idl-compiler/Makefile.am: Add matecorba-idl-c-deps.c to build.
 
 	* Makefile.shared: Common Makefile segment that has the
 	appropriate rules for building IDL files and generating dependency
@@ -7735,7 +7735,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-08-10  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/matecorba-small.c 
+	* src/orb/orb-core/matecorba-small.c
 	(MateCORBA_handle_exception_array): set the typecode in the
 	CORBA_Environment as we demarshal.
 
@@ -7794,7 +7794,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* test/everything/client.c
 	(testString): free ior.
-	
+
 2001-08-08  Mark McLoughlin <mark@skynet.ie>
 
 	* test/everything/client.c
@@ -7818,7 +7818,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* Version 2.3.93
 
 	* src/orb/orb-core/corba-typecode.c
-	(CORBA_TypeCode_eqivalent): rename to 
+	(CORBA_TypeCode_eqivalent): rename to
 	(CORBA_TypeCode_equivalent): this, doh.
 
 	* src/orb/orb-core/corba-typecode.c
@@ -7849,7 +7849,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* src/orb/orb-core/corba-types.c
 	(MateCORBA_sequence_CORBA_octet_dup): ditto.
-	
+
 	* src/orb/orb-core/matecorba-small.c(load_module): ditto.
 
 2001-08-07  Michael Meeks  <michael@ximian.com>
@@ -7929,7 +7929,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-08-02  Mark McLoughlin <mark@skynet.ie>
 
-	* src/orb/poa(MateCORBA_OAObject_invoke): let's not 
+	* src/orb/poa(MateCORBA_OAObject_invoke): let's not
 	return a value from a void function, shall we.
 
 2001-08-01  Mark McLoughlin <mark@skynet.ie>
@@ -7940,7 +7940,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* include/matecorba/poa/matecorba-adaptor.h,
 	  src/orb/poa/matecorba-adaptor.c
-	(MateCORBA_OAObject_invoke, 
+	(MateCORBA_OAObject_invoke,
 	MateCORBA_OAObject_object_to_objkey): impl.
 
 	* src/orb/orb-core/iop-profiles.c,
@@ -7959,7 +7959,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	  include/matecorba/poa/Makefile.am,
 	  src/orb/poa/Makefile.am:
 	added matecorba-adaptor.[ch]. Virtual Object Adaptor
-	interface.  
+	interface.
 
 	* include/matecorba/poa/poa-basics.h: added
 	typedefs for MateCORBA_OAObject and MateCORBA_ObjectAdaptor.
@@ -7969,15 +7969,15 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	Included base structures in ORBIt_POAObject and
 	PortableServer_POA.
 
-	* src/orb/poa/matecorba-poa-export.h 
+	* src/orb/poa/matecorba-poa-export.h
 	(MateCORBA_handle_request, MateCORBA_small_handle_request,
 	MateCORBA_POA_object_to_okey): kill.
 
-	* src/orb/poa/poa.c 
+	* src/orb/poa/poa.c
 	(MateCORBA_POAObject_is_active, MateCORBA_POAObject_invoke): impl.
-	(MateCORBA_POA_object_to_okey) rename to 
+	(MateCORBA_POA_object_to_okey) rename to
 	MateCORBA_POAObject_object_to_objkey.
-	(MateCORBA_handle_request) rename to 
+	(MateCORBA_handle_request) rename to
 	MateCORBA_POA_handle_request.
 	(MateCORBA_small_handle_rquest) rename to
 	MateCORBA_POAObject_handle_request.
@@ -8073,7 +8073,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* test/everything/client.c (testStructAny): impl.
 	(run_tests): hook up.
-	
+
 	* test/everything/structServer.c (StructServer_opStructAny): impl.
 	(StructServer_epv): add. & fix all the serious stylistic issues.
 
@@ -8183,7 +8183,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	anything back for oneway methods ...
 	(giop_dump_recv, giop_dump_send): robustify and publicise.
 
-	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_buffer_handle_fragmented): 
+	* src/orb/GIOP/giop-recv-buffer.c (giop_recv_buffer_handle_fragmented):
 	add a warning for the broken fragmentation case ...
 	(giop_recv_buffer_use_noblock): kill.
 	(giop_recv_list_push): add conditional debug
@@ -8204,7 +8204,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/orb-core/corba-env.c (CORBA_exception_free): NULL
 	the exception id after freeing it, so we don't double free: doh !
 
-	* src/orb/orb-core/matecorba-small.c (MateCORBA_handle_exception_array): 
+	* src/orb/orb-core/matecorba-small.c (MateCORBA_handle_exception_array):
 	robustify the 'fired an unknown exception' case.
 	(MateCORBA_small_send_user_exception): don't use a fakeev - use
 	the real one, since the exception type is grokked elsewhere,
@@ -8251,7 +8251,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-07-20  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/iop-profiles.c (IOP_generate_profiles): 
+	* src/orb/orb-core/iop-profiles.c (IOP_generate_profiles):
 	remove 'need_object_key_component' - we always do, to flag
 	UTF-8.
 	(IOP_profile_get_info): fallback to obj->oki if coki is NULL.
@@ -8288,7 +8288,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/orb-core/corba-object.c: upd.
 
 	* src/orb/orb-core/matecorba-small.c: upd.
-	
+
 2001-07-19  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/poa/poa.c (MateCORBA_POAObject_release_cb): try
@@ -8327,7 +8327,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-07-18  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/corba-object.c 
+	* src/orb/orb-core/corba-object.c
 	(_MateCORBA_object_get_connection): rename to
 	(MateCORBA_object_get_connection): this & re-order slightly.
 	(CORBA_Object_non_existent): local objects always exist,
@@ -8365,7 +8365,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-07-17  Michael Meeks  <michael@ximian.com>
 
-	* test/everything/client.c (testIInterface): 
+	* test/everything/client.c (testIInterface):
 	MateCORBA_small_get_type_id regression test.
 	(run_tests): hook it up.
 
@@ -8412,13 +8412,13 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/poa/poa.c (MateCORBA_small_handle_request):
 	re-indent to make legible.
 
-	* src/orb/orb-core/corba-object.c (CORBA_Object_is_a): 
+	* src/orb/orb-core/corba-object.c (CORBA_Object_is_a):
 	fix invocation code.
 	(MateCORBA_impl_CORBA_Object_is_a): fix indirection.
 	Thanks to Martin Baulig for reporting repo_id matching
 	bug.
 
-	* test/everything/client.c (testFixedLengthStruct): 
+	* test/everything/client.c (testFixedLengthStruct):
 	add CORBA_Object_is_a test.
 
 	* src/orb/orb-core/allocators.c
@@ -8459,7 +8459,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* NB. obj->oki == NULL for objects passed in remotely, need
 	to bear this in mind when re-marshaling the profiles.
-	
+
 2001-07-12  Mark McLoughlin <mark@skynet.ie>
 
 	* include/matecorba/orb-core/corba-object.h,
@@ -8503,11 +8503,11 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	  src/orb/poa/poa.c: put all the 'non-small'
 	code back, at Elliot's behest.
 
-	Note: The --noidata option remains and the PIDL is 
+	Note: The --noidata option remains and the PIDL is
 	still no longer being compiled with --oldstyle.
 
         * configure.in: bump up MATECORBA_SERIAL.
-		
+
 2001-07-11  Mark McLoughlin <mark@skynet.ie>
 
 	* src/idl-compiler/matecorba-idl-c-headers.c
@@ -8558,7 +8558,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-07-11  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/corba-object.c (CORBA_Object__freekids): 
+	* src/orb/orb-core/corba-object.c (CORBA_Object__freekids):
 	fix brokenness.
 
 	* src/orb/orb-core/corba-typecode.c (MateCORBA_TypeCode_free_fn):
@@ -8621,7 +8621,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	MateCORBA_small_handle_request.
 
 	* src/orb/orb-core/matecorba-small.c
-	(MateCORBA_small_invoke_stub): call 
+	(MateCORBA_small_invoke_stub): call
 	MateCORBA_small_handle_request.
 
 	* test/poa/poatest-basic09.c,
@@ -8631,7 +8631,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-07-09  Mark McLoughlin <mark@skynet.ie>
 
 	* src/orb/orb-core/corba-object.c,
-	  src/orb/poa/poa.c: fixed some extreme 
+	  src/orb/poa/poa.c: fixed some extreme
 	braindeadness on my part.
 
 2001-07-07  Mark McLoughlin <mark@skynet.ie>
@@ -8709,12 +8709,12 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	s/bypass_obj/pobj/.
 
 2001-07-05  Mark McLoughlin <mark@skynet.ie>
-	
+
 	* test/poa/poatest-basic04.c,
 	  test/poa/poatest-basic05.c,
 	  test/poa/poatest-basic06.c,
 	  test/poa/poatest-basic07.c,
-	  test/poa/poatest-basic08.c: use 
+	  test/poa/poatest-basic08.c: use
 	CORBA_PolicyList_allocbuf instead of g_new0.
 
 2001-07-04  Mark McLoughlin <mark@skynet.ie>
@@ -8889,7 +8889,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-06-19  Michael Meeks  <michael@ximian.com>
 
-	* src/idl-compiler/matecorba-idl-c-stubs.c (cs_small_output_stub): 
+	* src/idl-compiler/matecorba-idl-c-stubs.c (cs_small_output_stub):
 	output pre / post call code even for small stubs / skels.
 
 	* include/matecorba/poa/poa-types.h: remove redundant type defines.
@@ -8931,7 +8931,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-05-30  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_invoke_stub): 
+	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_invoke_stub):
 	don't do an alloca (0), just use &obj - this points to
 	the stack in a safer, quicker and cleaner way.
 
@@ -9025,7 +9025,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-05-24  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/GIOP/giop-connection.c (giop_connection_initiate): 
+	* src/orb/GIOP/giop-connection.c (giop_connection_initiate):
 	reference the connection before returning it, if it wasn't
 	looked up in the list.
 	(giop_connection_remove_by_orb): fix serious brokenness.
@@ -9095,7 +9095,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/poa/poa.c (MateCORBA_POA_free_fn): free the poa's
 	name and key buffer.
 
-	* src/orb/orb-core/corba-orb.c (CORBA_ORB_release_fn): 
+	* src/orb/orb-core/corba-orb.c (CORBA_ORB_release_fn):
 	free the initial refs hash.
 
 2001-05-18  Martin Baulig  <baulig@suse.de>
@@ -9114,7 +9114,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-05-19  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/corba-any.c (MateCORBA_demarshal_value): 
+	* src/orb/orb-core/corba-any.c (MateCORBA_demarshal_value):
 	set _release = TRUE for sequences.
 
 2001-05-18  Michael Meeks  <michael@ximian.com>
@@ -9152,7 +9152,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/GIOP/giop-server.c (giop_server_handle_new_connection): impl.
 	(giop_server_class_init): hook it up.
 
-	* src/orb/orb-core/corba-orb.c (CORBA_ORB_run): 
+	* src/orb/orb-core/corba-orb.c (CORBA_ORB_run):
 	unuse reliably here.
 
 	* src/orb/poa/poa.c (MateCORBA_handle_request):
@@ -9163,7 +9163,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 2001-05-18  Michael Meeks  <michael@ximian.com>
 
 	* src/orb/poa/poa.c (PortableServer_POA_find_POA): bugfix.
-	(MateCORBA_POA_is_inuse): 
+	(MateCORBA_POA_is_inuse):
 
 	* src/orb/orb-core/corba-orb.c (CORBA_ORB_init): duplicate
 	the ORB before returning it.
@@ -9183,7 +9183,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	* src/orb/orb-core/corba-object.c
 	(MateCORBA_profile_free): actualy free the sub-profiles.
 	(IOP_TAG_INTERNET_IOP_free, IOP_TAG_GENERIC_IOP_free),
-	(IOP_TAG_MULTIPLE_COMPONENTS_free, IOP_TAG_MATECORBA_SPECIFIC_free): 
+	(IOP_TAG_MULTIPLE_COMPONENTS_free, IOP_TAG_MATECORBA_SPECIFIC_free):
 	impl.
 
 	* src/orb/GIOP/giop-recv-buffer.c
@@ -9219,7 +9219,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-05-16  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/corba-object.c (CORBA_Object_non_existent): 
+	* src/orb/orb-core/corba-object.c (CORBA_Object_non_existent):
 	reverse polarity.
 
 	* src/orb/orb-core/matecorba-small.c (MateCORBA_small_allocbuf):
@@ -9243,7 +9243,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-05-11  Michael Meeks  <michael@ximian.com>
 
-	* src/orb/orb-core/corba-any.c (MateCORBA_demarshal_value): 
+	* src/orb/orb-core/corba-any.c (MateCORBA_demarshal_value):
 	don't try to de-marshal a _maximum that isn't there.
 
 2001-05-10  Michael Meeks  <michael@ximian.com>
@@ -9262,7 +9262,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 2001-05-08  Michael Meeks  <michael@ximian.com>
 
-	* src/idl-compiler/matecorba-idl-c-skels.c (ck_output_small_skel): 
+	* src/idl-compiler/matecorba-idl-c-skels.c (ck_output_small_skel):
 	impl.
 
 	* src/idl-compiler/matecorba-idl-c-utils.c
@@ -9276,7 +9276,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 	poa work... perhaps expand the PortableServer_ClassInfo
 	struct with a more sensible option ? / put it on the
 	object.
-	
+
 	* src/idl-compiler/matecorba-idl-c-stubs.c
 	(matecorba_cbe_param_printptrs): unused - kill.
 
@@ -9310,7 +9310,7 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* include/matecorba/orb-core/orb-core.h: add matecorba-small.h
 
-	* src/idl-compiler/matecorba-idl-c-headers.c (ch_output_type_enum): 
+	* src/idl-compiler/matecorba-idl-c-headers.c (ch_output_type_enum):
 	(ch_output_interface, ch_output_type_dcl, ch_output_type_struct),
 	(ch_output_type_union, ch_prep_fixed, ch_prep_sequence): pass
 	rinfo around so we can get at the 'small' flag.
@@ -9333,10 +9333,10 @@ Thu Sep 18 09:09:39 2003  George Lebl <jirka@5z.com>
 
 	* test/Makefile.am (SUBDIRS): add 'everything'
 
-	* src/idl-compiler/matecorba-idl-c-common.c (matecorba_idl_output_c_common): 
+	* src/idl-compiler/matecorba-idl-c-common.c (matecorba_idl_output_c_common):
 	setup MateCORBA_zero_int as a static local.
 
-	* include/matecorba/orb-core/allocators.h (CORBA_sequence_get_release): 
+	* include/matecorba/orb-core/allocators.h (CORBA_sequence_get_release):
 	define CORBA_sequence_get_release
 
 	* src/idl-compiler/matecorba-idl-c-skels.c:

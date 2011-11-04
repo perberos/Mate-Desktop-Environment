@@ -20,7 +20,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Authors: 
+   Authors:
    	Darin Adler <darin@eazel.com>
 	Ian McKellar <yakk@yakk.net.au>
 */
@@ -39,11 +39,11 @@
 	G_STMT_START { if (!(expression)) test_failed message; } G_STMT_END
 
 static void
-stop_after_log (const char *domain, GLogLevelFlags level, 
+stop_after_log (const char *domain, GLogLevelFlags level,
 	const char *message, gpointer data)
 {
 	void (* saved_handler) (int);
-	
+
 	g_log_default_handler (domain, level, message, data);
 
 	saved_handler = signal (SIGINT, SIG_IGN);
@@ -55,7 +55,7 @@ static void
 make_asserts_break (const char *domain)
 {
 	g_log_set_handler
-		(domain, 
+		(domain,
 		 (GLogLevelFlags) (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING),
 		 stop_after_log, NULL);
 }
@@ -92,20 +92,20 @@ test_make_canonical_path (const char *input,
 	g_free (output);
 }
 
-static const char* test_uris[][2] = 
+static const char* test_uris[][2] =
 {
-	{ "http://www.mate.org/", "index.html" },
-	{ "http://www.mate.org/", "/index.html"},
-	{ "http://www.mate.org/", "/index.html"},
-	{ "http://www.mate.org", "index.html"},
-	{ "http://www.mate.org", "/index.html"},
-	{ "http://www.mate.org", "./index.html"},
+	{ "http://www.gnome.org/", "index.html" },
+	{ "http://www.gnome.org/", "/index.html"},
+	{ "http://www.gnome.org/", "/index.html"},
+	{ "http://www.gnome.org", "index.html"},
+	{ "http://www.gnome.org", "/index.html"},
+	{ "http://www.gnome.org", "./index.html"},
 	{NULL, NULL}
 };
 
 
 static void
-test_make_full_from_relative  (const gchar* base, const gchar* relative, 
+test_make_full_from_relative  (const gchar* base, const gchar* relative,
 			       const gchar* expected_result)
 {
 	MateVFSURI *base_uri;
@@ -174,17 +174,17 @@ test_uri_match (const char *uri_string_1, const char *uri_string_2, gboolean exp
 {
 	MateVFSURI *uri1;
 	MateVFSURI *uri2;
-	
+
 	uri1 = mate_vfs_uri_new (uri_string_1);
 	uri2 = mate_vfs_uri_new (uri_string_2);
-	
+
 	if (mate_vfs_uri_equal (uri1, uri2) != expected_result) {
 		test_failed ("test_uri_match (%s, %s) resulted in a %s instead of %s",
 			uri_string_1, uri_string_2,
 			expected_result ? "mismatch" : "match",
 			expected_result ? "match" : "mismatch");
 	}
-	
+
 	mate_vfs_uri_unref (uri2);
 	mate_vfs_uri_unref (uri1);
 }
@@ -222,7 +222,7 @@ test_uri_has_fragment_id (const char *input,
 {
 	MateVFSURI *uri;
 	char *output;
-	
+
 	uri = mate_vfs_uri_new (input);
 	if (uri == NULL) {
 		output = g_strdup ("NULL");
@@ -315,11 +315,11 @@ test_uri_has_parent (const char *input,
 }
 
 /*
- * Ensure that mate_vfs_uri_{get_host_name,get_scheme,get_user_name,get_password} 
+ * Ensure that mate_vfs_uri_{get_host_name,get_scheme,get_user_name,get_password}
  * return expected results
- */  
+ */
 static void
-test_uri_part (const char *input, 
+test_uri_part (const char *input,
 	       const char *expected_output,
 	       const char *(*func_mate_vfs_uri)(const MateVFSURI *)
 	       )
@@ -351,9 +351,9 @@ test_uri_part (const char *input,
 /*
  * Ensure that mate_vfs_uri_get_host_port
  * return expected results
- */  
+ */
 static void
-test_uri_host_port (const char *input, 
+test_uri_host_port (const char *input,
 		    guint expected_port)
 {
 	MateVFSURI *uri;
@@ -382,12 +382,12 @@ test_uri_is_parent_common (const char *parent, const char *item, gboolean deep, 
 	MateVFSURI *item_uri;
 	MateVFSURI *parent_uri;
 	gboolean result;
-	
+
 	item_uri = mate_vfs_uri_new (item);
 	parent_uri = mate_vfs_uri_new (parent);
-	
+
 	result = mate_vfs_uri_is_parent (parent_uri, item_uri, deep);
-	
+
 	if (result != expected_result) {
 		test_failed ("mate_vfs_uri_is_parent (%s, %s) resulted in \"%s\" instead of \"%s\"",
 			     parent, item, result ? "TRUE" : "FALSE", expected_result ? "TRUE" : "FALSE");
@@ -628,7 +628,7 @@ main (int argc, char **argv)
 	test_make_canonical ("dav:///&", "dav:///&");
 	test_make_canonical ("dav:///x", "dav:///x");
 
-	
+
 	test_make_canonical ("http://www.eazel.com/query?email=email@eazel.com", "http://www.eazel.com/query?email=email@eazel.com");
 
 	/* test proper case-sensitivity handling */
@@ -728,13 +728,13 @@ main (int argc, char **argv)
 	VERIFY_STRING_RESULT_NULL (mate_vfs_get_local_path_from_uri ("file:///my/docu%20ment%23/path/foo.html.gz#gunzip:///#fragment"));
 	VERIFY_STRING_RESULT_NULL (mate_vfs_get_local_path_from_uri ("/my/document.html"));
 	VERIFY_STRING_RESULT_NULL (mate_vfs_get_local_path_from_uri ("http://my/document.html"));
-	
+
 	/* Testing mate_vfs_uri_make_full_from_relative */
 	/* (not an extensive testing, but a regression test */
 	i = 0;
 	while (test_uris[i][0] != NULL) {
 		test_make_full_from_relative (test_uris[i][0], test_uris[i][1],
-					      "http://www.mate.org/index.html");
+					      "http://www.gnome.org/index.html");
 		i++;
 	}
 

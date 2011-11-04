@@ -69,7 +69,7 @@ mateconf_set_daemon_ior(const gchar* ior)
       g_free(daemon_ior);
       daemon_ior = NULL;
     }
-      
+
   if (ior != NULL)
     daemon_ior = g_strdup(ior);
 }
@@ -102,12 +102,12 @@ mateconf_key_directory  (const gchar* key)
       /* Root directory */
       retval = g_strdup("/");
     }
-  else 
+  else
     {
       retval = g_malloc(len);
-      
+
       strncpy(retval, key, len);
-      
+
       retval[len-1] = '\0';
     }
 
@@ -118,7 +118,7 @@ const gchar*
 mateconf_key_key        (const gchar* key)
 {
   const gchar* end;
-  
+
   end = strrchr(key, '/');
 
   if (end != NULL)
@@ -128,15 +128,15 @@ mateconf_key_key        (const gchar* key)
 }
 
 /*
- *  Random stuff 
+ *  Random stuff
  */
 
-MateConfValue* 
+MateConfValue*
 mateconf_value_from_corba_value(const ConfigValue* value)
 {
   MateConfValue* gval;
   MateConfValueType type = MATECONF_VALUE_INVALID;
-  
+
   switch (value->_d)
     {
     case InvalidVal:
@@ -168,7 +168,7 @@ mateconf_value_from_corba_value(const ConfigValue* value)
     }
 
   g_assert(MATECONF_VALUE_TYPE_VALID(type));
-  
+
   gval = mateconf_value_new(type);
 
   switch (gval->type)
@@ -180,7 +180,7 @@ mateconf_value_from_corba_value(const ConfigValue* value)
       if (!g_utf8_validate (value->_u.string_value, -1, NULL))
         {
           mateconf_log (GCL_ERR, _("Invalid UTF-8 in string value in '%s'"),
-                     value->_u.string_value); 
+                     value->_u.string_value);
         }
       else
         {
@@ -194,14 +194,14 @@ mateconf_value_from_corba_value(const ConfigValue* value)
       mateconf_value_set_bool(gval, value->_u.bool_value);
       break;
     case MATECONF_VALUE_SCHEMA:
-      mateconf_value_set_schema_nocopy(gval, 
+      mateconf_value_set_schema_nocopy(gval,
                                     mateconf_schema_from_corba_schema(&(value->_u.schema_value)));
       break;
     case MATECONF_VALUE_LIST:
       {
         GSList* list = NULL;
         guint i = 0;
-        
+
         switch (value->_u.list_value.list_type)
           {
           case BIntVal:
@@ -229,26 +229,26 @@ mateconf_value_from_corba_value(const ConfigValue* value)
             while (i < value->_u.list_value.seq._length)
               {
                 MateConfValue* val;
-                
+
                 /* This is a bit dubious; we cast a ConfigBasicValue to ConfigValue
                    because they have the same initial members, but by the time
                    the CORBA and C specs kick in, not sure we are guaranteed
                    to be able to do this.
                 */
                 val = mateconf_value_from_corba_value((ConfigValue*)&value->_u.list_value.seq._buffer[i]);
-                
+
                 if (val == NULL)
                   mateconf_log(GCL_ERR, _("Couldn't interpret CORBA value for list element"));
                 else if (val->type != mateconf_value_get_list_type(gval))
                   mateconf_log(GCL_ERR, _("Incorrect type for list element in %s"), G_STRFUNC);
                 else
                   list = g_slist_prepend(list, val);
-                
+
                 ++i;
               }
-        
+
             list = g_slist_reverse(list);
-            
+
             mateconf_value_set_list_nocopy(gval, list);
           }
         else
@@ -260,7 +260,7 @@ mateconf_value_from_corba_value(const ConfigValue* value)
     case MATECONF_VALUE_PAIR:
       {
         g_return_val_if_fail(value->_u.pair_value._length == 2, gval);
-        
+
         mateconf_value_set_car_nocopy(gval,
                                    mateconf_value_from_corba_value((ConfigValue*)&value->_u.list_value.seq._buffer[0]));
 
@@ -272,12 +272,12 @@ mateconf_value_from_corba_value(const ConfigValue* value)
       g_assert_not_reached();
       break;
     }
-  
+
   return gval;
 }
 
-void          
-mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value, 
+void
+mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
                                         ConfigValue      *cv)
 {
   if (value == NULL)
@@ -313,7 +313,7 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
       {
         guint n, i;
         GSList* list;
-        
+
         cv->_d = ListVal;
 
         list = mateconf_value_get_list(value);
@@ -325,7 +325,7 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
         cv->_u.list_value.seq._length = n;
         cv->_u.list_value.seq._maximum = n;
         CORBA_sequence_set_release(&cv->_u.list_value.seq, TRUE);
-        
+
         switch (mateconf_value_get_list_type(value))
           {
           case MATECONF_VALUE_INT:
@@ -335,7 +335,7 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
           case MATECONF_VALUE_BOOL:
             cv->_u.list_value.list_type = BBoolVal;
             break;
-            
+
           case MATECONF_VALUE_STRING:
             cv->_u.list_value.list_type = BStringVal;
             break;
@@ -347,13 +347,13 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
           case MATECONF_VALUE_SCHEMA:
             cv->_u.list_value.list_type = BSchemaVal;
             break;
-            
+
           default:
             cv->_u.list_value.list_type = BInvalidVal;
             mateconf_log(GCL_DEBUG, "Invalid list type in %s", G_STRFUNC);
             break;
           }
-        
+
         i= 0;
         while (list != NULL)
           {
@@ -375,7 +375,7 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
         cv->_u.pair_value._length = 2;
         cv->_u.pair_value._maximum = 2;
         CORBA_sequence_set_release(&cv->_u.pair_value, TRUE);
-        
+
         /* dubious cast */
         mateconf_fill_corba_value_from_mateconf_value (mateconf_value_get_car(value),
                                                  (ConfigValue*)&cv->_u.pair_value._buffer[0]);
@@ -383,7 +383,7 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
                                                 (ConfigValue*)&cv->_u.pair_value._buffer[1]);
       }
       break;
-      
+
     case MATECONF_VALUE_INVALID:
       cv->_d = InvalidVal;
       break;
@@ -394,7 +394,7 @@ mateconf_fill_corba_value_from_mateconf_value(const MateConfValue *value,
     }
 }
 
-ConfigValue*  
+ConfigValue*
 mateconf_corba_value_from_mateconf_value (const MateConfValue* value)
 {
   ConfigValue* cv;
@@ -406,7 +406,7 @@ mateconf_corba_value_from_mateconf_value (const MateConfValue* value)
   return cv;
 }
 
-ConfigValue*  
+ConfigValue*
 mateconf_invalid_corba_value (void)
 {
   ConfigValue* cv;
@@ -425,7 +425,7 @@ mateconf_object_to_string (CORBA_Object obj,
   CORBA_Environment ev;
   gchar *ior;
   gchar *retval;
-  
+
   CORBA_exception_init (&ev);
 
   ior = CORBA_ORB_object_to_string (mateconf_orb_get (), obj, &ev);
@@ -500,8 +500,8 @@ mateconf_type_from_corba_type(ConfigValueType type)
     }
 }
 
-void          
-mateconf_fill_corba_schema_from_mateconf_schema(const MateConfSchema *sc, 
+void
+mateconf_fill_corba_schema_from_mateconf_schema(const MateConfSchema *sc,
                                           ConfigSchema      *cs)
 {
   cs->value_type = corba_type_from_mateconf_type (mateconf_schema_get_type (sc));
@@ -536,7 +536,7 @@ mateconf_fill_corba_schema_from_mateconf_schema(const MateConfSchema *sc,
   }
 }
 
-ConfigSchema* 
+ConfigSchema*
 mateconf_corba_schema_from_mateconf_schema (const MateConfSchema* sc)
 {
   ConfigSchema* cs;
@@ -548,7 +548,7 @@ mateconf_corba_schema_from_mateconf_schema (const MateConfSchema* sc)
   return cs;
 }
 
-MateConfSchema*  
+MateConfSchema*
 mateconf_schema_from_corba_schema(const ConfigSchema* cs)
 {
   MateConfSchema* sc;
@@ -600,7 +600,7 @@ mateconf_schema_from_corba_schema(const ConfigSchema* cs)
       else
         mateconf_schema_set_owner(sc, cs->owner);
     }
-      
+
   if (*cs->gettext_domain != '\0')
     {
       if (!g_utf8_validate (cs->gettext_domain, -1, NULL))
@@ -608,7 +608,7 @@ mateconf_schema_from_corba_schema(const ConfigSchema* cs)
       else
         mateconf_schema_set_gettext_domain(sc, cs->gettext_domain);
     }
-      
+
   {
     MateConfValue* val;
 
@@ -617,11 +617,11 @@ mateconf_schema_from_corba_schema(const ConfigSchema* cs)
     if (val)
       mateconf_schema_set_default_value_nocopy(sc, val);
   }
-  
+
   return sc;
 }
 
-const gchar* 
+const gchar*
 mateconf_value_type_to_string(MateConfValueType type)
 {
   switch (type)
@@ -648,7 +648,7 @@ mateconf_value_type_to_string(MateConfValueType type)
     }
 }
 
-MateConfValueType 
+MateConfValueType
 mateconf_value_type_from_string(const gchar* type_str)
 {
   if (strcmp(type_str, "int") == 0)
@@ -710,14 +710,14 @@ _mateconf_win32_get_home_dir (void)
 
   if (quark != 0)
     return g_quark_to_string (quark);
-  
+
   home_copy = g_strdup (g_get_home_dir ());
 
   /* Replace backslashes with forward slashes */
   for (p = home_copy; *p; p++)
     if (*p == '\\')
       *p = '/';
-  
+
   quark = g_quark_from_string (home_copy);
   g_free (home_copy);
 
@@ -769,28 +769,28 @@ subst_variables(const gchar* src)
   gchar* retval;
   guint retval_len;
   guint pos;
-  
+
   g_return_val_if_fail(src != NULL, NULL);
 
   retval_len = strlen(src) + 1;
   pos = 0;
-  
+
   retval = g_malloc0(retval_len+3); /* add 3 just to avoid off-by-one
                                        segvs - yeah I know it bugs
                                        you, but C sucks */
-  
+
   iter = src;
 
   while (*iter)
     {
       gboolean performed_subst = FALSE;
-      
+
       if (pos >= retval_len)
         {
           retval_len *= 2;
           retval = g_realloc(retval, retval_len+3); /* add 3 for luck */
         }
-      
+
       if (*iter == '$' && *(iter+1) == '(')
         {
           const gchar* varstart = iter + 2;
@@ -805,7 +805,7 @@ subst_variables(const gchar* src)
               performed_subst = TRUE;
 
               varname = g_strndup(varstart, varend - varstart);
-              
+
               varval = get_variable(varname);
               g_free(varname);
 
@@ -816,7 +816,7 @@ subst_variables(const gchar* src)
                   retval_len = pos + varval_len;
                   retval = g_realloc(retval, retval_len+3);
                 }
-              
+
               strcpy(&retval[pos], varval);
               pos += varval_len;
 
@@ -849,8 +849,8 @@ mateconf_load_source_path(const gchar* filename, GError** err)
     {
       if (err)
         *err = mateconf_error_new(MATECONF_ERROR_FAILED,
-                               _("Couldn't open path file `%s': %s\n"), 
-                               filename, 
+                               _("Couldn't open path file `%s': %s\n"),
+                               filename,
                                g_strerror(errno));
       return NULL;
     }
@@ -858,7 +858,7 @@ mateconf_load_source_path(const gchar* filename, GError** err)
   while (fgets(buf, 512, f) != NULL)
     {
       gchar* s = buf;
-      
+
       while (*s && g_ascii_isspace(*s))
         ++s;
 
@@ -875,7 +875,7 @@ mateconf_load_source_path(const gchar* filename, GError** err)
           gchar* unq;
           GSList* included;
           gchar *varsubst;
-          
+
           s += 7;
           while (g_ascii_isspace(*s))
             s++;
@@ -891,18 +891,18 @@ mateconf_load_source_path(const gchar* filename, GError** err)
 #endif
           included = mateconf_load_source_path (varsubst, NULL);
           g_free (varsubst);
-          
+
           if (included != NULL)
             l = g_slist_concat (l, included);
         }
-      else 
+      else
         {
           gchar* unq;
           gchar* varsubst;
-          
+
           unq = unquote_string(buf);
           varsubst = subst_variables(unq);
-          
+
           if (*varsubst != '\0') /* Drop lines with just two quote marks or something */
             {
               mateconf_log(GCL_DEBUG, _("Adding source `%s'\n"), varsubst);
@@ -920,14 +920,14 @@ mateconf_load_source_path(const gchar* filename, GError** err)
       /* This should basically never happen */
       if (err)
         *err = mateconf_error_new(MATECONF_ERROR_FAILED,
-                               _("Read error on file `%s': %s\n"), 
+                               _("Read error on file `%s': %s\n"),
                                filename,
                                g_strerror(errno));
-      /* don't return, we want to go ahead and return any 
+      /* don't return, we want to go ahead and return any
          addresses we already loaded. */
     }
 
-  fclose(f);  
+  fclose(f);
 
   return l;
 }
@@ -1008,10 +1008,10 @@ mateconf_address_list_free (GSList *addresses)
   g_slist_free (addresses);
 }
 
-/* This should also support concatting filesystem dirs and keys, 
+/* This should also support concatting filesystem dirs and keys,
    or dir and subdir.
 */
-gchar*        
+gchar*
 mateconf_concat_dir_and_key(const gchar* dir, const gchar* key)
 {
   guint dirlen;
@@ -1037,7 +1037,7 @@ mateconf_concat_dir_and_key(const gchar* dir, const gchar* key)
 
       strcpy((retval+dirlen), key);
     }
-  else 
+  else
     {
       /* Dir doesn't end in slash, add slash if key lacks one. */
       gchar* dest = retval + dirlen;
@@ -1047,10 +1047,10 @@ mateconf_concat_dir_and_key(const gchar* dir, const gchar* key)
           *dest = '/';
           ++dest;
         }
-      
+
       strcpy(dest, key);
     }
-  
+
   return retval;
 }
 
@@ -1090,7 +1090,7 @@ mateconf_double_to_string (gdouble val)
   char str[G_ASCII_DTOSTR_BUF_SIZE];
 
   g_ascii_dtostr (str, G_ASCII_DTOSTR_BUF_SIZE, val);
-  
+
   return g_strdup (str);
 }
 
@@ -1114,7 +1114,7 @@ mateconf_log(MateConfLogPriority pri, const gchar* fmt, ...)
   va_list args;
   GLogLevelFlags loglevel;
 
-  if (!mateconf_log_debug_messages && 
+  if (!mateconf_log_debug_messages &&
       pri == GCL_DEBUG)
     return;
 
@@ -1164,7 +1164,7 @@ mateconf_value_list_from_primitive_list(MateConfValueType list_type, GSList* lis
   g_return_val_if_fail(list_type != MATECONF_VALUE_INVALID, NULL);
   g_return_val_if_fail(list_type != MATECONF_VALUE_LIST, NULL);
   g_return_val_if_fail(list_type != MATECONF_VALUE_PAIR, NULL);
-  
+
   value_list = NULL;
 
   tmp = list;
@@ -1197,7 +1197,7 @@ mateconf_value_list_from_primitive_list(MateConfValueType list_type, GSList* lis
                            _("Text contains invalid UTF-8"));
               goto error;
             }
-                     
+
           mateconf_value_set_string(val, tmp->data);
           break;
 
@@ -1206,7 +1206,7 @@ mateconf_value_list_from_primitive_list(MateConfValueType list_type, GSList* lis
             goto error;
           mateconf_value_set_schema(val, tmp->data);
           break;
-          
+
         default:
           g_assert_not_reached();
           break;
@@ -1222,7 +1222,7 @@ mateconf_value_list_from_primitive_list(MateConfValueType list_type, GSList* lis
 
   {
     MateConfValue* value_with_list;
-    
+
     value_with_list = mateconf_value_new(MATECONF_VALUE_LIST);
     mateconf_value_set_list_type(value_with_list, list_type);
     mateconf_value_set_list_nocopy(value_with_list, value_list);
@@ -1278,10 +1278,10 @@ from_primitive(MateConfValueType type, gconstpointer address,
           mateconf_value_free (val);
           return NULL;
         }
-      
+
       mateconf_value_set_schema(val, *((MateConfSchema**)address));
       break;
-      
+
     default:
       g_assert_not_reached();
       break;
@@ -1300,7 +1300,7 @@ mateconf_value_pair_from_primitive_pair(MateConfValueType car_type,
   MateConfValue* pair;
   MateConfValue* car;
   MateConfValue* cdr;
-  
+
   g_return_val_if_fail(car_type != MATECONF_VALUE_INVALID, NULL);
   g_return_val_if_fail(car_type != MATECONF_VALUE_LIST, NULL);
   g_return_val_if_fail(car_type != MATECONF_VALUE_PAIR, NULL);
@@ -1309,7 +1309,7 @@ mateconf_value_pair_from_primitive_pair(MateConfValueType car_type,
   g_return_val_if_fail(cdr_type != MATECONF_VALUE_PAIR, NULL);
   g_return_val_if_fail(address_of_car != NULL, NULL);
   g_return_val_if_fail(address_of_cdr != NULL, NULL);
-  
+
   car = from_primitive(car_type, address_of_car, err);
   if (car == NULL)
     return NULL;
@@ -1319,7 +1319,7 @@ mateconf_value_pair_from_primitive_pair(MateConfValueType car_type,
       mateconf_value_free (car);
       return NULL;
     }
-  
+
   pair = mateconf_value_new(MATECONF_VALUE_PAIR);
   mateconf_value_set_car_nocopy(pair, car);
   mateconf_value_set_cdr_nocopy(pair, cdr);
@@ -1340,7 +1340,7 @@ mateconf_value_list_to_primitive_list_destructive(MateConfValue* val,
   g_return_val_if_fail(list_type != MATECONF_VALUE_LIST, NULL);
   g_return_val_if_fail(list_type != MATECONF_VALUE_PAIR, NULL);
   g_return_val_if_fail(err == NULL || *err == NULL, NULL);
-  
+
   if (val->type != MATECONF_VALUE_LIST)
     {
       if (err)
@@ -1363,12 +1363,12 @@ mateconf_value_list_to_primitive_list_destructive(MateConfValue* val,
     }
 
   g_assert(mateconf_value_get_list_type(val) == list_type);
-      
+
   retval = mateconf_value_steal_list (val);
-      
+
   mateconf_value_free (val);
   val = NULL;
-      
+
   {
     /* map (typeChange, retval) */
     GSList* tmp;
@@ -1381,7 +1381,7 @@ mateconf_value_list_to_primitive_list_destructive(MateConfValue* val,
 
         g_assert(elem != NULL);
         g_assert(elem->type == list_type);
-            
+
         switch (list_type)
           {
           case MATECONF_VALUE_INT:
@@ -1391,7 +1391,7 @@ mateconf_value_list_to_primitive_list_destructive(MateConfValue* val,
           case MATECONF_VALUE_BOOL:
             tmp->data = GINT_TO_POINTER(mateconf_value_get_bool(elem));
             break;
-                
+
           case MATECONF_VALUE_FLOAT:
             {
               gdouble* d = g_new(gdouble, 1);
@@ -1407,7 +1407,7 @@ mateconf_value_list_to_primitive_list_destructive(MateConfValue* val,
           case MATECONF_VALUE_SCHEMA:
             tmp->data = mateconf_value_steal_schema (elem);
             break;
-                
+
           default:
             g_assert_not_reached();
             break;
@@ -1415,11 +1415,11 @@ mateconf_value_list_to_primitive_list_destructive(MateConfValue* val,
 
         /* Clean up the value */
         mateconf_value_free(elem);
-            
+
         tmp = g_slist_next(tmp);
       }
   } /* list conversion block */
-      
+
   return retval;
 }
 
@@ -1450,7 +1450,7 @@ primitive_value(gpointer retloc, MateConfValue* val)
     case MATECONF_VALUE_SCHEMA:
       *((MateConfSchema**)retloc) = mateconf_value_steal_schema(val);
       break;
-      
+
     default:
       g_assert_not_reached();
       break;
@@ -1477,8 +1477,8 @@ mateconf_value_pair_to_primitive_pair_destructive(MateConfValue* val,
   g_return_val_if_fail(cdr_type != MATECONF_VALUE_PAIR, FALSE);
   g_return_val_if_fail(car_retloc != NULL, FALSE);
   g_return_val_if_fail(cdr_retloc != NULL, FALSE);
-  g_return_val_if_fail(err == NULL || *err == NULL, FALSE);  
-      
+  g_return_val_if_fail(err == NULL || *err == NULL, FALSE);
+
   if (val->type != MATECONF_VALUE_PAIR)
     {
       if (err)
@@ -1491,12 +1491,12 @@ mateconf_value_pair_to_primitive_pair_destructive(MateConfValue* val,
 
   car = mateconf_value_get_car(val);
   cdr = mateconf_value_get_cdr(val);
-      
+
   if (car == NULL ||
       cdr == NULL)
     {
       if (err)
-        *err = mateconf_error_new(MATECONF_ERROR_TYPE_MISMATCH, 
+        *err = mateconf_error_new(MATECONF_ERROR_TYPE_MISMATCH,
                                _("Expected (%s,%s) pair, got a pair with one or both values missing"),
                                mateconf_value_type_to_string(car_type),
                                mateconf_value_type_to_string(cdr_type));
@@ -1507,7 +1507,7 @@ mateconf_value_pair_to_primitive_pair_destructive(MateConfValue* val,
 
   g_assert(car != NULL);
   g_assert(cdr != NULL);
-      
+
   if (car->type != car_type ||
       cdr->type != cdr_type)
     {
@@ -1544,15 +1544,15 @@ mateconf_quote_string   (const gchar* src)
   gchar* d;
 
   g_return_val_if_fail(src != NULL, NULL);
-  
+
   /* waste memory! woo-hoo! */
   dest = g_malloc0(strlen(src)*2+4);
-  
+
   d = dest;
 
   *d = '"';
   ++d;
-  
+
   s = src;
   while (*s)
     {
@@ -1566,7 +1566,7 @@ mateconf_quote_string   (const gchar* src)
             ++d;
           }
           break;
-          
+
         case '\\':
           {
             *d = '\\';
@@ -1575,7 +1575,7 @@ mateconf_quote_string   (const gchar* src)
             ++d;
           }
           break;
-          
+
         default:
           {
             *d = *s;
@@ -1590,7 +1590,7 @@ mateconf_quote_string   (const gchar* src)
   *d = '"';
   ++d;
   *d = '\0';
-  
+
   return dest;
 }
 
@@ -1603,7 +1603,7 @@ mateconf_unquote_string (const gchar* str, const gchar** end, GError** err)
   g_return_val_if_fail(end != NULL, NULL);
   g_return_val_if_fail(err == NULL || *err == NULL, NULL);
   g_return_val_if_fail(str != NULL, NULL);
-  
+
   unq = g_strdup(str);
 
   mateconf_unquote_string_inplace(unq, &unq_end, err);
@@ -1622,7 +1622,7 @@ mateconf_unquote_string_inplace (gchar* str, gchar** end, GError** err)
   g_return_if_fail(end != NULL);
   g_return_if_fail(err == NULL || *err == NULL);
   g_return_if_fail(str != NULL);
-  
+
   dest = s = str;
 
   if (*s != '"')
@@ -1636,11 +1636,11 @@ mateconf_unquote_string_inplace (gchar* str, gchar** end, GError** err)
 
   /* Skip the initial quote mark */
   ++s;
-  
+
   while (*s)
     {
       g_assert(s > dest); /* loop invariant */
-      
+
       switch (*s)
         {
         case '"':
@@ -1683,11 +1683,11 @@ mateconf_unquote_string_inplace (gchar* str, gchar** end, GError** err)
 
       g_assert(s > dest); /* loop invariant */
     }
-  
+
   /* If we reach here this means the close quote was never encountered */
 
   *dest = '\0';
-  
+
   if (err)
     *err = mateconf_error_new(MATECONF_ERROR_PARSE_ERROR,
                            _("Quoted string doesn't end with a quotation mark"));
@@ -1732,7 +1732,7 @@ static gchar type_byte(MateConfValueType type)
     {
     case MATECONF_VALUE_INT:
       return 'i';
-        
+
     case MATECONF_VALUE_BOOL:
       return 'b';
 
@@ -1753,7 +1753,7 @@ static gchar type_byte(MateConfValueType type)
 
     case MATECONF_VALUE_INVALID:
       return 'v';
-      
+
     default:
       g_assert_not_reached();
       return '\0';
@@ -1785,7 +1785,7 @@ byte_type(gchar byte)
 
     case 'p':
       return MATECONF_VALUE_PAIR;
-      
+
     case 'v':
       return MATECONF_VALUE_INVALID;
 
@@ -1800,7 +1800,7 @@ mateconf_value_decode (const gchar* encoded)
   MateConfValueType type;
   MateConfValue* val;
   const gchar* s;
-  
+
   type = byte_type(*encoded);
 
   if (type == MATECONF_VALUE_INVALID)
@@ -1811,17 +1811,17 @@ mateconf_value_decode (const gchar* encoded)
       mateconf_log (GCL_ERR, _("Encoded value is not valid UTF-8"));
       return NULL;
     }
-  
+
   val = mateconf_value_new(type);
 
   s = encoded + 1;
-  
+
   switch (val->type)
     {
     case MATECONF_VALUE_INT:
       mateconf_value_set_int(val, atoi(s));
       break;
-        
+
     case MATECONF_VALUE_BOOL:
       mateconf_value_set_bool(val, *s == 't' ? TRUE : FALSE);
       break;
@@ -1830,7 +1830,7 @@ mateconf_value_decode (const gchar* encoded)
       {
         double d;
         gchar* endptr = NULL;
-        
+
         d = g_strtod(s, &endptr);
         if (endptr == s)
           g_warning("Failure converting string to double in %s", G_STRFUNC);
@@ -1849,7 +1849,7 @@ mateconf_value_decode (const gchar* encoded)
         MateConfSchema* sc = mateconf_schema_new();
         const gchar* end = NULL;
         gchar* unquoted;
-        
+
         mateconf_value_set_schema_nocopy(val, sc);
 
         mateconf_schema_set_type(sc, byte_type(*s));
@@ -1872,7 +1872,7 @@ mateconf_value_decode (const gchar* encoded)
         mateconf_schema_set_locale(sc, unquoted);
 
         g_free(unquoted);
-        
+
         if (*end != ',')
           g_warning("no comma after locale in schema");
 
@@ -1885,7 +1885,7 @@ mateconf_value_decode (const gchar* encoded)
         mateconf_schema_set_short_desc(sc, unquoted);
 
         g_free(unquoted);
-        
+
         if (*end != ',')
           g_warning("no comma after short desc in schema");
 
@@ -1898,20 +1898,20 @@ mateconf_value_decode (const gchar* encoded)
         mateconf_schema_set_long_desc(sc, unquoted);
 
         g_free(unquoted);
-        
+
         if (*end != ',')
           g_warning("no comma after long desc in schema");
 
         ++end;
         s = end;
-        
+
         /* default value */
         unquoted = mateconf_unquote_string(s, &end, NULL);
 
         mateconf_schema_set_default_value_nocopy(sc, mateconf_value_decode(unquoted));
 
         g_free(unquoted);
-        
+
         if (*end != '\0')
           g_warning("trailing junk after encoded schema");
       }
@@ -1928,18 +1928,18 @@ mateconf_value_decode (const gchar* encoded)
           {
             gchar* unquoted;
             const gchar* end;
-            
+
             MateConfValue* elem;
-            
-            unquoted = mateconf_unquote_string(s, &end, NULL);            
+
+            unquoted = mateconf_unquote_string(s, &end, NULL);
 
             elem = mateconf_value_decode(unquoted);
 
             g_free(unquoted);
-            
+
             if (elem)
               value_list = g_slist_prepend(value_list, elem);
-            
+
             s = end;
             if (*s == ',')
               ++s;
@@ -1960,16 +1960,16 @@ mateconf_value_decode (const gchar* encoded)
       {
         gchar* unquoted;
         const gchar* end;
-        
+
         MateConfValue* car;
         MateConfValue* cdr;
-        
-        unquoted = mateconf_unquote_string(s, &end, NULL);            
-        
+
+        unquoted = mateconf_unquote_string(s, &end, NULL);
+
         car = mateconf_value_decode(unquoted);
 
         g_free(unquoted);
-        
+
         s = end;
         if (*s == ',')
           ++s;
@@ -1977,9 +1977,9 @@ mateconf_value_decode (const gchar* encoded)
           {
             g_warning("weird character in encoded pair");
           }
-        
+
         unquoted = mateconf_unquote_string(s, &end, NULL);
-        
+
         cdr = mateconf_value_decode(unquoted);
         g_free(unquoted);
 
@@ -2001,7 +2001,7 @@ gchar*
 mateconf_value_encode (MateConfValue* val)
 {
   gchar* retval = NULL;
-  
+
   g_return_val_if_fail(val != NULL, NULL);
 
   switch (val->type)
@@ -2009,7 +2009,7 @@ mateconf_value_encode (MateConfValue* val)
     case MATECONF_VALUE_INT:
       retval = g_strdup_printf("i%d", mateconf_value_get_int(val));
       break;
-        
+
     case MATECONF_VALUE_BOOL:
       retval = g_strdup_printf("b%c", mateconf_value_get_bool(val) ? 't' : 'f');
       break;
@@ -2030,7 +2030,7 @@ mateconf_value_encode (MateConfValue* val)
         MateConfSchema* sc;
 
         sc = mateconf_value_get_schema(val);
-        
+
         tmp = g_strdup_printf("c%c%c%c%c,",
 			      type_byte(mateconf_schema_get_type(sc)),
 			      type_byte(mateconf_schema_get_list_type(sc)),
@@ -2062,7 +2062,7 @@ mateconf_value_encode (MateConfValue* val)
 
         g_free(tmp);
         g_free(quoted);
-        
+
 
         if (mateconf_schema_get_default_value(sc) != NULL)
           encoded = mateconf_value_encode(mateconf_schema_get_default_value(sc));
@@ -2070,7 +2070,7 @@ mateconf_value_encode (MateConfValue* val)
           encoded = g_strdup("");
 
         tmp = retval;
-          
+
         quoted = mateconf_quote_string(encoded);
 
         retval = g_strconcat(tmp, quoted, NULL);
@@ -2086,7 +2086,7 @@ mateconf_value_encode (MateConfValue* val)
         GSList* tmp;
 
         retval = g_strdup_printf("l%c", type_byte(mateconf_value_get_list_type(val)));
-        
+
         tmp = mateconf_value_get_list(val);
 
         while (tmp != NULL)
@@ -2094,7 +2094,7 @@ mateconf_value_encode (MateConfValue* val)
             MateConfValue* elem = tmp->data;
             gchar* encoded;
             gchar* quoted;
-            
+
             g_assert(elem != NULL);
 
             encoded = mateconf_value_encode(elem);
@@ -2106,13 +2106,13 @@ mateconf_value_encode (MateConfValue* val)
             {
               gchar* free_me;
               free_me = retval;
-              
+
               retval = g_strconcat(retval, ",", quoted, NULL);
-              
+
               g_free(quoted);
               g_free(free_me);
             }
-            
+
             tmp = g_slist_next(tmp);
           }
       }
@@ -2143,7 +2143,7 @@ mateconf_value_encode (MateConfValue* val)
     default:
       g_assert_not_reached();
       break;
-      
+
     }
 
   return retval;
@@ -2260,7 +2260,7 @@ unique_filename (const char *directory)
 {
   char *guid;
   char *uniquefile;
-  
+
   guid = mateconf_unique_key ();
   uniquefile = g_strconcat (directory, "/", guid, NULL);
   g_free (guid);
@@ -2296,7 +2296,7 @@ create_new_locked_file (const gchar *directory,
                    uniquefile, g_strerror (errno));
       goto out;
     }
-  
+
   /* Create lockfile as a link to unique file */
   if (link (uniquefile, filename) == 0)
     {
@@ -2324,11 +2324,11 @@ create_new_locked_file (const gchar *directory,
           goto out;
         }
     }
-  
+
  out:
   if (got_lock)
     set_close_on_exec (fd);
-  
+
   unlink (uniquefile);
   g_free (uniquefile);
 
@@ -2357,7 +2357,7 @@ create_new_locked_file (const gchar *directory,
         close (fd);
       fd = -1;
     }
-  
+
   return fd;
 }
 
@@ -2372,7 +2372,7 @@ open_empty_locked_file (const gchar *directory,
 
   if (fd >= 0)
     return fd;
-  
+
   /* We failed to create the file, most likely because it already
    * existed; try to get the lock on the existing file, and if we can
    * get that lock, delete it, then start over.
@@ -2425,7 +2425,7 @@ open_empty_locked_file (const gchar *directory,
 
   /* Now retry creating our file */
   fd = create_new_locked_file (directory, filename, err);
-  
+
   return fd;
 }
 
@@ -2468,7 +2468,7 @@ get_ior (gboolean start_if_not_found,
                                              "GetIOR",
                                              g_variant_new ("()"),
                                              G_VARIANT_TYPE ("(s)"),
-                                             start_if_not_found ? G_DBUS_CALL_FLAGS_NONE 
+                                             start_if_not_found ? G_DBUS_CALL_FLAGS_NONE
                                                                 : G_DBUS_CALL_FLAGS_NO_AUTO_START,
                                              -1,
                                              NULL,
@@ -2541,12 +2541,12 @@ mateconf_get_lock_or_current_holder (const gchar  *lock_directory,
                                   GError      **err)
 {
   MateConfLock* lock;
-  
+
   g_return_val_if_fail(lock_directory != NULL, NULL);
 
   if (current_server)
     *current_server = CORBA_OBJECT_NIL;
-  
+
   if (g_mkdir (lock_directory, 0700) < 0 &&
       errno != EEXIST)
     {
@@ -2567,11 +2567,11 @@ mateconf_get_lock_or_current_holder (const gchar  *lock_directory,
   lock->iorfile = g_strconcat (lock->lock_directory, "/ior", NULL);
 
   /* Check the current IOR file and ping its daemon */
-  
+
   lock->lock_fd = open_empty_locked_file (lock->lock_directory,
                                           lock->iorfile,
                                           err);
-  
+
   if (lock->lock_fd < 0)
     {
       /* We didn't get the lock. Read the old server, and provide
@@ -2581,7 +2581,7 @@ mateconf_get_lock_or_current_holder (const gchar  *lock_directory,
         *current_server = mateconf_get_server (FALSE, NULL);
 
       mateconf_lock_destroy (lock);
-      
+
       return NULL;
     }
   else
@@ -2590,17 +2590,17 @@ mateconf_get_lock_or_current_holder (const gchar  *lock_directory,
       const gchar* ior;
       int retval;
       gchar* s;
-      
+
       s = g_strdup_printf ("%u:", (guint) getpid ());
-        
+
       retval = write (lock->lock_fd, s, strlen (s));
 
       g_free (s);
-        
+
       if (retval >= 0)
         {
           ior = mateconf_get_daemon_ior();
-            
+
           if (ior == NULL)
             retval = write (lock->lock_fd, "none", 4);
           else
@@ -2637,10 +2637,10 @@ mateconf_release_lock (MateConfLock *lock,
 {
   gboolean retval;
   char *uniquefile;
-  
+
   retval = FALSE;
   uniquefile = NULL;
-  
+
   /* A paranoia check to avoid disaster if e.g.
    * some random client code opened and closed the
    * lockfile (maybe Nautilus checking its MIME type or
@@ -2667,7 +2667,7 @@ mateconf_release_lock (MateConfLock *lock,
    * the locked file, then unlink the locked file, then drop our locks
    * and close file descriptors, then unlink the unique filename
    */
-  
+
   uniquefile = unique_filename (lock->lock_directory);
 
   if (link (lock->iorfile, uniquefile) < 0)
@@ -2680,7 +2680,7 @@ mateconf_release_lock (MateConfLock *lock,
 
       goto out;
     }
-  
+
   /* Note that we unlink while still holding the lock to avoid races */
   if (unlink (lock->iorfile) < 0)
     {
@@ -2733,7 +2733,7 @@ mateconf_release_lock (MateConfLock *lock,
     }
 
   retval = TRUE;
-  
+
  out:
 
   g_free (uniquefile);
@@ -2741,7 +2741,7 @@ mateconf_release_lock (MateConfLock *lock,
   return retval;
 }
 
-static CORBA_ORB mateconf_orb = CORBA_OBJECT_NIL;      
+static CORBA_ORB mateconf_orb = CORBA_OBJECT_NIL;
 
 CORBA_ORB
 mateconf_orb_get (void)
@@ -2753,9 +2753,9 @@ mateconf_orb_get (void)
       char *argv[] = { "mateconf", NULL };
 
       _mateconf_init_i18n ();
-      
+
       CORBA_exception_init (&ev);
-      
+
       mateconf_orb = CORBA_ORB_init (&argc, argv, "matecorba-local-orb", &ev);
       g_assert (ev._major == CORBA_NO_EXCEPTION);
 
@@ -2794,7 +2794,7 @@ mateconf_orb_release (void)
 
 char*
 mateconf_get_daemon_dir (void)
-{  
+{
   if (mateconf_use_local_locks ())
     {
       char *s;
@@ -2802,13 +2802,13 @@ mateconf_get_daemon_dir (void)
       const char *tmpdir;
 
       subdir = g_strconcat ("mateconfd-", g_get_user_name (), NULL);
-      
+
       if (g_getenv ("MATECONF_TMPDIR")) {
 	tmpdir = g_getenv ("MATECONF_TMPDIR");
       } else {
 	tmpdir = g_get_tmp_dir ();
       }
-      
+
       s = g_build_filename (tmpdir, subdir, NULL);
 
       g_free (subdir);
@@ -2831,7 +2831,7 @@ mateconf_get_lock_dir (void)
 {
   char *mateconfd_dir;
   char *lock_dir;
-  
+
   mateconfd_dir = mateconf_get_daemon_dir ();
   lock_dir = g_strconcat (mateconfd_dir, "/lock", NULL);
 
@@ -2848,7 +2848,7 @@ mateconf_activate_server (gboolean  start_if_not_found,
   CORBA_Environment ev;
 
   failure_log = g_string_new (NULL);
-  
+
   g_string_append (failure_log, " 1: ");
   server = mateconf_get_server (start_if_not_found, failure_log);
 
@@ -2858,7 +2858,7 @@ mateconf_activate_server (gboolean  start_if_not_found,
   if (!CORBA_Object_is_nil (server, &ev))
     {
       ConfigServer_ping (server, &ev);
-  
+
       if (ev._major != CORBA_NO_EXCEPTION)
         {
           server = CORBA_OBJECT_NIL;
@@ -2883,11 +2883,11 @@ mateconf_activate_server (gboolean  start_if_not_found,
     g_set_error (error,
                  MATECONF_ERROR,
                  MATECONF_ERROR_NO_SERVER,
-                 _("Failed to contact configuration server; some possible causes are that you need to enable TCP/IP networking for MateCORBA, or you have stale NFS locks due to a system crash. See http://projects.mate.org/mateconf/ for information. (Details - %s)"),
+                 _("Failed to contact configuration server; some possible causes are that you need to enable TCP/IP networking for MateCORBA, or you have stale NFS locks due to a system crash. See http://projects.gnome.org/mateconf/ for information. (Details - %s)"),
                  failure_log->len > 0 ? failure_log->str : _("none"));
 
   g_string_free (failure_log, TRUE);
-  
+
   return server;
 }
 
@@ -2941,7 +2941,7 @@ gboolean
 mateconf_use_local_locks (void)
 {
   static int local_locks = UNKNOWN;
-  
+
   if (local_locks == UNKNOWN)
     {
       const char *l =

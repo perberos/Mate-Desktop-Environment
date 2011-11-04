@@ -19,7 +19,7 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.
 
-   Authors: 
+   Authors:
    	Ettore Perazzoli <ettore@comm2000.it>
    	Pavel Cisler <pavel@eazel.com>
  */
@@ -187,7 +187,7 @@ get_path_from_uri (MateVFSURI const *uri)
 	gchar *path;
 
 	path = mate_vfs_unescape_string (uri->text, DIR_SEPARATORS);
-		
+
 	if (path == NULL) {
 		return NULL;
 	}
@@ -298,7 +298,7 @@ do_open (MateVFSMethod *method,
 		posix_fadvise (fd, 0, 0, POSIX_FADV_SEQUENTIAL);
 	}
 #endif
-	
+
 	if (fstat (fd, &statbuf) != 0)
 		return mate_vfs_result_from_errno ();
 
@@ -308,7 +308,7 @@ do_open (MateVFSMethod *method,
 	}
 
 	file_handle = file_handle_new (uri, fd);
-	
+
 	*method_handle = (MateVFSMethodHandle *) file_handle;
 
 	return MATE_VFS_OK;
@@ -332,7 +332,7 @@ do_create (MateVFSMethod *method,
 	_MATE_VFS_METHOD_PARAM_CHECK (uri != NULL);
 
 	unix_mode = O_CREAT | O_TRUNC;
-	
+
 #ifdef G_OS_WIN32
 	unix_mode |= _O_BINARY;
 #endif
@@ -412,7 +412,7 @@ do_forget_cache	(MateVFSMethod *method,
 #ifdef HAVE_POSIX_FADVISE
 	posix_fadvise (file_handle->fd, offset, size, POSIX_FADV_DONTNEED);
 #endif
-	
+
 	return MATE_VFS_OK;
 }
 
@@ -648,7 +648,7 @@ directory_handle_new (MateVFSURI *uri,
 
 	result->name_buffer = g_malloc (full_name_len + GET_PATH_MAX () + 2);
 	memcpy (result->name_buffer, full_name, full_name_len);
-	
+
 	if (full_name_len > 0 && !G_IS_DIR_SEPARATOR (full_name[full_name_len - 1]))
 		result->name_buffer[full_name_len++] = G_DIR_SEPARATOR;
 
@@ -715,7 +715,7 @@ read_link (const gchar *full_name)
 
 	size = 256;
 	buffer = g_malloc (size);
-          
+
 	while (1) {
 		int read_size;
 
@@ -739,7 +739,7 @@ read_link (const gchar *full_name)
 static char *sec_con2g_str(char *tmp)
 {
         char *ret = tmp;
-  
+
 	if (tmp) {
 	         ret = g_strdup(tmp);
 		 freecon(tmp);
@@ -758,13 +758,13 @@ get_selinux_context (
 {
 #ifdef HAVE_SELINUX
 	if (is_selinux_enabled()) {
-	  
+
 		if ((options & MATE_VFS_FILE_INFO_FOLLOW_LINKS) == 0
 			&& (info->type == MATE_VFS_FILE_TYPE_SYMBOLIC_LINK)) {
 
 			/* we are a symlink and aren't asked to follow -
 			 * return the type for a symlink */
-						
+
 			if (lgetfilecon_raw(full_name, &info->selinux_context) < 0)
 				return mate_vfs_result_from_errno ();
 		} else {
@@ -774,7 +774,7 @@ get_selinux_context (
 		}
 
 		info->selinux_context = sec_con2g_str(info->selinux_context);
-		
+
 		info->valid_fields |= MATE_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT;
 		return MATE_VFS_OK;
 	}
@@ -783,30 +783,30 @@ get_selinux_context (
 }
 
 /* Get the SELinux security context from handle */
-static int 
+static int
 get_selinux_context_from_handle (
 	MateVFSFileInfo *info,
 	FileHandle *handle)
 {
 #ifdef HAVE_SELINUX
 	if (is_selinux_enabled()) {
-		if (fgetfilecon_raw(handle->fd, &info->selinux_context) >= 0) 
-			return mate_vfs_result_from_errno ();	
+		if (fgetfilecon_raw(handle->fd, &info->selinux_context) >= 0)
+			return mate_vfs_result_from_errno ();
 
 		info->selinux_context = sec_con2g_str(info->selinux_context);
-		
+
 		info->valid_fields |= MATE_VFS_FILE_INFO_FIELDS_SELINUX_CONTEXT;
 		return MATE_VFS_OK;
-	}	
+	}
 #endif
 	return MATE_VFS_OK;
 }
 
 /* Set the SELinux security context */
-static int 
+static int
 set_selinux_context (
 	const MateVFSFileInfo *info,
-	const char *full_name) 
+	const char *full_name)
 {
 #ifdef HAVE_SELINUX
 	if (is_selinux_enabled()) {
@@ -881,7 +881,7 @@ get_stat_info (MateVFSFileInfo *file_info,
 	char *newpath;
 #endif
 	gboolean recursive;
-	
+
 	recursive = FALSE;
 
 	MATE_VFS_FILE_INFO_SET_LOCAL (file_info, TRUE);
@@ -920,14 +920,14 @@ get_stat_info (MateVFSFileInfo *file_info,
 	if (is_symlink) {
 		symlink_name = NULL;
 		link_file_path = g_strdup (full_name);
-		
+
 		/* We will either successfully read the link name or return
 		 * NULL if read_link fails -- flag it as a valid field either
 		 * way.
 		 */
 		file_info->valid_fields |= MATE_VFS_FILE_INFO_FIELDS_SYMLINK_NAME;
 
-		while (TRUE) {			
+		while (TRUE) {
 			/* Deal with multiple-level symlinks by following them as
 			 * far as we can.
 			 */
@@ -948,7 +948,7 @@ get_stat_info (MateVFSFileInfo *file_info,
 				symlink_name = mate_vfs_make_path_name_canonical (newpath);
 				g_free (newpath);
 			}
-			
+
 			if ((options & MATE_VFS_FILE_INFO_FOLLOW_LINKS) == 0
 			                /* if we had an earlier ELOOP, don't get in an infinite loop here */
 			        || recursive
@@ -985,7 +985,7 @@ get_stat_info_from_handle (MateVFSFileInfo *file_info,
 	if (fstat (handle->fd, statptr) != 0) {
 		return mate_vfs_result_from_errno ();
 	}
-	
+
 	mate_vfs_stat_to_file_info (file_info, statptr);
 	MATE_VFS_FILE_INFO_SET_LOCAL (file_info, TRUE);
 
@@ -1067,9 +1067,9 @@ do_read_directory (MateVFSMethod *method,
 	DirectoryHandle *handle;
 
 	handle = (DirectoryHandle *) method_handle;
-	
+
 	errno = 0;
-#ifdef HAVE_READDIR_R	
+#ifdef HAVE_READDIR_R
 	if (readdir_r (handle->dir, handle->current_entry, &result) != 0) {
 		/* Work around a Solaris bug.
 		 * readdir64_r returns -1 instead of 0 at EOF.
@@ -1100,7 +1100,7 @@ do_read_directory (MateVFSMethod *method,
 #endif
 	G_UNLOCK (readdir);
 #endif
-	
+
 	if (result == NULL) {
 		return MATE_VFS_ERROR_EOF;
 	}
@@ -1123,7 +1123,7 @@ do_read_directory (MateVFSMethod *method,
 		/* Attempt to get selinux contet, ignore error (see below) */
 		get_selinux_context(file_info, full_name, handle->options);
 	}
-		
+
 	if (get_stat_info (file_info, full_name, handle->options, &statbuf) != MATE_VFS_OK) {
 		/* Return OK - this should not terminate the directory iteration
 		 * and we will know from the valid_fields that we don't have the
@@ -1135,7 +1135,7 @@ do_read_directory (MateVFSMethod *method,
 	if (handle->options & MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS) {
 		get_access_info (file_info, full_name);
 	}
-	
+
 	if (handle->options & MATE_VFS_FILE_INFO_GET_MIME_TYPE) {
 		get_mime_type (file_info, full_name, handle->options, &statbuf);
 	}
@@ -1175,7 +1175,7 @@ do_get_file_info (MateVFSMethod *method,
 
 	if (options & MATE_VFS_FILE_INFO_GET_SELINUX_CONTEXT) {
 		get_selinux_context (file_info, full_name, options);
-	} 
+	}
 
 	if (options & MATE_VFS_FILE_INFO_GET_ACCESS_RIGHTS) {
 		get_access_info (file_info, full_name);
@@ -1184,9 +1184,9 @@ do_get_file_info (MateVFSMethod *method,
 	if (options & MATE_VFS_FILE_INFO_GET_MIME_TYPE) {
 		get_mime_type (file_info, full_name, options, &statbuf);
 	}
-	
+
 	if (options & MATE_VFS_FILE_INFO_GET_ACL) {
-		file_get_acl (full_name, file_info, &statbuf, context);	
+		file_get_acl (full_name, file_info, &statbuf, context);
 	}
 
 	g_free (full_name);
@@ -1238,7 +1238,7 @@ do_get_file_info_from_handle (MateVFSMethod *method,
 	}
 
 	if (options & MATE_VFS_FILE_INFO_GET_ACL) {
-		file_get_acl (full_name, file_info, &statbuf, context);	
+		file_get_acl (full_name, file_info, &statbuf, context);
 	}
 
 	g_free (full_name);
@@ -1266,10 +1266,10 @@ do_is_local (MateVFSMethod *method,
 
 	if (g_stat (path, &statbuf) == 0) {
 		char *type;
-		
+
 		G_LOCK (fstype);
 		type = filesystem_type (path, path, &statbuf);
-		is_local = ((strcmp (type, "nfs") != 0) && 
+		is_local = ((strcmp (type, "nfs") != 0) &&
 			    (strcmp (type, "afs") != 0) &&
 			    (strcmp (type, "autofs") != 0) &&
 			    (strcmp (type, "unknown") != 0) &&
@@ -1338,7 +1338,7 @@ do_remove_directory (MateVFSMethod *method,
 #define TRASH_DIRECTORY_NAME_BASE ".Trash"
 #define MAX_TRASH_SEARCH_DEPTH 5
 
-/* mkdir_recursive 
+/* mkdir_recursive
  * Works like mkdir, except it creates all the levels of directories in @path.
  */
 static int
@@ -1354,7 +1354,7 @@ mkdir_recursive (const char *path, int permission_bits)
 		for (;;dir_separator_scanner++) {
 			if (!*dir_separator_scanner) {
 				break;
-			}	
+			}
 			if (G_IS_DIR_SEPARATOR (*dir_separator_scanner)) {
 				break;
 			}
@@ -1373,7 +1373,7 @@ mkdir_recursive (const char *path, int permission_bits)
 		}
 		if (!*dir_separator_scanner) {
 			break;
-		}	
+		}
 	}
 	return 0;
 }
@@ -1387,16 +1387,16 @@ append_to_path (const char *path, const char *name)
 
 static char *
 append_trash_path (const char *path)
-{	
-	char *per_user_part; 
+{
+	char *per_user_part;
 	char *retval;
-	
-	per_user_part = g_strconcat (TRASH_DIRECTORY_NAME_BASE "-", 
-			             g_get_user_name (), 
+
+	per_user_part = g_strconcat (TRASH_DIRECTORY_NAME_BASE "-",
+			             g_get_user_name (),
 				     NULL);
 
 	retval = g_build_filename (path, per_user_part, NULL);
-	
+
 	g_free (per_user_part);
 
 	return retval;
@@ -1445,7 +1445,7 @@ match_trash_item_by_device_id (gconstpointer item, gconstpointer data)
 
 	cached_item = (const TrashDirectoryCachedItem *)item;
 	parameters = (FindByDeviceIDParameters *)data;
-	
+
 	return cached_item->device_id == parameters->device_id ? 0 : -1;
 }
 
@@ -1486,14 +1486,14 @@ find_disk_top_directory (const char *item_on_disk,
 	for (;;) {
 		char *previous_search_directory;
 		char *last_slash;
-		
+
 		previous_search_directory = g_strdup (disk_top_directory);
 		last_slash = strrchr (disk_top_directory, '/');
 		if (last_slash == NULL) {
 			g_free (previous_search_directory);
 			break;
 		}
-		
+
 		*last_slash = '\0';
 		if (g_stat (disk_top_directory, &stat_buffer) < 0
 			|| stat_buffer.st_dev != near_device_id) {
@@ -1505,7 +1505,7 @@ find_disk_top_directory (const char *item_on_disk,
 		/* FIXME bugzilla.eazel.com 2733: This must result in
 		 * a cancelled error, but there's no way for the
 		 * caller to know that. We probably have to add a
-		 * MateVFSResult to this function.  
+		 * MateVFSResult to this function.
 		 */
 		if (mate_vfs_context_check_cancellation (context)) {
 			g_free (previous_search_directory);
@@ -1551,7 +1551,7 @@ save_trash_entry_cache (void)
 			((TrashDirectoryCachedItem *)p->data)->path);
 		escaped_mount_point = mate_vfs_escape_path_string(
 			((TrashDirectoryCachedItem *)p->data)->device_mount_point);
-			
+
 		buffer = g_strdup_printf ("%s %s\n", escaped_mount_point, escaped_path);
 		write (cache_file, buffer, strlen (buffer));
 
@@ -1564,7 +1564,7 @@ save_trash_entry_cache (void)
 		g_free (escaped_path);
 	}
 	close (cache_file);
-	
+
 	g_free (cache_file_path);
 	g_free (cache_file_parent);
 }
@@ -1624,7 +1624,7 @@ add_local_cached_trash_entry (dev_t near_device_id, const char *trash_path, cons
 		/* Sucessfully updated, no more work left. */
 		return;
 	}
-	
+
 	/* Save the new trash item to the local cache. */
 	new_cached_item = g_new (TrashDirectoryCachedItem, 1);
 	new_cached_item->path = g_strdup (trash_path);
@@ -1664,7 +1664,7 @@ read_saved_cached_trash_entries (void)
 	gboolean removed_item;
 
 	/* empty the old locally cached entries */
-	g_list_foreach (cached_trash_directories, 
+	g_list_foreach (cached_trash_directories,
 		(GFunc)destroy_cached_trash_entry, NULL);
 	g_list_free (cached_trash_directories);
 	cached_trash_directories = NULL;
@@ -1688,9 +1688,9 @@ read_saved_cached_trash_entries (void)
 			if (sscanf (buffer, "%s %s", escaped_mount_point, escaped_trash_path) == 2) {
 				/* the paths are saved in escaped form */
 				trash_path = mate_vfs_unescape_string (escaped_trash_path, DIR_SEPARATORS);
-				mount_point = mate_vfs_unescape_string (escaped_mount_point, DIR_SEPARATORS); 
+				mount_point = mate_vfs_unescape_string (escaped_mount_point, DIR_SEPARATORS);
 
-				if (trash_path != NULL 
+				if (trash_path != NULL
 					&& mount_point != NULL
 					&& (strcmp (trash_path, NON_EXISTENT_TRASH_ENTRY) != 0 && g_lstat (trash_path, &stat_buffer) == 0)
 					&& g_stat (mount_point, &stat_buffer) == 0) {
@@ -1708,7 +1708,7 @@ read_saved_cached_trash_entries (void)
 					removed_item = TRUE;
 				}
 			}
-			
+
 			g_free (trash_path);
 			g_free (mount_point);
 		}
@@ -1718,7 +1718,7 @@ read_saved_cached_trash_entries (void)
 			save_trash_entry_cache ();
 		}
 	}
-	
+
 	g_free (cache_file_path);
 }
 
@@ -1750,7 +1750,7 @@ find_locally_cached_trash_entry_for_device_id (dev_t device_id, gboolean check_d
 
 	tmp.device_id = device_id;
 
-	matching_item = g_list_find_custom (cached_trash_directories, 
+	matching_item = g_list_find_custom (cached_trash_directories,
 		&tmp, match_trash_item_by_device_id);
 
 	if (matching_item == NULL) {
@@ -1775,11 +1775,11 @@ find_locally_cached_trash_entry_for_device_id (dev_t device_id, gboolean check_d
 			 * and delete the cached entry
 			 */
 #ifdef DEBUG_FIND_DIRECTORY
-			g_print ("entry %s doesn't exist, removing \n", 
+			g_print ("entry %s doesn't exist, removing \n",
 				((TrashDirectoryCachedItem *)matching_item->data)->path);
 #endif
 			destroy_cached_trash_entry ((TrashDirectoryCachedItem *)matching_item->data);
-			cached_trash_directories = g_list_remove (cached_trash_directories, 
+			cached_trash_directories = g_list_remove (cached_trash_directories,
 				matching_item->data);
 			return NULL;
 		}
@@ -1807,8 +1807,8 @@ find_cached_trash_entry_for_device (dev_t device_id, gboolean check_disk)
 
 /* Search for a Trash entry or create one. Called when there is no cached entry. */
 static char *
-find_or_create_trash_near (const char *full_name_near, dev_t near_device_id, 
-	gboolean create_if_needed, gboolean find_if_needed, guint permissions, 
+find_or_create_trash_near (const char *full_name_near, dev_t near_device_id,
+	gboolean create_if_needed, gboolean find_if_needed, guint permissions,
 	MateVFSContext *context)
 {
 	char *result;
@@ -1816,7 +1816,7 @@ find_or_create_trash_near (const char *full_name_near, dev_t near_device_id,
 
 	result = NULL;
 	/* figure out the topmost disk directory */
-	disk_top_directory = find_disk_top_directory (full_name_near, 
+	disk_top_directory = find_disk_top_directory (full_name_near,
 						      near_device_id, context);
 
 	if (disk_top_directory == NULL) {
@@ -1834,7 +1834,7 @@ find_or_create_trash_near (const char *full_name_near, dev_t near_device_id,
 		/* figure out the topmost disk directory */
 		result = find_trash_in_hierarchy (disk_top_directory, near_device_id, context);
 		if (result == NULL) {
-			/* We just found out there is no Trash on the disk, 
+			/* We just found out there is no Trash on the disk,
 			 * remember this for next time.
 			 */
 			result = g_strdup(NON_EXISTENT_TRASH_ENTRY);
@@ -1864,7 +1864,7 @@ find_or_create_trash_near (const char *full_name_near, dev_t near_device_id,
  * we holds the lock while operating on it only here.
  */
 static char *
-find_trash_directory (const char *full_name_near, dev_t near_device_id, 
+find_trash_directory (const char *full_name_near, dev_t near_device_id,
 		      gboolean create_if_needed, gboolean find_if_needed,
 		      guint permissions, MateVFSContext *context)
 {
@@ -1881,7 +1881,7 @@ find_trash_directory (const char *full_name_near, dev_t near_device_id,
 			 * from the last time we looked.
 			 * If we were asked to create one, ignore the fact that
 			 * we already looked for it, look again and create a
-			 * new trash if we find nothing. 
+			 * new trash if we find nothing.
 			 */
 #ifdef DEBUG_FIND_DIRECTORY
 			g_print ("cache indicates no trash for %s, force a creation \n", full_name_near);
@@ -1894,16 +1894,16 @@ find_trash_directory (const char *full_name_near, dev_t near_device_id,
 			/* No luck sofar. Look for the Trash on the disk, optionally create it
 			 * if we find nothing.
 			 */
-			result = find_or_create_trash_near (full_name_near, near_device_id, 
+			result = find_or_create_trash_near (full_name_near, near_device_id,
 				create_if_needed, find_if_needed, permissions, context);
 		}
 	} else if (create_if_needed) {
 		if (result == NULL || strcmp (result, NON_EXISTENT_TRASH_ENTRY) == 0) {
-			result = find_or_create_trash_near (full_name_near, near_device_id, 
+			result = find_or_create_trash_near (full_name_near, near_device_id,
 				create_if_needed, find_if_needed, permissions, context);
 		}
 	}
-	
+
 	if (result != NULL && strcmp(result, NON_EXISTENT_TRASH_ENTRY) == 0) {
 		/* This means that we know there is no Trash */
 		g_free (result);
@@ -1911,7 +1911,7 @@ find_trash_directory (const char *full_name_near, dev_t near_device_id,
 	}
 
 	G_UNLOCK (cached_trash_directories);
-	
+
 	return result;
 }
 
@@ -1933,7 +1933,7 @@ do_find_directory (MateVFSMethod *method,
 	char *target_directory_path;
 	char *target_directory_uri;
 
-	
+
 	target_directory_path = NULL;
 	*result_uri = NULL;
 
@@ -1959,13 +1959,13 @@ do_find_directory (MateVFSMethod *method,
 		g_free (full_name_near);
 		return MATE_VFS_ERROR_CANCELLED;
 	}
-	
+
 	retval = g_stat (home_directory, &home_volume_stat);
 	if (retval != 0) {
 		g_free (full_name_near);
 		return mate_vfs_result_from_errno ();
 	}
-	
+
 	if (mate_vfs_context_check_cancellation (context)) {
 		g_free (full_name_near);
 		return MATE_VFS_ERROR_CANCELLED;
@@ -1977,7 +1977,7 @@ do_find_directory (MateVFSMethod *method,
 		 * regardless of the requested permissions, so other
 		 * users can't view the trash files.
 		 */
-		permissions = S_IRWXU;	
+		permissions = S_IRWXU;
 		if (near_item_stat.st_dev != home_volume_stat.st_dev) {
 			/* This volume does not contain our home, we have to find/create the Trash
 			 * elsewhere on the volume. Use a heuristic to find a good place.
@@ -1985,7 +1985,7 @@ do_find_directory (MateVFSMethod *method,
 			if (mate_vfs_context_check_cancellation (context))
 				return MATE_VFS_ERROR_CANCELLED;
 
-			target_directory_path = find_trash_directory (full_name_near,  
+			target_directory_path = find_trash_directory (full_name_near,
 				near_item_stat.st_dev, create_if_needed, find_if_needed,
 				permissions, context);
 
@@ -1997,7 +1997,7 @@ do_find_directory (MateVFSMethod *method,
 			target_directory_path = append_to_path (home_directory, TRASH_DIRECTORY_NAME_BASE);
 		}
 		break;
-		
+
 	case MATE_VFS_DIRECTORY_KIND_DESKTOP:
 		if (near_item_stat.st_dev != home_volume_stat.st_dev) {
 			/* unsupported */
@@ -2057,30 +2057,30 @@ rename_helper (const gchar *old_full_name,
 
 			if (mate_vfs_context_check_cancellation (context))
 				return MATE_VFS_ERROR_CANCELLED;
-			
+
 			result = mate_vfs_create_temp (old_full_name, &temp_name, &temp_handle);
 			if (result != MATE_VFS_OK)
 				return result;
 			mate_vfs_close (temp_handle);
 			g_unlink (temp_name);
-			
+
 			retval = g_rename (old_full_name, temp_name);
 			if (retval == 0) {
-				if (g_stat (new_full_name, &statbuf) != 0 
+				if (g_stat (new_full_name, &statbuf) != 0
 				    && g_rename (temp_name, new_full_name) == 0) {
 					/* Success */
 					return MATE_VFS_OK;
 				}
-				/* Revert the filename back to original */ 
+				/* Revert the filename back to original */
 				retval = g_rename (temp_name, old_full_name);
 				if (retval == 0) {
 					return MATE_VFS_ERROR_FILE_EXISTS;
 				}
 			}
 			return mate_vfs_result_from_errno_code (retval);
-		
+
 		} else if (! force_replace) {
-			/* If we are not allowed to replace an existing file, 
+			/* If we are not allowed to replace an existing file,
 			 * return an error.
 			 */
 			return MATE_VFS_ERROR_FILE_EXISTS;
@@ -2238,8 +2238,8 @@ do_create_symbolic_link (MateVFSMethod *method,
 
 	g_assert (target_reference != NULL);
 	g_assert (uri != NULL);
-	
-	/* what we actually want is a function that takes a const char * and 
+
+	/* what we actually want is a function that takes a const char * and
 	 * tells whether it is a valid URI
 	 */
 	target_uri = mate_vfs_uri_new (target_reference);
@@ -2254,12 +2254,12 @@ do_create_symbolic_link (MateVFSMethod *method,
 	if (target_scheme == NULL) {
 		target_scheme = "file";
 	}
-	
+
 	if ((strcmp (link_scheme, "file") == 0) && (strcmp (target_scheme, "file") == 0)) {
 		/* symlink between two places on the local filesystem */
 		if (strncmp (target_reference, "file", 4) != 0) {
 			/* target_reference wasn't a full URI */
-			target_full_name = strdup (target_reference); 
+			target_full_name = strdup (target_reference);
 		} else {
 			target_full_name = get_path_from_uri (target_uri);
 		}
@@ -2314,7 +2314,7 @@ do_check_same_fs (MateVFSMethod *method,
 
 	if (mate_vfs_context_check_cancellation (context))
 		return MATE_VFS_ERROR_CANCELLED;
- 
+
 	full_name_target = get_path_from_uri (target_uri);
 	retval = g_stat (full_name_target, &s_target);
 	g_free (full_name_target);
@@ -2353,7 +2353,7 @@ do_set_file_info (MateVFSMethod *method,
 		new_name = g_build_filename (dir, info->name, NULL);
 
 		result = rename_helper (full_name, new_name, FALSE, context);
-		
+
 		g_free (dir);
 		g_free (full_name);
 		full_name = new_name;
@@ -2399,7 +2399,7 @@ do_set_file_info (MateVFSMethod *method,
 		g_warning ("Not implemented: MATE_VFS_SET_FILE_INFO_OWNER");
 #endif
 	}
-	
+
 	if (mate_vfs_context_check_cancellation (context)) {
 		g_free (full_name);
 		return MATE_VFS_ERROR_CANCELLED;
@@ -2421,14 +2421,14 @@ do_set_file_info (MateVFSMethod *method,
 		g_free (full_name);
 		return MATE_VFS_ERROR_CANCELLED;
 	}
-	
+
 	if (mask & MATE_VFS_SET_FILE_INFO_ACL) {
 		MateVFSResult result;
 
 		result = file_set_acl (full_name, info, context);
 		if (result != MATE_VFS_OK) {
 			g_free (full_name);
-			return result;	
+			return result;
 		}
 	}
 
@@ -2438,7 +2438,7 @@ do_set_file_info (MateVFSMethod *method,
 		result = set_symlink_name_helper (full_name, info);
 		if (result != MATE_VFS_OK) {
 			g_free (full_name);
-			return result;	
+			return result;
 		}
 	}
 
@@ -2503,10 +2503,10 @@ fam_do_iter_unlocked (void)
 			MateVFSURI *info_uri;
 			gchar *info_str;
 
-			/* 
+			/*
 			 * FAM can send events with either a absolute or
 			 * relative (from the monitored URI) path, so check if
-			 * the filename starts with '/'.  
+			 * the filename starts with '/'.
 			 */
 			if (ev.filename[0] == '/') {
 				info_str = mate_vfs_get_uri_from_local_path (ev.filename);
@@ -2517,7 +2517,7 @@ fam_do_iter_unlocked (void)
 
 			/* This queues an idle, so there are no reentrancy issues */
 			mate_vfs_monitor_callback ((MateVFSMethodHandle *)handle,
-						    info_uri, 
+						    info_uri,
 						    event_type);
 			mate_vfs_uri_unref (info_uri);
 		}
@@ -2599,7 +2599,7 @@ fam_monitor_cancel (MateVFSMethod *method,
 		G_UNLOCK (fam_connection);
 		return MATE_VFS_ERROR_NOT_SUPPORTED;
 	}
-	
+
 	FAMCancelMonitor (fam_connection, &handle->request);
 	G_UNLOCK (fam_connection);
 
@@ -2624,7 +2624,7 @@ fam_monitor_add (MateVFSMethod *method,
 	if (filename == NULL) {
 		return MATE_VFS_ERROR_INVALID_URI;
 	}
-	
+
 	handle = g_new0 (FileMonitorHandle, 1);
 	handle->cancel_func = fam_monitor_cancel;
 	handle->uri = uri;
@@ -2643,17 +2643,17 @@ fam_monitor_add (MateVFSMethod *method,
 		g_free (filename);
 		return MATE_VFS_ERROR_NOT_SUPPORTED;
 	}
-	
+
 	if (monitor_type == MATE_VFS_MONITOR_FILE) {
-		FAMMonitorFile (fam_connection, filename, 
+		FAMMonitorFile (fam_connection, filename,
 			&handle->request, handle);
 	} else {
-		FAMMonitorDirectory (fam_connection, filename, 
+		FAMMonitorDirectory (fam_connection, filename,
 			&handle->request, handle);
 	}
 
 	G_UNLOCK (fam_connection);
-	
+
 	*method_handle_return = (MateVFSMethodHandle *)handle;
 
 	g_free (filename);
@@ -2775,10 +2775,10 @@ do_get_volume_free_space (MateVFSMethod *method,
 	}
 
 	unescaped_path = mate_vfs_unescape_string (path, G_DIR_SEPARATOR_S);
-	
+
 #if HAVE_STATVFS
 	statfs_result = statvfs (unescaped_path, &statfs_buffer);
-	block_size = statfs_buffer.f_frsize; 
+	block_size = statfs_buffer.f_frsize;
 #else
 #if STATFS_ARGS == 2
 	statfs_result = statfs (unescaped_path, &statfs_buffer);
@@ -2786,8 +2786,8 @@ do_get_volume_free_space (MateVFSMethod *method,
 	statfs_result = statfs (unescaped_path, &statfs_buffer,
 				sizeof (statfs_buffer), 0);
 #endif
-	block_size = statfs_buffer.f_bsize; 
-#endif  
+	block_size = statfs_buffer.f_bsize;
+#endif
 
 	if (statfs_result != 0) {
 		g_free (unescaped_path);
@@ -2796,7 +2796,7 @@ do_get_volume_free_space (MateVFSMethod *method,
 
 
 /* CF: I assume ncpfs is linux specific, if you are on a non-linux platform
- * where ncpfs is available, please file a bug about it on bugzilla.mate.org
+ * where ncpfs is available, please file a bug about it on bugzilla.gnome.org
  * (2004-03-08)
  */
 #if defined(__linux__)
@@ -2812,7 +2812,7 @@ do_get_volume_free_space (MateVFSMethod *method,
 		if (statfs_result != 0) {
 			return mate_vfs_result_from_errno ();
 		}
-		
+
 		/* linux/ncp_fs.h: NCP_SUPER_MAGIC == 0x564c */
 		if (statfs_buffer2.f_type == 0x564c)
 		{
@@ -2822,13 +2822,13 @@ do_get_volume_free_space (MateVFSMethod *method,
 		/* everything is copacetic... free the unescaped path */
 		g_free (unescaped_path);
 	}
-#else 	
+#else
 	g_free (unescaped_path);
 #endif
 	free_blocks = statfs_buffer.f_bavail;
 
 	*free_space = block_size * free_blocks;
-	
+
 	return MATE_VFS_OK;
 #else /* G_OS_WIN32 */
 	g_warning ("Not implemented for WIN32: file-method.c:do_get_volume_free_space()");
