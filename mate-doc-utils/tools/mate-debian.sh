@@ -141,7 +141,7 @@ end() {
 			if [ "$line" != "" ]; then
 				line="$line,"
 			fi
-			line="$line ${makedepends[index]}"
+			line="$line ${depends[index]}"
 		done
 		echo "Depends: $line" >> $pkgdir/DEBIAN/control
 	fi
