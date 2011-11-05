@@ -146,16 +146,16 @@ end() {
 		echo "Depends: $line" >> $pkgdir/DEBIAN/control
 	fi
 
-	if [ $makedepends ]; then
-		line=""
-		for index in $(seq 0 $((${#makedepends[@]} - 1))); do
-			if [ "$line" != "" ]; then
-				line="$line,"
-			fi
-			line="$line ${makedepends[index]}"
-		done
-		echo "Build-Depends: $line" >> $pkgdir/DEBIAN/control
-	fi
+	#if [ $makedepends ]; then
+	#	line=""
+	#	for index in $(seq 0 $((${#makedepends[@]} - 1))); do
+	#		if [ "$line" != "" ]; then
+	#			line="$line,"
+	#		fi
+	#		line="$line ${makedepends[index]}"
+	#	done
+	#	echo "Build-Depends: $line" >> $pkgdir/DEBIAN/control
+	#fi
 
 	if [ $conflicts ]; then
 		line=""
