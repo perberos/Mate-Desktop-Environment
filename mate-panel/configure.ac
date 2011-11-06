@@ -276,7 +276,7 @@ if test "x$enable_matecomponent" = "xno" ; then
   HAVE_MATECOMPONENT=no
 else
   HAVE_MATECOMPONENT=no
-  PKG_CHECK_MODULES(MATECOMPONENT, MateCORBA-2.0 >= $MATECORBA_REQUIRED libmatecomponentui-2.0 >= $LIBMATECOMPONENTUI_REQUIRED, HAVE_MATECOMPONENT=yes, HAVE_MATECOMPONENT=no)
+  PKG_CHECK_MODULES(MATECOMPONENT, MateCORBA-2.0 libmatecomponentui-2.0, HAVE_MATECOMPONENT=yes, HAVE_MATECOMPONENT=no)
 
   if test "x$enable_matecomponent" = "xyes" -a "x$HAVE_MATECOMPONENT" = "xno" ; then
     AC_MSG_ERROR(MateComponent compatibility modules explicity enabled but not available)
