@@ -2,7 +2,7 @@
 # UI BUILDER
 #
 
-uidir = $(datadir)/libgcr@GCR_VERSION_SUFFIX@/ui/
+uidir = $(datadir)/mategcr@GCR_VERSION_SUFFIX@/ui/
 
 ui_DATA = \
 	gcr-certificate-basics-widget.ui \
@@ -12,7 +12,7 @@ ui_DATA = \
 # ------------------------------------------------------------------
 # HEADERS
 
-incdir = $(includedir)/libgcr@GCR_VERSION_SUFFIX@/gcr
+incdir = $(includedir)/mategcr@GCR_VERSION_SUFFIX@/gcr
 
 inc_HEADERS = \
 	gcr.h \
