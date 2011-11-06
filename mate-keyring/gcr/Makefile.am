@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------
 # UI BUILDER
-# 
+#
 
 uidir = $(datadir)/gcr@GCR_VERSION_SUFFIX@/ui/
 
@@ -41,9 +41,9 @@ INCLUDES = \
 BUILT_SOURCES = \
 	gcr-marshal.c gcr-marshal.h
 
-lib_LTLIBRARIES = libgcr@GCR_VERSION_SUFFIX@.la
+lib_LTLIBRARIES = libmategcr@GCR_VERSION_SUFFIX@.la
 
-libgcr@GCR_VERSION_SUFFIX@_la_SOURCES = \
+libmategcr@GCR_VERSION_SUFFIX@_la_SOURCES = \
 	gcr-certificate.c gcr-certificate.h \
 	gcr-certificate-basics-widget.c gcr-certificate-basics-widget.h \
 	gcr-certificate-details-widget.c gcr-certificate-details-widget.h \
@@ -58,16 +58,16 @@ libgcr@GCR_VERSION_SUFFIX@_la_SOURCES = \
 	gcr-unlock-options-widget.c gcr-unlock-options-widget.h \
 	$(BUILT_SOURCES)
 
-libgcr@GCR_VERSION_SUFFIX@_la_CFLAGS = \
+libmategcr@GCR_VERSION_SUFFIX@_la_CFLAGS = \
 	-DPKCS11_MODULE_PATH=\""$(libdir)/mate-keyring/mate-keyring-pkcs11.so"\" \
 	-DGCR_API_SUBJECT_TO_CHANGE \
 	-DUIDIR=\""$(uidir)"\"
-    
-libgcr@GCR_VERSION_SUFFIX@_la_LDFLAGS = \
+
+libmategcr@GCR_VERSION_SUFFIX@_la_LDFLAGS = \
     	-version-info $(GCR_LT_RELEASE) \
 	-no-undefined -export-symbols-regex 'gcr_*'
-    
-libgcr@GCR_VERSION_SUFFIX@_la_LIBADD = \
+
+libmategcr@GCR_VERSION_SUFFIX@_la_LIBADD = \
 	$(top_builddir)/egg/libegg.la \
 	$(top_builddir)/egg/libegg-entry-buffer.la \
 	$(top_builddir)/gp11/libgp11.la \
@@ -95,18 +95,18 @@ EXTRA_DIST = \
 	gcr.pc.in \
 	gcr-marshal.list \
 	$(ui_DATA)
-    
+
 CLEANFILES = \
 	$(BUILT_SOURCES) \
     	$(pkgconfig_DATA)
-    	
+
 DISTCLEANFILES = \
 	$(pkgconfig_DATA)
-    
+
 if WITH_TESTS
 TESTS_DIR = tests
 else
-TESTS_DIR = 
+TESTS_DIR =
 endif
 
 SUBDIRS = . \

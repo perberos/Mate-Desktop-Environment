@@ -7,18 +7,18 @@ INCLUDES=	\
 	$(GTK_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
 	$(GLIB_CFLAGS)
-	
+
 mate_keyring@GCR_VERSION_SUFFIX@_SOURCES = \
 	gkr-tool.c gkr-tool.h \
 	gkr-tool-import.c
-	
+
 mate_keyring@GCR_VERSION_SUFFIX@_CFLAGS = \
 	-DGCR_API_SUBJECT_TO_CHANGE \
 	-DMATELOCALEDIR=\""$(datadir)/locale"\"
 
 mate_keyring@GCR_VERSION_SUFFIX@_LDADD = \
 	$(top_builddir)/gp11/libgp11.la \
-	$(top_builddir)/gcr/libgcr@GCR_VERSION_SUFFIX@.la \
+	$(top_builddir)/gcr/libmategcr@GCR_VERSION_SUFFIX@.la \
 	$(top_builddir)/egg/libegg.la \
 	$(GTHREAD_LIBS) \
 	$(GTK_LIBS) \
