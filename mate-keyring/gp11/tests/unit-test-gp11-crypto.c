@@ -16,30 +16,30 @@ DEFINE_SETUP(crypto_session)
 {
 	GError *err = NULL;
 	GList *slots;
-	
+
 	/* Successful load */
-	module = gp11_module_initialize (".libs/libgp11-test-module.so", NULL, &err);
+	module = gp11_module_initialize (".libs/libmategp11-test-module.so", NULL, &err);
 	SUCCESS_RES (module, err);
-	
+
 	slots = gp11_module_get_slots (module, TRUE);
 	g_assert (slots != NULL);
-	
+
 	slot = GP11_SLOT (slots->data);
 	g_object_ref (slot);
 	gp11_list_unref_free (slots);
 
 	session = gp11_slot_open_session (slot, 0, &err);
-	SUCCESS_RES(session, err); 
+	SUCCESS_RES(session, err);
 }
 
 DEFINE_TEARDOWN(crypto_session)
 {
-	g_object_unref (session); 
+	g_object_unref (session);
 	g_object_unref (slot);
 	g_object_unref (module);
 }
 
-static void 
+static void
 fetch_async_result (GObject *source, GAsyncResult *result, gpointer user_data)
 {
 	*((GAsyncResult**)user_data) = result;
@@ -54,10 +54,10 @@ find_key (GP11Session *session, CK_ATTRIBUTE_TYPE method, CK_MECHANISM_TYPE mech
 	GP11Object *object = NULL;
 	CK_MECHANISM_TYPE_PTR mechs;
 	gsize n_mechs;
-	
+
 	objects = gp11_session_find_objects (session, NULL, method, GP11_BOOLEAN, TRUE, GP11_INVALID);
 	g_assert (objects);
-	
+
 	for (l = objects; l; l = g_list_next (l)) {
 		gp11_object_set_session (l->data, session);
 		if (mech) {
@@ -72,7 +72,7 @@ find_key (GP11Session *session, CK_ATTRIBUTE_TYPE method, CK_MECHANISM_TYPE mech
 		g_object_ref (object);
 		break;
 	}
-	
+
 	gp11_list_unref_free (objects);
 	return object;
 }
@@ -122,7 +122,7 @@ authenticate_object (GP11Slot *module, GP11Object *object, gchar *label, gchar *
 	g_assert (GP11_IS_OBJECT (object));
 	g_assert (password);
 	g_assert (!*password);
-	
+
 	*password = g_strdup ("booo");
 	return TRUE;
 }
@@ -141,27 +141,27 @@ DEFINE_TEST(encrypt)
 	/* Find the right key */
 	key = find_key (session, CKA_ENCRYPT, CKM_CAPITALIZE);
 	g_assert (key);
-	
+
 	/* Simple one */
 	output = gp11_session_encrypt (session, key, CKM_CAPITALIZE, (const guchar*)"blah blah", 10, &n_output, &error);
 	SUCCESS_RES (output, error);
 	g_assert (n_output == 10);
 	g_assert_cmpstr ((gchar*)output, ==, "BLAH BLAH");
 	g_free (output);
-	
+
 	/* Full one */
 	output = gp11_session_encrypt_full (session, key, mech, (const guchar*)"blah blah", 10, &n_output, NULL, &error);
 	SUCCESS_RES (output, error);
 	g_assert (n_output == 10);
 	g_assert_cmpstr ((gchar*)output, ==, "BLAH BLAH");
 	g_free (output);
-	
+
 	/* Asynchronous one */
 	gp11_session_encrypt_async (session, key, mech, (const guchar*)"second chance", 14, NULL, fetch_async_result, &result);
 
 	testing_wait_until (500);
 	g_assert (result != NULL);
-	
+
 	/* Get the result */
 	output = gp11_session_encrypt_finish (session, result, &n_output, &error);
 	SUCCESS_RES (output, error);
@@ -188,21 +188,21 @@ DEFINE_TEST(decrypt)
 	/* Find the right key */
 	key = find_key (session, CKA_DECRYPT, CKM_CAPITALIZE);
 	g_assert (key);
-	
+
 	/* Simple one */
 	output = gp11_session_decrypt (session, key, CKM_CAPITALIZE, (const guchar*)"FRY???", 7, &n_output, &error);
 	SUCCESS_RES (output, error);
 	g_assert (n_output == 7);
 	g_assert_cmpstr ((gchar*)output, ==, "fry???");
 	g_free (output);
-	
+
 	/* Full one */
 	output = gp11_session_decrypt_full (session, key, mech, (const guchar*)"TENNIS instructor", 18, &n_output, NULL, &error);
 	SUCCESS_RES (output, error);
 	g_assert (n_output == 18);
 	g_assert_cmpstr ((gchar*)output, ==, "tennis instructor");
 	g_free (output);
-	
+
 	/* Asynchronous one */
 	gp11_session_decrypt_async (session, key, mech, (const guchar*)"FAT CHANCE", 11, NULL, fetch_async_result, &result);
 
@@ -224,7 +224,7 @@ DEFINE_TEST(decrypt)
 DEFINE_TEST(login_context_specific)
 {
 	/* The test module won't let us sign without doing a login, check that */
-	
+
 	GError *error = NULL;
 	GP11Object *key;
 	guchar *output;
@@ -233,13 +233,13 @@ DEFINE_TEST(login_context_specific)
 	/* Find the right key */
 	key = find_key (session, CKA_SIGN, CKM_PREFIX);
 	g_assert (key);
-	
+
 	/* Simple one */
 	output = gp11_session_sign (session, key, CKM_PREFIX, (const guchar*)"TV Monster", 11, &n_output, &error);
 	g_assert (error && error->code == CKR_USER_NOT_LOGGED_IN);
 	FAIL_RES (output, error);
 	g_assert (output == NULL);
-	
+
 	g_object_unref (key);
 }
 
@@ -261,21 +261,21 @@ DEFINE_TEST(sign)
 	/* Find the right key */
 	key = find_key (session, CKA_SIGN, CKM_PREFIX);
 	g_assert (key);
-	
+
 	/* Simple one */
 	output = gp11_session_sign (session, key, CKM_PREFIX, (const guchar*)"Labarbara", 10, &n_output, &error);
 	SUCCESS_RES (output, error);
 	g_assert_cmpuint (n_output, ==, 24);
 	g_assert_cmpstr ((gchar*)output, ==, "signed-prefix:Labarbara");
 	g_free (output);
-	
+
 	/* Full one */
 	output = gp11_session_sign_full (session, key, mech, (const guchar*)"Labarbara", 10, &n_output, NULL, &error);
 	SUCCESS_RES (output, error);
 	g_assert_cmpuint (n_output, ==, 20);
 	g_assert_cmpstr ((gchar*)output, ==, "my-prefix:Labarbara");
 	g_free (output);
-	
+
 	/* Asynchronous one */
 	gp11_session_sign_async (session, key, mech, (const guchar*)"Conrad", 7, NULL, fetch_async_result, &result);
 
@@ -311,12 +311,12 @@ DEFINE_TEST(verify)
 	/* Find the right key */
 	key = find_key (session, CKA_VERIFY, CKM_PREFIX);
 	g_assert (key);
-	
+
 	/* Simple one */
-	ret = gp11_session_verify (session, key, CKM_PREFIX, (const guchar*)"Labarbara", 10, 
+	ret = gp11_session_verify (session, key, CKM_PREFIX, (const guchar*)"Labarbara", 10,
 	                           (const guchar*)"signed-prefix:Labarbara", 24, &error);
 	SUCCESS_RES (ret, error);
-	
+
 	/* Full one */
 	ret = gp11_session_verify_full (session, key, mech, (const guchar*)"Labarbara", 10,
 	                                (const guchar*)"my-prefix:Labarbara", 20, NULL, &error);
@@ -335,7 +335,7 @@ DEFINE_TEST(verify)
 	ret = gp11_session_verify_finish (session, result, &error);
 	SUCCESS_RES (ret, error);
 	g_object_unref (result);
-	
+
 	/* Asynchronous failure */
 	result = NULL;
 	gp11_session_verify_async (session, key, mech, (const guchar*)"Labarbara", 10,

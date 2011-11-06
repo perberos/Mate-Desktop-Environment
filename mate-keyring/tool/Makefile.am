@@ -17,7 +17,7 @@ mate_keyring@GCR_VERSION_SUFFIX@_CFLAGS = \
 	-DMATELOCALEDIR=\""$(datadir)/locale"\"
 
 mate_keyring@GCR_VERSION_SUFFIX@_LDADD = \
-	$(top_builddir)/gp11/libgp11.la \
+	$(top_builddir)/gp11/libmategp11.la \
 	$(top_builddir)/gcr/libmategcr@GCR_VERSION_SUFFIX@.la \
 	$(top_builddir)/egg/libegg.la \
 	$(GTHREAD_LIBS) \

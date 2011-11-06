@@ -12,18 +12,18 @@ DEFINE_SETUP(load_slots)
 {
 	GError *err = NULL;
 	GList *slots;
-	
+
 	/* Successful load */
-	module = gp11_module_initialize (".libs/libgp11-test-module.so", NULL, &err);
+	module = gp11_module_initialize (".libs/libmategp11-test-module.so", NULL, &err);
 	SUCCESS_RES (module, err);
-	
+
 	slots = gp11_module_get_slots (module, TRUE);
 	g_assert (slots != NULL);
-	
+
 	slot = GP11_SLOT (slots->data);
 	g_object_ref (slot);
 	gp11_list_unref_free (slots);
-	
+
 }
 
 DEFINE_TEARDOWN(load_slots)
@@ -42,7 +42,7 @@ DEFINE_TEST(slot_info)
 	g_assert (2 == g_list_length (slots) && "wrong number of slots returned");
 	g_assert (GP11_IS_SLOT (slots->data) && "missing slot one");
 	g_assert (GP11_IS_SLOT (slots->next->data) && "missing slot two");
-	
+
 	for (l = slots; l; l = g_list_next (l)) {
 		info = gp11_slot_get_info (GP11_SLOT (l->data));
 		g_assert (info != NULL && "no slot info");
@@ -53,8 +53,8 @@ DEFINE_TEST(slot_info)
 		g_assert (155 == info->hardware_version_minor);
 		g_assert (65 == info->firmware_version_major);
 		g_assert (165 == info->firmware_version_minor);
-	
-		if (info->flags & CKF_TOKEN_PRESENT) {		
+
+		if (info->flags & CKF_TOKEN_PRESENT) {
 			token = gp11_slot_get_token_info (slot);
 			g_assert (token != NULL && "no token info");
 
@@ -77,13 +77,13 @@ DEFINE_TEST(slot_info)
 			g_assert (85 == token->firmware_version_major);
 			g_assert (185 == token->firmware_version_minor);
 			g_assert (927623999 == token->utc_time);
-			
+
 			gp11_token_info_free (token);
 		}
-		
+
 		gp11_slot_info_free (info);
 	}
-	
+
 	gp11_list_unref_free (slots);
 }
 
@@ -91,7 +91,7 @@ DEFINE_TEST(slot_props)
 {
 	GP11Module *mod;
 	CK_SLOT_ID slot_id;
-	
+
 	g_object_get (slot, "module", &mod, "handle", &slot_id, NULL);
 	g_assert (mod == module);
 	g_assert (slot_id == 52);
@@ -105,18 +105,18 @@ DEFINE_TEST(slot_equals_hash)
 	GP11Slot *other_slot;
 	GObject *obj;
 	guint hash;
-	
+
 	hash = gp11_slot_hash (slot);
 	g_assert (hash != 0);
-	
+
 	g_assert (gp11_slot_equal (slot, slot));
-	
+
 	other_mod = gp11_module_new (gp11_module_get_functions (module));
 	other_slot = g_object_new (GP11_TYPE_SLOT, "module", other_mod, "handle", gp11_slot_get_handle (slot), NULL);
 	g_assert (gp11_slot_equal (slot, other_slot));
 	g_object_unref (other_mod);
 	g_object_unref (other_slot);
-	
+
 	obj = g_object_new (G_TYPE_OBJECT, NULL);
 	g_assert (!gp11_slot_equal (slot, obj));
 	g_object_unref (obj);
@@ -131,18 +131,18 @@ DEFINE_TEST(slot_mechanisms)
 	GP11Mechanisms *mechs;
 	GP11MechanismInfo *info;
 	guint i;
-	
+
 	mechs = gp11_slot_get_mechanisms (slot);
 	g_assert (2 == gp11_mechanisms_length (mechs) && "wrong number of mech types returned");
 
 	for (i = 0; i < gp11_mechanisms_length (mechs); ++i) {
-		
+
 		info = gp11_slot_get_mechanism_info (slot, gp11_mechanisms_at (mechs, i));
 		g_assert (info != NULL && "no mech info returned");
-		
+
 		gp11_mechanism_info_free (info);
 	}
-	
+
 	gp11_mechanisms_free (mechs);
 }
 

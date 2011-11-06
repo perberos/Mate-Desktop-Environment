@@ -77,17 +77,19 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libgp11_test_module_la_DEPENDENCIES = $(top_builddir)/gp11/libgp11.la
-am_libgp11_test_module_la_OBJECTS =  \
-	libgp11_test_module_la-gp11-test-module.lo
-libgp11_test_module_la_OBJECTS = $(am_libgp11_test_module_la_OBJECTS)
+libmategp11_test_module_la_DEPENDENCIES =  \
+	$(top_builddir)/gp11/libmategp11.la
+am_libmategp11_test_module_la_OBJECTS =  \
+	libmategp11_test_module_la-gp11-test-module.lo
+libmategp11_test_module_la_OBJECTS =  \
+	$(am_libmategp11_test_module_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
-libgp11_test_module_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+libmategp11_test_module_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libgp11_test_module_la_CFLAGS) $(CFLAGS) \
-	$(libgp11_test_module_la_LDFLAGS) $(LDFLAGS) -o $@
+	$(libmategp11_test_module_la_CFLAGS) $(CFLAGS) \
+	$(libmategp11_test_module_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(noinst_PROGRAMS)
 am__objects_1 = run_tests-unit-test-gp11-attributes.$(OBJEXT) \
 	run_tests-test-gp11-mechanism.$(OBJEXT) \
@@ -100,7 +102,7 @@ am_run_tests_OBJECTS = run_tests-test-suite.$(OBJEXT) $(am__objects_1)
 run_tests_OBJECTS = $(am_run_tests_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) \
-	$(top_builddir)/gp11/libgp11.la libgp11-test-module.la
+	$(top_builddir)/gp11/libmategp11.la libmategp11-test-module.la
 run_tests_DEPENDENCIES = $(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
 run_tests_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(run_tests_CFLAGS) \
@@ -131,8 +133,9 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(libgp11_test_module_la_SOURCES) $(run_tests_SOURCES)
-DIST_SOURCES = $(libgp11_test_module_la_SOURCES) $(run_tests_SOURCES)
+SOURCES = $(libmategp11_test_module_la_SOURCES) $(run_tests_SOURCES)
+DIST_SOURCES = $(libmategp11_test_module_la_SOURCES) \
+	$(run_tests_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -350,8 +353,8 @@ TESTING_FLAGS = \
 
 TESTING_LIBS = \
 	$(GIO_LIBS) \
-	$(top_builddir)/gp11/libgp11.la \
-	libgp11-test-module.la 
+	$(top_builddir)/gp11/libmategp11.la \
+	libmategp11-test-module.la
 
 EXTRA_DIST = \
 	gp11-test.h
@@ -386,20 +389,20 @@ BUILT_SOURCES = \
 
 
 # ------------------------------------------------------------------------
-lib_LTLIBRARIES = libgp11-test-module.la
-libgp11_test_module_la_LDFLAGS = \
+lib_LTLIBRARIES = libmategp11-test-module.la
+libmategp11_test_module_la_LDFLAGS = \
 	-avoid-version
 
-libgp11_test_module_la_CFLAGS = \
+libmategp11_test_module_la_CFLAGS = \
 	-I$(top_srcdir)/gp11 \
 	-I$(top_srcdir) \
 	$(GLIB_CFLAGS)
 
-libgp11_test_module_la_SOURCES = \
+libmategp11_test_module_la_SOURCES = \
 	gp11-test-module.c
 
-libgp11_test_module_la_LIBADD = \
-	$(top_builddir)/gp11/libgp11.la
+libmategp11_test_module_la_LIBADD = \
+	$(top_builddir)/gp11/libmategp11.la
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -467,8 +470,8 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libgp11-test-module.la: $(libgp11_test_module_la_OBJECTS) $(libgp11_test_module_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libgp11_test_module_la_LINK) -rpath $(libdir) $(libgp11_test_module_la_OBJECTS) $(libgp11_test_module_la_LIBADD) $(LIBS)
+libmategp11-test-module.la: $(libmategp11_test_module_la_OBJECTS) $(libmategp11_test_module_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libmategp11_test_module_la_LINK) -rpath $(libdir) $(libmategp11_test_module_la_OBJECTS) $(libmategp11_test_module_la_LIBADD) $(LIBS)
 
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -488,7 +491,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgp11_test_module_la-gp11-test-module.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmategp11_test_module_la-gp11-test-module.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_tests-test-gp11-mechanism.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_tests-test-suite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_tests-unit-test-gp11-attributes.Po@am__quote@
@@ -522,13 +525,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-libgp11_test_module_la-gp11-test-module.lo: gp11-test-module.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgp11_test_module_la_CFLAGS) $(CFLAGS) -MT libgp11_test_module_la-gp11-test-module.lo -MD -MP -MF $(DEPDIR)/libgp11_test_module_la-gp11-test-module.Tpo -c -o libgp11_test_module_la-gp11-test-module.lo `test -f 'gp11-test-module.c' || echo '$(srcdir)/'`gp11-test-module.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgp11_test_module_la-gp11-test-module.Tpo $(DEPDIR)/libgp11_test_module_la-gp11-test-module.Plo
+libmategp11_test_module_la-gp11-test-module.lo: gp11-test-module.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmategp11_test_module_la_CFLAGS) $(CFLAGS) -MT libmategp11_test_module_la-gp11-test-module.lo -MD -MP -MF $(DEPDIR)/libmategp11_test_module_la-gp11-test-module.Tpo -c -o libmategp11_test_module_la-gp11-test-module.lo `test -f 'gp11-test-module.c' || echo '$(srcdir)/'`gp11-test-module.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmategp11_test_module_la-gp11-test-module.Tpo $(DEPDIR)/libmategp11_test_module_la-gp11-test-module.Plo
 @am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gp11-test-module.c' object='libgp11_test_module_la-gp11-test-module.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gp11-test-module.c' object='libmategp11_test_module_la-gp11-test-module.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgp11_test_module_la_CFLAGS) $(CFLAGS) -c -o libgp11_test_module_la-gp11-test-module.lo `test -f 'gp11-test-module.c' || echo '$(srcdir)/'`gp11-test-module.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmategp11_test_module_la_CFLAGS) $(CFLAGS) -c -o libmategp11_test_module_la-gp11-test-module.lo `test -f 'gp11-test-module.c' || echo '$(srcdir)/'`gp11-test-module.c
 
 run_tests-test-suite.o: test-suite.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(run_tests_CFLAGS) $(CFLAGS) -MT run_tests-test-suite.o -MD -MP -MF $(DEPDIR)/run_tests-test-suite.Tpo -c -o run_tests-test-suite.o `test -f 'test-suite.c' || echo '$(srcdir)/'`test-suite.c

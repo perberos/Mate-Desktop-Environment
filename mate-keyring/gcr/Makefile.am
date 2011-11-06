@@ -70,7 +70,7 @@ libmategcr@GCR_VERSION_SUFFIX@_la_LDFLAGS = \
 libmategcr@GCR_VERSION_SUFFIX@_la_LIBADD = \
 	$(top_builddir)/egg/libegg.la \
 	$(top_builddir)/egg/libegg-entry-buffer.la \
-	$(top_builddir)/gp11/libgp11.la \
+	$(top_builddir)/gp11/libmategp11.la \
 	$(GOBJECT_LIBS) \
 	$(GLIB_LIBS) \
 	$(LIBGCRYPT_LIBS) \
