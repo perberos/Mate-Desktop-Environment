@@ -29,7 +29,7 @@ gkd_ssh_agent_standalone_SOURCES = \
 
 gkd_ssh_agent_standalone_LDADD = \
 	libgkd-ssh-agent.la \
-	$(top_builddir)/gp11/libgp11.la \
+	$(top_builddir)/gp11/libmategp11.la \
 	$(top_builddir)/egg/libegg-buffer.la \
 	$(top_builddir)/egg/libegg-secure.la \
 	$(GOBJECT_LIBS) \

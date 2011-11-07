@@ -68,7 +68,7 @@ mate_keyring_prompt@GCR_VERSION_SUFFIX@_SOURCES = \
 mate_keyring_prompt@GCR_VERSION_SUFFIX@_LDADD = \
 	$(top_builddir)/egg/libegg-prompt.la \
 	$(top_builddir)/egg/libegg-entry-buffer.la \
-	$(top_builddir)/gcr/libgcr@GCR_VERSION_SUFFIX@.la \
+	$(top_builddir)/gcr/libmategcr@GCR_VERSION_SUFFIX@.la \
 	$(LIBGCRYPT_LIBS) \
 	$(GTK_LIBS)
 

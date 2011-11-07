@@ -41,8 +41,8 @@
 	const gchar* website = "http://www.matsusoft.com.ar/projects";
 
 	const gchar* copyright =  ""
-		"Copyright © 2011 Perberos.\n" // egoista!
-		"Copyright © 1997-2011 GNOME developers.";
+		"Copyright © 1997-2011 GNOME developers\n"
+		"Copyright © 2011 Perberos"; // egoista!
 
 	/**
 	 * Incrementar el valor de comments_count si se desea agregar nuevos valores

@@ -19,6 +19,6 @@ libgkd_login_la_SOURCES = \
 	gkd-login.c gkd-login.h
 
 libgkd_login_la_LIBADD = \
-	$(top_builddir)/gp11/libgp11.la \
+	$(top_builddir)/gp11/libmategp11.la \
 	$(GOBJECT_LIBS) \
 	$(GLIB_LIBS)

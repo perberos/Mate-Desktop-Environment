@@ -15,29 +15,29 @@ TESTING_FLAGS = \
 
 TESTING_LIBS = \
 	$(GIO_LIBS) \
-	$(top_builddir)/gp11/libgp11.la \
-	libgp11-test-module.la 
-	
+	$(top_builddir)/gp11/libmategp11.la \
+	libmategp11-test-module.la
+
 EXTRA_DIST = \
 	gp11-test.h
-	
+
 include $(top_srcdir)/testing/testing.make
 
 # ------------------------------------------------------------------------
 
-lib_LTLIBRARIES = libgp11-test-module.la
+lib_LTLIBRARIES = libmategp11-test-module.la
 
-libgp11_test_module_la_LDFLAGS = \
+libmategp11_test_module_la_LDFLAGS = \
 	-avoid-version
 
-libgp11_test_module_la_CFLAGS = \
+libmategp11_test_module_la_CFLAGS = \
 	-I$(top_srcdir)/gp11 \
 	-I$(top_srcdir) \
 	$(GLIB_CFLAGS)
 
-libgp11_test_module_la_SOURCES = \
+libmategp11_test_module_la_SOURCES = \
 	gp11-test-module.c
 
-libgp11_test_module_la_LIBADD = \
-	$(top_builddir)/gp11/libgp11.la
-	
+libmategp11_test_module_la_LIBADD = \
+	$(top_builddir)/gp11/libmategp11.la
+
