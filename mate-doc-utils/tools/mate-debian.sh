@@ -44,6 +44,50 @@ pack() {
 }
 
 init() {
+	
+
+	if [ ! $pkgarch ]; then
+		pkgarch=`arch`
+
+		if [[ $pkgarch = "i686" ]]; then pkgarch=i386; fi
+		if [[ $pkgarch = "x86_64" ]]; then pkgarch=amd64; fi
+	fi
+	# verificamos la existencia de las dependencias
+	missing=""
+	if [ $depends ]; then
+		for index in $(seq 0 $((${#depends[@]} - 1))); do
+			if [ ! -f "/var/lib/dpkg/info/${depends[index]}:${pkgarch}.list" ]; then
+			if [ ! -f "/var/lib/dpkg/info/${depends[index]}.list" ]; then
+				if [ "$missing" != "" ]; then
+					missing="$missing "
+				fi
+				missing="$missing ${depends[index]}"
+			fi
+			fi
+		done
+	fi
+
+	if [ $makedepends ]; then
+		for index in $(seq 0 $((${#makedepends[@]} - 1))); do
+			if [ ! -f "/var/lib/dpkg/info/${makedepends[index]}:${pkgarch}.list" ]; then
+			if [ ! -f "/var/lib/dpkg/info/${makedepends[index]}.list" ]; then
+				if [ -f "$missing" != "" ]; then
+					missing="$missing "
+				fi
+				missing="$missing ${makedepends[index]}"
+			fi
+			fi
+		done
+	fi
+
+	if [ $missing != "" ]; then
+		echo "You need install:${missing}"
+		return 1
+	fi
+	# /var/lib/dpkg/info/*.list
+
+
+
 	# creamos la carpeta donde se compila y guarda el compilado
 	if [ -d $pkgdir/ ]; then
 		rm -rf $pkgdir/
