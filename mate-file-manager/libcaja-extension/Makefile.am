@@ -11,6 +11,7 @@ INCLUDES=\
 	$(WARNING_CFLAGS) \
 	$(DISABLE_DEPRECATED_CFLAGS) \
 	-DDATADIR=\""$(datadir)"\" \
+	$(UNIQUE_CFLAGS) \
 	$(NULL)
 
 libcaja_extension_la_LDFLAGS=\

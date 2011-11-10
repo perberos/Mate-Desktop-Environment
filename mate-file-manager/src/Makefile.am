@@ -31,6 +31,7 @@ INCLUDES =							\
 	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
 	-DVERSION="\"$(VERSION)\"" 				\
 	$(DISABLE_DEPRECATED_CFLAGS)                            \
+	$(UNIQUE_CFLAGS) \
 	$(NULL)
 
 LDADD =\
