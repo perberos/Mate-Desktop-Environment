@@ -2,9 +2,13 @@
 
 # fill it
 pkgname=mate-file-manager
-pkgver=2011.10.29
+pkgver=2011.11.10
 pkgrel=1
-pkgdesc="libexif, exempi, mate-icon-theme, desktop-file-utils, gvfs, libunique, mate-desktop"
+pkgdesc="The MATE shell and file manager"
+depends=('libexif12' 'libexempi3' 'mate-icon-theme' 'shared-mime-info' 'desktop-file-utils' 'gvfs' 'libunique-1.0-0' 'mate-desktop' 'libgail18')
+makedepends=('pkgconfig' 'intltool')
+url="http://matsusoft.com.ar/projects"
+
 
 # editar esta funcion!
 build() {
@@ -16,7 +20,7 @@ build() {
 
 	./configure --prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/caja \
+		--libexecdir=/usr/lib/caja --enable-unique \
 		--disable-update-mimedb || return 1
 
 	make || return 1
