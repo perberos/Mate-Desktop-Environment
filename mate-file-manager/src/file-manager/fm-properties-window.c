@@ -87,12 +87,12 @@
 static GHashTable *windows;
 static GHashTable *pending_lists;
 
-struct FMPropertiesWindowDetails {	
+struct FMPropertiesWindowDetails {
 	GList *original_files;
 	GList *target_files;
-	
+
 	GtkNotebook *notebook;
-	
+
 	GtkTable *basic_table;
 	GtkTable *permissions_table;
 	gboolean advanced_permissions;
@@ -138,10 +138,10 @@ struct FMPropertiesWindowDetails {
 	guint long_operation_underway;
 
  	GList *changed_files;
- 	
+
  	guint64 volume_capacity;
  	guint64 volume_free;
-	
+
 	GdkColor used_color;
 	GdkColor free_color;
 	GdkColor used_stroke_color;
@@ -241,26 +241,26 @@ static GtkLabel *attach_ellipsizing_value_label   (GtkTable *table,
 						   int row,
 						   int column,
 						   const char *initial_text);
-						   
+
 static GtkWidget* create_pie_widget 		  (FMPropertiesWindow *window);
 
 G_DEFINE_TYPE (FMPropertiesWindow, fm_properties_window, GTK_TYPE_DIALOG);
-#define parent_class fm_properties_window_parent_class 
+#define parent_class fm_properties_window_parent_class
 
 static gboolean
 is_multi_file_window (FMPropertiesWindow *window)
 {
 	GList *l;
 	int count;
-	
+
 	count = 0;
-	
+
 	for (l = window->details->original_files; l != NULL; l = l->next) {
-		if (!caja_file_is_gone (CAJA_FILE (l->data))) {			
+		if (!caja_file_is_gone (CAJA_FILE (l->data))) {
 			count++;
 			if (count > 1) {
 				return TRUE;
-			}	
+			}
 		}
 	}
 
@@ -285,7 +285,7 @@ get_not_gone_original_file_count (FMPropertiesWindow *window)
 }
 
 static CajaFile *
-get_original_file (FMPropertiesWindow *window) 
+get_original_file (FMPropertiesWindow *window)
 {
 	g_return_val_if_fail (!is_multi_file_window (window), NULL);
 
@@ -315,7 +315,7 @@ get_target_file_for_original_file (CajaFile *file)
 				target_file = caja_file_get (location);
 				g_object_unref (location);
 			}
-			
+
 			g_object_unref (link);
 		}
         } else {
@@ -325,7 +325,7 @@ get_target_file_for_original_file (CajaFile *file)
 			g_free (uri_to_display);
 		}
 	}
-	
+
 	if (target_file != NULL) {
 		return target_file;
 	}
@@ -376,13 +376,13 @@ get_image_for_properties_window (FMPropertiesWindow *window,
 {
 	CajaIconInfo *icon, *new_icon;
 	GList *l;
-	
+
 	icon = NULL;
 	for (l = window->details->original_files; l != NULL; l = l->next) {
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
-		
+
 		if (!icon) {
 			icon = caja_file_get_icon (file, CAJA_ICON_SIZE_STANDARD, CAJA_FILE_ICON_FLAGS_USE_THUMBNAILS | CAJA_FILE_ICON_FLAGS_IGNORE_VISITING);
 		} else {
@@ -421,7 +421,7 @@ update_properties_window_icon (GtkImage *image)
 	char *name;
 
 	window = g_object_get_data (G_OBJECT (image), "properties_window");
-	
+
 	get_image_for_properties_window (window, &name, &pixbuf);
 
 	if (name != NULL) {
@@ -442,7 +442,7 @@ uri_is_local_image (const char *uri)
 {
 	GdkPixbuf *pixbuf;
 	char *image_path;
-	
+
 	image_path = g_filename_from_uri (uri, NULL, NULL);
 	if (image_path == NULL) {
 		return FALSE;
@@ -450,7 +450,7 @@ uri_is_local_image (const char *uri)
 
 	pixbuf = gdk_pixbuf_new_from_file (image_path, NULL);
 	g_free (image_path);
-	
+
 	if (pixbuf == NULL) {
 		return FALSE;
 	}
@@ -466,9 +466,9 @@ reset_icon (FMPropertiesWindow *properties_window)
 
 	for (l = properties_window->details->original_files; l != NULL; l = l->next) {
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
-		
+
 		caja_file_set_metadata (file,
 					    CAJA_METADATA_KEY_ICON_SCALE,
 					    NULL, NULL);
@@ -479,7 +479,7 @@ reset_icon (FMPropertiesWindow *properties_window)
 }
 
 
-static void  
+static void
 fm_properties_window_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 					 int x, int y,
 					 GtkSelectionData *selection_data,
@@ -488,17 +488,17 @@ fm_properties_window_drag_data_received (GtkWidget *widget, GdkDragContext *cont
 	char **uris;
 	gboolean exactly_one;
 	GtkImage *image;
- 	GtkWindow *window; 
+ 	GtkWindow *window;
 
 	image = GTK_IMAGE (widget);
  	window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (image)));
 
 	if (info == TARGET_RESET_BACKGROUND) {
 		reset_icon (FM_PROPERTIES_WINDOW (window));
-		
+
 		return;
 	}
-	
+
 	uris = g_strsplit (gtk_selection_data_get_data (selection_data), "\r\n", 0);
 	exactly_one = uris[0] != NULL && (uris[1] == NULL || uris[1][0] == '\0');
 
@@ -506,10 +506,10 @@ fm_properties_window_drag_data_received (GtkWidget *widget, GdkDragContext *cont
 	if (!exactly_one) {
 		eel_show_error_dialog
 			(_("You cannot assign more than one custom icon at a time!"),
-			 _("Please drag just one image to set a custom icon."), 
+			 _("Please drag just one image to set a custom icon."),
 			 window);
-	} else {		
-		if (uri_is_local_image (uris[0])) {			
+	} else {
+		if (uri_is_local_image (uris[0])) {
 			set_icon (uris[0], FM_PROPERTIES_WINDOW (window));
 		} else {
 			GFile *f;
@@ -518,9 +518,9 @@ fm_properties_window_drag_data_received (GtkWidget *widget, GdkDragContext *cont
 			if (!g_file_is_native (f)) {
 				eel_show_error_dialog
 					(_("The file that you dropped is not local."),
-					 _("You can only use local images as custom icons."), 
+					 _("You can only use local images as custom icons."),
 					 window);
-				
+
 			} else {
 				eel_show_error_dialog
 					(_("The file that you dropped is not an image."),
@@ -528,7 +528,7 @@ fm_properties_window_drag_data_received (GtkWidget *widget, GdkDragContext *cont
 					 window);
 			}
 			g_object_unref (f);
-		}		
+		}
 	}
 	g_strfreev (uris);
 }
@@ -540,7 +540,7 @@ create_image_widget (FMPropertiesWindow *window,
  	GtkWidget *button;
 	GtkWidget *image;
 	GdkPixbuf *pixbuf;
-	
+
 	get_image_for_properties_window (window, NULL, &pixbuf);
 
 	image = gtk_image_new ();
@@ -553,7 +553,7 @@ create_image_widget (FMPropertiesWindow *window,
 
 		/* prepare the image to receive dropped objects to assign custom images */
 		gtk_drag_dest_set (GTK_WIDGET (image),
-				   GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP, 
+				   GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
 				   target_table, G_N_ELEMENTS (target_table),
 				   GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
@@ -601,22 +601,22 @@ set_name_field (FMPropertiesWindow *window, const gchar *original_name,
 				GTK_WIDGET (attach_ellipsizing_value_label
 					(window->details->basic_table,
 					 window->details->name_row,
-					 VALUE_COLUMN, name));		
+					 VALUE_COLUMN, name));
 		} else {
 			window->details->name_field = caja_entry_new ();
 			gtk_entry_set_text (GTK_ENTRY (window->details->name_field), name);
 			gtk_widget_show (window->details->name_field);
 			gtk_table_attach (window->details->basic_table,
 					  window->details->name_field,
-					  VALUE_COLUMN, 
+					  VALUE_COLUMN,
 					  VALUE_COLUMN + 1,
 					  window->details->name_row,
 					  window->details->name_row + 1,
 					  GTK_FILL, 0,
 					  0, 0);
 			gtk_label_set_mnemonic_widget (GTK_LABEL (window->details->name_label), window->details->name_field);
-			
-			/* FIXME bugzilla.mate.org 42151:
+
+			/* FIXME bugzilla.gnome.org 42151:
 			 * With this (and one place elsewhere in this file, not sure which is the
 			 * trouble-causer) code in place, bug 2151 happens (crash on quit). Since
 			 * we've removed Undo from Caja for now, I'm just ifdeffing out this
@@ -638,9 +638,9 @@ set_name_field (FMPropertiesWindow *window, const gchar *original_name,
 
 		gtk_widget_show (window->details->name_field);
 	}
-	/* Only replace text if the file's name has changed. */ 
+	/* Only replace text if the file's name has changed. */
 	else if (original_name == NULL || strcmp (original_name, name) != 0) {
-		
+
 		if (use_label) {
 			gtk_label_set_text (GTK_LABEL (window->details->name_field), name);
 		} else {
@@ -672,7 +672,7 @@ update_name_field (FMPropertiesWindow *window)
 		char *name;
 		gboolean first;
 		GList *l;
-		
+
 		str = g_string_new ("");
 
 		first = TRUE;
@@ -683,9 +683,9 @@ update_name_field (FMPropertiesWindow *window)
 			if (!caja_file_is_gone (file)) {
 				if (!first) {
 					g_string_append (str, ", ");
-				} 
+				}
 				first = FALSE;
-				
+
 				name = caja_file_get_display_name (file);
 				g_string_append (str, name);
 				g_free (name);
@@ -716,7 +716,7 @@ update_name_field (FMPropertiesWindow *window)
 
 		set_name_field (window, original_name, current_name);
 
-		if (original_name == NULL || 
+		if (original_name == NULL ||
 		    eel_strcmp (original_name, current_name) != 0) {
 			g_object_set_data_full (G_OBJECT (window->details->name_field),
 						"original_name",
@@ -762,8 +762,8 @@ rename_callback (CajaFile *file, GFile *res_loc, GError *error, gpointer callbac
 	/* Complain to user if rename failed. */
 	if (error != NULL) {
 		new_name = window->details->pending_name;
-		fm_report_error_renaming_file (file, 
-					       window->details->pending_name, 
+		fm_report_error_renaming_file (file,
+					       window->details->pending_name,
 					       error,
 					       GTK_WINDOW (window));
 		if (window->details->name_field != NULL) {
@@ -787,13 +787,13 @@ name_field_done_editing (CajaEntry *name_field, FMPropertiesWindow *window)
 	CajaFile *file;
 	char *new_name;
 	const char *original_name;
-	
+
 	g_return_if_fail (CAJA_IS_ENTRY (name_field));
 
 	/* Don't apply if the dialog has more than one file */
 	if (is_multi_file_window (window)) {
 		return;
-	}	
+	}
 
 	file = get_original_file (window);
 
@@ -815,7 +815,7 @@ name_field_done_editing (CajaEntry *name_field, FMPropertiesWindow *window)
 		/* Don't rename if not changed since we read the display name.
 		   This is needed so that we don't save the display name to the
 		   file when nothing is changed */
-		if (strcmp (new_name, original_name) != 0) {		
+		if (strcmp (new_name, original_name) != 0) {
 			set_pending_name (window, new_name);
 			g_object_ref (window);
 			caja_file_rename (file, new_name,
@@ -860,7 +860,7 @@ file_has_keyword (CajaFile *file, const char *keyword)
 	keywords = caja_file_get_keywords (file);
 	word = g_list_find_custom (keywords, keyword, (GCompareFunc) strcmp);
 	eel_g_list_free_deep (keywords);
-	
+
 	return (word != NULL);
 }
 
@@ -871,16 +871,16 @@ get_initial_emblem_state (FMPropertiesWindow *window,
 			  GList **off)
 {
 	GList *l;
-	
+
 	*on = NULL;
 	*off = NULL;
-	
+
 	for (l = window->details->original_files; l != NULL; l = l->next) {
 		GList *initial_emblems;
-		
+
 		initial_emblems = g_hash_table_lookup (window->details->initial_emblems,
 						       l->data);
-		
+
 		if (g_list_find_custom (initial_emblems, name, (GCompareFunc) strcmp)) {
 			*on = g_list_prepend (*on, l->data);
 		} else {
@@ -906,11 +906,11 @@ emblem_button_toggled (GtkToggleButton *button,
 	files_off = NULL;
 	if (gtk_toggle_button_get_active (button)
 	    && !gtk_toggle_button_get_inconsistent (button)) {
-		/* Go to the initial state unless the initial state was 
+		/* Go to the initial state unless the initial state was
 		   consistent */
-		get_initial_emblem_state (window, name, 
+		get_initial_emblem_state (window, name,
 					  &files_on, &files_off);
-		
+
 		if (!(files_on && files_off)) {
 			g_list_free (files_on);
 			g_list_free (files_off);
@@ -925,25 +925,25 @@ emblem_button_toggled (GtkToggleButton *button,
 		files_off = g_list_copy (window->details->original_files);
 		files_on = NULL;
 	}
-	
-	g_signal_handlers_block_by_func (G_OBJECT (button), 
+
+	g_signal_handlers_block_by_func (G_OBJECT (button),
 					 G_CALLBACK (emblem_button_toggled),
 					 window);
-	
+
 	gtk_toggle_button_set_active (button, files_on != NULL);
 	gtk_toggle_button_set_inconsistent (button, files_on && files_off);
 
-	g_signal_handlers_unblock_by_func (G_OBJECT (button), 
+	g_signal_handlers_unblock_by_func (G_OBJECT (button),
 					   G_CALLBACK (emblem_button_toggled),
 					   window);
 
 	for (l = files_on; l != NULL; l = l->next) {
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
-		
+
 		keywords = caja_file_get_keywords (file);
-		
+
 		word = g_list_find_custom (keywords, name,  (GCompareFunc)strcmp);
 		if (!word) {
 			keywords = g_list_prepend (keywords, g_strdup (name));
@@ -951,14 +951,14 @@ emblem_button_toggled (GtkToggleButton *button,
 		caja_file_set_keywords (file, keywords);
 		eel_g_list_free_deep (keywords);
 	}
-	
+
 	for (l = files_off; l != NULL; l = l->next) {
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
 
 		keywords = caja_file_get_keywords (file);
-		
+
 		word = g_list_find_custom (keywords, name,  (GCompareFunc)strcmp);
 		if (word) {
 			keywords = g_list_remove_link (keywords, word);
@@ -966,10 +966,10 @@ emblem_button_toggled (GtkToggleButton *button,
 		}
 		caja_file_set_keywords (file, keywords);
 		eel_g_list_free_deep (keywords);
-	}	
+	}
 
 	g_list_free (files_on);
-	g_list_free (files_off);	
+	g_list_free (files_off);
 }
 
 static void
@@ -990,7 +990,7 @@ emblem_button_update (FMPropertiesWindow *window,
 		CajaFile *file;
 
 		file = CAJA_FILE (l->data);
-		
+
 		has_keyword = file_has_keyword (file, name);
 
 		if (has_keyword) {
@@ -999,15 +999,15 @@ emblem_button_update (FMPropertiesWindow *window,
 			all_set = FALSE;
 		}
 	}
-	
-	g_signal_handlers_block_by_func (G_OBJECT (button), 
+
+	g_signal_handlers_block_by_func (G_OBJECT (button),
 					 G_CALLBACK (emblem_button_toggled),
 					 window);
 
 	gtk_toggle_button_set_active (button, !all_unset);
 	gtk_toggle_button_set_inconsistent (button, !all_unset && !all_set);
 
-	g_signal_handlers_unblock_by_func (G_OBJECT (button), 
+	g_signal_handlers_unblock_by_func (G_OBJECT (button),
 					   G_CALLBACK (emblem_button_toggled),
 					   window);
 
@@ -1033,7 +1033,7 @@ update_properties_window_title (FMPropertiesWindow *window)
 			g_free (name);
 		}
 	}
-	
+
   	gtk_window_set_title (GTK_WINDOW (window), title);
 
 	g_free (title);
@@ -1066,7 +1066,7 @@ static void
 refresh_extension_pages (FMPropertiesWindow *window)
 {
 	clear_extension_pages (window);
-	append_extension_pages (window);	
+	append_extension_pages (window);
 }
 
 static void
@@ -1083,7 +1083,7 @@ remove_from_dialog (FMPropertiesWindow *window,
 	if (index == -1) {
 		index = g_list_index (window->details->original_files, file);
 		g_return_if_fail (index != -1);
-	}	
+	}
 
 	original_link = g_list_nth (window->details->original_files, index);
 	target_link = g_list_nth (window->details->target_files, index);
@@ -1092,7 +1092,7 @@ remove_from_dialog (FMPropertiesWindow *window,
 
 	original_file = CAJA_FILE (original_link->data);
 	target_file = CAJA_FILE (target_link->data);
-	
+
 	window->details->original_files = g_list_remove_link (window->details->original_files, original_link);
 	g_list_free (original_link);
 
@@ -1114,7 +1114,7 @@ remove_from_dialog (FMPropertiesWindow *window,
 
 	caja_file_unref (original_file);
 	caja_file_unref (target_file);
-	
+
 }
 
 static gboolean
@@ -1123,7 +1123,7 @@ mime_list_equal (GList *a, GList *b)
 	while (a && b) {
 		if (strcmp (a->data, b->data)) {
 			return FALSE;
-		}	
+		}
 		a = a->next;
 		b = b->next;
 	}
@@ -1136,7 +1136,7 @@ get_mime_list (FMPropertiesWindow *window)
 {
 	GList *ret;
 	GList *l;
-	
+
 	ret = NULL;
 	for (l = window->details->target_files; l != NULL; l = l->next) {
 		ret = g_list_append (ret, caja_file_get_mime_type (CAJA_FILE (l->data)));
@@ -1146,7 +1146,7 @@ get_mime_list (FMPropertiesWindow *window)
 }
 
 static void
-properties_window_update (FMPropertiesWindow *window, 
+properties_window_update (FMPropertiesWindow *window,
 			  GList *files)
 {
 	GList *l;
@@ -1168,11 +1168,11 @@ properties_window_update (FMPropertiesWindow *window,
 			/* Remove the file from the property dialog */
 			remove_from_dialog (window, changed_file);
 			changed_file = NULL;
-			
+
 			if (window->details->original_files == NULL) {
 				return;
 			}
-		}		
+		}
 		if (changed_file == NULL ||
 		    g_list_find (window->details->original_files, changed_file)) {
 			dirty_original = TRUE;
@@ -1193,7 +1193,7 @@ properties_window_update (FMPropertiesWindow *window,
 		for (l = window->details->emblem_buttons; l != NULL; l = l->next) {
 			emblem_button_update (window, GTK_TOGGLE_BUTTON (l->data));
 		}
-		
+
 		/* If any of the value fields start to depend on the original
 		 * value, value_field_updates should be added here */
 	}
@@ -1202,11 +1202,11 @@ properties_window_update (FMPropertiesWindow *window,
 		for (l = window->details->permission_buttons; l != NULL; l = l->next) {
 			permission_button_update (window, GTK_TOGGLE_BUTTON (l->data));
 		}
-		
+
 		for (l = window->details->permission_combos; l != NULL; l = l->next) {
 			permission_combo_update (window, GTK_COMBO_BOX (l->data));
 		}
-		
+
 		for (l = window->details->value_fields; l != NULL; l = l->next) {
 			value_field_update (window, GTK_LABEL (l->data));
 		}
@@ -1218,9 +1218,9 @@ properties_window_update (FMPropertiesWindow *window,
 		window->details->mime_list = mime_list;
 	} else {
 		if (!mime_list_equal (window->details->mime_list, mime_list)) {
-			refresh_extension_pages (window);			
+			refresh_extension_pages (window);
 		}
-		
+
 		eel_g_list_free_deep (window->details->mime_list);
 		window->details->mime_list = mime_list;
 	}
@@ -1230,13 +1230,13 @@ static gboolean
 update_files_callback (gpointer data)
 {
  	FMPropertiesWindow *window;
- 
+
  	window = FM_PROPERTIES_WINDOW (data);
- 
+
 	window->details->update_files_timeout_id = 0;
 
 	properties_window_update (window, window->details->changed_files);
-	
+
 	if (window->details->original_files == NULL) {
 		/* Close the window if no files are left */
 		gtk_widget_destroy (GTK_WIDGET (window));
@@ -1244,7 +1244,7 @@ update_files_callback (gpointer data)
 		caja_file_list_free (window->details->changed_files);
 		window->details->changed_files = NULL;
 	}
-	
+
  	return FALSE;
  }
 
@@ -1252,7 +1252,7 @@ static void
 schedule_files_update (FMPropertiesWindow *window)
  {
  	g_assert (FM_IS_PROPERTIES_WINDOW (window));
- 
+
 	if (window->details->update_files_timeout_id == 0) {
 		window->details->update_files_timeout_id
 			= g_timeout_add (FILES_UPDATE_INTERVAL,
@@ -1267,15 +1267,15 @@ file_list_attributes_identical (GList *file_list, const char *attribute_name)
 	gboolean identical;
 	char *first_attr;
 	GList *l;
-	
+
 	first_attr = NULL;
 	identical = TRUE;
-	
+
 	for (l = file_list; l != NULL; l = l->next) {
 		CajaFile *file;
 
 		file = CAJA_FILE (l->data);
-	
+
 		if (caja_file_is_gone (file)) {
 			continue;
 		}
@@ -1299,20 +1299,20 @@ file_list_attributes_identical (GList *file_list, const char *attribute_name)
 }
 
 static char *
-file_list_get_string_attribute (GList *file_list, 
+file_list_get_string_attribute (GList *file_list,
 				const char *attribute_name,
 				const char *inconsistent_value)
 {
 	if (file_list_attributes_identical (file_list, attribute_name)) {
 		GList *l;
-		
+
 		for (l = file_list; l != NULL; l = l->next) {
 			CajaFile *file;
-			
+
 			file = CAJA_FILE (l->data);
 			if (!caja_file_is_gone (file)) {
 				return caja_file_get_string_attribute_with_default
-					(file, 
+					(file,
 					 attribute_name);
 			}
 		}
@@ -1336,7 +1336,7 @@ file_list_all_directories (GList *file_list)
 }
 
 static void
-value_field_update_internal (GtkLabel *label, 
+value_field_update_internal (GtkLabel *label,
 			     GList *file_list)
 {
 	const char *attribute_name;
@@ -1348,7 +1348,7 @@ value_field_update_internal (GtkLabel *label,
 
 	attribute_name = g_object_get_data (G_OBJECT (label), "file_attribute");
 	inconsistent_string = g_object_get_data (G_OBJECT (label), "inconsistent_string");
-	attribute_value = file_list_get_string_attribute (file_list, 
+	attribute_value = file_list_get_string_attribute (file_list,
 							  attribute_name,
 							  inconsistent_string);
 	if (!strcmp (attribute_name, "type") && strcmp (attribute_value, inconsistent_string)) {
@@ -1374,9 +1374,9 @@ value_field_update (FMPropertiesWindow *window, GtkLabel *label)
 
 	use_original = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (label), "show_original"));
 
-	value_field_update_internal (label, 
+	value_field_update_internal (label,
 				     (use_original ?
-				      window->details->original_files : 
+				      window->details->original_files :
 				      window->details->target_files));
 }
 
@@ -1407,7 +1407,7 @@ attach_label (GtkTable *table,
 	if (selectable) {
 		gtk_label_set_selectable (GTK_LABEL (label_field), TRUE);
 	}
-	
+
 	if (bold) {
 		eel_gtk_label_make_bold (GTK_LABEL (label_field));
 	}
@@ -1423,7 +1423,7 @@ attach_label (GtkTable *table,
 			  0, 0);
 
 	return GTK_LABEL (label_field);
-}	      
+}
 
 static GtkLabel *
 attach_value_label (GtkTable *table,
@@ -1473,7 +1473,7 @@ attach_value_field_internal (FMPropertiesWindow *window,
 	window->details->value_fields = g_list_prepend (window->details->value_fields,
 							value_field);
 	return GTK_WIDGET(value_field);
-}			     
+}
 
 static GtkWidget*
 attach_value_field (FMPropertiesWindow *window,
@@ -1484,9 +1484,9 @@ attach_value_field (FMPropertiesWindow *window,
 		    const char *inconsistent_string,
 		    gboolean show_original)
 {
-	return attach_value_field_internal (window, 
-				     table, row, column, 
-				     file_attribute_name, 
+	return attach_value_field_internal (window,
+				     table, row, column,
+				     file_attribute_name,
 				     inconsistent_string,
 				     show_original,
 				     FALSE);
@@ -1502,9 +1502,9 @@ attach_ellipsizing_value_field (FMPropertiesWindow *window,
 				gboolean show_original)
 {
 	return attach_value_field_internal (window,
-				     table, row, column, 
-				     file_attribute_name, 
-				     inconsistent_string, 
+				     table, row, column,
+				     file_attribute_name,
+				     inconsistent_string,
 				     show_original,
 				     TRUE);
 }
@@ -1814,7 +1814,7 @@ synch_groups_combo_box (GtkComboBox *combo_box, CajaFile *file)
 	current_group_name = caja_file_get_group_name (file);
 	current_group_index = tree_model_get_entry_index (model, 0, current_group_name);
 
-	/* If current group wasn't in list, we prepend it (with a separator). 
+	/* If current group wasn't in list, we prepend it (with a separator).
 	 * This can happen if the current group is an id with no matching
 	 * group in the groups file.
 	 */
@@ -1852,7 +1852,7 @@ combo_box_row_separator_func (GtkTreeModel *model,
 	} else {
 		ret = FALSE;
 	}
-	
+
   	g_free (text);
   	return ret;
 }
@@ -1879,7 +1879,7 @@ attach_combo_box (GtkTable *table,
 		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
 		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combo_box), renderer,
 					       "text", 0);
-		
+
 	}
 	gtk_widget_show (combo_box);
 
@@ -1890,7 +1890,7 @@ attach_combo_box (GtkTable *table,
 
 	/* Put combo box in alignment to make it left-justified
 	 * but minimally sized.
-	 */	
+	 */
 	aligner = gtk_alignment_new (0, 0.5, 0, 0);
 	gtk_widget_show (aligner);
 
@@ -1902,7 +1902,7 @@ attach_combo_box (GtkTable *table,
 			  0, 0);
 
 	return GTK_COMBO_BOX (combo_box);
-}		    	
+}
 
 static GtkComboBox*
 attach_group_combo_box (GtkTable *table,
@@ -1925,7 +1925,7 @@ attach_group_combo_box (GtkTable *table,
 			       (GClosureNotify)caja_file_unref, 0);
 
 	return combo_box;
-}	
+}
 
 static void
 owner_change_callback (CajaFile *file,
@@ -2150,7 +2150,7 @@ synch_user_menu (GtkComboBox *combo_box, CajaFile *file)
 	owner_name = caja_file_get_string_attribute (file, "owner");
 	owner_index = tree_model_get_entry_index (model, 0, owner_name);
 
-	/* If owner wasn't in list, we prepend it (with a separator). 
+	/* If owner wasn't in list, we prepend it (with a separator).
 	 * This can happen if the owner is an id with no matching
 	 * identifier in the passwords file.
 	 */
@@ -2186,7 +2186,7 @@ synch_user_menu (GtkComboBox *combo_box, CajaFile *file)
 
 	g_free (owner_name);
 	eel_g_list_free_deep (users);
-}	
+}
 
 static GtkComboBox*
 attach_owner_combo_box (GtkTable *table,
@@ -2202,7 +2202,7 @@ attach_owner_combo_box (GtkTable *table,
 	/* Connect to signal to update menu when file changes. */
 	g_signal_connect_object (file, "changed",
 				 G_CALLBACK (synch_user_menu),
-				 combo_box, G_CONNECT_SWAPPED);	
+				 combo_box, G_CONNECT_SWAPPED);
 	g_signal_connect_data (combo_box, "changed",
 			       G_CALLBACK (changed_owner_callback),
 			       caja_file_ref (file),
@@ -2288,19 +2288,19 @@ directory_contents_value_field_update (FMPropertiesWindow *window)
 		}
 
 		if (caja_file_is_directory (file)) {
-			file_status = caja_file_get_deep_counts (file, 
+			file_status = caja_file_get_deep_counts (file,
 					 &directory_count,
-					 &file_count, 
+					 &file_count,
 					 &file_unreadable,
 					 &file_size,
 					 TRUE);
 			total_count += (file_count + directory_count);
 			total_size += file_size;
-			
+
 			if (file_unreadable) {
 				unreadable_directory_count = TRUE;
 			}
-			
+
 			if (file_status != CAJA_REQUEST_DONE) {
 				status = file_status;
 			}
@@ -2309,7 +2309,7 @@ directory_contents_value_field_update (FMPropertiesWindow *window)
 			total_size += caja_file_get_size (file);
 		}
 	}
-	
+
 	/* If we've already displayed the total once, don't do another visible
 	 * count-up if the deep_count happens to get invalidated.
 	 * But still display the new total, since it might have changed.
@@ -2321,7 +2321,7 @@ directory_contents_value_field_update (FMPropertiesWindow *window)
 
 	text = NULL;
 	used_two_lines = FALSE;
-	
+
 	if (total_count == 0) {
 		switch (status) {
 		case CAJA_REQUEST_DONE:
@@ -2330,7 +2330,7 @@ directory_contents_value_field_update (FMPropertiesWindow *window)
 			} else {
 				text = g_strdup (_("unreadable"));
 			}
-			
+
 			break;
 		default:
 			text = g_strdup ("...");
@@ -2420,21 +2420,21 @@ attach_directory_contents_value_field (FMPropertiesWindow *window,
 	window->details->directory_contents_value_field = value_field;
 
 	gtk_label_set_line_wrap (value_field, TRUE);
-	
+
 	/* Fill in the initial value. */
 	directory_contents_value_field_update (window);
- 
+
 	for (l = window->details->target_files; l; l = l->next) {
 		file = CAJA_FILE (l->data);
 		caja_file_recompute_deep_counts (file);
-		
+
 		g_signal_connect_object (file,
 					 "updated_deep_count_in_progress",
 					 G_CALLBACK (schedule_directory_contents_update),
 					 window, G_CONNECT_SWAPPED);
 	}
-	
-	return value_field;	
+
+	return value_field;
 }
 
 static GtkLabel *
@@ -2443,7 +2443,7 @@ attach_title_field (GtkTable *table,
 		     const char *title)
 {
 	return attach_label (table, row, TITLE_COLUMN, title, FALSE, FALSE, FALSE, FALSE, TRUE);
-}		      
+}
 
 static guint
 append_title_field (GtkTable *table, const char *title, GtkLabel **label)
@@ -2467,7 +2467,7 @@ append_title_field (GtkTable *table, const char *title, GtkLabel **label)
 static guint
 append_title_value_pair (FMPropertiesWindow *window,
 			 GtkTable *table,
-			 const char *title, 
+			 const char *title,
  			 const char *file_attribute_name,
 			 const char *inconsistent_state,
 			 gboolean show_original)
@@ -2477,10 +2477,10 @@ append_title_value_pair (FMPropertiesWindow *window,
 	GtkWidget *value;
 
 	last_row = append_title_field (table, title, &title_label);
-	value = attach_value_field (window, table, last_row, VALUE_COLUMN, 
+	value = attach_value_field (window, table, last_row, VALUE_COLUMN,
 			    file_attribute_name,
 			    inconsistent_state,
-			    show_original); 
+			    show_original);
 	gtk_label_set_mnemonic_widget (title_label, value);
 	return last_row;
 }
@@ -2498,7 +2498,7 @@ append_title_and_ellipsizing_value (FMPropertiesWindow *window,
 	guint last_row;
 
 	last_row = append_title_field (table, title, &title_label);
-	value = attach_ellipsizing_value_field (window, table, last_row, VALUE_COLUMN, 
+	value = attach_ellipsizing_value_field (window, table, last_row, VALUE_COLUMN,
 					file_attribute_name,
 					inconsistent_state,
 					show_original);
@@ -2520,7 +2520,7 @@ append_directory_contents_fields (FMPropertiesWindow *window,
 	window->details->directory_contents_title_field = title_field;
 	gtk_label_set_line_wrap (title_field, TRUE);
 
-	value_field = attach_directory_contents_value_field 
+	value_field = attach_directory_contents_value_field
 		(window, table, last_row);
 
 	gtk_label_set_mnemonic_widget(title_field, GTK_WIDGET(value_field));
@@ -2560,7 +2560,7 @@ create_page_with_vbox (GtkNotebook *notebook,
 	gtk_notebook_append_page (notebook, vbox, gtk_label_new (title));
 
 	return vbox;
-}		       
+}
 
 static GtkWidget *
 append_blank_row (GtkTable *table)
@@ -2576,7 +2576,7 @@ static void
 apply_standard_table_padding (GtkTable *table)
 {
 	gtk_table_set_row_spacings (table, ROW_PAD);
-	gtk_table_set_col_spacings (table, 12);	
+	gtk_table_set_col_spacings (table, 12);
 }
 
 static GtkWidget *
@@ -2587,13 +2587,13 @@ create_attribute_value_table (GtkVBox *vbox, int row_count)
 	table = gtk_table_new (row_count, COLUMN_COUNT, FALSE);
 	apply_standard_table_padding (GTK_TABLE (table));
 	gtk_widget_show (table);
-	gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);	
+	gtk_box_pack_start (GTK_BOX (vbox), table, FALSE, FALSE, 0);
 
 	return table;
 }
 
 static gboolean
-is_merged_trash_directory (CajaFile *file) 
+is_merged_trash_directory (CajaFile *file)
 {
 	char *file_uri;
 	gboolean result;
@@ -2610,11 +2610,11 @@ is_computer_directory (CajaFile *file)
 {
 	char *file_uri;
 	gboolean result;
-	
+
 	file_uri = caja_file_get_uri (file);
 	result = strcmp (file_uri, "computer:///") == 0;
 	g_free (file_uri);
-	
+
 	return result;
 }
 
@@ -2623,11 +2623,11 @@ is_network_directory (CajaFile *file)
 {
 	char *file_uri;
 	gboolean result;
-	
+
 	file_uri = caja_file_get_uri (file);
 	result = strcmp (file_uri, "network:///") == 0;
 	g_free (file_uri);
-	
+
 	return result;
 }
 
@@ -2636,16 +2636,16 @@ is_burn_directory (CajaFile *file)
 {
 	char *file_uri;
 	gboolean result;
-	
+
 	file_uri = caja_file_get_uri (file);
 	result = strcmp (file_uri, "burn:///") == 0;
 	g_free (file_uri);
-	
+
 	return result;
 }
 
 static gboolean
-should_show_custom_icon_buttons (FMPropertiesWindow *window) 
+should_show_custom_icon_buttons (FMPropertiesWindow *window)
 {
 	if (is_multi_file_window (window)) {
 		return FALSE;
@@ -2655,9 +2655,9 @@ should_show_custom_icon_buttons (FMPropertiesWindow *window)
 }
 
 static gboolean
-should_show_file_type (FMPropertiesWindow *window) 
+should_show_file_type (FMPropertiesWindow *window)
 {
-	if (!is_multi_file_window (window) 
+	if (!is_multi_file_window (window)
 	    && (is_merged_trash_directory (get_target_file (window)) ||
 		is_computer_directory (get_target_file (window)) ||
 		is_network_directory (get_target_file (window)) ||
@@ -2670,9 +2670,9 @@ should_show_file_type (FMPropertiesWindow *window)
 }
 
 static gboolean
-should_show_location_info (FMPropertiesWindow *window) 
+should_show_location_info (FMPropertiesWindow *window)
 {
-	if (!is_multi_file_window (window) 
+	if (!is_multi_file_window (window)
 	    && (is_merged_trash_directory (get_target_file (window)) ||
 		is_computer_directory (get_target_file (window)) ||
 		is_network_directory (get_target_file (window)) ||
@@ -2684,7 +2684,7 @@ should_show_location_info (FMPropertiesWindow *window)
 }
 
 static gboolean
-should_show_accessed_date (FMPropertiesWindow *window) 
+should_show_accessed_date (FMPropertiesWindow *window)
 {
 	/* Accessed date for directory seems useless. If we some
 	 * day decide that it is useful, we should separately
@@ -2732,7 +2732,7 @@ should_show_volume_usage (FMPropertiesWindow *window)
 {
 	CajaFile 		*file;
 	gboolean 		success = FALSE;
-	
+
 	if (is_multi_file_window (window)) {
 		return FALSE;
 	}
@@ -2762,26 +2762,26 @@ paint_used_legend (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 	GtkAllocation allocation;
 
 	gtk_widget_get_allocation (widget, &allocation);
-	
+
   	width  = allocation.width;
   	height = allocation.height;
-  	
+
 	window = FM_PROPERTIES_WINDOW (data);
-	
+
 	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-	
+
 	cairo_rectangle  (cr,
 			  2,
 			  2,
 			  width - 4,
 			  height - 4);
-                      
+
 	cairo_set_source_rgb (cr, (double) window->details->used_color.red / 65535, (double) window->details->used_color.green / 65535, (double) window->details->used_color.blue / 65535);
 	cairo_fill_preserve (cr);
 
 	cairo_set_source_rgb (cr, (double) window->details->used_stroke_color.red / 65535, (double) window->details->used_stroke_color.green / 65535, (double) window->details->used_stroke_color.blue / 65535);
 	cairo_stroke (cr);
-	
+
 	cairo_destroy (cr);
 }
 
@@ -2795,11 +2795,11 @@ paint_free_legend (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 
 	window = FM_PROPERTIES_WINDOW (data);
 	gtk_widget_get_allocation (widget, &allocation);
-	
+
   	width  = allocation.width;
   	height = allocation.height;
   	cr = gdk_cairo_create (gtk_widget_get_window (widget));
-  
+
 	cairo_rectangle (cr,
 			 2,
 			 2,
@@ -2811,14 +2811,14 @@ paint_free_legend (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 
 	cairo_set_source_rgb (cr, (double) window->details->free_stroke_color.red / 65535, (double) window->details->free_stroke_color.green / 65535, (double) window->details->free_stroke_color.blue / 65535);
 	cairo_stroke (cr);
-	
+
 	cairo_destroy (cr);
 }
 
 static void
 paint_pie_chart (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 {
-  	
+
   	FMPropertiesWindow *window;
   	cairo_t *cr;
 	gint width, height;
@@ -2831,8 +2831,8 @@ paint_pie_chart (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 
 	width  = allocation.width;
   	height = allocation.height;
-	
-		
+
+
 	free = (double)window->details->volume_free / (double)window->details->volume_capacity;
 	used =  1.0 - free;
 
@@ -2841,7 +2841,7 @@ paint_pie_chart (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 	split = (2 * G_PI - angle1) * .5;
 	xc = width / 2;
 	yc = height / 2;
-  
+
   	cr = gdk_cairo_create (gtk_widget_get_window (widget));
 
 	if (width < height) {
@@ -2849,51 +2849,51 @@ paint_pie_chart (GtkWidget *widget, GdkEventExpose *eev, gpointer data)
 	} else {
 		radius = height / 2 - 8;
 	}
-	
+
 	if (angle1 != 2 * G_PI && angle1 != 0) {
 		angle1 = angle1 + split;
 	}
-		
+
 	if (angle2 != 2 * G_PI && angle2 != 0) {
 		angle2 = angle2 - split;
 	}
-	
+
 	if (used > 0) {
 		if (free != 0) {
 			cairo_move_to (cr,xc,yc);
 		}
-		
+
 		cairo_arc (cr, xc, yc, radius, angle1, angle2);
-		
+
 		if (free != 0) {
 			cairo_line_to (cr,xc,yc);
 		}
-		
+
 		cairo_set_source_rgb (cr, (double) window->details->used_color.red / 65535, (double) window->details->used_color.green / 65535, (double) window->details->used_color.blue / 65535);
 		cairo_fill_preserve (cr);
-		
+
 		cairo_set_source_rgb (cr, (double) window->details->used_stroke_color.red / 65535, (double) window->details->used_stroke_color.green / 65535, (double) window->details->used_stroke_color.blue / 65535);
 		cairo_stroke (cr);
 	}
-	
+
 	if (free > 0) {
 		if (used != 0) {
 			cairo_move_to (cr,xc,yc);
 		}
-	
+
 		cairo_arc_negative (cr, xc, yc, radius, angle1, angle2);
-	
+
 		if (used != 0) {
 			cairo_line_to (cr,xc,yc);
 		}
-		
+
 		cairo_set_source_rgb (cr, (double) window->details->free_color.red / 65535, (double) window->details->free_color.green / 65535,(double) window->details->free_color.blue / 65535);
 		cairo_fill_preserve(cr);
-		
+
 		cairo_set_source_rgb (cr, (double) window->details->free_stroke_color.red / 65535, (double) window->details->free_stroke_color.green / 65535, (double) window->details->free_stroke_color.blue / 65535);
 		cairo_stroke (cr);
 	}
-	
+
   	cairo_destroy (cr);
 }
 
@@ -2912,18 +2912,18 @@ rgb_to_hls (gdouble *r,
   gdouble blue;
   gdouble h, l, s;
   gdouble delta;
-  
+
   red = *r;
   green = *g;
   blue = *b;
-  
+
   if (red > green)
     {
       if (red > blue)
         max = red;
       else
         max = blue;
-      
+
       if (green < blue)
         min = green;
       else
@@ -2935,24 +2935,24 @@ rgb_to_hls (gdouble *r,
         max = green;
       else
         max = blue;
-      
+
       if (red < blue)
         min = red;
       else
         min = blue;
     }
-  
+
   l = (max + min) / 2;
   s = 0;
   h = 0;
-  
+
   if (max != min)
     {
       if (l <= 0.5)
         s = (max - min) / (max + min);
       else
         s = (max - min) / (2 - max - min);
-      
+
       delta = max -min;
       if (red == max)
         h = (green - blue) / delta;
@@ -2960,12 +2960,12 @@ rgb_to_hls (gdouble *r,
         h = 2 + (blue - red) / delta;
       else if (blue == max)
         h = 4 + (red - green) / delta;
-      
+
       h *= 60;
       if (h < 0.0)
         h += 360;
     }
-  
+
   *r = h;
   *g = l;
   *b = s;
@@ -2981,16 +2981,16 @@ hls_to_rgb (gdouble *h,
   gdouble saturation;
   gdouble m1, m2;
   gdouble r, g, b;
-  
+
   lightness = *l;
   saturation = *s;
-  
+
   if (lightness <= 0.5)
     m2 = lightness * (1 + saturation);
   else
     m2 = lightness + saturation - lightness * saturation;
   m1 = 2 * lightness - m2;
-  
+
   if (saturation == 0)
     {
       *h = lightness;
@@ -3004,7 +3004,7 @@ hls_to_rgb (gdouble *h,
         hue -= 360;
       while (hue < 0)
         hue += 360;
-      
+
       if (hue < 60)
         r = m1 + (m2 - m1) * hue / 60;
       else if (hue < 180)
@@ -3013,13 +3013,13 @@ hls_to_rgb (gdouble *h,
         r = m1 + (m2 - m1) * (240 - hue) / 60;
       else
         r = m1;
-      
+
       hue = *h;
       while (hue > 360)
         hue -= 360;
       while (hue < 0)
         hue += 360;
-      
+
       if (hue < 60)
         g = m1 + (m2 - m1) * hue / 60;
       else if (hue < 180)
@@ -3028,13 +3028,13 @@ hls_to_rgb (gdouble *h,
         g = m1 + (m2 - m1) * (240 - hue) / 60;
       else
         g = m1;
-      
+
       hue = *h - 120;
       while (hue > 360)
         hue -= 360;
       while (hue < 0)
         hue += 360;
-      
+
       if (hue < 60)
         b = m1 + (m2 - m1) * hue / 60;
       else if (hue < 180)
@@ -3043,7 +3043,7 @@ hls_to_rgb (gdouble *h,
         b = m1 + (m2 - m1) * (240 - hue) / 60;
       else
         b = m1;
-      
+
       *h = r;
       *l = g;
       *s = b;
@@ -3057,34 +3057,34 @@ _pie_style_shade (GdkColor *a,
   gdouble red;
   gdouble green;
   gdouble blue;
-  
+
   red = (gdouble) a->red / 65535.0;
   green = (gdouble) a->green / 65535.0;
   blue = (gdouble) a->blue / 65535.0;
-  
+
   rgb_to_hls (&red, &green, &blue);
-  
+
   green *= k;
   if (green > 1.0)
     green = 1.0;
   else if (green < 0.0)
     green = 0.0;
-  
+
   blue *= k;
   if (blue > 1.0)
     blue = 1.0;
   else if (blue < 0.0)
     blue = 0.0;
-  
+
   hls_to_rgb (&red, &green, &blue);
-  
+
   b->red = red * 65535.0;
   b->green = green * 65535.0;
   b->blue = blue * 65535.0;
 }
 
 
-static GtkWidget* 
+static GtkWidget*
 create_pie_widget (FMPropertiesWindow *window)
 {
 	CajaFile		*file;
@@ -3104,34 +3104,34 @@ create_pie_widget (FMPropertiesWindow *window)
 	gchar			*uri;
 	GFile *location;
 	GFileInfo *info;
-	
+
 	capacity = g_format_size (window->details->volume_capacity);
 	free 	 = g_format_size (window->details->volume_free);
-	used 	 = g_format_size (window->details->volume_capacity - window->details->volume_free);	
-	
+	used 	 = g_format_size (window->details->volume_capacity - window->details->volume_free);
+
 	file = get_original_file (window);
-	
+
 	uri = caja_file_get_activation_uri (file);
-	
+
 	table = GTK_TABLE (gtk_table_new (4, 3, FALSE));
-	
+
 	style = gtk_rc_get_style (GTK_WIDGET(table));
-	
-	if (!gtk_style_lookup_color (style, "chart_color_1", &window->details->used_color)) { 
+
+	if (!gtk_style_lookup_color (style, "chart_color_1", &window->details->used_color)) {
 		window->details->used_color.red = USED_FILL_R;
 		window->details->used_color.green = USED_FILL_G;
 		window->details->used_color.blue = USED_FILL_B;
 	}
-	
+
 	if (!gtk_style_lookup_color (style, "chart_color_2", &window->details->free_color)) {
 		window->details->free_color.red = FREE_FILL_R;
 		window->details->free_color.green = FREE_FILL_G;
 		window->details->free_color.blue = FREE_FILL_B;
 	}
-	
+
 	_pie_style_shade (&window->details->used_color, &window->details->used_stroke_color, 0.7);
 	_pie_style_shade (&window->details->free_color, &window->details->free_stroke_color, 0.7);
-	
+
 	pie_canvas = gtk_drawing_area_new ();
 	gtk_widget_set_size_request (pie_canvas, 200, 200);
 
@@ -3143,7 +3143,7 @@ create_pie_widget (FMPropertiesWindow *window)
 	free_canvas = gtk_drawing_area_new ();
 	gtk_widget_set_size_request (free_canvas,20,20);
 	/* Translators: "free" refers to the capacity of the filesystem */
-	free_label = gtk_label_new (g_strconcat (free, " ", _("free"), NULL));  
+	free_label = gtk_label_new (g_strconcat (free, " ", _("free"), NULL));
 
 	capacity_label = gtk_label_new (g_strconcat (_("Total capacity:"), " ", capacity, NULL));
 	fstype_label = gtk_label_new (NULL);
@@ -3156,31 +3156,31 @@ create_pie_widget (FMPropertiesWindow *window)
 		if (fs_type != NULL) {
 			gtk_label_set_text (GTK_LABEL (fstype_label), g_strconcat (_("Filesystem type:"), " ", fs_type, NULL));
 		}
-		
+
 		g_object_unref (info);
 	}
 	g_object_unref (location);
-	
+
 	g_free (uri);
 	g_free (capacity);
 	g_free (used);
 	g_free (free);
 
 	gtk_table_attach (table, pie_canvas , 0, 1, 0, 4, GTK_FILL, 	GTK_SHRINK, 5, 5);
-		
-	gtk_table_attach (table, used_canvas, 1, 2, 0, 1, 0, 	    	0, 	    5, 5);	
-	gtk_table_attach (table, used_label , 2, 3, 0, 1, GTK_FILL, 	0,          5, 5);	
 
-	gtk_table_attach (table, free_canvas, 1, 2, 1, 2, 0, 		0,          5, 5);	
+	gtk_table_attach (table, used_canvas, 1, 2, 0, 1, 0, 	    	0, 	    5, 5);
+	gtk_table_attach (table, used_label , 2, 3, 0, 1, GTK_FILL, 	0,          5, 5);
+
+	gtk_table_attach (table, free_canvas, 1, 2, 1, 2, 0, 		0,          5, 5);
 	gtk_table_attach (table, free_label , 2, 3, 1, 2, GTK_FILL, 	0,          5, 5);
-	
+
 	gtk_table_attach (table, capacity_label , 1, 3, 2, 3, GTK_FILL, 0,          5, 5);
 	gtk_table_attach (table, fstype_label , 1, 3, 3, 4, GTK_FILL, 0,          5, 5);
-	
+
 	g_signal_connect (G_OBJECT (pie_canvas), "expose-event", G_CALLBACK (paint_pie_chart), window);
 	g_signal_connect (G_OBJECT (used_canvas), "expose-event", G_CALLBACK (paint_used_legend), window);
 	g_signal_connect (G_OBJECT (free_canvas), "expose-event", G_CALLBACK (paint_free_legend), window);
-	        
+
 	return GTK_WIDGET (table);
 }
 
@@ -3192,9 +3192,9 @@ create_volume_usage_widget (FMPropertiesWindow *window)
 	CajaFile *file;
 	GFile *location;
 	GFileInfo *info;
-	
+
 	file = get_original_file (window);
-	
+
 	uri = caja_file_get_activation_uri (file);
 
 	location = g_file_new_for_uri (uri);
@@ -3206,16 +3206,16 @@ create_volume_usage_widget (FMPropertiesWindow *window)
 
 		g_object_unref (info);
 	} else {
-		window->details->volume_capacity = 0;		
-		window->details->volume_free = 0;		
+		window->details->volume_capacity = 0;
+		window->details->volume_free = 0;
 	}
-	
+
 	g_object_unref (location);
-	
+
 	piewidget = create_pie_widget (window);
-	                   
-        gtk_widget_show_all (piewidget);            
-        
+
+        gtk_widget_show_all (piewidget);
+
 	return piewidget;
 }
 
@@ -3227,11 +3227,11 @@ create_basic_page (FMPropertiesWindow *window)
 	GtkWidget *icon_pixmap_widget;
 	GtkWidget *volume_usage;
 	GtkWidget *hbox, *vbox;
-	
+
 	guint last_row, row;
 
 	hbox = create_page_with_hbox (window->details->notebook, _("Basic"));
-	
+
 	/* Icon pixmap */
 
 	icon_pixmap_widget = create_image_widget (
@@ -3240,7 +3240,7 @@ create_basic_page (FMPropertiesWindow *window)
 
 	icon_aligner = gtk_alignment_new (1, 0, 0, 0);
 	gtk_widget_show (icon_aligner);
-	
+
 	gtk_container_add (GTK_CONTAINER (icon_aligner), icon_pixmap_widget);
 	gtk_box_pack_start (GTK_BOX (hbox), icon_aligner, FALSE, FALSE, 0);
 
@@ -3290,15 +3290,15 @@ create_basic_page (FMPropertiesWindow *window)
 
 	if (should_show_file_type (window)) {
 		append_title_value_pair (window,
-					 table, _("Type:"), 
+					 table, _("Type:"),
 					 "type",
 					 INCONSISTENT_STATE_STRING,
 					 FALSE);
 	}
 
 	if (should_show_link_target (window)) {
-		append_title_and_ellipsizing_value (window, table, 
-						    _("Link target:"), 
+		append_title_and_ellipsizing_value (window, table,
+						    _("Link target:"),
 						    "link_target",
 						    INCONSISTENT_STATE_STRING,
 						    FALSE);
@@ -3308,7 +3308,7 @@ create_basic_page (FMPropertiesWindow *window)
 	    caja_file_is_directory (get_target_file (window))) {
 		append_directory_contents_fields (window, table);
 	} else {
-		append_title_value_pair (window, table, _("Size:"), 
+		append_title_value_pair (window, table, _("Size:"),
 					 "size_detail",
 					 INCONSISTENT_STATE_STRING,
 					 FALSE);
@@ -3317,13 +3317,13 @@ create_basic_page (FMPropertiesWindow *window)
 	append_blank_row (table);
 
 	if (should_show_location_info (window)) {
-		append_title_and_ellipsizing_value (window, table, _("Location:"), 
+		append_title_and_ellipsizing_value (window, table, _("Location:"),
 						    "where",
 						    INCONSISTENT_STATE_STRING,
 						    TRUE);
-		
-		append_title_and_ellipsizing_value (window, table, 
-						    _("Volume:"), 
+
+		append_title_and_ellipsizing_value (window, table,
+						    _("Volume:"),
 						    "volume",
 						    INCONSISTENT_STATE_STRING,
 						    FALSE);
@@ -3332,11 +3332,11 @@ create_basic_page (FMPropertiesWindow *window)
 	if (should_show_accessed_date (window)) {
 		append_blank_row (table);
 
-		append_title_value_pair (window, table, _("Accessed:"), 
+		append_title_value_pair (window, table, _("Accessed:"),
 					 "date_accessed",
 					 INCONSISTENT_STATE_STRING,
 					 FALSE);
-		append_title_value_pair (window, table, _("Modified:"), 
+		append_title_value_pair (window, table, _("Modified:"),
 					 "date_modified",
 					 INCONSISTENT_STATE_STRING,
 					 FALSE);
@@ -3345,7 +3345,7 @@ create_basic_page (FMPropertiesWindow *window)
 	if (should_show_free_space (window)) {
 		append_blank_row (table);
 
-		append_title_value_pair (window, table, _("Free space:"), 
+		append_title_value_pair (window, table, _("Free space:"),
 					 "free_space",
 					 INCONSISTENT_STATE_STRING,
 					 FALSE);
@@ -3363,8 +3363,8 @@ get_initial_emblems (GList *files)
 {
 	GHashTable *ret;
 	GList *l;
-	
-	ret = g_hash_table_new_full (g_direct_hash, 
+
+	ret = g_hash_table_new_full (g_direct_hash,
 				     g_direct_equal,
 				     NULL,
 				     (GDestroyNotify)eel_g_list_free_deep);
@@ -3372,7 +3372,7 @@ get_initial_emblems (GList *files)
 	for (l = files; l != NULL; l = l->next) {
 		CajaFile *file;
 		GList *keywords;
-		
+
 		file = CAJA_FILE (l->data);
 
 		keywords = caja_file_get_keywords (file);
@@ -3382,7 +3382,7 @@ get_initial_emblems (GList *files)
 	return ret;
 }
 
-static gboolean 
+static gboolean
 files_has_directory (FMPropertiesWindow *window)
 {
 	GList *l;
@@ -3393,13 +3393,13 @@ files_has_directory (FMPropertiesWindow *window)
 		if (caja_file_is_directory (file)) {
 			return TRUE;
 		}
-		
+
 	}
 
 	return FALSE;
 }
 
-static gboolean 
+static gboolean
 files_has_changable_permissions_directory (FMPropertiesWindow *window)
 {
 	GList *l;
@@ -3412,14 +3412,14 @@ files_has_changable_permissions_directory (FMPropertiesWindow *window)
 		    caja_file_can_set_permissions (file)) {
 			return TRUE;
 		}
-		
+
 	}
 
 	return FALSE;
 }
 
 
-static gboolean 
+static gboolean
 files_has_file (FMPropertiesWindow *window)
 {
 	GList *l;
@@ -3430,7 +3430,7 @@ files_has_file (FMPropertiesWindow *window)
 		if (!caja_file_is_directory (file)) {
 			return TRUE;
 		}
-		
+
 	}
 
 	return FALSE;
@@ -3451,10 +3451,10 @@ create_emblems_page (FMPropertiesWindow *window)
 	scroller = eel_scrolled_wrap_table_new (TRUE, GTK_SHADOW_NONE, &emblems_table);
 
 	gtk_container_set_border_width (GTK_CONTAINER (emblems_table), 12);
-	
+
 	gtk_widget_show (scroller);
 
-	gtk_notebook_append_page (window->details->notebook, 
+	gtk_notebook_append_page (window->details->notebook,
 				  scroller, gtk_label_new (_("Emblems")));
 
 	icons = caja_emblem_list_available ();
@@ -3465,7 +3465,7 @@ create_emblems_page (FMPropertiesWindow *window)
 	while (l != NULL) {
 		emblem_name = l->data;
 		l = l->next;
-		
+
 		if (!caja_emblem_should_show_in_list (emblem_name)) {
 			continue;
 		}
@@ -3476,31 +3476,31 @@ create_emblems_page (FMPropertiesWindow *window)
 		if (pixbuf == NULL) {
 			continue;
 		}
-		
+
 		label = g_strdup (caja_icon_info_get_display_name (info));
 		g_object_unref (info);
-		
+
 		if (label == NULL) {
 			label = caja_emblem_get_keyword_from_icon_name (emblem_name);
 		}
-		
+
 		button = eel_labeled_image_check_button_new (label, pixbuf);
 		eel_labeled_image_set_fixed_image_height (EEL_LABELED_IMAGE (gtk_bin_get_child (GTK_BIN (button))), STANDARD_EMBLEM_HEIGHT);
 		eel_labeled_image_set_spacing (EEL_LABELED_IMAGE (gtk_bin_get_child (GTK_BIN (button))), EMBLEM_LABEL_SPACING);
-		
+
 		g_free (label);
 		g_object_unref (pixbuf);
 
 		/* Attach parameters and signal handler. */
 		g_object_set_data_full (G_OBJECT (button), "caja_emblem_name",
 					caja_emblem_get_keyword_from_icon_name (emblem_name), g_free);
-				     
-		window->details->emblem_buttons = 
+
+		window->details->emblem_buttons =
 			g_list_append (window->details->emblem_buttons,
 				       button);
 
 		g_signal_connect_object (button, "toggled",
-					 G_CALLBACK (emblem_button_toggled), 
+					 G_CALLBACK (emblem_button_toggled),
 					 G_OBJECT (window),
 					 0);
 
@@ -3516,7 +3516,7 @@ start_long_operation (FMPropertiesWindow *window)
 	if (window->details->long_operation_underway == 0) {
 		/* start long operation */
 		GdkCursor * cursor;
-		
+
 		cursor = gdk_cursor_new (GDK_WATCH);
 		gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (window)), cursor);
 		gdk_cursor_unref (cursor);
@@ -3546,7 +3546,7 @@ permission_change_callback (CajaFile *file,
 
 	window = FM_PROPERTIES_WINDOW (callback_data);
 	end_long_operation (window);
-	
+
 	/* Report the error if it's an error. */
 	fm_report_error_setting_permissions (file, error, NULL);
 
@@ -3562,7 +3562,7 @@ update_permissions (FMPropertiesWindow *window,
 		    gboolean use_original)
 {
 	GList *l;
-	
+
 	for (l = window->details->target_files; l != NULL; l = l->next) {
 		CajaFile *file;
 		guint32 permissions;
@@ -3572,7 +3572,7 @@ update_permissions (FMPropertiesWindow *window,
 		if (!caja_file_can_get_permissions (file)) {
 			continue;
 		}
-	
+
 		if (!apply_to_both_folder_and_dir &&
 		    ((caja_file_is_directory (file) && !is_folder) ||
 		     (!caja_file_is_directory (file) && is_folder))) {
@@ -3596,7 +3596,7 @@ update_permissions (FMPropertiesWindow *window,
 			(file, permissions,
 			 permission_change_callback,
 			 window);
-	}	
+	}
 }
 
 static gboolean
@@ -3616,13 +3616,13 @@ initial_permission_state_consistent (FMPropertiesWindow *window,
 		guint32 permissions;
 
 		file = l->data;
-		
+
 		if (!both_folder_and_dir &&
 		    ((caja_file_is_directory (file) && !is_folder) ||
 		     (!caja_file_is_directory (file) && is_folder))) {
 			continue;
 		}
-		
+
 		permissions = GPOINTER_TO_INT (g_hash_table_lookup (window->details->initial_permissions,
 								    file));
 
@@ -3632,10 +3632,10 @@ initial_permission_state_consistent (FMPropertiesWindow *window,
 				/* Not fully on or off -> inconsistent */
 				return FALSE;
 			}
-				
+
 			first_permissions = permissions;
 			first = FALSE;
-				
+
 		} else if ((permissions & mask) != first_permissions) {
 			/* Not same permissions as first -> inconsistent */
 			return FALSE;
@@ -3645,14 +3645,14 @@ initial_permission_state_consistent (FMPropertiesWindow *window,
 }
 
 static void
-permission_button_toggled (GtkToggleButton *button, 
+permission_button_toggled (GtkToggleButton *button,
 			   FMPropertiesWindow *window)
 {
 	gboolean is_folder, is_special;
 	guint32 permission_mask;
 	gboolean inconsistent;
 	gboolean on;
-	
+
 	permission_mask = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
 							      "permission"));
 	is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
@@ -3662,7 +3662,7 @@ permission_button_toggled (GtkToggleButton *button,
 
 	if (gtk_toggle_button_get_active (button)
 	    && !gtk_toggle_button_get_inconsistent (button)) {
-		/* Go to the initial state unless the initial state was 
+		/* Go to the initial state unless the initial state was
 		   consistent, or we support recursive apply */
 		inconsistent = TRUE;
 		on = TRUE;
@@ -3680,15 +3680,15 @@ permission_button_toggled (GtkToggleButton *button,
 		inconsistent = FALSE;
 		on = FALSE;
 	}
-	
-	g_signal_handlers_block_by_func (G_OBJECT (button), 
+
+	g_signal_handlers_block_by_func (G_OBJECT (button),
 					 G_CALLBACK (permission_button_toggled),
 					 window);
 
 	gtk_toggle_button_set_active (button, on);
 	gtk_toggle_button_set_inconsistent (button, inconsistent);
 
-	g_signal_handlers_unblock_by_func (G_OBJECT (button), 
+	g_signal_handlers_unblock_by_func (G_OBJECT (button),
 					   G_CALLBACK (permission_button_toggled),
 					   window);
 
@@ -3721,14 +3721,14 @@ permission_button_update (FMPropertiesWindow *window,
 		 */
 		return;
 	}
-	
+
 	button_permission = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
 								"permission"));
 	is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
 							"is-folder"));
 	is_special = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
 							 "is-special"));
-	
+
 	all_set = TRUE;
 	all_unset = TRUE;
 	all_cannot_set = TRUE;
@@ -3750,7 +3750,7 @@ permission_button_update (FMPropertiesWindow *window,
 		}
 
 		no_match = FALSE;
-		
+
 		file_permissions = caja_file_get_permissions (file);
 
 		if ((file_permissions & button_permission) == button_permission) {
@@ -3773,8 +3773,8 @@ permission_button_update (FMPropertiesWindow *window,
 		sensitive |= window->details->has_recursive_apply;
 	}
 
-	
-	g_signal_handlers_block_by_func (G_OBJECT (button), 
+
+	g_signal_handlers_block_by_func (G_OBJECT (button),
 					 G_CALLBACK (permission_button_toggled),
 					 window);
 
@@ -3786,26 +3786,26 @@ permission_button_update (FMPropertiesWindow *window,
 					    (!is_folder && no_match));
 	gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
 
-	g_signal_handlers_unblock_by_func (G_OBJECT (button), 
+	g_signal_handlers_unblock_by_func (G_OBJECT (button),
 					   G_CALLBACK (permission_button_toggled),
 					   window);
 }
 
 static void
 set_up_permissions_checkbox (FMPropertiesWindow *window,
-			     GtkWidget *check_button, 
+			     GtkWidget *check_button,
 			     guint32 permission,
 			     gboolean is_folder)
 {
 	/* Load up the check_button with data we'll need when updating its state. */
-        g_object_set_data (G_OBJECT (check_button), "permission", 
+        g_object_set_data (G_OBJECT (check_button), "permission",
 			   GINT_TO_POINTER (permission));
-        g_object_set_data (G_OBJECT (check_button), "properties_window", 
+        g_object_set_data (G_OBJECT (check_button), "properties_window",
 			   window);
 	g_object_set_data (G_OBJECT (check_button), "is-folder",
 			   GINT_TO_POINTER (is_folder));
-	
-	window->details->permission_buttons = 
+
+	window->details->permission_buttons =
 		g_list_prepend (window->details->permission_buttons,
 				check_button);
 
@@ -3817,7 +3817,7 @@ set_up_permissions_checkbox (FMPropertiesWindow *window,
 
 static void
 add_permissions_checkbox_with_label (FMPropertiesWindow *window,
-				     GtkTable *table, 
+				     GtkTable *table,
 				     int row, int column,
 				     const char *label,
 				     guint32 permission_to_check,
@@ -3826,7 +3826,7 @@ add_permissions_checkbox_with_label (FMPropertiesWindow *window,
 {
 	GtkWidget *check_button;
 	gboolean a11y_enabled;
-	
+
 	check_button = gtk_check_button_new_with_mnemonic (label);
 	gtk_widget_show (check_button);
 	gtk_table_attach (table, check_button,
@@ -3835,8 +3835,8 @@ add_permissions_checkbox_with_label (FMPropertiesWindow *window,
 			  GTK_FILL, 0,
 			  0, 0);
 
-	set_up_permissions_checkbox (window, 
-				     check_button, 
+	set_up_permissions_checkbox (window,
+				     check_button,
 				     permission_to_check,
 				     is_folder);
 
@@ -3849,8 +3849,8 @@ add_permissions_checkbox_with_label (FMPropertiesWindow *window,
 
 static void
 add_permissions_checkbox (FMPropertiesWindow *window,
-			  GtkTable *table, 
-			  int row, int column, 
+			  GtkTable *table,
+			  int row, int column,
 			  guint32 permission_to_check,
 			  GtkLabel *label_for,
 			  gboolean is_folder)
@@ -3865,7 +3865,7 @@ add_permissions_checkbox (FMPropertiesWindow *window,
 		label = _("E_xecute");
 	}
 
-	add_permissions_checkbox_with_label (window, table, 
+	add_permissions_checkbox_with_label (window, table,
 					     row, column,
 					     label,
 					     permission_to_check,
@@ -3875,7 +3875,7 @@ add_permissions_checkbox (FMPropertiesWindow *window,
 
 enum {
 	UNIX_PERM_SUID = S_ISUID,
-	UNIX_PERM_SGID = S_ISGID,	
+	UNIX_PERM_SGID = S_ISGID,
 	UNIX_PERM_STICKY = 01000,	/* S_ISVTX not defined on all systems */
 	UNIX_PERM_USER_READ = S_IRUSR,
 	UNIX_PERM_USER_WRITE = S_IWUSR,
@@ -3909,7 +3909,7 @@ static guint32 vfs_perms[3][3] = {
 	{UNIX_PERM_OTHER_READ, UNIX_PERM_OTHER_WRITE, UNIX_PERM_OTHER_EXEC},
 };
 
-static guint32 
+static guint32
 permission_to_vfs (PermissionType type, PermissionValue perm)
 {
 	guint32 vfs_perm;
@@ -3925,7 +3925,7 @@ permission_to_vfs (PermissionType type, PermissionValue perm)
 	if (perm & PERMISSION_EXEC) {
 		vfs_perm |= vfs_perms[type][2];
 	}
-	
+
 	return vfs_perm;
 }
 
@@ -3946,7 +3946,7 @@ permission_from_vfs (PermissionType type, guint32 vfs_perm)
 	if (vfs_perm & vfs_perms[type][2]) {
 		perm |= PERMISSION_EXEC;
 	}
-	
+
 	return perm;
 }
 
@@ -3970,9 +3970,9 @@ permission_combo_changed (GtkWidget *combo, FMPropertiesWindow *window)
 	}
 
 	vfs_mask = permission_to_vfs (type, mask);
-	
+
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
-	
+
 	if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo),  &iter)) {
 		return;
 	}
@@ -3998,13 +3998,13 @@ permission_combo_add_multiple_choice (GtkComboBox *combo, GtkTreeIter *iter)
 	do {
 		gboolean multi;
 		gtk_tree_model_get (model, iter, 2, &multi, -1);
-		
+
 		if (multi) {
 			found = TRUE;
 			break;
 		}
 	} while (gtk_tree_model_iter_next (model, iter));
-	
+
 	if (!found) {
 		gtk_list_store_append (store, iter);
 		gtk_list_store_set (store, iter, 0, "---", 1, 0, 2, TRUE, -1);
@@ -4027,7 +4027,7 @@ permission_combo_update (FMPropertiesWindow *window,
 	gboolean is_multi;
 
 	model = gtk_combo_box_get_model (combo);
-	
+
 	is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo), "is-folder"));
 	type = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo), "permission-type"));
 
@@ -4043,7 +4043,7 @@ permission_combo_update (FMPropertiesWindow *window,
 		 */
 		return;
 	}
-	
+
 	no_files = TRUE;
 	no_dirs = TRUE;
 	all_dir_same = TRUE;
@@ -4052,7 +4052,7 @@ permission_combo_update (FMPropertiesWindow *window,
 	all_file_perm = 0;
 	all_dir_cannot_set = TRUE;
 	all_file_cannot_set = TRUE;
-	
+
 	for (l = window->details->target_files; l != NULL; l = l->next) {
 		CajaFile *file;
 		guint32 file_permissions;
@@ -4068,7 +4068,7 @@ permission_combo_update (FMPropertiesWindow *window,
 		} else {
 			mask = PERMISSION_READ|PERMISSION_WRITE;
 		}
-		
+
 		file_permissions = caja_file_get_permissions (file);
 
 		perm = permission_from_vfs (type, file_permissions) & mask;
@@ -4080,7 +4080,7 @@ permission_combo_update (FMPropertiesWindow *window,
 			} else if (perm != all_dir_perm) {
 				all_dir_same = FALSE;
 			}
-			
+
 			if (caja_file_can_set_permissions (file)) {
 				all_dir_cannot_set = FALSE;
 			}
@@ -4091,7 +4091,7 @@ permission_combo_update (FMPropertiesWindow *window,
 			} else if (perm != all_file_perm) {
 				all_file_same = FALSE;
 			}
-			
+
 			if (caja_file_can_set_permissions (file)) {
 				all_file_cannot_set = FALSE;
 			}
@@ -4125,7 +4125,7 @@ permission_combo_update (FMPropertiesWindow *window,
 		if (!found) {
 			GString *str;
 			str = g_string_new ("");
-			
+
 			if (!(all_perm & PERMISSION_READ)) {
 				/* translators: this gets concatenated to "no read",
 				 * "no access", etc. (see following strings)
@@ -4137,9 +4137,9 @@ permission_combo_update (FMPropertiesWindow *window,
 			} else {
 				g_string_append (str, _("read"));
 			}
-			
+
 			g_string_append (str, ", ");
-			
+
 			if (!(all_perm & PERMISSION_WRITE)) {
 				g_string_append (str, _("no "));
 			}
@@ -4157,22 +4157,22 @@ permission_combo_update (FMPropertiesWindow *window,
 				}
 				g_string_append (str, _("access"));
 			}
-			
+
 			gtk_list_store_append (store, &iter);
 			gtk_list_store_set (store, &iter,
 					    0, str->str,
 					    1, all_perm, -1);
-			
+
 			g_string_free (str, TRUE);
 		}
 	} else {
 		permission_combo_add_multiple_choice (combo, &iter);
 	}
 
-	g_signal_handlers_block_by_func (G_OBJECT (combo), 
+	g_signal_handlers_block_by_func (G_OBJECT (combo),
 					 G_CALLBACK (permission_combo_changed),
 					 window);
-	
+
 	gtk_combo_box_set_active_iter (combo, &iter);
 
 	/* Also enable if no files found (for recursive
@@ -4185,7 +4185,7 @@ permission_combo_update (FMPropertiesWindow *window,
 	}
 	gtk_widget_set_sensitive (GTK_WIDGET (combo), sensitive);
 
-	g_signal_handlers_unblock_by_func (G_OBJECT (combo), 
+	g_signal_handlers_unblock_by_func (G_OBJECT (combo),
 					   G_CALLBACK (permission_combo_changed),
 					   window);
 
@@ -4210,7 +4210,7 @@ add_permissions_combo_box (FMPropertiesWindow *window, GtkTable *table,
 	} else {
 		row = append_title_field (table, _("File access:"), &label);
 	}
-	
+
 	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
 	combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
 
@@ -4247,21 +4247,21 @@ add_permissions_combo_box (FMPropertiesWindow *window, GtkTable *table,
 
 	g_object_unref (store);
 
-	window->details->permission_combos = 
+	window->details->permission_combos =
 		g_list_prepend (window->details->permission_combos,
 				combo);
 
 	g_signal_connect (combo, "changed", G_CALLBACK (permission_combo_changed), window);
-	
+
 	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
 					"text", 0,
 					NULL);
-	
+
 	gtk_label_set_mnemonic_widget (label, combo);
 	gtk_widget_show (combo);
-	
+
 	gtk_table_attach (table, combo,
 			  VALUE_COLUMN, VALUE_COLUMN + 1,
 			  row, row + 1,
@@ -4290,8 +4290,8 @@ append_special_execution_checkbox (FMPropertiesWindow *window,
 			  GTK_FILL, 0,
 			  0, 0);
 
-	set_up_permissions_checkbox (window, 
-				     check_button, 
+	set_up_permissions_checkbox (window,
+				     check_button,
 				     permission_to_check,
 				     FALSE);
 	g_object_set_data (G_OBJECT (check_button), "is-special",
@@ -4305,7 +4305,7 @@ append_special_execution_flags (FMPropertiesWindow *window, GtkTable *table)
 {
 	gint nrows;
 
-	append_special_execution_checkbox 
+	append_special_execution_checkbox
 		(window, table, _("Set _user ID"), UNIX_PERM_SUID);
 
 	g_object_get (table, "n-rows", &nrows, NULL);
@@ -4324,9 +4324,9 @@ all_can_get_permissions (GList *file_list)
 	GList *l;
 	for (l = file_list; l != NULL; l = l->next) {
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
-		
+
 		if (!caja_file_can_get_permissions (file)) {
 			return FALSE;
 		}
@@ -4341,7 +4341,7 @@ all_can_set_permissions (GList *file_list)
 	GList *l;
 	for (l = file_list; l != NULL; l = l->next) {
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
 
 		if (!caja_file_can_set_permissions (file)) {
@@ -4360,13 +4360,13 @@ get_initial_permissions (GList *file_list)
 
 	ret = g_hash_table_new (g_direct_hash,
 				g_direct_equal);
-	
+
 	for (l = file_list; l != NULL; l = l->next) {
 		guint32 permissions;
 		CajaFile *file;
-		
+
 		file = CAJA_FILE (l->data);
-		
+
 		permissions = caja_file_get_permissions (file);
 		g_hash_table_insert (ret, file,
 				     GINT_TO_POINTER (permissions));
@@ -4389,7 +4389,7 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 	gint nrows;
 
 	last_row = 0;
-	
+
 	has_file = files_has_file (window);
 	has_directory = files_has_directory (window);
 
@@ -4402,14 +4402,14 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 	} else {
 		owner_label = attach_title_field (page_table, last_row, _("Owner:"));
 		/* Static text in this case. */
-		value = attach_value_field (window, 
+		value = attach_value_field (window,
 				    page_table, last_row, VALUE_COLUMN,
 				    "owner",
 				    INCONSISTENT_STATE_STRING,
-				    FALSE); 
+				    FALSE);
 		gtk_label_set_mnemonic_widget (owner_label, value);
 	}
-	
+
 	if (has_directory) {
 		add_permissions_combo_box (window, page_table,
 					   PERMISSION_USER, TRUE, FALSE);
@@ -4421,7 +4421,7 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 
 	g_object_get (page_table, "n-rows", &nrows, NULL);
 	gtk_table_set_row_spacing (page_table, nrows - 1, 18);
-	
+
 	if (!is_multi_file_window (window) && caja_file_can_set_group (get_target_file (window))) {
 		last_row = append_title_field (page_table,
 					       _("_Group:"),
@@ -4436,14 +4436,14 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 					       _("Group:"),
 					       &group_label);
 		/* Static text in this case. */
-		value = attach_value_field (window, page_table, last_row, 
-				    VALUE_COLUMN, 
+		value = attach_value_field (window, page_table, last_row,
+				    VALUE_COLUMN,
 				    "group",
 				    INCONSISTENT_STATE_STRING,
-				    FALSE); 
+				    FALSE);
 		gtk_label_set_mnemonic_widget (group_label, value);
 	}
-	
+
 	if (has_directory) {
 		add_permissions_combo_box (window, page_table,
 					   PERMISSION_GROUP, TRUE,
@@ -4457,11 +4457,11 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 
 	g_object_get (page_table, "n-rows", &nrows, NULL);
 	gtk_table_set_row_spacing (page_table, nrows - 1, 18);
-	
+
 	append_title_field (page_table,
 			    _("Others"),
 			    &group_label);
-	
+
 	if (has_directory) {
 		add_permissions_combo_box (window, page_table,
 					   PERMISSION_OTHER, TRUE,
@@ -4475,7 +4475,7 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 
 	g_object_get (page_table, "n-rows", &nrows, NULL);
 	gtk_table_set_row_spacing (page_table, nrows - 1, 18);
-	
+
 	last_row = append_title_field (page_table,
 				       _("Execute:"),
 				       &execute_label);
@@ -4484,7 +4484,7 @@ create_simple_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 					     _("Allow _executing file as program"),
 					     UNIX_PERM_USER_EXEC|UNIX_PERM_GROUP_EXEC|UNIX_PERM_OTHER_EXEC,
 					     execute_label, FALSE);
-	
+
 }
 
 static void
@@ -4497,89 +4497,89 @@ create_permission_checkboxes (FMPropertiesWindow *window,
 	GtkLabel *group_perm_label;
 	GtkLabel *other_perm_label;
 	GtkTable *check_button_table;
-	
+
 	checkbox_titles_row = append_title_field (page_table, _("Owner:"), &owner_perm_label);
 	append_title_field (page_table, _("Group:"), &group_perm_label);
 	append_title_field (page_table, _("Others:"), &other_perm_label);
-	
-	check_button_table = GTK_TABLE (gtk_table_new 
-					(PERMISSIONS_CHECKBOXES_ROW_COUNT, 
-					 PERMISSIONS_CHECKBOXES_COLUMN_COUNT, 
+
+	check_button_table = GTK_TABLE (gtk_table_new
+					(PERMISSIONS_CHECKBOXES_ROW_COUNT,
+					 PERMISSIONS_CHECKBOXES_COLUMN_COUNT,
 					 FALSE));
 	apply_standard_table_padding (check_button_table);
 	gtk_widget_show (GTK_WIDGET (check_button_table));
 	gtk_table_attach (page_table, GTK_WIDGET (check_button_table),
-			  VALUE_COLUMN, VALUE_COLUMN + 1, 
+			  VALUE_COLUMN, VALUE_COLUMN + 1,
 			  checkbox_titles_row, checkbox_titles_row + PERMISSIONS_CHECKBOXES_ROW_COUNT,
 			  0, 0,
 			  0, 0);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_OWNER_ROW,
 				  PERMISSIONS_CHECKBOXES_READ_COLUMN,
 				  UNIX_PERM_USER_READ,
 				  owner_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_OWNER_ROW,
 				  PERMISSIONS_CHECKBOXES_WRITE_COLUMN,
 				  UNIX_PERM_USER_WRITE,
 				  owner_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_OWNER_ROW,
 				  PERMISSIONS_CHECKBOXES_EXECUTE_COLUMN,
 				  UNIX_PERM_USER_EXEC,
 				  owner_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_GROUP_ROW,
 				  PERMISSIONS_CHECKBOXES_READ_COLUMN,
 				  UNIX_PERM_GROUP_READ,
 				  group_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_GROUP_ROW,
 				  PERMISSIONS_CHECKBOXES_WRITE_COLUMN,
 				  UNIX_PERM_GROUP_WRITE,
 				  group_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_GROUP_ROW,
 				  PERMISSIONS_CHECKBOXES_EXECUTE_COLUMN,
 				  UNIX_PERM_GROUP_EXEC,
 				  group_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_OTHERS_ROW,
 				  PERMISSIONS_CHECKBOXES_READ_COLUMN,
 				  UNIX_PERM_OTHER_READ,
 				  other_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_OTHERS_ROW,
 				  PERMISSIONS_CHECKBOXES_WRITE_COLUMN,
 				  UNIX_PERM_OTHER_WRITE,
 				  other_perm_label,
 				  is_folder);
-	
+
 	add_permissions_checkbox (window,
-				  check_button_table, 
+				  check_button_table,
 				  PERMISSIONS_CHECKBOXES_OTHERS_ROW,
 				  PERMISSIONS_CHECKBOXES_EXECUTE_COLUMN,
 				  UNIX_PERM_OTHER_EXEC,
@@ -4601,7 +4601,7 @@ create_advanced_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 	last_row = 0;
 
 	if (!is_multi_file_window (window) && caja_file_can_set_owner (get_target_file (window))) {
-		
+
 		owner_label  = attach_title_field (page_table, last_row, _("_Owner:"));
 		/* Combo box in this case. */
 		owner_combo_box = attach_owner_combo_box (page_table, last_row, get_target_file (window));
@@ -4612,14 +4612,14 @@ create_advanced_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 
 		owner_label = attach_title_field (page_table, last_row, _("Owner:"));
 		/* Static text in this case. */
-		value = attach_value_field (window, 
+		value = attach_value_field (window,
 				    page_table, last_row, VALUE_COLUMN,
 				    "owner",
 				    INCONSISTENT_STATE_STRING,
-				    FALSE); 
+				    FALSE);
 		gtk_label_set_mnemonic_widget (owner_label, value);
 	}
-	
+
 	if (!is_multi_file_window (window) && caja_file_can_set_group (get_target_file (window))) {
 		last_row = append_title_field (page_table,
 					       _("_Group:"),
@@ -4634,11 +4634,11 @@ create_advanced_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 					       _("Group:"),
 					       NULL);
 		/* Static text in this case. */
-		attach_value_field (window, page_table, last_row, 
-				    VALUE_COLUMN, 
+		attach_value_field (window, page_table, last_row,
+				    VALUE_COLUMN,
 				    "group",
 				    INCONSISTENT_STATE_STRING,
-				    FALSE); 
+				    FALSE);
 	}
 
 	g_object_get (page_table, "n-rows", &nrows, NULL);
@@ -4670,11 +4670,11 @@ create_advanced_permissions (FMPropertiesWindow *window, GtkTable *page_table)
 		g_object_get (page_table, "n-rows", &nrows, NULL);
 		gtk_table_set_row_spacing (page_table, nrows - 1, 18);
 	}
-	
+
 	append_special_execution_flags (window, page_table);
-	
+
 	append_title_value_pair
-		(window, page_table, _("Text view:"), 
+		(window, page_table, _("Text view:"),
 		 "permissions", INCONSISTENT_STATE_STRING,
 		 FALSE);
 }
@@ -4705,7 +4705,7 @@ apply_recursive_clicked (GtkWidget *recursive_button,
 	GtkTreeIter iter;
 	PermissionType type;
 	int new_perm, mask;
-	
+
 	file_permission = 0;
 	file_permission_mask = 0;
 	dir_permission = 0;
@@ -4714,11 +4714,11 @@ apply_recursive_clicked (GtkWidget *recursive_button,
 	/* Advanced mode and execute checkbox: */
 	for (l = window->details->permission_buttons; l != NULL; l = l->next) {
 		button = l->data;
-		
+
 		if (gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (button))) {
 			continue;
 		}
-		
+
 		active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
 		p = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
 							"permission"));
@@ -4726,7 +4726,7 @@ apply_recursive_clicked (GtkWidget *recursive_button,
 								"is-folder"));
 		is_special = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button),
 								 "is-special"));
-		
+
 		if (is_folder || is_special) {
 			dir_permission_mask |= p;
 			if (active) {
@@ -4743,29 +4743,29 @@ apply_recursive_clicked (GtkWidget *recursive_button,
 	/* Simple mode, minus exec checkbox */
 	for (l = window->details->permission_combos; l != NULL; l = l->next) {
 		combo = l->data;
-		
+
 		if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo),  &iter)) {
 			continue;
 		}
-		
+
 		type = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo), "permission-type"));
 		is_folder = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo),
 								"is-folder"));
-		
+
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo));
 		gtk_tree_model_get (model, &iter, 1, &new_perm, 2, &use_original, -1);
 		if (use_original) {
 			continue;
 		}
 		vfs_new_perm = permission_to_vfs (type, new_perm);
-		
+
 		if (is_folder) {
 			mask = PERMISSION_READ|PERMISSION_WRITE|PERMISSION_EXEC;
 		} else {
 			mask = PERMISSION_READ|PERMISSION_WRITE;
 		}
 		vfs_mask = permission_to_vfs (type, mask);
-		
+
 		if (is_folder) {
 			dir_permission_mask |= vfs_mask;
 			dir_permission |= vfs_new_perm;
@@ -4814,14 +4814,14 @@ create_permissions_page (FMPropertiesWindow *window)
 	file_list = window->details->original_files;
 
 	window->details->initial_permissions = NULL;
-	
+
 	if (all_can_get_permissions (file_list) && all_can_get_permissions (window->details->target_files)) {
 		window->details->initial_permissions = get_initial_permissions (window->details->target_files);
 		window->details->has_recursive_apply = files_has_changable_permissions_directory (window);
-		
+
 		if (!all_can_set_permissions (file_list)) {
 			add_prompt_and_separator (
-				GTK_VBOX (vbox), 
+				GTK_VBOX (vbox),
 				_("You are not the owner, so you cannot change these permissions."));
 		}
 
@@ -4830,8 +4830,8 @@ create_permissions_page (FMPropertiesWindow *window)
 
 		apply_standard_table_padding (page_table);
 		gtk_widget_show (GTK_WIDGET (page_table));
-		gtk_box_pack_start (GTK_BOX (vbox), 
-				    GTK_WIDGET (page_table), 
+		gtk_box_pack_start (GTK_BOX (vbox),
+				    GTK_WIDGET (page_table),
 				    TRUE, TRUE, 0);
 
 		if (eel_preferences_get_boolean (CAJA_PREFERENCES_SHOW_ADVANCED_PERMISSIONS)) {
@@ -4844,18 +4844,18 @@ create_permissions_page (FMPropertiesWindow *window)
 
 		g_object_get (page_table, "n-rows", &nrows, NULL);
 		gtk_table_set_row_spacing (page_table, nrows - 1, 18);
-	
+
 #ifdef HAVE_SELINUX
 		append_title_value_pair
-			(window, page_table, _("SELinux context:"), 
+			(window, page_table, _("SELinux context:"),
 			 "selinux_context", INCONSISTENT_STATE_STRING,
 			 FALSE);
 #endif
 		append_title_value_pair
-			(window, page_table, _("Last changed:"), 
+			(window, page_table, _("Last changed:"),
 			 "date_permissions", INCONSISTENT_STATE_STRING,
 			 FALSE);
-	
+
 		if (window->details->has_recursive_apply) {
 			last_row = append_row (page_table);
 			hbox = gtk_hbox_new (FALSE, 0);
@@ -4865,7 +4865,7 @@ create_permissions_page (FMPropertiesWindow *window)
 					  last_row, last_row+1,
 					  GTK_FILL, 0,
 					  0, 0);
-		
+
 			button = gtk_button_new_with_mnemonic (_("Apply Permissions to Enclosed Files"));
 			gtk_widget_show (button);
 			gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
@@ -4881,7 +4881,7 @@ create_permissions_page (FMPropertiesWindow *window)
 		} else {
 			prompt_text = g_strdup (_("The permissions of the selected file could not be determined."));
 		}
-		
+
 		add_prompt (GTK_VBOX (vbox), prompt_text, TRUE);
 		g_free (prompt_text);
 	}
@@ -4892,34 +4892,34 @@ append_extension_pages (FMPropertiesWindow *window)
 {
 	GList *providers;
 	GList *p;
-	
+
  	providers = caja_module_get_extensions_for_type (CAJA_TYPE_PROPERTY_PAGE_PROVIDER);
-	
+
 	for (p = providers; p != NULL; p = p->next) {
 		CajaPropertyPageProvider *provider;
 		GList *pages;
 		GList *l;
 
 		provider = CAJA_PROPERTY_PAGE_PROVIDER (p->data);
-		
-		pages = caja_property_page_provider_get_pages 
+
+		pages = caja_property_page_provider_get_pages
 			(provider, window->details->original_files);
-		
+
 		for (l = pages; l != NULL; l = l->next) {
 			CajaPropertyPage *page;
 			GtkWidget *page_widget;
 			GtkWidget *label;
-			
+
 			page = CAJA_PROPERTY_PAGE (l->data);
 
-			g_object_get (G_OBJECT (page), 
-				      "page", &page_widget, "label", &label, 
+			g_object_get (G_OBJECT (page),
+				      "page", &page_widget, "label", &label,
 				      NULL);
-			
-			gtk_notebook_append_page (window->details->notebook, 
+
+			gtk_notebook_append_page (window->details->notebook,
 						  page_widget, label);
 
-			g_object_set_data (G_OBJECT (page_widget), 
+			g_object_set_data (G_OBJECT (page_widget),
 					   "is-extension-page",
 					   page);
 
@@ -4936,14 +4936,14 @@ append_extension_pages (FMPropertiesWindow *window)
 }
 
 static gboolean
-should_show_emblems (FMPropertiesWindow *window) 
+should_show_emblems (FMPropertiesWindow *window)
 {
-	/* FIXME bugzilla.mate.org 45643:
+	/* FIXME bugzilla.gnome.org 45643:
 	 * Emblems aren't displayed on the the desktop Trash icon, so
 	 * we shouldn't pretend that they work by showing them here.
 	 * When bug 5643 is fixed we can remove this case.
 	 */
-	if (!is_multi_file_window (window) 
+	if (!is_multi_file_window (window)
 	    && is_merged_trash_directory (get_target_file (window))) {
 		return FALSE;
 	}
@@ -4952,7 +4952,7 @@ should_show_emblems (FMPropertiesWindow *window)
 }
 
 static gboolean
-should_show_permissions (FMPropertiesWindow *window) 
+should_show_permissions (FMPropertiesWindow *window)
 {
 	CajaFile *file;
 
@@ -4977,7 +4977,7 @@ get_pending_key (GList *file_list)
 	GList *uris;
 	GString *key;
 	char *ret;
-	
+
 	uris = NULL;
 	for (l = file_list; l != NULL; l = l->next) {
 		uris = g_list_prepend (uris, caja_file_get_uri (CAJA_FILE (l->data)));
@@ -4999,7 +4999,7 @@ get_pending_key (GList *file_list)
 }
 
 static StartupData *
-startup_data_new (GList *original_files, 
+startup_data_new (GList *original_files,
 		  GList *target_files,
 		  const char *pending_key,
 		  GtkWidget *parent_widget)
@@ -5040,7 +5040,7 @@ file_changed_callback (CajaFile *file, gpointer user_data)
 	if (!g_list_find (window->details->changed_files, file)) {
 		caja_file_ref (file);
 		window->details->changed_files = g_list_prepend (window->details->changed_files, file);
-		
+
 		schedule_files_update (window);
 	}
 }
@@ -5069,15 +5069,15 @@ should_show_open_with (FMPropertiesWindow *window)
 	 * Also don't show it for folders. Changing the default app for folders
 	 * leads to all sort of hard to understand errors.
 	 */
-	
+
 	if (is_multi_file_window (window)) {
 		if (!file_list_attributes_identical (window->details->original_files,
 						     "mime_type")) {
 			return FALSE;
 		} else {
-			
+
 			GList *l;
-			
+
 			for (l = window->details->original_files; l; l = l->next) {
 				file = CAJA_FILE (l->data);
 				if (caja_file_is_directory (file) ||
@@ -5085,7 +5085,7 @@ should_show_open_with (FMPropertiesWindow *window)
 					return FALSE;
 				}
 			}
-		}		
+		}
 	} else {
 		file = get_original_file (window);
 		if (caja_file_is_directory (file) ||
@@ -5104,7 +5104,7 @@ create_open_with_page (FMPropertiesWindow *window)
 	char *uri;
 
 	mime_type = caja_file_get_mime_type (get_target_file (window));
-	
+
 	if (!is_multi_file_window (window)) {
 		uri = caja_file_get_uri (get_target_file (window));
 		if (uri == NULL) {
@@ -5115,18 +5115,18 @@ create_open_with_page (FMPropertiesWindow *window)
 		g_free (uri);
 	} else {
 		GList *uris;
-		
+
 		uris = window->details->original_files;
 		if (uris == NULL) {
 			return;
 		}
 		vbox = caja_mime_application_chooser_new_for_multiple_files (uris, mime_type);
 	}
-	
+
 	gtk_widget_show (vbox);
 	g_free (mime_type);
 
-	gtk_notebook_append_page (window->details->notebook, 
+	gtk_notebook_append_page (window->details->notebook,
 				  vbox, gtk_label_new (_("Open With")));
 }
 
@@ -5140,7 +5140,7 @@ create_properties_window (StartupData *startup_data)
 	window = FM_PROPERTIES_WINDOW (gtk_widget_new (fm_properties_window_get_type (), NULL));
 
 	window->details->original_files = caja_file_list_copy (startup_data->original_files);
-	
+
 	window->details->target_files = caja_file_list_copy (startup_data->target_files);
 
 	gtk_window_set_wmclass (GTK_WINDOW (window), "file_properties", "Caja");
@@ -5169,25 +5169,25 @@ create_properties_window (StartupData *startup_data)
 			CAJA_FILE_ATTRIBUTE_LINK_INFO;
 
 		caja_file_monitor_add (CAJA_FILE (l->data),
-					   &window->details->original_files, 
-					   attributes);	
+					   &window->details->original_files,
+					   attributes);
 	}
-	
+
 	for (l = window->details->target_files; l != NULL; l = l->next) {
 		CajaFile *file;
 		CajaFileAttributes attributes;
 
 		file = CAJA_FILE (l->data);
-		
+
 		attributes = 0;
 		if (caja_file_is_directory (file)) {
 			attributes |= CAJA_FILE_ATTRIBUTE_DEEP_COUNTS;
 		}
-		
+
 		attributes |= CAJA_FILE_ATTRIBUTE_INFO;
 		caja_file_monitor_add (file, &window->details->target_files, attributes);
-	}	
-		
+	}
+
 	for (l = window->details->target_files; l != NULL; l = l->next) {
 		g_signal_connect_object (CAJA_FILE (l->data),
 					 "changed",
@@ -5252,14 +5252,14 @@ get_target_file_list (GList *original_files)
 {
 	GList *ret;
 	GList *l;
-	
+
 	ret = NULL;
-	
+
 	for (l = original_files; l != NULL; l = l->next) {
 		CajaFile *target;
-		
+
 		target = get_target_file_for_original_file (CAJA_FILE (l->data));
-		
+
 		ret = g_list_prepend (ret, target);
 	}
 
@@ -5273,9 +5273,9 @@ add_window (FMPropertiesWindow *window)
 {
 	if (!is_multi_file_window (window)) {
 		g_hash_table_insert (windows,
-				     get_original_file (window), 
+				     get_original_file (window),
 				     window);
-		g_object_set_data (G_OBJECT (window), "window_key", 
+		g_object_set_data (G_OBJECT (window), "window_key",
 				   get_original_file (window));
 	}
 }
@@ -5296,7 +5296,7 @@ get_existing_window (GList *file_list)
 {
 	if (!file_list->next) {
 		return g_hash_table_lookup (windows, file_list->data);
-	}	
+	}
 
 	return NULL;
 }
@@ -5311,7 +5311,7 @@ static void
 parent_widget_destroyed_callback (GtkWidget *widget, gpointer callback_data)
 {
 	g_assert (widget == ((StartupData *)callback_data)->parent_widget);
-	
+
 	remove_pending ((StartupData *)callback_data, TRUE, TRUE, FALSE);
 }
 
@@ -5320,9 +5320,9 @@ cancel_call_when_ready_callback (gpointer key,
 				 gpointer value,
 				 gpointer user_data)
 {
-	caja_file_cancel_call_when_ready 
-		(CAJA_FILE (key), 
-		 is_directory_ready_callback, 
+	caja_file_cancel_call_when_ready
+		(CAJA_FILE (key),
+		 is_directory_ready_callback,
 		 user_data);
 }
 
@@ -5336,10 +5336,10 @@ remove_pending (StartupData *startup_data,
 		g_hash_table_foreach (startup_data->pending_files,
 				      cancel_call_when_ready_callback,
 				      startup_data);
-				      
+
 	}
 	if (cancel_timed_wait) {
-		eel_timed_wait_stop 
+		eel_timed_wait_stop
 			(cancel_create_properties_window_callback, startup_data);
 	}
 	if (cancel_destroy_handler) {
@@ -5358,27 +5358,27 @@ is_directory_ready_callback (CajaFile *file,
 			     gpointer data)
 {
 	StartupData *startup_data;
-	
+
 	startup_data = data;
-	
+
 	g_hash_table_remove (startup_data->pending_files, file);
 
 	if (g_hash_table_size (startup_data->pending_files) == 0) {
 		FMPropertiesWindow *new_window;
-		
+
 		new_window = create_properties_window (startup_data);
-		
+
 		add_window (new_window);
-		
+
 		remove_pending (startup_data, FALSE, TRUE, TRUE);
-		
-/* FIXME bugzilla.mate.org 42151:
+
+/* FIXME bugzilla.gnome.org 42151:
  * See comment elsewhere in this file about bug 2151.
  */
 #ifdef UNDO_ENABLED
 		caja_undo_share_undo_manager (GTK_OBJECT (new_window),
 						  GTK_OBJECT (callback_data));
-#endif	
+#endif
 		gtk_window_present (GTK_WINDOW (new_window));
 	}
 }
@@ -5386,7 +5386,7 @@ is_directory_ready_callback (CajaFile *file,
 
 void
 fm_properties_window_present (GList *original_files,
-			      GtkWidget *parent_widget) 
+			      GtkWidget *parent_widget)
 {
 	GList *l, *next;
 	GtkWidget *parent_window;
@@ -5403,12 +5403,12 @@ fm_properties_window_present (GList *original_files,
 		windows = eel_g_hash_table_new_free_at_exit
 			(NULL, NULL, "property windows");
 	}
-	
+
 	if (pending_lists == NULL) {
 		pending_lists = eel_g_hash_table_new_free_at_exit
 			(g_str_hash, g_str_equal, "pending property window files");
 	}
-	
+
 	/* Look to see if there's already a window for this file. */
 	existing_window = get_existing_window (original_files);
 	if (existing_window != NULL) {
@@ -5420,7 +5420,7 @@ fm_properties_window_present (GList *original_files,
 
 
 	pending_key = get_pending_key (original_files);
-	
+
 	/* Look to see if we're already waiting for a window for this file. */
 	if (g_hash_table_lookup (pending_lists, pending_key) != NULL) {
 		return;
@@ -5428,7 +5428,7 @@ fm_properties_window_present (GList *original_files,
 
 	target_files = get_target_file_list (original_files);
 
-	startup_data = startup_data_new (original_files, 
+	startup_data = startup_data_new (original_files,
 					 target_files,
 					 pending_key,
 					 parent_widget);
@@ -5437,9 +5437,9 @@ fm_properties_window_present (GList *original_files,
 	g_free(pending_key);
 
 	/* Wait until we can tell whether it's a directory before showing, since
-	 * some one-time layout decisions depend on that info. 
+	 * some one-time layout decisions depend on that info.
 	 */
-	
+
 	g_hash_table_insert (pending_lists, startup_data->pending_key, startup_data->pending_key);
 	g_signal_connect (parent_widget, "destroy",
 			  G_CALLBACK (parent_widget_destroyed_callback), startup_data);
@@ -5509,7 +5509,7 @@ real_destroy (GtkObject *object)
 	}
 	caja_file_list_free (window->details->original_files);
 	window->details->original_files = NULL;
-	
+
 	for (l = window->details->target_files; l != NULL; l = l->next) {
 		caja_file_monitor_remove (CAJA_FILE (l->data), &window->details->target_files);
 	}
@@ -5518,7 +5518,7 @@ real_destroy (GtkObject *object)
 
 	caja_file_list_free (window->details->changed_files);
 	window->details->changed_files = NULL;
- 
+
 	window->details->name_field = NULL;
 
 	g_list_free (window->details->emblem_buttons);
@@ -5639,7 +5639,7 @@ set_icon (const char* icon_uri, FMPropertiesWindow *properties_window)
 				if (real_icon_uri == NULL) {
 					real_icon_uri = g_strdup (icon_uri);
 				}
-			
+
 				caja_file_set_metadata (file, CAJA_METADATA_KEY_CUSTOM_ICON, NULL, real_icon_uri);
 				caja_file_set_metadata (file, CAJA_METADATA_KEY_ICON_SCALE, NULL, NULL);
 
