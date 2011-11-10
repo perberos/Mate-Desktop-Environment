@@ -337,7 +337,7 @@ capplets/display/Makefile
 capplets/display/display-properties.desktop.in
 capplets/keybindings/Makefile
 capplets/keybindings/mate-keybindings.pc
-capplets/keybindings/keybinding.desktop.in
+capplets/keybindings/mate-keybinding.desktop.in
 capplets/keyboard/Makefile
 capplets/keyboard/keyboard.desktop.in
 capplets/mouse/Makefile

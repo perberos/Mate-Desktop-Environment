@@ -17,7 +17,7 @@ uidir   = $(pkgdatadir)/ui
 ui_DATA = mate-keybinding-properties.ui
 
 desktopdir = $(datadir)/applications
-Desktop_in_files = keybinding.desktop.in
+Desktop_in_files = mate-keybinding.desktop.in
 desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_XML_NOMERGE_RULE@

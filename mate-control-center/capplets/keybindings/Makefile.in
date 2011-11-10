@@ -38,7 +38,7 @@ host_triplet = @host@
 bin_PROGRAMS = mate-keybinding-properties$(EXEEXT)
 subdir = capplets/keybindings
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/keybinding.desktop.in.in \
+	$(srcdir)/mate-keybinding.desktop.in.in \
 	$(srcdir)/mate-keybindings.pc.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/intltool.m4 \
@@ -50,7 +50,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = mate-keybindings.pc keybinding.desktop.in
+CONFIG_CLEAN_FILES = mate-keybindings.pc mate-keybinding.desktop.in
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" \
 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(uidir)" \
@@ -347,7 +347,7 @@ mate_keybinding_properties_SOURCES = \
 uidir = $(pkgdatadir)/ui
 ui_DATA = mate-keybinding-properties.ui
 desktopdir = $(datadir)/applications
-Desktop_in_files = keybinding.desktop.in
+Desktop_in_files = mate-keybinding.desktop.in
 desktop_DATA = $(Desktop_in_files:.desktop.in=.desktop)
 xmldir = $(pkgdatadir)/keybindings
 xml_in_files = 00-multimedia-key.xml.in 01-desktop-key.xml.in
@@ -404,7 +404,7 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 mate-keybindings.pc: $(top_builddir)/config.status $(srcdir)/mate-keybindings.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-keybinding.desktop.in: $(top_builddir)/config.status $(srcdir)/keybinding.desktop.in.in
+mate-keybinding.desktop.in: $(top_builddir)/config.status $(srcdir)/mate-keybinding.desktop.in.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -449,7 +449,7 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-mate-keybinding-properties$(EXEEXT): $(mate_keybinding_properties_OBJECTS) $(mate_keybinding_properties_DEPENDENCIES) 
+mate-keybinding-properties$(EXEEXT): $(mate_keybinding_properties_OBJECTS) $(mate_keybinding_properties_DEPENDENCIES)
 	@rm -f mate-keybinding-properties$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(mate_keybinding_properties_OBJECTS) $(mate_keybinding_properties_LDADD) $(LIBS)
 
