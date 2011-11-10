@@ -14,7 +14,7 @@ iconscalable_DATA = icons/scalable/mate-notification-properties.svg
 
 
 servicedir   = $(DBUS_SERVICES_DIR)
-service_DATA = org.freedesktop.Notifications.service
+service_DATA = org.freedesktop.mate.Notifications.service
 
 schemasdir       = $(MATECONF_SCHEMA_FILE_DIR)
 schemas_in_files = mate-notification-daemon.schemas.in
