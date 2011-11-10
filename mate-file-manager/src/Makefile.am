@@ -45,12 +45,12 @@ LDADD =\
 
 @INTLTOOL_DESKTOP_RULE@
 
-desktop_in_files=network-scheme.desktop.in
+desktop_in_files=mate-network-scheme.desktop.in
 desktop_files=$(desktop_in_files:.desktop.in=.desktop)
 desktopdir = $(datadir)/mate/network/
 
 schemedir = $(datadir)/applications
-scheme_DATA = network-scheme.desktop
+scheme_DATA = mate-network-scheme.desktop
 
 caja_SOURCES = \
 	caja-actions.h			\
