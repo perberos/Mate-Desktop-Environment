@@ -78,7 +78,11 @@ panel_separator_expose_event (GtkWidget      *widget,
 			      GdkEventExpose *event)
 {
 	if (gtk_widget_is_drawable (widget)) {
-		GTK_WIDGET_CLASS (panel_separator_parent_class)->expose_event (widget, event);
+		#ifndef UBUNTU
+			/* On Ubuntu, this make a long propage, that eat your cpu!
+			 */
+			GTK_WIDGET_CLASS(panel_separator_parent_class)->expose_event(widget, event);
+		#endif
 
 		panel_separator_paint (widget, &event->area);
 	}
