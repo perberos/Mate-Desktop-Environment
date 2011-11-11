@@ -304,6 +304,23 @@ AC_SUBST(MATECORBA_IDL)
 AC_SUBST(MATECOMPONENT_IDLDIR)
 AC_SUBST(MATECOMPONENT_ACT_IDLDIR)
 
+
+dnl ****************************************************************************
+dnl * using Ubuntu hacks
+dnl ****************************************************************************
+AC_ARG_ENABLE(ubuntu,
+	AS_HELP_STRING([--enable-ubuntu], [Enable Ubuntu Counter Hacks]), enable_ubuntu=yes, enable_ubuntu=no)
+
+if test "x$enable_ubuntu" = "xyes" ; then
+	# we define a UBUNTU on code
+	PANEL_CFLAGS="$PANEL_CFLAGS -DUBUNTU"
+
+	ENABLE_UBUNTU=yes
+else
+	ENABLE_UBUNTU=no
+fi
+
+
 dnl  Language Support
 
 GETTEXT_PACKAGE=mate-panel-2.0
@@ -416,8 +433,8 @@ echo "
         cflags:                        ${CFLAGS}
         Maintainer mode:               ${USE_MAINTAINER_MODE}
         Use *_DISABLE_DEPRECATED:      ${enable_deprecation_flags}
-
-        MateComponent applets support:        ${HAVE_MATECOMPONENT}
+        Ubuntu Counter Hack:           ${ENABLE_UBUNTU}
+        MateComponent applets support: ${HAVE_MATECOMPONENT}
         Applets to build in-process:   ${PANEL_INPROCESS_APPLETS}
         Evolution-Data-Server support: ${HAVE_EDS}
         NetworkManager support:        ${HAVE_NETWORK_MANAGER}
