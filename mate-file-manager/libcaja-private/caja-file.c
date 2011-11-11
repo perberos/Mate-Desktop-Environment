@@ -5894,7 +5894,12 @@ caja_file_get_size_as_string (CajaFile *file)
 	if (file->details->size == -1) {
 		return NULL;
 	}
-	return g_format_size (file->details->size);
+
+	#if GLIB_CHECK_VERSION(2, 30, 0)
+		return g_format_size(file->details->size);
+	#else  // Since 2.16
+		return g_format_size_for_display(file->details->size);
+	#endif
 }
 
 /**
@@ -5935,7 +5940,12 @@ caja_file_get_size_as_string_with_real_size (CajaFile *file)
 		return NULL;
 	}
 
-	formated = g_format_size (file->details->size);
+	#if GLIB_CHECK_VERSION(2, 30, 0)
+		formated = g_format_size(file->details->size);
+	#else
+		formated = g_format_size_for_display(file->details->size);
+	#endif
+
 	/* Do this in a separate stage so that we don't have to put G_GUINT64_FORMAT in the translated string */
 	real_size = g_strdup_printf (_("%"G_GUINT64_FORMAT), (guint64) file->details->size);
 	formated_plus_real = g_strdup_printf (_("%s (%s bytes)"), formated, real_size);
@@ -6000,8 +6010,13 @@ caja_file_get_deep_count_as_string_internal (CajaFile *file,
 	 * Callers can distinguish them using caja_file_get_deep_counts
 	 * directly if desired.
 	 */
-	if (report_size) {
-		return g_format_size (total_size);
+	if (report_size)
+	{
+		#if GLIB_CHECK_VERSION(2, 30, 0)
+			return g_format_size(total_size);
+		#else
+			return g_format_size_for_display(total_size);
+		#endif
 	}
 
 	return format_item_count_for_display (report_directory_count
@@ -6809,8 +6824,14 @@ caja_file_get_volume_free_space (CajaFile *file)
 
 
 	res = NULL;
-	if (directory->details->free_space != (guint64)-1) {
-		res = g_format_size (directory->details->free_space);
+
+	if (directory->details->free_space != (guint64) -1)
+	{
+		#if GLIB_CHECK_VERSION(2, 30, 0)
+			res = g_format_size(directory->details->free_space);
+		#else
+			res = g_format_size_for_display(directory->details->free_space);
+		#endif
 	}
 
 	return res;

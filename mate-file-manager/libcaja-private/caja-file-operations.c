@@ -850,7 +850,12 @@ custom_size_to_string (char *format, va_list va)
 	goffset size;
 
 	size = va_arg (va, goffset);
-	return g_format_size (size);
+
+	#if GLIB_CHECK_VERSION(2, 30, 0)
+		return g_format_size(size);
+	#else
+		return g_format_size_for_display(size);
+	#endif
 }
 
 static void

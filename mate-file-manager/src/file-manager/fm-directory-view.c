@@ -2260,7 +2260,12 @@ fm_directory_view_display_selection_info (FMDirectoryView *view)
 		if (non_folder_size_known) {
 			char *size_string;
 
-			size_string = g_format_size (non_folder_size);
+			#if GLIB_CHECK_VERSION(2, 30, 0)
+				size_string = g_format_size(non_folder_size);
+			#else
+				size_string = g_format_size_for_display(non_folder_size);
+			#endif
+
 			/* This is marked for translation in case a localiser
 			 * needs to use something other than parentheses. The
 			 * first message gives the number of items selected;

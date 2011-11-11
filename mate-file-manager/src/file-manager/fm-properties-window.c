@@ -2337,7 +2337,13 @@ directory_contents_value_field_update (FMPropertiesWindow *window)
 		}
 	} else {
 		char *size_str;
-		size_str = g_format_size (total_size);
+
+		#if GLIB_CHECK_VERSION(2, 30, 0)
+			size_str = g_format_size(total_size);
+		#else
+			size_str = g_format_size_for_display(total_size);
+		#endif
+
 		text = g_strdup_printf (ngettext("%'d item, with size %s",
 						 "%'d items, totalling %s",
 						 total_count),
@@ -3105,9 +3111,15 @@ create_pie_widget (FMPropertiesWindow *window)
 	GFile *location;
 	GFileInfo *info;
 
-	capacity = g_format_size (window->details->volume_capacity);
-	free 	 = g_format_size (window->details->volume_free);
-	used 	 = g_format_size (window->details->volume_capacity - window->details->volume_free);
+	#if GLIB_CHECK_VERSION(2, 30, 0)
+		capacity = g_format_size(window->details->volume_capacity);
+		free = g_format_size(window->details->volume_free);
+		used = g_format_size(window->details->volume_capacity - window->details->volume_free);
+	#else
+		capacity = g_format_size_for_display(window->details->volume_capacity);
+		free = g_format_size_for_display(window->details->volume_free);
+		used = g_format_size_for_display(window->details->volume_capacity - window->details->volume_free);
+	#endif
 
 	file = get_original_file (window);
 
