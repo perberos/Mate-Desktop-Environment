@@ -42,14 +42,14 @@ build_triplet = @build@
 host_triplet = @host@
 subdir = gcr
 DIST_COMMON = $(inc_HEADERS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/gcr.pc.in
+	$(srcdir)/Makefile.in $(srcdir)/mate-gcr.pc.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = gcr.pc
+CONFIG_CLEAN_FILES = mate-gcr.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -438,11 +438,11 @@ libmategcr@GCR_VERSION_SUFFIX@_la_LIBADD = \
 	$(GTK_LIBS)
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = gcr-$(GCR_MAJOR).pc
+pkgconfig_DATA = mate-gcr-$(GCR_MAJOR).pc
 
 # ----------------------------------------------------------------
 EXTRA_DIST = \
-	gcr.pc.in \
+	mate-gcr.pc.in \
 	gcr-marshal.list \
 	$(ui_DATA)
 
@@ -453,7 +453,7 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	$(pkgconfig_DATA)
 
-@WITH_TESTS_FALSE@TESTS_DIR =
+@WITH_TESTS_FALSE@TESTS_DIR = 
 @WITH_TESTS_TRUE@TESTS_DIR = tests
 SUBDIRS = . \
 	$(TESTS_DIR)
@@ -493,7 +493,7 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-gcr.pc: $(top_builddir)/config.status $(srcdir)/gcr.pc.in
+mate-gcr.pc: $(top_builddir)/config.status $(srcdir)/mate-gcr.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -526,7 +526,7 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libmategcr@GCR_VERSION_SUFFIX@.la: $(libmategcr@GCR_VERSION_SUFFIX@_la_OBJECTS) $(libmategcr@GCR_VERSION_SUFFIX@_la_DEPENDENCIES)
+libmategcr@GCR_VERSION_SUFFIX@.la: $(libmategcr@GCR_VERSION_SUFFIX@_la_OBJECTS) $(libmategcr@GCR_VERSION_SUFFIX@_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libmategcr@GCR_VERSION_SUFFIX@_la_LINK) -rpath $(libdir) $(libmategcr@GCR_VERSION_SUFFIX@_la_OBJECTS) $(libmategcr@GCR_VERSION_SUFFIX@_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
@@ -1051,8 +1051,8 @@ gcr-marshal.c: gcr-marshal.list $(GLIB_GENMARSHAL)
 	echo "#include \"gcr-marshal.h\"" > $@ && \
 	$(GLIB_GENMARSHAL) $< --body --prefix=_gcr_marshal >> $@
 
-gcr-$(GCR_MAJOR).pc: gcr.pc
-	cp gcr.pc gcr-$(GCR_MAJOR).pc
+mate-gcr-$(GCR_MAJOR).pc: mate-gcr.pc
+	cp mate-gcr.pc mate-gcr-$(GCR_MAJOR).pc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

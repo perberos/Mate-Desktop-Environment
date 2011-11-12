@@ -14,22 +14,22 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('a8c7908bfcb5cca5ca6245b9567ede88d65651553372cd250155c706442a6c1f')
 
 build() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/mate-keyring \
-		--with-pam-dir=/lib/security --with-root-certs=/etc/ssl/certs || return 1
+    ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static \
+        --libexecdir=/usr/lib/mate-keyring \
+        --with-pam-dir=/lib/security --with-root-certs=/etc/ssl/certs || return 1
 
-	make || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
-	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

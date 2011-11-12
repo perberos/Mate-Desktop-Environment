@@ -1,4 +1,4 @@
-incdir = $(includedir)/gp11
+incdir = $(includedir)/mate-gp11
 
 inc_HEADERS = \
 	gp11.h
@@ -44,17 +44,17 @@ gp11-marshal.c: gp11-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --body --prefix=_gp11_marshal >> $@
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = gp11-$(GP11_MAJOR).pc
+pkgconfig_DATA = mate-gp11-$(GP11_MAJOR).pc
 
 EXTRA_DIST = \
-	gp11.pc.in \
+	mate-gp11.pc.in \
 	gp11-marshal.list
 
 DISTCLEANFILES = \
-	gp11-$(GP11_MAJOR).pc
+	mate-gp11-$(GP11_MAJOR).pc
 
-gp11-$(GP11_MAJOR).pc: gp11.pc
-	cp gp11.pc gp11-$(GP11_MAJOR).pc
+mate-gp11-$(GP11_MAJOR).pc: mate-gp11.pc
+	cp mate-gp11.pc mate-gp11-$(GP11_MAJOR).pc
 
 if WITH_TESTS
 TESTS_DIR = tests

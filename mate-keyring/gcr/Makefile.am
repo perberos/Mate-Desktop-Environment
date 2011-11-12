@@ -84,15 +84,15 @@ gcr-marshal.c: gcr-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --body --prefix=_gcr_marshal >> $@
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = gcr-$(GCR_MAJOR).pc
+pkgconfig_DATA = mate-gcr-$(GCR_MAJOR).pc
 
-gcr-$(GCR_MAJOR).pc: gcr.pc
-	cp gcr.pc gcr-$(GCR_MAJOR).pc
+mate-gcr-$(GCR_MAJOR).pc: mate-gcr.pc
+	cp mate-gcr.pc mate-gcr-$(GCR_MAJOR).pc
 
 # ----------------------------------------------------------------
 
 EXTRA_DIST = \
-	gcr.pc.in \
+	mate-gcr.pc.in \
 	gcr-marshal.list \
 	$(ui_DATA)
 
