@@ -25,8 +25,8 @@ build() {
 
 package() {
 	cd "${srcdir}/${pkgname}"
-#MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-	make DESTDIR="${pkgdir}" install || return 1
+
+	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
 	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
 	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
