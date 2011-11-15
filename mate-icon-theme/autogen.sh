@@ -4,8 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="libmatenotify"
-REQUIRED_AUTOMAKE_VERSION=1.9
+PKG_NAME="mate-icon-theme"
 
 (test -f $srcdir/configure.ac) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
@@ -14,8 +13,13 @@ REQUIRED_AUTOMAKE_VERSION=1.9
 }
 
 which mate-autogen.sh || {
-    echo "You need to install mate-common."
+    echo "You need to install mate-common from the MATE Git"
     exit 1
 }
 
+REQUIRED_AUTOMAKE_VERSION=1.9
+USE_MATE2_MACROS=1
+USE_COMMON_DOC_BUILD=yes
+
 . mate-autogen.sh
+

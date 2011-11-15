@@ -4,7 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="MATE MIME data"
+PKG_NAME="mate-mime-data"
 REQUIRED_AUTOMAKE_VERSION=1.7
 
 (test -f $srcdir/configure.in \

@@ -4,7 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="MATE VFS"
+PKG_NAME="mate-vfs"
 REQUIRED_AUTOMAKE_VERSION=1.6
 
 (test -f $srcdir/configure.in \
@@ -19,4 +19,8 @@ which mate-autogen.sh || {
     echo "You need to install mate-common from the MATE CVS"
     exit 1
 }
-REQUIRED_AUTOMAKE_VERSION=1.8 USE_MATE2_MACROS=1 . mate-autogen.sh
+
+REQUIRED_AUTOMAKE_VERSION=1.8
+USE_MATE2_MACROS=1
+
+. mate-autogen.sh

@@ -4,9 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-REQUIRED_AUTOMAKE_VERSION=1.9
-
-PKG_NAME="mate-common"
+PKG_NAME="libmateweather"
 
 (test -f $srcdir/configure.in) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
@@ -14,5 +12,14 @@ PKG_NAME="mate-common"
     exit 1
 }
 
-. $srcdir/macros2/mate-autogen.sh
+which mate-autogen.sh || {
+    echo "You need to install mate-common from the MATE Git"
+    exit 1
+}
+
+REQUIRED_AUTOMAKE_VERSION=1.9
+USE_MATE2_MACROS=1
+USE_COMMON_DOC_BUILD=yes
+
+. mate-autogen.sh
 
