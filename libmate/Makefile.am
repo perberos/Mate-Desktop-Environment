@@ -1,11 +1,11 @@
 SUBDIRS = libmate monikers schemas mate-data po doc
 
 EXTRA_DIST = \
-	ChangeLog.pre-git	\
-	COPYING.LIB		\
-	NEWS			\
-	MAINTAINERS		\
-	libmate-zip.in		\
+	ChangeLog.pre-git \
+	COPYING.LIB	 \
+	NEWS \
+	MAINTAINERS \
+	libmate-zip.in \
 	gtk-doc.make
 
 DISTCLEANFILES =

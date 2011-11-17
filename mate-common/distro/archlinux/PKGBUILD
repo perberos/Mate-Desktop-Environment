@@ -1,5 +1,5 @@
 pkgname=mate-common
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="Common development macros for MATE"
 arch=('any')
@@ -13,12 +13,13 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('c1a0d24b2e4c78756ef3f7f760d6284d58c368774373ff7cce85dbea5e84e33b')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr || return 1
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
-	make DESTDIR="${pkgdir}" install || return 1
+    cd "${srcdir}/${pkgname}"
+    make DESTDIR="${pkgdir}" install || return 1
 }

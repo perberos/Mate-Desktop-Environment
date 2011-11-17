@@ -13,19 +13,19 @@ LINK = $(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 libmateincludedir = $(includedir)/libmate-2.0/libmate
 
 INCLUDES = \
-	-I..							\
-	-I$(srcdir)/..						\
-	$(WARN_CFLAGS)						\
-	$(LIBMATE_CFLAGS)					\
-	-DG_DISABLE_DEPRECATED					\
-	-DLIBMATE_PREFIX=\""$(prefix)"\"			\
-	-DLIBMATE_LIBDIR=\""$(libdir)"\"			\
-	-DLIBMATE_DATADIR=\""$(datadir)"\"			\
-	-DLIBMATE_LOCALSTATEDIR=\""$(localstatedir)"\"		\
-	-DLIBMATE_SYSCONFDIR=\""$(sysconfdir)"\"		\
-	-DLIBMATE_LOCALEDIR="\"$(datadir)/locale\""		\
-	-DMATEVFSVERSION=\"$(MATE_VFS_VERSION)\"		\
-	-DMATE_EXPLICIT_TRANSLATION_DOMAIN="GETTEXT_PACKAGE"	\
+	-I.. \
+	-I$(srcdir)/.. \
+	$(WARN_CFLAGS) \
+	$(LIBMATE_CFLAGS) \
+	-DG_DISABLE_DEPRECATED \
+	-DLIBMATE_PREFIX=\""$(prefix)"\" \
+	-DLIBMATE_LIBDIR=\""$(libdir)"\" \
+	-DLIBMATE_DATADIR=\""$(datadir)"\" \
+	-DLIBMATE_LOCALSTATEDIR=\""$(localstatedir)"\" \
+	-DLIBMATE_SYSCONFDIR=\""$(sysconfdir)"\" \
+	-DLIBMATE_LOCALEDIR="\"$(datadir)/locale\"" \
+	-DMATEVFSVERSION=\"$(MATE_VFS_VERSION)\" \
+	-DMATE_EXPLICIT_TRANSLATION_DOMAIN="GETTEXT_PACKAGE" \
 	-DG_LOG_DOMAIN=\"Mate\"
 
 if OS_WIN32
@@ -33,52 +33,52 @@ platform_sources = dllmain.c
 endif
 
 libmate_2_la_SOURCES = \
-	libmatetypebuiltins.h	\
-	libmatetypebuiltins.c	\
-	mate-config.c		\
-	mate-sound.c		\
-	mate-triggers.c	\
-	mate-triggersP.h	\
-	mate-program.c		\
-	mate-help.c		\
-	mate-exec.c		\
-	mate-mateconf.c		\
-	mate-mateconfP.h		\
-	mate-i18n.c		\
-	mate-url.c		\
-	mate-util.c		\
-	mate-score.c		\
-	mate-init.c		\
+	libmatetypebuiltins.h \
+	libmatetypebuiltins.c \
+	mate-config.c \
+	mate-sound.c \
+	mate-triggers.c \
+	mate-triggersP.h \
+	mate-program.c \
+	mate-help.c \
+	mate-exec.c \
+	mate-mateconf.c \
+	mate-mateconfP.h \
+	mate-i18n.c \
+	mate-url.c \
+	mate-util.c \
+	mate-score.c \
+	mate-init.c \
 	$(platform_sources)
 
 noinst_HEADERS = \
 	libmate-private.h
 
 libmate_headers = \
-	mate-config.h		\
-	mate-sound.h		\
-	mate-triggers.h	\
-	mate-program.h		\
-	mate-help.h		\
-	mate-i18n.h		\
-	mate-exec.h		\
-	mate-mateconf.h		\
-	mate-url.h		\
-	mate-util.h   		\
-	mate-macros.h		\
-	mate-score.h		\
-	mate-init.h		\
+	mate-config.h \
+	mate-sound.h \
+	mate-triggers.h \
+	mate-program.h \
+	mate-help.h \
+	mate-i18n.h \
+	mate-exec.h \
+	mate-mateconf.h \
+	mate-url.h \
+	mate-util.h \
+	mate-macros.h \
+	mate-score.h \
+	mate-init.h \
 	libmate.h
 
 libmateinclude_HEADERS = \
-	libmatetypebuiltins.h	\
+	libmatetypebuiltins.h \
 	$(libmate_headers)
 
 mate_open_SOURCES = \
 	mate-open.c
 
 mate_open_LDADD = \
-	libmate-2.la	\
+	libmate-2.la \
 	$(LIBMATE_LIBS) \
 	$(GIO_LIBS)
 
@@ -134,8 +134,8 @@ distclean-local:
 	fi
 
 EXTRA_DIST = \
-	libmate-2.0.pc.in		\
-	libmate-2.0-uninstalled.pc.in	\
+	libmate-2.0.pc.in \
+	libmate-2.0-uninstalled.pc.in \
 	parse-path.cP
 
 libmate_2_la_LDFLAGS = \
@@ -143,7 +143,7 @@ libmate_2_la_LDFLAGS = \
 	-no-undefined \
 	-export-symbols-regex "^[^_].*"
 
-libmate_2_la_LIBADD =		\
+libmate_2_la_LIBADD = \
 	$(LIBMATE_LIBS)
 
 pkgconfigdir = $(libdir)/pkgconfig

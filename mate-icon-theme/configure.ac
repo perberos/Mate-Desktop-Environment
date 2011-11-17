@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.53)
 
-AC_INIT([mate-icon-theme], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
+AC_INIT([mate-icon-theme], [2011.11.16], [https://github.com/perberos/mate-desktop-environment])
 AC_CONFIG_SRCDIR([index.theme.in.in])
 
 AM_INIT_AUTOMAKE([1.9 tar-ustar foreign])
@@ -29,10 +29,10 @@ AC_SUBST([render_sizes], ["8x8 16x16 22x22 24x24 32x32 48x48 256x256"])
 
 # Allow icon mapping to be disabled
 AC_ARG_ENABLE([icon-mapping],
-	AC_HELP_STRING([--enable-icon-mapping],
-			[Enable compatibility symlinks [default=auto]]),
-	[enable_mapping=$enableval],
-	[enable_mapping=yes])
+    AC_HELP_STRING([--enable-icon-mapping],
+                   [Enable compatibility symlinks [default=auto]]),
+                   [enable_mapping=$enableval],
+                   [enable_mapping=yes])
 
 ICONMAP="true"
 if test "x$enable_mapping" != "xno"; then

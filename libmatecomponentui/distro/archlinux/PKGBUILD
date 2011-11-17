@@ -1,5 +1,5 @@
 pkgname=libmatecomponentui
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="User Interface library for MateComponent"
 arch=('i686' 'x86_64')
@@ -13,15 +13,18 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('f0244bd73211de2374f9e26f69d6780e9b1bc5e608ded217ef116a387e4b18fe')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static || return 1
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make DESTDIR="${pkgdir}" install
-	rm -f "${pkgdir}/usr/share/applications/matecomponent-browser.desktop"
+    make DESTDIR="${pkgdir}" install
+    rm -f "${pkgdir}/usr/share/applications/matecomponent-browser.desktop"
 }

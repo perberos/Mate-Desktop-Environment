@@ -1,5 +1,5 @@
 pkgname=mate-vfs
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=2
 pkgdesc="The MATE Virtual File System"
 arch=(i686 x86_64)
@@ -14,29 +14,30 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('b8792b042a68c8d97e3ce0523896533fc71b7964ce642935c5dbc447ab626c8d')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	#Fix build with new gnutls
-	#patch -Np1 -i "${srcdir}/gnutls-config.patch"
-	#libtoolize --force
-	#gtkdocize
-	#aclocal
-	#autoconf
-	#automake
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/${pkgname} \
-		--disable-samba --disable-hal \
-		--disable-avahi --disable-howl \
-		--disable-openssl || return 1
-		#--disable-openssl --enable-gnutls
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    #Fix build with new gnutls
+    #patch -Np1 -i "${srcdir}/gnutls-config.patch"
+
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static \
+        --libexecdir=/usr/lib/${pkgname} \
+        --disable-samba \
+        --disable-hal \
+        --disable-avahi \
+        --disable-howl \
+        --disable-openssl || return 1
+        #--disable-openssl --enable-gnutls
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
-	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+    cd "${srcdir}/${pkgname}"
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
 
-	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

@@ -1,8 +1,8 @@
 AC_PREREQ([2.60])
 
 m4_define([gsd_api_version_major],[2011])
-m4_define([gsd_api_version_minor],[10])
-m4_define([gsd_api_version_micro],[29])
+m4_define([gsd_api_version_minor],[11])
+m4_define([gsd_api_version_micro],[16])
 m4_define([gsd_api_version],
         [gsd_api_version_major.gsd_api_version_minor.gsd_api_version_micro])
 

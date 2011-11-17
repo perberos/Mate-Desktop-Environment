@@ -1,4 +1,4 @@
-AC_INIT([mate-control-center], [2011.10.29], [https://github.com/perberos/mate-desktop-environment])
+AC_INIT([mate-control-center], [2011.11.16], [https://github.com/perberos/mate-desktop-environment])
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([shell])

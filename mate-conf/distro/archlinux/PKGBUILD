@@ -1,5 +1,5 @@
 pkgname=mate-conf
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=3
 pkgdesc="A configuration database system"
 arch=(i686 x86_64)
@@ -11,30 +11,33 @@ options=('!libtool')
 install=mate-conf.install
 url="http://matsusoft.com.ar/projects"
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
-		mateconf-merge-schema
-		mateconfpkg)
+        mateconf-merge-schema
+        mateconfpkg)
 sha256sums=('8f0974bb50eb1026536e5c5fb61fea700f2e39d4cbcfc1f21889875d04841c3f'
             '78ccdb9c963400694c944ee193b2fa135dcb39e0d9f1dc393fa659131d591076'
             '2e06a02b5312ee7853be356c1b0131ce6e85fb2949c4aef54c1e795f27fdc1dd')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	# Python2 fix
-	sed -i '1s|#!/usr/bin/env python$|&2|' gsettings/gsettings-schema-convert
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--libexecdir=/usr/lib/MateConf \
-		--localstatedir=/var --disable-static \
-		--enable-defaults-service --enable-gsettings-backend=no || return 1
-	# --with-gtk=3.0
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    # Python2 fix
+    sed -i '1s|#!/usr/bin/env python$|&2|' gsettings/gsettings-schema-convert
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --libexecdir=/usr/lib/MateConf \
+        --localstatedir=/var \
+        --disable-static \
+        --enable-defaults-service --enable-gsettings-backend=no || return 1
+    # --with-gtk=3.0
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make DESTDIR="${pkgdir}" install || return 1
-	install -m755 -d "${pkgdir}/etc/mateconf/mateconf.xml.system" || return 1
-	install -m755 "${srcdir}/mateconf-merge-schema" "${pkgdir}/usr/bin/" || return 1
-	install -d -m755 "${pkgdir}/usr/sbin"
-	install -m755 "${srcdir}/mateconfpkg" "${pkgdir}/usr/sbin/" || return 1
+    make DESTDIR="${pkgdir}" install || return 1
+    install -m755 -d "${pkgdir}/etc/mateconf/mateconf.xml.system" || return 1
+    install -m755 "${srcdir}/mateconf-merge-schema" "${pkgdir}/usr/bin/" || return 1
+    install -d -m755 "${pkgdir}/usr/sbin"
+    install -m755 "${srcdir}/mateconfpkg" "${pkgdir}/usr/sbin/" || return 1
 }

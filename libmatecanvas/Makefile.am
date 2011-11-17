@@ -9,11 +9,11 @@ SUBDIRS += tests
 endif
 
 EXTRA_DIST = \
-	COPYING.LIB		\
-	NEWS			\
-	intltool-extract.in	\
-	intltool-merge.in	\
-	intltool-update.in	\
+	COPYING.LIB \
+	NEWS \
+	intltool-extract.in \
+	intltool-merge.in \
+	intltool-update.in \
 	libmatecanvas-zip.in
 
 DISTCLEANFILES = \

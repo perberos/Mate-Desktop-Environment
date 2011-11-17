@@ -1,5 +1,5 @@
 pkgname=mate-session-manager
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="The MATE Session Handler"
 arch=(i686 x86_64)
@@ -14,22 +14,25 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('0cc9452d94ec68c328c8abcb935666940332d12927178ad118bc44ad02a5f393')
 
 build() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-		--libexecdir=/usr/lib || return 1
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+	    --libexecdir=/usr/lib || return 1
 
-	make || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
+    make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
 
-	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+    install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
 
-	# --disable-schemas-compile <- check if work <- nop
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    # --disable-schemas-compile <- check if work <- nop
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

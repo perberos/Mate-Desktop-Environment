@@ -1,4 +1,4 @@
-AC_INIT([polkit-mate],[2011.10.29],[https://github.com/perberos/mate-desktop-environment],[polkit-mate])
+AC_INIT([polkit-mate],[2011.11.16],[https://github.com/perberos/mate-desktop-environment],[polkit-mate])
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 no-dist-gzip])
 

@@ -1,5 +1,5 @@
 pkgname=mate-desktop
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="Library with common API for various MATE modules"
 arch=(i686 x86_64)
@@ -13,19 +13,24 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('7ef26a54c748d765df59c4abe01fa1f0b87a2b17fa500921eefc888ad47503b3')
 
 build() {
-	cd "$srcdir/$pkgname"
+    cd "$srcdir/$pkgname"
 
-	PYTHON=/usr/bin/python2 ./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static --disable-scrollkeeper \
-		--disable-startup-notification --enable-unique --disable-nyancat || return 1
-
-	make || return 1
+    PYTHON=/usr/bin/python2 ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static \
+        --disable-scrollkeeper \
+        --disable-startup-notification \
+        --enable-unique || return 1
+    # --disable-nyancat
+    make || return 1
 }
 
 package() {
-	cd "$srcdir/$pkgname"
-	make DESTDIR="$pkgdir" install
+    cd "$srcdir/$pkgname"
+    make DESTDIR="$pkgdir" install
 
-	# prevent conflicts errors
-	mv "${pkgdir}/usr/share/omf" "${pkgdir}/usr/share/mate-omf"
+    # prevent conflicts errors
+    mv "${pkgdir}/usr/share/omf" "${pkgdir}/usr/share/mate-omf"
 }

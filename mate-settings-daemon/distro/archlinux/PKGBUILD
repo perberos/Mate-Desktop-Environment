@@ -1,5 +1,5 @@
 pkgname=mate-settings-daemon
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=2
 pkgdesc="The MATE Settings daemon"
 arch=('i686' 'x86_64')
@@ -14,27 +14,26 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('29149162282625c2c37ed8d5772318de320b2fbef2f293be6d7fa95c711fa7e6')
 
 build() {
-	cd "$srcdir/$pkgname"
-	#libtoolize --force || return 1
-	#aclocal || return 1
-	#autoconf || return 1
-	#automake || return 1
-
-	# Remove --disable-pulse if you want pulseaudio support
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-		--libexecdir=/usr/bin/${pkgname} \
-		--disable-static --disable-pulse --disable-schemas-install \
-		--enable-polkit || return 1
-
-	make || return 1
+    cd "$srcdir/$pkgname"
+    # Remove --disable-pulse if you want pulseaudio support
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --libexecdir=/usr/bin/${pkgname} \
+        --disable-static \
+        --disable-pulse \
+        --disable-schemas-install \
+        --enable-polkit || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
+    make DESTDIR="${pkgdir}" MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 install || return 1
 
-	install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    install -d -m755 "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

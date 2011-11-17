@@ -1,5 +1,5 @@
 pkgname=mate-display-manager
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="The MATE Display Manager"
 arch=(i686 x86_64)
@@ -12,9 +12,9 @@ install=mate-display-manager.install
 url="http://matsusoft.com.ar/projects"
 groups=('mate-extras')
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
-		mdm
-		mdm.pam
-		mdm-autologin.pam)
+        mdm
+        mdm.pam
+        mdm-autologin.pam)
 sha256sums=('26b3007b4453d4590e5b71e38b7527b4519e858e77034224960cf70b978da89a'
             '512de7022bd88d14cfe84b43bc29dc6f211fec28ba76e0e71470799c4292f036'
             '3f71291bcce5728373e796c02ddf3a45c69e8823044f568f23ba4241242d13f5'
@@ -22,39 +22,43 @@ sha256sums=('26b3007b4453d4590e5b71e38b7527b4519e858e77034224960cf70b978da89a'
 backup=('etc/pam.d/mdm' 'etc/pam.d/mdm-autologin' 'etc/mdm/custom.conf')
 
 build() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/mdm \
-		--localstatedir=/var --disable-static \
-		--with-at-spi-registryd-directory=/usr/lib/at-spi \
-		--disable-scrollkeeper --disable-debug || return 1
+    ./autogen.sh --prefix=/usr \
+        --sysconfdir=/etc \
+        --libexecdir=/usr/lib/mdm \
+        --localstatedir=/var \
+        --disable-static \
+        --with-at-spi-registryd-directory=/usr/lib/at-spi \
+        --disable-scrollkeeper \
+        --disable-debug || return 1
 
-	make
+    make
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
-	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+    install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 
-	# fix for wrong path to executables
-	_path=${pkgdir}/usr/share/mdm/autostart/LoginWindow
+    # fix for wrong path to executables
+    _path=${pkgdir}/usr/share/mdm/autostart/LoginWindow
 
-	sed -i 's_/usr/lib/mdm/_/usr/lib/polkit-mate/_' ${_path}/polkit-mate-authentication-agent-1.desktop
-	sed -i 's_/usr/lib/mdm/__' ${_path}/mate-settings-daemon.desktop
+    sed -i 's_/usr/lib/mdm/_/usr/lib/polkit-mate/_' ${_path}/polkit-mate-authentication-agent-1.desktop
+    sed -i 's_/usr/lib/mdm/__' ${_path}/mate-settings-daemon.desktop
 
 
-	install -m644 "${srcdir}/mdm.pam" "${pkgdir}/etc/pam.d/mdm"
-	install -m644 "${srcdir}/mdm-autologin.pam" "${pkgdir}/etc/pam.d/mdm-autologin"
+    install -m644 "${srcdir}/mdm.pam" "${pkgdir}/etc/pam.d/mdm"
+    install -m644 "${srcdir}/mdm-autologin.pam" "${pkgdir}/etc/pam.d/mdm-autologin"
 
-	install -m755 -d "${pkgdir}/etc/rc.d"
-	install -m755 "${srcdir}/mdm" "${pkgdir}/etc/rc.d/"
+    install -m755 -d "${pkgdir}/etc/rc.d"
+    install -m755 "${srcdir}/mdm" "${pkgdir}/etc/rc.d/"
 
-	#rmdir "${pkgdir}/var/mdm"
-	#mdkir "${pkgdir}/var/log/mdm"
-	#chmod 1770 "${pkgdir}/var/log/mdm"
-	#rm -rf "${pkgdir}/var/run"
+    #rmdir "${pkgdir}/var/mdm"
+    #mdkir "${pkgdir}/var/log/mdm"
+    #chmod 1770 "${pkgdir}/var/log/mdm"
+    #rm -rf "${pkgdir}/var/run"
 }

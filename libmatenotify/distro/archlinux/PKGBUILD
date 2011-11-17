@@ -1,5 +1,5 @@
 pkgname=libmatenotify
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="Desktop notification library"
 arch=('i686' 'x86_64')
@@ -13,12 +13,14 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('2378841fb2cdc0f86532260e4a90bf545e9b1f8b37d18c225a1ffa7d9f2f7dbd')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --disable-static || return 1
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr \
+        --disable-static || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
-	make DESTDIR="${pkgdir}" install || return 1
+    cd "${srcdir}/${pkgname}"
+    make DESTDIR="${pkgdir}" install || return 1
 }

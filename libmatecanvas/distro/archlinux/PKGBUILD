@@ -1,5 +1,5 @@
 pkgname=libmatecanvas
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="The MATE Canvas library"
 arch=('i686' 'x86_64')
@@ -13,15 +13,16 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('ecbd0fc591406998a8cfae82d080edf5f86e3858dd44ea4dfb325c8d9dadb4bc')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --disable-static \
-		--enable-glade || return 1
-	#--with-gtk=3.0
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr --disable-static \
+	    --enable-glade || return 1
+    #--with-gtk=3.0
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make DESTDIR="${pkgdir}" install
+    make DESTDIR="${pkgdir}" install
 }

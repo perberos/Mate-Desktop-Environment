@@ -1,7 +1,7 @@
 INCLUDES = \
-	-I$(top_srcdir) 				\
-	$(LIBMATE_CFLAGS)				\
-	-DG_LOG_DOMAIN=\"libmate\"			\
+	-I$(top_srcdir) \
+	$(LIBMATE_CFLAGS) \
+	-DG_LOG_DOMAIN=\"libmate\" \
 	-DVERSION=\"$(VERSION)\"
 
 MATE_Moniker_std.server.in: MATE_Moniker_std.server.in.in
@@ -25,12 +25,12 @@ endif
 
 moniker_LTLIBRARIES = libmoniker_extra_2.la
 
-libmoniker_extra_2_la_SOURCES =			\
-	matecomponent-config-bag.c			\
-	matecomponent-config-bag.h			\
-	matecomponent-moniker-config.c			\
-	matecomponent-moniker-conf-indirect.c		\
-	matecomponent-moniker-extra.h            	\
+libmoniker_extra_2_la_SOURCES = \
+	matecomponent-config-bag.c \
+	matecomponent-config-bag.h \
+	matecomponent-moniker-config.c \
+	matecomponent-moniker-conf-indirect.c \
+	matecomponent-moniker-extra.h \
 	matecomponent-moniker-extra.c
 
 libmoniker_extra_2_la_LDFLAGS = -module -avoid-version -no-undefined

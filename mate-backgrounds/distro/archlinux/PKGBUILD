@@ -1,5 +1,5 @@
 pkgname=mate-backgrounds
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="Background images and data for MATE"
 arch=('any')
@@ -10,12 +10,14 @@ groups=('mate')
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download)
 sha256sums=('5ac6b2892eee154667f822eb4177693b94bc9e4839c413b67a7c970dababb506')
 
-
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var || return 1
 
-	make || return 1
+    make || return 1
 }
 
 package() {

@@ -1,22 +1,22 @@
 NULL =
 
 schema_in_files = \
-	desktop_mate_accessibility_keyboard.schemas.in		\
-	desktop_mate_accessibility_startup.schemas.in		\
-	desktop_mate_applications_at_visual.schemas.in		\
-	desktop_mate_applications_at_mobility.schemas.in	\
-	desktop_mate_applications_browser.schemas.in		\
-	desktop_mate_applications_terminal.schemas.in		\
-	desktop_mate_applications_window_manager.schemas.in	\
-	desktop_mate_applications_office.schemas.in		\
-	desktop_mate_file_views.schemas.in			\
-	desktop_mate_lockdown.schemas.in			\
-	desktop_mate_peripherals_mouse.schemas.in		\
-	desktop_mate_peripherals_keyboard.schemas.in		\
-	desktop_mate_sound.schemas.in				\
-	desktop_mate_typing_break.schemas.in			\
-	desktop_mate_thumbnail_cache.schemas.in		\
-	desktop_mate_thumbnailers.schemas.in			\
+	desktop_mate_accessibility_keyboard.schemas.in \
+	desktop_mate_accessibility_startup.schemas.in \
+	desktop_mate_applications_at_visual.schemas.in \
+	desktop_mate_applications_at_mobility.schemas.in \
+	desktop_mate_applications_browser.schemas.in \
+	desktop_mate_applications_terminal.schemas.in \
+	desktop_mate_applications_window_manager.schemas.in \
+	desktop_mate_applications_office.schemas.in \
+	desktop_mate_file_views.schemas.in \
+	desktop_mate_lockdown.schemas.in \
+	desktop_mate_peripherals_mouse.schemas.in \
+	desktop_mate_peripherals_keyboard.schemas.in \
+	desktop_mate_sound.schemas.in \
+	desktop_mate_typing_break.schemas.in \
+	desktop_mate_thumbnail_cache.schemas.in \
+	desktop_mate_thumbnailers.schemas.in \
 	$(NULL)
 
 desktop_mate_background.schemas.in: desktop_mate_background.schemas.in.in Makefile
@@ -25,9 +25,9 @@ desktop_mate_background.schemas.in: desktop_mate_background.schemas.in.in Makefi
 
 schemadir= $(MATECONF_SCHEMA_FILE_DIR)
 schema_DATA = \
-	$(schema_in_files:.schemas.in=.schemas)	\
-	desktop_mate_background.schemas	\
-	desktop_mate_interface.schemas		\
+	$(schema_in_files:.schemas.in=.schemas) \
+	desktop_mate_background.schemas \
+	desktop_mate_interface.schemas \
 	$(NULL)
 
 @INTLTOOL_SCHEMAS_RULE@
@@ -61,11 +61,11 @@ install-data-local:
 endif
 
 EXTRA_DIST = \
-	$(schema_in_files)			\
-	desktop_mate_background.schemas.in.in	\
+	$(schema_in_files) \
+	desktop_mate_background.schemas.in.in \
 	$(NULL)
 
 CLEANFILES = \
-	$(schema_DATA)				\
-	desktop_mate_background.schemas.in	\
+	$(schema_DATA) \
+	desktop_mate_background.schemas.in \
 	$(NULL)

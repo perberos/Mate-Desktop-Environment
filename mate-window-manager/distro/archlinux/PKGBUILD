@@ -1,5 +1,5 @@
 pkgname=mate-window-manager
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="A window manager for MATE"
 arch=(i686 x86_64)
@@ -11,25 +11,30 @@ install=mate-window-manager.install
 url="http://matsusoft.com.ar/projects"
 groups=('mate')
 source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz/download
-		metacity-restartstyle.patch)
+        metacity-restartstyle.patch)
 sha256sums=('7f85966aa18eb0e1d2895cb0305bad03dc95da4e4828a194ebb6d7cfeca88ca8'
             'ea2450ca3e4fb59166ec18ff4844cc61cb16865880dc6b125078a3ab47bf2caf')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	patch -Np1 -i "${srcdir}/metacity-restartstyle.patch" || return 1
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
-		--libexecdir=/usr/lib/${pkgname} --disable-static \
-		--disable-startup-notification  --disable-scrollkeeper || return 1
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    patch -Np1 -i "${srcdir}/metacity-restartstyle.patch" || return 1
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --libexecdir=/usr/lib/${pkgname} \
+        --disable-static \
+        --disable-startup-notification \
+        --disable-scrollkeeper || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
 
-	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }

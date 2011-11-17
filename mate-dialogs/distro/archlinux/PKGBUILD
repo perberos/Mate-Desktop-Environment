@@ -1,5 +1,5 @@
 pkgname=mate-dialogs
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="Display graphical dialog boxes from shell scripts"
 arch=(i686 x86_64)
@@ -15,16 +15,20 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('08bf485c56238fdd4478faa7bd6c5caa54b07e2d7509eed802f1c09ed883f5f3')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static --disable-scrollkeeper || return 1
-	make || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static \
+        --disable-scrollkeeper || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make DESTDIR="${pkgdir}" install
-	# hax!
-	ln -s matedialog ${pkgdir}/usr/bin/zenity
+    make DESTDIR="${pkgdir}" install
+    # hax!
+    ln -s matedialog ${pkgdir}/usr/bin/zenity
 }

@@ -1,5 +1,5 @@
 pkgname=libmatekeyring
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="MATE keyring client library"
 arch=('i686' 'x86_64')
@@ -13,12 +13,15 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('8aca6fe6095898dab4c5e5ff74589995639fdb19abbcdf015209b5264e0e2d93')
 
 build() {
-	cd "${srcdir}/${pkgname}"
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/mate-keyring || return 1
+    cd "${srcdir}/${pkgname}"
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static \
+        --libexecdir=/usr/lib/mate-keyring || return 1
 
-	make || return 1
+    make || return 1
 }
 
 package() {

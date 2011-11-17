@@ -1,5 +1,5 @@
 pkgname=libmate
-pkgver=2011.10.29
+pkgver=2011.11.16
 pkgrel=1
 pkgdesc="Common libraries for MATE"
 arch=('i686' 'x86_64')
@@ -21,26 +21,29 @@ source=(http://sourceforge.net/projects/matede/files/${pkgver}/${pkgname}.tar.gz
 sha256sums=('725603d5196ec3d99e1a1ae85f5f7bbbc0eeca22e89084bc8fcf1947ed43e562')
 
 build() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	# Optional Features:
-	#    --enable-esd            Enable ESounD (default=no)
-	#    --enable-canberra       Enable canberra (default=yes)
-	./configure --prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static \
-		--libexecdir=/usr/lib/${pkgname} \
-		--disable-canberra \
-		--disable-schemas-install || return 1
+    # Optional Features:
+    #    --enable-esd            Enable ESounD (default=no)
+    #    --enable-canberra       Enable canberra (default=yes)
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static \
+        --libexecdir=/usr/lib/${pkgname} \
+        --disable-canberra \
+        --disable-schemas-install || return 1
 
-	make || return 1
+    make || return 1
 }
 
 package() {
-	cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}"
 
-	make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1  DESTDIR="${pkgdir}" install || return 1
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1  DESTDIR="${pkgdir}" install || return 1
 
-	install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
-	mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
-	rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+    install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
 }
