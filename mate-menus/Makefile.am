@@ -8,8 +8,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-introspection --enable-python
 
-EXTRA_DIST = 			\
-	HACKING			\
+EXTRA_DIST = \
+	HACKING \
 	MAINTAINERS
 
 MAINTAINERCLEANFILES = \
