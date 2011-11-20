@@ -1,7 +1,7 @@
 menudir = $(sysconfdir)/xdg/menus
 
-menu_DATA =			\
-	mate-applications.menu	\
+menu_DATA = \
+	mate-applications.menu \
 	mate-settings.menu
 
 EXTRA_DIST= $(menu_DATA)
