@@ -1647,6 +1647,28 @@ static void set_up_scripts_directory_global(void)
 	{
 		scripts_directory_uri = g_filename_to_uri(scripts_directory_path, NULL, NULL);
 		scripts_directory_uri_length = strlen(scripts_directory_uri);
+
+
+		/* Emulación de GNOME Nautilus scripts
+		 */
+		char* nautilus_scripts_path = g_build_filename(g_get_home_dir(), ".gnome2", "nautilus-scripts", NULL);
+
+		if (g_file_test(nautilus_scripts_path, G_FILE_TEST_IS_DIR) == TRUE)
+		{
+			char* nautilus_syslink = g_build_filename(g_get_home_dir(), ".config", "caja", "scripts", "nautilus", NULL);
+			// G_FILE_TEST_IS_REGULAR
+			if (g_file_test(nautilus_syslink, G_FILE_TEST_IS_SYMLINK) == FALSE &&
+				g_file_test(nautilus_syslink, G_FILE_TEST_EXISTS) == FALSE &&
+				g_file_test(nautilus_syslink, G_FILE_TEST_IS_DIR) == FALSE)
+			{
+				/* creamos un enlace a la carpeta de nautilus */
+				symlink(nautilus_scripts_path, nautilus_syslink);
+			}
+
+			g_free(nautilus_syslink);
+		}
+
+		g_free(nautilus_scripts_path);
 	}
 
 	g_free(scripts_directory_path);
