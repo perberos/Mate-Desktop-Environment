@@ -1,4 +1,4 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 
 /*
  *  Caja
@@ -76,13 +76,12 @@
 #include <libcaja-extension/caja-menu-provider.h>
 #include <libcaja-private/caja-autorun.h>
 
-enum
-{
-    COMMAND_0, /* unused: 0 is an invalid command */
+enum {
+	COMMAND_0, /* unused: 0 is an invalid command */
 
-    COMMAND_START_DESKTOP,
-    COMMAND_STOP_DESKTOP,
-    COMMAND_OPEN_BROWSER,
+	COMMAND_START_DESKTOP,
+	COMMAND_STOP_DESKTOP,
+	COMMAND_OPEN_BROWSER,
 };
 
 /* Keep window from shrinking down ridiculously small; numbers are somewhat arbitrary */

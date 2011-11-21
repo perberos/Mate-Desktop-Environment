@@ -2,38 +2,38 @@ include $(top_srcdir)/Makefile.shared
 
 noinst_LTLIBRARIES=libcaja-private.la
 
-INCLUDES = 						\
-	-I$(top_srcdir) 				\
-	-I$(top_builddir) 				\
-	-I$(top_srcdir)/cut-n-paste-code		\
-	$(CORE_CFLAGS)					\
-	$(WARNING_CFLAGS)				\
-	$(DISABLE_DEPRECATED_CFLAGS)			\
-	$(TRACKER_CFLAGS)				\
-	$(BEAGLE_CFLAGS)				\
-	-DDATADIR=\""$(datadir)"\" 			\
-	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
-	-DCAJA_DATADIR=\""$(datadir)/caja"\" 	\
+INCLUDES = \
+	-I$(top_srcdir) \
+	-I$(top_builddir) \
+	-I$(top_srcdir)/cut-n-paste-code \
+	$(CORE_CFLAGS) \
+	$(WARNING_CFLAGS) \
+	$(DISABLE_DEPRECATED_CFLAGS) \
+	$(TRACKER_CFLAGS) \
+	$(BEAGLE_CFLAGS) \
+	-DDATADIR=\""$(datadir)"\" \
+	-DSYSCONFDIR=\""$(sysconfdir)"\" \
+	-DCAJA_DATADIR=\""$(datadir)/caja"\" \
 	-DCAJA_EXTENSIONDIR=\""$(libdir)/caja/extensions-2.0"\" \
 	$(UNIQUE_CFLAGS) \
 	$(NULL)
 
 dependency_static_libs = \
 	$(top_builddir)/cut-n-paste-code/libegg/libegg.la \
-        $(NULL)
-
-libcaja_private_la_LDFLAGS =	\
-	-no-undefined			\
 	$(NULL)
 
-libcaja_private_la_LIBADD =		\
-	$(dependency_static_libs)	\
-	$(SELINUX_LIBS)			\
-	$(BEAGLE_LIBS)			\
-	$(TRACKER_LIBS)			\
+libcaja_private_la_LDFLAGS = \
+	-no-undefined \
+	$(NULL)
+
+libcaja_private_la_LIBADD = \
+	$(dependency_static_libs) \
+	$(SELINUX_LIBS) \
+	$(BEAGLE_LIBS) \
+	$(TRACKER_LIBS) \
 	$(top_builddir)/eel/libeel-2.la \
 	$(top_builddir)/libcaja-extension/libcaja-extension.la \
-	$(CORE_LIBS)			\
+	$(CORE_LIBS) \
 	$(NULL)
 
 marshal_sources = \
@@ -213,8 +213,8 @@ caja-marshal-guts.c: caja-marshal.list $(GLIB_GENMARSHAL)
 $(libcaja_private_la_OBJECTS): $(marshal_sources)
 
 
-schema_in_files =  apps_caja_preferences.schemas.in
-schemadir   = $(MATECONF_SCHEMA_FILE_DIR)
+schema_in_files = apps_caja_preferences.schemas.in
+schemadir = $(MATECONF_SCHEMA_FILE_DIR)
 schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
@@ -229,16 +229,16 @@ install-data-local:
 	fi
 endif
 
-EXTRA_DIST = 				\
-	caja-marshal.list		\
-	$(schema_in_files)              \
-	$(BEAGLE_SOURCES)		\
-	$(TRACKER_SOURCES)		\
+EXTRA_DIST = \
+	caja-marshal.list \
+	$(schema_in_files) \
+	$(BEAGLE_SOURCES) \
+	$(TRACKER_SOURCES) \
 	$(NULL)
 
 CLEANFILES = \
-	$(marshal_sources)				\
-	$(schema_DATA)			                \
+	$(marshal_sources) \
+	$(schema_DATA) \
 	$(NULL)
 
 dist-hook:

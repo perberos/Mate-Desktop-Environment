@@ -1,5 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  *  Caja
  *
@@ -83,20 +81,18 @@
 #define CAJA_MENU_PATH_SHORT_LIST_PLACEHOLDER  	"/MenuBar/View/View Choices/Short List"
 #define CAJA_MENU_PATH_AFTER_SHORT_LIST_SEPARATOR   "/MenuBar/View/View Choices/After Short List"
 
-enum
-{
-    ARG_0,
-    ARG_APP
+enum {
+	ARG_0,
+	ARG_APP
 };
 
-enum
-{
-    GO_UP,
-    RELOAD,
-    PROMPT_FOR_LOCATION,
-    ZOOM_CHANGED,
-    VIEW_AS_CHANGED,
-    LAST_SIGNAL
+enum {
+	GO_UP,
+	RELOAD,
+	PROMPT_FOR_LOCATION,
+	ZOOM_CHANGED,
+	VIEW_AS_CHANGED,
+	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };

@@ -4,7 +4,7 @@ include $(top_srcdir)/Makefile.shared
 
 lib_LTLIBRARIES=libcaja-extension.la
 
-INCLUDES=\
+INCLUDES = \
 	-I$(top_srcdir) \
 	-I$(top_builddir) \
 	$(LIBCAJA_EXTENSION_CFLAGS) \
@@ -23,34 +23,34 @@ libcaja_extension_la_LIBADD = $(LIBCAJA_EXTENSION_LIBS)
 
 libcaja_extension_includedir=$(includedir)/caja/libcaja-extension
 
-libcaja_extension_include_HEADERS=		\
-	caja-column-provider.h              \
-	caja-column.h                       \
-	caja-extension-types.h              \
-	caja-file-info.h                    \
-	caja-info-provider.h                \
-	caja-location-widget-provider.h     \
-	caja-menu-item.h                    \
-	caja-menu-provider.h                \
-	caja-property-page-provider.h       \
-	caja-property-page.h                \
-	caja-menu.h                         \
+libcaja_extension_include_HEADERS = \
+	caja-column-provider.h \
+	caja-column.h \
+	caja-extension-types.h \
+	caja-file-info.h \
+	caja-info-provider.h \
+	caja-location-widget-provider.h \
+	caja-menu-item.h \
+	caja-menu-provider.h \
+	caja-property-page-provider.h \
+	caja-property-page.h \
+	caja-menu.h \
 	$(NULL)
 
-libcaja_extension_la_SOURCES=			\
-	caja-column-provider.c                      \
-	caja-column.c                               \
-	caja-extension-i18n.h                       \
-	caja-extension-types.c                      \
-	caja-extension-private.h			\
-	caja-file-info.c                            \
-	caja-info-provider.c                        \
-	caja-location-widget-provider.c             \
-	caja-menu-item.c                            \
-	caja-menu-provider.c                        \
-	caja-property-page-provider.c               \
-	caja-property-page.c                        \
-	caja-menu.c                                 \
+libcaja_extension_la_SOURCES = \
+	caja-column-provider.c \
+	caja-column.c \
+	caja-extension-i18n.h \
+	caja-extension-types.c \
+	caja-extension-private.h \
+	caja-file-info.c \
+	caja-info-provider.c \
+	caja-location-widget-provider.c \
+	caja-menu-item.c \
+	caja-menu-provider.c \
+	caja-property-page-provider.c \
+	caja-property-page.c \
+	caja-menu.c \
 	$(NULL)
 
 pkgconfigdir=$(libdir)/pkgconfig
@@ -66,8 +66,8 @@ INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 
 if HAVE_INTROSPECTION
-introspection_files =					\
-	$(libcaja_extension_include_HEADERS)	\
+introspection_files = \
+	$(libcaja_extension_include_HEADERS) \
 	$(libcaja_extension_la_SOURCES)
 Caja-2.0.gir: libcaja-extension.la Makefile
 Caja_2_0_gir_INCLUDES = Gtk-2.0 Gio-2.0 GLib-2.0

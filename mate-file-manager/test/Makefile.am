@@ -6,7 +6,7 @@ INCLUDES =\
 	$(WARNING_CFLAGS) \
 	-DVERSION="\"$(VERSION)\"" \
 	-DCAJA_DATADIR=\""$(datadir)/caja"\" \
-	-DMATELOCALEDIR=\""$(prefix)/${DATADIRNAME}/locale"\"	\
+	-DMATELOCALEDIR=\""$(prefix)/${DATADIRNAME}/locale"\" \
 	$(NULL)
 
 LDADD =\
@@ -20,7 +20,7 @@ noinst_PROGRAMS =\
 	test-caja-directory-async \
 	test-caja-copy \
 	test-eel-background \
-	test-eel-editable-label	\
+	test-eel-editable-label \
 	test-eel-image-scrolled \
 	test-eel-image-table \
 	test-eel-labeled-image \

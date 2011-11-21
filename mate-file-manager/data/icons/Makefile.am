@@ -1,7 +1,7 @@
 NULL =
 
 public_icons_themes = \
-	hicolor	\
+	hicolor \
 	$(NULL)
 
 public_icons = \
@@ -25,9 +25,9 @@ noinst_DATA = \
 	$(NULL)
 
 EXTRA_DIST = \
-	$(public_icons)		\
-	$(private_icons)	\
-	$(noinst_DATA)		\
+	$(public_icons) \
+	$(private_icons) \
+	$(noinst_DATA) \
 	$(NULL)
 
 ###############################################################################

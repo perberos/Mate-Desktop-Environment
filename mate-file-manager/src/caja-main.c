@@ -1,5 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: 8; c-basic-offset: 8 -*- */
-
 /*
  * Caja
  *
@@ -51,32 +49,30 @@
 #include <libcaja-private/caja-icon-names.h>
 #include <libxml/parser.h>
 #ifdef HAVE_LOCALE_H
-#include <locale.h>
+	#include <locale.h>
 #endif
 #ifdef HAVE_MALLOC_H
-#include <malloc.h>
+	#include <malloc.h>
 #endif
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 #ifdef HAVE_EXEMPI
-#include <exempi/xmp.h>
+	#include <exempi/xmp.h>
 #endif
 
 /* Keeps track of everyone who wants the main event loop kept active */
-static GSList *event_loop_registrants;
+static GSList* event_loop_registrants;
 
 static gboolean exit_with_last_window = TRUE;
 
-static gboolean
-is_event_loop_needed (void)
+static gboolean is_event_loop_needed(void)
 {
-    return event_loop_registrants != NULL || !exit_with_last_window;
+	return event_loop_registrants != NULL || !exit_with_last_window;
 }
 
-static int
-quit_if_in_main_loop (gpointer callback_data)
+static int quit_if_in_main_loop (gpointer callback_data)
 {
     guint level;
 
@@ -96,8 +92,7 @@ quit_if_in_main_loop (gpointer callback_data)
     return level > 1;
 }
 
-static void
-eel_gtk_main_quit_all (void)
+static void eel_gtk_main_quit_all (void)
 {
     /* Calling gtk_main_quit directly only kills the current/top event loop.
      * This idler will be run by the current event loop, killing it, and then
@@ -106,32 +101,29 @@ eel_gtk_main_quit_all (void)
     g_idle_add (quit_if_in_main_loop, NULL);
 }
 
-static void
-event_loop_unregister (GtkObject *object)
+static void event_loop_unregister (GtkObject *object)
 {
     event_loop_registrants = g_slist_remove (event_loop_registrants, object);
+    
     if (!is_event_loop_needed ())
     {
         eel_gtk_main_quit_all ();
     }
 }
 
-void
-caja_main_event_loop_register (GtkObject *object)
+void caja_main_event_loop_register (GtkObject *object)
 {
     g_signal_connect (object, "destroy", G_CALLBACK (event_loop_unregister), NULL);
     event_loop_registrants = g_slist_prepend (event_loop_registrants, object);
 }
 
-gboolean
-caja_main_is_event_loop_mainstay (GtkObject *object)
+gboolean caja_main_is_event_loop_mainstay (GtkObject *object)
 {
     return g_slist_length (event_loop_registrants) == 1
            && event_loop_registrants->data == object;
 }
 
-void
-caja_main_event_loop_quit (gboolean explicit)
+void caja_main_event_loop_quit (gboolean explicit)
 {
     if (explicit)
     {
@@ -160,8 +152,7 @@ caja_main_event_loop_quit (gboolean explicit)
     }
 }
 
-static void
-dump_debug_log (void)
+static void dump_debug_log (void)
 {
     char *filename;
 
@@ -172,8 +163,7 @@ dump_debug_log (void)
 
 static int debug_log_pipes[2];
 
-static gboolean
-debug_log_io_cb (GIOChannel *io, GIOCondition condition, gpointer data)
+static gboolean debug_log_io_cb (GIOChannel *io, GIOCondition condition, gpointer data)
 {
     char a;
 
@@ -187,8 +177,7 @@ debug_log_io_cb (GIOChannel *io, GIOCondition condition, gpointer data)
     return FALSE;
 }
 
-static void
-sigusr1_handler (int sig)
+static void sigusr1_handler (int sig)
 {
     while (write (debug_log_pipes[1], "a", 1) != 1)
         ;
@@ -505,8 +494,7 @@ main (int argc, char *argv[])
     caja_global_preferences_init ();
 
     /* exit_with_last_window being FALSE, caja can run without window. */
-    exit_with_last_window =
-        eel_preferences_get_boolean (CAJA_PREFERENCES_EXIT_WITH_LAST_WINDOW);
+    exit_with_last_window = eel_preferences_get_boolean (CAJA_PREFERENCES_EXIT_WITH_LAST_WINDOW);
 
     if (no_desktop)
     {
@@ -521,17 +509,17 @@ main (int argc, char *argv[])
     /* Do either the self-check or the real work. */
     if (perform_self_check)
     {
-#ifndef CAJA_OMIT_SELF_CHECK
-        /* Run the checks (each twice) for caja and libcaja-private. */
+		#ifndef CAJA_OMIT_SELF_CHECK
+			/* Run the checks (each twice) for caja and libcaja-private. */
 
-        caja_run_self_checks ();
-        caja_run_lib_self_checks ();
-        eel_exit_if_self_checks_failed ();
+			caja_run_self_checks ();
+			caja_run_lib_self_checks ();
+			eel_exit_if_self_checks_failed ();
 
-        caja_run_self_checks ();
-        caja_run_lib_self_checks ();
-        eel_exit_if_self_checks_failed ();
-#endif
+			caja_run_self_checks ();
+			caja_run_lib_self_checks ();
+			eel_exit_if_self_checks_failed ();
+		#endif
     }
     else
     {
@@ -554,7 +542,7 @@ main (int argc, char *argv[])
                 }
             }
             g_ptr_array_add (uris_array, NULL);
-            uris = (char **)g_ptr_array_free (uris_array, FALSE);
+            uris = (char**) g_ptr_array_free (uris_array, FALSE);
             g_strfreev (remaining);
         }
 
