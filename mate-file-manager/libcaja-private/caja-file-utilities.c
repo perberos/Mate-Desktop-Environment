@@ -124,28 +124,26 @@ caja_get_user_directory (void)
  *
  * Return value: the filename path, or NULL if the home directory could not be found
  **/
-char *
-caja_get_accel_map_file (void)
+char* caja_get_accel_map_file(void)
 {
-    const gchar *override;
+	const gchar* override;
 
-    override = g_getenv ("MATE22_USER_DIR");
+	override = g_getenv ("MATE22_USER_DIR");
 
-    if (override)
-    {
-        return g_build_filename (override, "accels/caja", NULL);
-    }
-    else
-    {
-        return g_build_filename (g_get_home_dir (), ".mate2/accels/caja", NULL);
-    }
+	if (override)
+	{
+		return g_build_filename(override, "accels", "caja", NULL);
+	}
+	else
+	{
+		return g_build_filename(g_get_home_dir(), ".config", "accels", "caja", NULL);
+	}
 }
 
-typedef struct
-{
-    char *type;
-    char *path;
-    CajaFile *file;
+typedef struct {
+	char*type;
+	char*path;
+	CajaFile* file;
 } XdgDirEntry;
 
 
@@ -1239,12 +1237,14 @@ caja_is_in_system_dir (GFile *file)
     if (!res)
     {
         /* Panel desktop files are here, trust them */
-        mate2 = g_build_filename (g_get_home_dir (), ".mate2", NULL);
+        mate2 = g_build_filename(g_get_home_dir(), ".mate2", NULL);
+
         if (g_str_has_prefix (path, mate2))
         {
             res = TRUE;
         }
-        g_free (mate2);
+
+        g_free(mate2);
     }
     g_free (path);
 

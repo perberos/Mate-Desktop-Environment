@@ -1624,35 +1624,32 @@ lockdown_disable_command_line_changed_callback (gpointer callback_data)
 	schedule_update_menus (view);
 }
 
-static void
-set_up_scripts_directory_global (void)
+static void set_up_scripts_directory_global(void)
 {
-	char *scripts_directory_path;
-	const char *override;
-
-	if (scripts_directory_uri != NULL) {
+	if (scripts_directory_uri != NULL)
+	{
 		return;
 	}
 
-	override = g_getenv ("MATE22_USER_DIR");
+	char* scripts_directory_path;
+	const char* override = g_getenv ("MATE22_USER_DIR"); //TODO: quitar?
 
-	if (override) {
-		scripts_directory_path = g_build_filename (override,
-							   "caja-scripts",
-							   NULL);
-	} else {
-		scripts_directory_path = g_build_filename (g_get_home_dir (),
-							   ".mate2",
-							   "caja-scripts",
-							   NULL);
+	if (override)
+	{
+		scripts_directory_path = g_build_filename(override, "caja", "scripts", NULL);
+	}
+	else
+	{
+		scripts_directory_path = g_build_filename(g_get_home_dir(), ".config", "caja", "scripts", NULL);
 	}
 
-	if (g_mkdir_with_parents (scripts_directory_path, 0755) == 0) {
-		scripts_directory_uri = g_filename_to_uri (scripts_directory_path, NULL, NULL);
-		scripts_directory_uri_length = strlen (scripts_directory_uri);
+	if (g_mkdir_with_parents(scripts_directory_path, 0755) == 0)
+	{
+		scripts_directory_uri = g_filename_to_uri(scripts_directory_path, NULL, NULL);
+		scripts_directory_uri_length = strlen(scripts_directory_uri);
 	}
 
-	g_free (scripts_directory_path);
+	g_free(scripts_directory_path);
 }
 
 static void
@@ -7477,7 +7474,7 @@ real_merge_menus (FMDirectoryView *view)
 				      view);
 
 	/* Translators: %s is a directory */
-	tooltip = g_strdup_printf (_("Run or manage scripts from %s"), "~/.mate2/caja-scripts");
+	tooltip = g_strdup_printf(_("Run or manage scripts from %s"), "~/.config/caja/scripts");
 	/* Create a script action here specially because its tooltip is dynamic */
 	action = gtk_action_new ("Scripts", _("_Scripts"), tooltip, NULL);
 	gtk_action_group_add_action (action_group, action);
