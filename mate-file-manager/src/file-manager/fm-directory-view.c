@@ -5128,68 +5128,93 @@ get_directory_view_of_extra_pane (FMDirectoryView *view)
  * Set up some environment variables that scripts can use
  * to take advantage of the current Caja state.
  */
-static void
-set_script_environment_variables (FMDirectoryView *view, GList *selected_files)
+static void set_script_environment_variables(FMDirectoryView* view, GList* selected_files)
 {
-	char *file_paths;
-	char *uris;
-	char *uri;
-	char *geometry_string;
-	FMDirectoryView *next_view;
+	char* file_paths;
+	char* uris;
+	char* uri;
+	char* geometry_string;
+	FMDirectoryView* next_view;
 
-	get_strings_for_environment_variables (view, selected_files,
-					       &file_paths, &uris, &uri);
+	get_strings_for_environment_variables(view, selected_files, &file_paths, &uris, &uri);
 
-	g_setenv ("CAJA_SCRIPT_SELECTED_FILE_PATHS", file_paths, TRUE);
-	g_free (file_paths);
+	g_setenv("CAJA_SCRIPT_SELECTED_FILE_PATHS", file_paths, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_SELECTED_FILE_PATHS", file_paths, TRUE); // compatibilidad GNOME
 
-	g_setenv ("CAJA_SCRIPT_SELECTED_URIS", uris, TRUE);
-	g_free (uris);
+	g_free(file_paths);
 
-	g_setenv ("CAJA_SCRIPT_CURRENT_URI", uri, TRUE);
-	g_free (uri);
+	g_setenv("CAJA_SCRIPT_SELECTED_URIS", uris, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_SELECTED_URIS", uris, TRUE); // compatibilidad GNOME
 
-	geometry_string = eel_gtk_window_get_geometry_string
-		(GTK_WINDOW (fm_directory_view_get_containing_window (view)));
-	g_setenv ("CAJA_SCRIPT_WINDOW_GEOMETRY", geometry_string, TRUE);
-	g_free (geometry_string);
+	g_free(uris);
+
+	g_setenv("CAJA_SCRIPT_CURRENT_URI", uri, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_CURRENT_URI", uri, TRUE); // compatibilidad GNOME
+
+
+	g_free(uri);
+
+	geometry_string = eel_gtk_window_get_geometry_string(GTK_WINDOW (fm_directory_view_get_containing_window (view)));
+
+	g_setenv("CAJA_SCRIPT_WINDOW_GEOMETRY", geometry_string, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_WINDOW_GEOMETRY", geometry_string, TRUE); // compatibilidad GNOME
+
+	g_free(geometry_string);
 
 	/* next pane */
-	next_view = get_directory_view_of_extra_pane (view);
-	if (next_view) {
-		GList *next_pane_selected_files;
-		next_pane_selected_files = fm_directory_view_get_selection (next_view);
+	next_view = get_directory_view_of_extra_pane(view);
 
-		get_strings_for_environment_variables (next_view, next_pane_selected_files,
-						       &file_paths, &uris, &uri);
-		caja_file_list_free (next_pane_selected_files);
-	} else {
+	if (next_view)
+	{
+		GList* next_pane_selected_files = fm_directory_view_get_selection (next_view);
+
+		get_strings_for_environment_variables(next_view, next_pane_selected_files, &file_paths, &uris, &uri);
+
+		caja_file_list_free(next_pane_selected_files);
+	}
+	else
+	{
 		file_paths = g_strdup("");
 		uris = g_strdup("");
 		uri = g_strdup("");
 	}
 
-	g_setenv ("CAJA_SCRIPT_NEXT_PANE_SELECTED_FILE_PATHS", file_paths, TRUE);
-	g_free (file_paths);
+	g_setenv("CAJA_SCRIPT_NEXT_PANE_SELECTED_FILE_PATHS", file_paths, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_NEXT_PANE_SELECTED_FILE_PATHS", file_paths, TRUE); // compatibilidad GNOME
+	g_free(file_paths);
 
-	g_setenv ("CAJA_SCRIPT_NEXT_PANE_SELECTED_URIS", uris, TRUE);
-	g_free (uris);
+	g_setenv("CAJA_SCRIPT_NEXT_PANE_SELECTED_URIS", uris, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_NEXT_PANE_SELECTED_URIS", uris, TRUE); // compatibilidad GNOME
+	g_free(uris);
 
-	g_setenv ("CAJA_SCRIPT_NEXT_PANE_CURRENT_URI", uri, TRUE);
-	g_free (uri);
+	g_setenv("CAJA_SCRIPT_NEXT_PANE_CURRENT_URI", uri, TRUE);
+	g_setenv("NAUTILUS_SCRIPT_NEXT_PANE_CURRENT_URI", uri, TRUE); // compatibilidad GNOME
+	g_free(uri);
 }
 
 /* Unset all the special script environment variables. */
-static void
-unset_script_environment_variables (void)
+static void unset_script_environment_variables(void)
 {
-	g_unsetenv ("CAJA_SCRIPT_SELECTED_FILE_PATHS");
-	g_unsetenv ("CAJA_SCRIPT_SELECTED_URIS");
-	g_unsetenv ("CAJA_SCRIPT_CURRENT_URI");
-	g_unsetenv ("CAJA_SCRIPT_WINDOW_GEOMETRY");
-	g_unsetenv ("CAJA_SCRIPT_NEXT_PANE_SELECTED_FILE_PATHS");
-	g_unsetenv ("CAJA_SCRIPT_NEXT_PANE_SELECTED_URIS");
-	g_unsetenv ("CAJA_SCRIPT_NEXT_PANE_CURRENT_URI");
+	g_unsetenv("CAJA_SCRIPT_SELECTED_FILE_PATHS");
+	g_unsetenv("NAUTILUS_SCRIPT_SELECTED_FILE_PATHS");
+
+	g_unsetenv("CAJA_SCRIPT_SELECTED_URIS");
+	g_unsetenv("NAUTILUS_SCRIPT_SELECTED_URIS");
+
+	g_unsetenv("CAJA_SCRIPT_CURRENT_URI");
+	g_unsetenv("NAUTILUS_SCRIPT_CURRENT_URI");
+
+	g_unsetenv("CAJA_SCRIPT_WINDOW_GEOMETRY");
+	g_unsetenv("NAUTILUS_SCRIPT_WINDOW_GEOMETRY");
+
+	g_unsetenv("CAJA_SCRIPT_NEXT_PANE_SELECTED_FILE_PATHS");
+	g_unsetenv("NAUTILUS_SCRIPT_NEXT_PANE_SELECTED_FILE_PATHS");
+
+	g_unsetenv("CAJA_SCRIPT_NEXT_PANE_SELECTED_URIS");
+	g_unsetenv("NAUTILUS_SCRIPT_NEXT_PANE_SELECTED_URIS");
+
+	g_unsetenv("CAJA_SCRIPT_NEXT_PANE_CURRENT_URI");
+	g_unsetenv("NAUTILUS_SCRIPT_NEXT_PANE_CURRENT_URI");
 }
 
 static void
