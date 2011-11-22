@@ -43,7 +43,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define CAJA_USER_DIRECTORY_NAME ".caja"
+#define CAJA_USER_DIRECTORY_NAME ".config/caja"
 #define DEFAULT_CAJA_DIRECTORY_MODE (0755)
 
 #define DESKTOP_DIRECTORY_NAME "Desktop"
@@ -92,28 +92,82 @@ caja_compute_title_for_location (GFile *location)
  *
  * Return value: the directory path.
  **/
-char *
-caja_get_user_directory (void)
+char* caja_get_user_directory(void)
 {
-    char *user_directory = NULL;
+	/* FIXME bugzilla.gnome.org 41286:
+	 * How should we handle the case where this mkdir fails?
+	 * Note that caja_application_startup will refuse to launch if this
+	 * directory doesn't get created, so that case is OK. But the directory
+	 * could be deleted after Caja was launched, and perhaps
+	 * there is some bad side-effect of not handling that case.
+	 * <<<
+	 * Si alguien tiene tiempo, puede enviar este codigo a Nautilus.
+	 * Obviamente, con los comentarios traducidos al Inglés.
+	 */
+	char* user_directory = g_build_filename(g_get_home_dir(), ".config", "caja", NULL);
+	/* Se necesita que esta dirección sea una carpeta, con los permisos
+	 * DEFAULT_CAJA_DIRECTORY_MODE. Pero si es un archivo, el programa intentará
+	 * eliminar el archivo silenciosamente. */
+	if (g_file_test(user_directory, G_FILE_TEST_IS_DIR) == FALSE ||
+		g_access(user_directory, DEFAULT_CAJA_DIRECTORY_MODE) == -1)
+	{
+		/* Se puede obtener un enlace simbolico a una carpeta */
+		if (g_file_test(user_directory, G_FILE_TEST_IS_SYMLINK) == TRUE)
+		{
+			/* intentaremos saber si el enlace es una carpeta, y tiene los
+			 * permisos adecuados */
+			char* link = g_file_read_link(user_directory, NULL);
 
-    user_directory = g_build_filename (g_get_home_dir (),
-                                       CAJA_USER_DIRECTORY_NAME,
-                                       NULL);
+			if (link)
+			{
+				/* Si el enlace no es un directorio, o si falla al hacer chmod,
+				 * se borra el enlace y se crea la carpeta */
+				if (g_file_test(link, G_FILE_TEST_IS_DIR) != TRUE ||
+					g_chmod(link, DEFAULT_CAJA_DIRECTORY_MODE) != 0)
+				{
+					/* podemos borrar el enlace y crear la carpeta */
+					g_unlink(user_directory);
+					g_mkdir(user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
+				}
 
-    if (!g_file_test (user_directory, G_FILE_TEST_EXISTS))
-    {
-        g_mkdir (user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
-        /* FIXME bugzilla.gnome.org 41286:
-         * How should we handle the case where this mkdir fails?
-         * Note that caja_application_startup will refuse to launch if this
-         * directory doesn't get created, so that case is OK. But the directory
-         * could be deleted after Caja was launched, and perhaps
-         * there is some bad side-effect of not handling that case.
-         */
-    }
+				g_free(link);
+			}
+		}
+		else if (g_file_test(user_directory, G_FILE_TEST_IS_DIR) == TRUE)
+		{
+			g_chmod(user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
+		}
+		else if (g_file_test(user_directory, G_FILE_TEST_EXISTS) == TRUE)
+		{
+			/* podemos borrar el enlace y crear la carpeta */
+			g_unlink(user_directory);
+			g_mkdir(user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
+		}
+		else
+		{
+			/* Si no existe ningun archivo, se crea la carpeta */
+			g_mkdir_with_parents(user_directory, DEFAULT_CAJA_DIRECTORY_MODE);
+		}
 
-    return user_directory;
+		/* Faltan permisos */
+		if (g_chmod(user_directory, DEFAULT_CAJA_DIRECTORY_MODE) != 0)
+		{
+			GtkWidget* dialog = gtk_message_dialog_new(
+				NULL,
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_ERROR,
+				GTK_BUTTONS_CLOSE,
+				"The path for the directory containing caja settings need read and write permissions: %s",
+				user_directory);
+
+			gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+
+			exit(0);
+		}
+	}
+
+	return user_directory;
 }
 
 /**
