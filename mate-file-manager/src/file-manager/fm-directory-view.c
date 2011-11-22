@@ -1648,7 +1648,6 @@ static void set_up_scripts_directory_global(void)
 		scripts_directory_uri = g_filename_to_uri(scripts_directory_path, NULL, NULL);
 		scripts_directory_uri_length = strlen(scripts_directory_uri);
 
-
 		/* Emulación de GNOME Nautilus scripts
 		 */
 		char* nautilus_scripts_path = g_build_filename(g_get_home_dir(), ".gnome2", "nautilus-scripts", NULL);
@@ -1657,12 +1656,34 @@ static void set_up_scripts_directory_global(void)
 		{
 			char* nautilus_syslink = g_build_filename(g_get_home_dir(), ".config", "caja", "scripts", "nautilus", NULL);
 			// G_FILE_TEST_IS_REGULAR
+			/* En caso de que exista el enlace, o algún otro tipo de archivo con
+			 * el mismo nombre, ignoramos. Incluso si es una carpeta. */
 			if (g_file_test(nautilus_syslink, G_FILE_TEST_IS_SYMLINK) == FALSE &&
 				g_file_test(nautilus_syslink, G_FILE_TEST_EXISTS) == FALSE &&
 				g_file_test(nautilus_syslink, G_FILE_TEST_IS_DIR) == FALSE)
 			{
-				/* creamos un enlace a la carpeta de nautilus */
-				symlink(nautilus_scripts_path, nautilus_syslink);
+				/* Nos fijamos si es necesario crear un enlace */
+				GDir* dir = g_dir_open(nautilus_scripts_path, 0, NULL);
+
+				if (dir)
+				{
+					/* Con tener más de un elemento en la carpeta, podemos hacer
+					 * el enlace */
+					int count = 0;
+
+					while (g_dir_read_name(dir) != NULL)
+					{
+						count++;
+					}
+
+					if (count > 0)
+					{
+						/* creamos un enlace a la carpeta de nautilus */
+						symlink(nautilus_scripts_path, nautilus_syslink);
+					}
+
+					g_dir_close(dir);
+				}
 			}
 
 			g_free(nautilus_syslink);
