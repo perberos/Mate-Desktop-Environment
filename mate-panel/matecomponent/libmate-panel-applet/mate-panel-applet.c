@@ -1554,21 +1554,20 @@ add_tab_bindings (GtkBindingSet   *binding_set,
 				      GTK_TYPE_DIRECTION_TYPE, direction);
 }
 
-static GObject *
-mate_panel_applet_constructor (GType                  type,
-			  guint                  n_construct_properties,
-			  GObjectConstructParam *construct_properties)
+static GObject* mate_panel_applet_constructor(GType type, guint n_construct_properties, GObjectConstructParam *construct_properties)
 {
-	GObject     *obj;
-	MatePanelApplet *applet;
+	GObject* obj = G_OBJECT_CLASS(mate_panel_applet_parent_class)->constructor(type, n_construct_properties, construct_properties);
 
-	obj = G_OBJECT_CLASS (mate_panel_applet_parent_class)->constructor (type,
-								       n_construct_properties,
-								       construct_properties);
+	MatePanelApplet* applet = MATE_PANEL_APPLET(obj);
 
-	applet = MATE_PANEL_APPLET (obj);
+	/* Voy a renombrar la clase para que se pueda tener compatibilidad con todos
+	 * los estilos visuales de GTK2
+	 *
+	 * Issue #27
+	 */
+	gtk_widget_set_name(GTK_WIDGET(applet), "PanelApplet");
 
-	mate_panel_applet_setup (applet);
+	mate_panel_applet_setup(applet);
 
 	return obj;
 }
@@ -1704,12 +1703,9 @@ mate_panel_applet_setup (MatePanelApplet *applet)
 			  G_CALLBACK (mate_panel_applet_popup_menu), NULL);
 }
 
-GtkWidget *
-mate_panel_applet_new (void)
+GtkWidget* mate_panel_applet_new(void)
 {
-	MatePanelApplet *applet;
-
-	applet = g_object_new (PANEL_TYPE_APPLET, NULL);
+	MatePanelApplet* applet = g_object_new(PANEL_TYPE_APPLET, NULL);
 
 	return GTK_WIDGET (applet);
 }

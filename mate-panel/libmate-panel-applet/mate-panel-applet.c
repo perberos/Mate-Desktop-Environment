@@ -73,8 +73,8 @@ struct _MatePanelAppletPrivate {
 	int                previous_width;
 	int                previous_height;
 
-        int               *size_hints;
-        int                size_hints_len;
+	int               *size_hints;
+	int                size_hints_len;
 
 	gboolean           moving_focus_out;
 
@@ -83,15 +83,15 @@ struct _MatePanelAppletPrivate {
 };
 
 enum {
-        CHANGE_ORIENT,
-        CHANGE_SIZE,
-        CHANGE_BACKGROUND,
+	CHANGE_ORIENT,
+	CHANGE_SIZE,
+	CHANGE_BACKGROUND,
 	MOVE_FOCUS_OUT_OF_APPLET,
-        SAVE_YOURSELF,
-        LAST_SIGNAL
+	SAVE_YOURSELF,
+	LAST_SIGNAL
 };
 
-static guint mate_panel_applet_signals [LAST_SIGNAL];
+static guint mate_panel_applet_signals[LAST_SIGNAL];
 
 enum {
 	PROP_0,
@@ -1848,10 +1848,16 @@ mate_panel_applet_init (MatePanelApplet *applet)
 	gtk_container_add (GTK_CONTAINER (applet->priv->plug), GTK_WIDGET (applet));
 }
 
-static void
-mate_panel_applet_constructed (GObject *object)
+static void mate_panel_applet_constructed(GObject* object)
 {
-	MatePanelApplet *applet = MATE_PANEL_APPLET (object);
+	MatePanelApplet* applet = MATE_PANEL_APPLET(object);
+
+	/* Voy a renombrar la clase para que se pueda tener compatibilidad con todos
+	 * los estilos visuales de GTK2
+	 *
+	 * Issue #27
+	 */
+	gtk_widget_set_name(GTK_WIDGET(applet), "PanelApplet");
 
 	mate_panel_applet_register_object (applet);
 }
@@ -2019,14 +2025,11 @@ mate_panel_applet_class_init (MatePanelAppletClass *klass)
 	add_tab_bindings (binding_set, GDK_CONTROL_MASK | GDK_SHIFT_MASK, GTK_DIR_TAB_BACKWARD);
 }
 
-GtkWidget *
-mate_panel_applet_new (void)
+GtkWidget* mate_panel_applet_new(void)
 {
-	MatePanelApplet *applet;
+	MatePanelApplet* applet = g_object_new(PANEL_TYPE_APPLET, NULL);
 
-	applet = g_object_new (PANEL_TYPE_APPLET, NULL);
-
-	return GTK_WIDGET (applet);
+	return GTK_WIDGET(applet);
 }
 
 static void

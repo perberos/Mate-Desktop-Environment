@@ -99,7 +99,7 @@ struct _MatePanelAppletClass {
 
 GType              mate_panel_applet_get_type             (void) G_GNUC_CONST;
 
-GtkWidget         *mate_panel_applet_new                  (void);
+GtkWidget* mate_panel_applet_new(void);
 
 MatePanelAppletOrient  mate_panel_applet_get_orient           (MatePanelApplet *applet);
 
