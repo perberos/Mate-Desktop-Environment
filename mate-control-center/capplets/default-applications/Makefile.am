@@ -38,23 +38,23 @@ xmldatadir = $(pkgdatadir)/default-apps
 xmldata_DATA = $(xmldata_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
-INCLUDES   = 					\
-	$(MATECC_CAPPLETS_CFLAGS)		\
-	$(DEFAULT_APPLICATIONS_CAPPLET_CFLAGS)	\
+INCLUDES = \
+	$(MATECC_CAPPLETS_CFLAGS) \
+	$(DEFAULT_APPLICATIONS_CAPPLET_CFLAGS) \
 	-DMATELOCALEDIR=\""$(datadir)/locale"\"\
-	-DMATECC_UI_DIR=\""$(uidir)"\"	\
+	-DMATECC_UI_DIR=\""$(uidir)"\" \
 	-DMATECC_APPS_DIR=\""$(xmldatadir)"\"
 
-icons16dir = $(datadir)/icons/hicolor/16x16/apps
-dist_icons16_DATA = icons/16x16/mate-settings-default-applications.png
-icons22dir = $(datadir)/icons/hicolor/22x22/apps
-dist_icons22_DATA = icons/22x22/mate-settings-default-applications.png
-icons24dir = $(datadir)/icons/hicolor/24x24/apps
-dist_icons24_DATA = icons/24x24/mate-settings-default-applications.png
-icons32dir = $(datadir)/icons/hicolor/32x32/apps
-dist_icons32_DATA = icons/32x32/mate-settings-default-applications.png
-icons48dir = $(datadir)/icons/hicolor/48x48/apps
-dist_icons48_DATA = icons/48x48/mate-settings-default-applications.png
+icons16dir = $(datadir)/icons/mate/16x16/apps
+dist_icons16_DATA = icons/16x16/settings-default-applications.png
+icons22dir = $(datadir)/icons/mate/22x22/apps
+dist_icons22_DATA = icons/22x22/settings-default-applications.png
+icons24dir = $(datadir)/icons/mate/24x24/apps
+dist_icons24_DATA = icons/24x24/settings-default-applications.png
+icons32dir = $(datadir)/icons/mate/32x32/apps
+dist_icons32_DATA = icons/32x32/settings-default-applications.png
+icons48dir = $(datadir)/icons/mate/48x48/apps
+dist_icons48_DATA = icons/48x48/settings-default-applications.png
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 uninstall-hook: update-icon-cache
