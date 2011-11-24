@@ -128,12 +128,12 @@ static inline void force_no_focus_padding(GtkWidget* widget)
 			"      GtkWidget::focus-padding=0\n"
 			"   }\n"
 			"\n"
-			"    widget \"*.window-menu-applet-button\" style \"window-menu-applet-button-style\"\n"
+			"    widget \"*.PanelApplet-window-menu-applet-button\" style \"window-menu-applet-button-style\"\n"
 			"\n");
 		first_time = FALSE;
 	}
 
-	gtk_widget_set_name(widget, "window-menu-applet-button");
+	gtk_widget_set_name(widget, "PanelApplet-window-menu-applet-button");
 }
 
 static void window_menu_size_allocate(MatePanelApplet* applet, GtkAllocation* allocation, WindowMenu* window_menu)
