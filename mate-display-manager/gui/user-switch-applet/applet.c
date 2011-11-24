@@ -1416,8 +1416,8 @@ fill_applet (MatePanelApplet *applet)
                                      "GtkWidget::focus-line-width = 0\n"
                                      "GtkWidget::focus-padding = 0\n"
                                      "}\n"
-                                     "widget \"*.mdm-user-switch-menubar\" style \"mdm-user-switch-menubar-style\"\n"
-                                     "widget \"*.mdm-user-switch-applet\" style \"mdm-user-switch-applet-style\"\n");
+                                     "widget \"*.PanelAppletUserSwitchmenubar\" style \"mdm-user-switch-menubar-style\"\n"
+                                     "widget \"*.PanelAppletUserSwitch\" style \"mdm-user-switch-applet-style\"\n");
                 gtk_window_set_default_icon_name ("stock_people");
                 g_set_application_name (_("User Switch Applet"));
 
@@ -1436,7 +1436,7 @@ fill_applet (MatePanelApplet *applet)
 
         gtk_widget_set_tooltip_text (GTK_WIDGET (applet), _("Change account settings and status"));
         gtk_container_set_border_width (GTK_CONTAINER (applet), 0);
-        gtk_widget_set_name (GTK_WIDGET (applet), "mdm-user-switch-applet");
+        gtk_widget_set_name (GTK_WIDGET (applet), "PanelAppletUserSwitch");
         mate_panel_applet_set_flags (applet, MATE_PANEL_APPLET_EXPAND_MINOR);
         mate_panel_applet_setup_menu_from_file (applet, NULL,
                                            DATADIR "/mate-2.0/ui/MATE_FastUserSwitchApplet.xml",
@@ -1505,7 +1505,7 @@ fill_applet (MatePanelApplet *applet)
                                 (GDestroyNotify) mdm_applet_data_free);
 
         adata->menubar = gtk_menu_bar_new ();
-        gtk_widget_set_name (adata->menubar, "mdm-user-switch-menubar");
+        gtk_widget_set_name (adata->menubar, "PanelAppletUserSwitchmenubar");
         gtk_widget_set_can_focus (adata->menubar, TRUE);
         g_signal_connect (adata->menubar, "button-press-event",
                           G_CALLBACK (menubar_button_press_event_cb), adata);
