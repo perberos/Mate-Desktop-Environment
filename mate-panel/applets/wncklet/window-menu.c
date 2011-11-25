@@ -47,7 +47,6 @@
 typedef struct {
 	GtkWidget* applet;
 	GtkWidget* selector;
-	GtkWidget* about_dialog;
 	int size;
 	MatePanelAppletOrient orient;
 } WindowMenu;
@@ -65,14 +64,29 @@ static void window_menu_about(GtkAction* action, WindowMenu* window_menu)
 		"Jacob Berkman <jacob@helixcode.com>",
 		NULL
 	};
+
 	const char* documenters[] = {
 		"Sun MATE Documentation Team <gdocteam@sun.com>",
 		NULL
 	};
 
-	const char* translator_credits = _("translator-credits");
+	char copyright[] = \
+		"Copyright \xc2\xa9 2003 Sun Microsystems, Inc.\n"
+		"Copyright \xc2\xa9 2001 Free Software Foundation, Inc.\n"
+		"Copyright \xc2\xa9 2000 Helix Code, Inc.";
 
-	wncklet_display_about(window_menu->applet, &window_menu->about_dialog, _("Window Selector"), "Copyright \xc2\xa9 2003 Sun Microsystems, Inc.\n" "Copyright \xc2\xa9 2001 Free Software Foundation, Inc.\n" "Copyright \xc2\xa9 2000 Helix Code, Inc.", _("The Window Selector shows a list of all windows in a menu and lets you browse them."), authors, documenters, translator_credits, WINDOW_MENU_ICON, "window-menu", "WindowMenu");
+	gtk_show_about_dialog(window_menu->applet,
+		"program-name", _("Window Selector"),
+		"authors", authors,
+		"comments", _("The Window Selector shows a list of all windows in a menu and lets you browse them."),
+		"copyright", copyright,
+		"documenters", documenters,
+		"icon-name", WINDOW_MENU_ICON,
+		"logo-icon-name", WINDOW_MENU_ICON,
+		"translator-credits", _("translator-credits"),
+		"version", VERSION,
+		"website", "http://matsusoft.com.ar/projects/mate/",
+		NULL);
 }
 
 static const GtkActionEntry window_menu_actions[] = {
@@ -96,12 +110,6 @@ static const GtkActionEntry window_menu_actions[] = {
 
 static void window_menu_destroy(GtkWidget* widget, WindowMenu* window_menu)
 {
-	if (window_menu->about_dialog)
-	{
-		gtk_widget_destroy(window_menu->about_dialog);
-		window_menu->about_dialog = NULL;
-	}
-
 	g_free(window_menu);
 }
 

@@ -48,7 +48,6 @@ typedef struct {
 	GtkWidget* applet;
 	GtkWidget* button;
 	GtkWidget* image;
-	GtkWidget* about_dialog;
 
 	GtkOrientation orient;
 	int size;
@@ -276,12 +275,6 @@ static void update_button_state(ShowDesktopData* sdd)
 
 static void applet_destroyed(GtkWidget* applet, ShowDesktopData* sdd)
 {
-	if (sdd->about_dialog)
-	{
-		gtk_widget_destroy(sdd->about_dialog);
-		sdd->about_dialog =  NULL;
-	}
-
 	if (sdd->button_activate != 0)
 	{
 		g_source_remove(sdd->button_activate);
@@ -479,9 +472,22 @@ static void display_about_dialog(GtkAction* action, ShowDesktopData* sdd)
 	};
 
 	/* Translator credits */
-	const char* translator_credits = _("translator-credits");
+	//const char* translator_credits = _("translator-credits");
+	char copyright[] = \
+		"Copyright \xc2\xa9 2002 Red Hat, Inc.";
 
-	wncklet_display_about(sdd->applet, &sdd->about_dialog, _("Show Desktop Button"), "Copyright \xc2\xa9 2002 Red Hat, Inc.", _("This button lets you hide all windows and show the desktop."), authors, documenters, translator_credits, SHOW_DESKTOP_ICON, "show-desktop", "show-desktop");
+	gtk_show_about_dialog(sdd->applet,
+		"program-name", _("Show Desktop Button"),
+		"authors", authors,
+		"comments", _("This button lets you hide all windows and show the desktop."),
+		"copyright", copyright,
+		"documenters", documenters,
+		"icon-name", SHOW_DESKTOP_ICON,
+		"logo-icon-name", SHOW_DESKTOP_ICON,
+		"translator-credits", _("translator-credits"),
+		"version", VERSION,
+		"website", "http://matsusoft.com.ar/projects/mate/",
+		NULL);
 }
 
 static void button_toggled_callback(GtkWidget* button, ShowDesktopData* sdd)

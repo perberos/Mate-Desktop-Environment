@@ -120,7 +120,6 @@ struct _ClockData {
         GtkWidget *panel_temperature_label;
 
 	GtkWidget *props;
-	GtkWidget *about;
 	GtkWidget *calendar_popup;
 
         GtkWidget *clock_vbox;
@@ -322,7 +321,7 @@ clock_set_timeout (ClockData *cd,
 
 		/* timeout of one minute if we don't care about the seconds */
  		if (cd->format != CLOCK_FORMAT_UNIX &&
-		    !cd->showseconds && 
+		    !cd->showseconds &&
 		    (!cd->set_time_window || !gtk_widget_get_visible (cd->set_time_window)))
  			timeouttime += 1000 * (59 - now % 60);
  	}
@@ -340,7 +339,7 @@ clock_timeout_callback (gpointer data)
 
         time (&new_time);
 
-	if (!cd->showseconds && 
+	if (!cd->showseconds &&
 	    (!cd->set_time_window || !gtk_widget_get_visible (cd->set_time_window)) &&
 	    cd->format != CLOCK_FORMAT_UNIX &&
 	    cd->format != CLOCK_FORMAT_CUSTOM) {
@@ -754,10 +753,6 @@ destroy_clock (GtkWidget * widget, ClockData *cd)
 		g_source_remove (cd->timeout);
         cd->timeout = 0;
 
-	if (cd->about)
-		gtk_widget_destroy (cd->about);
-        cd->about = NULL;
-
 	if (cd->props)
 		gtk_widget_destroy (cd->props);
         cd->props = NULL;
@@ -1034,11 +1029,11 @@ create_cities_store (ClockData *cd)
                 list = list->next;
 	}
 
-	 
-	if (cd->prefs_window) { 	 
-		GtkWidget *widget = _clock_get_widget (cd, "cities_list"); 	 
-		gtk_tree_view_set_model (GTK_TREE_VIEW (widget), 	 
-		GTK_TREE_MODEL (cd->cities_store)); 	 
+
+	if (cd->prefs_window) {
+		GtkWidget *widget = _clock_get_widget (cd, "cities_list");
+		gtk_tree_view_set_model (GTK_TREE_VIEW (widget),
+		GTK_TREE_MODEL (cd->cities_store));
 	}
 }
 
@@ -1213,7 +1208,7 @@ update_calendar_popup (ClockData *cd)
                         cd->map_section = NULL;
                         cd->map_widget = NULL;
 			cd->clock_vbox = NULL;
-			
+
         		g_list_free (cd->location_tiles);
         		cd->location_tiles = NULL;
                 }
@@ -1649,7 +1644,7 @@ update_set_time_button (ClockData *cd)
 		gtk_widget_set_sensitive (cd->time_settings_button, can_set);
 
 	if (cd->set_time_button) {
-		gtk_widget_set_sensitive (cd->set_time_button, can_set != 0); 
+		gtk_widget_set_sensitive (cd->set_time_button, can_set != 0);
 		gtk_button_set_label (GTK_BUTTON (cd->set_time_button),
 				      can_set == 1 ?
 					_("Set System Time...") :
@@ -1815,7 +1810,7 @@ ensure_time_settings_window_is_created (ClockData *cd)
 
 	cd->set_time_window = _clock_get_widget (cd, "set-time-window");
 	g_signal_connect (cd->set_time_window, "delete_event",
-			  G_CALLBACK (delete_time_settings), cd); 
+			  G_CALLBACK (delete_time_settings), cd);
 
         cd->calendar = _clock_get_widget (cd, "calendar");
         cd->hours_spin = _clock_get_widget (cd, "hours_spin");
@@ -1824,7 +1819,7 @@ ensure_time_settings_window_is_created (ClockData *cd)
 
         gtk_entry_set_width_chars (GTK_ENTRY (cd->hours_spin), 2);
         gtk_entry_set_width_chars (GTK_ENTRY (cd->minutes_spin), 2);
-        gtk_entry_set_width_chars (GTK_ENTRY (cd->seconds_spin), 2); 
+        gtk_entry_set_width_chars (GTK_ENTRY (cd->seconds_spin), 2);
         gtk_entry_set_alignment (GTK_ENTRY (cd->hours_spin), 1.0);
         gtk_entry_set_alignment (GTK_ENTRY (cd->minutes_spin), 1.0);
         gtk_entry_set_alignment (GTK_ENTRY (cd->seconds_spin), 1.0);
@@ -2045,7 +2040,7 @@ location_weather_updated_cb (ClockLocation *location,
 }
 
 static void
-location_set_current_cb (ClockLocation *loc, 
+location_set_current_cb (ClockLocation *loc,
 			 gpointer       data)
 {
 	ClockData *cd = data;
@@ -2057,7 +2052,7 @@ location_set_current_cb (ClockLocation *loc,
 	if (cd->map_widget)
 		clock_map_refresh (CLOCK_MAP (cd->map_widget));
         update_location_tiles (cd);
-	save_cities_store (cd);	
+	save_cities_store (cd);
 }
 
 static void
@@ -2089,7 +2084,7 @@ locations_changed (ClockData *cd)
 			id = g_signal_connect (loc, "weather-updated",
 						G_CALLBACK (location_weather_updated_cb), cd);
 			g_object_set_data (G_OBJECT (loc), "weather-updated", GINT_TO_POINTER (id));
-			g_signal_connect (loc, "set-current", 
+			g_signal_connect (loc, "set-current",
 					  G_CALLBACK (location_set_current_cb), cd);
 		}
 	}
@@ -2867,7 +2862,7 @@ loc_to_string (ClockLocation *loc)
         clock_location_get_coords (loc, &latitude, &longitude);
 
         setlocale (LC_NUMERIC, "POSIX");
-	
+
         ret = g_markup_printf_escaped
                 ("<location name=\"%s\" city=\"%s\" timezone=\"%s\" latitude=\"%f\" longitude=\"%f\" code=\"%s\" current=\"%s\"/>",
                  name ? name : "",
@@ -2972,7 +2967,7 @@ run_prefs_edit_save (GtkButton *button, ClockData *cd)
 
 		prefs.temperature_unit = cd->temperature_unit;
 		prefs.speed_unit = cd->speed_unit;
- 
+
                 loc = clock_location_new (name, city, timezone, lat, lon, weather_code, &prefs);
 		/* has the side-effect of setting the current location if
 		 * there's none and this one can be considered as a current one
@@ -3032,7 +3027,7 @@ static void
 fill_timezone_combo_from_location (ClockData *cd, ClockLocation *loc)
 {
         if (loc != NULL) {
-                mateweather_timezone_menu_set_tzid (cd->zone_combo, 
+                mateweather_timezone_menu_set_tzid (cd->zone_combo,
                                                  clock_location_get_timezone (loc));
         } else {
                 mateweather_timezone_menu_set_tzid (cd->zone_combo, NULL);
@@ -3435,7 +3430,7 @@ fill_prefs_window (ClockData *cd)
 	renderer = gtk_cell_renderer_text_new ();
         col = gtk_tree_view_column_new_with_attributes (_("City Time Zone"), renderer, "text", COL_CITY_TZ, NULL);
         gtk_tree_view_insert_column (GTK_TREE_VIEW (widget), col, -1);
-	
+
 	if (cd->cities_store == NULL)
 		create_cities_store (cd);
 
@@ -3693,54 +3688,33 @@ display_help_dialog (GtkAction *action,
 	clock_utils_display_help (cd->applet, "clock", NULL);
 }
 
-static void
-display_about_dialog (GtkAction *action,
-                      ClockData *cd)
+static void display_about_dialog(GtkAction* action, ClockData* cd)
 {
-	static const gchar *authors[] =
-	{
+	static const gchar* authors[] = {
 		"George Lebl <jirka@5z.com>",
 		"Gediminas Paulauskas <menesis@delfi.lt>",
 		NULL
 	};
-	static const char *documenters[] =
-	{
+
+	static const char* documenters[] = {
 		"Dan Mueth <d-mueth@uchicago.edu>",
 		NULL
 	};
 
-	if (cd->about) {
-		gtk_window_set_screen (GTK_WINDOW (cd->about),
-				       gtk_widget_get_screen (cd->applet));
-		gtk_window_present (GTK_WINDOW (cd->about));
-		return;
-	}
+	char copyright[] = \
+		"Copyright \xc2\xa9 1998-2004 Free Software Foundation, Inc.";
 
-	cd->about = gtk_about_dialog_new ();
-	g_object_set (cd->about,
-		      "program-name",  _("Clock"),
-		      "version", VERSION,
-		      "copyright", "Copyright \xc2\xa9 1998-2004 Free Software Foundation, Inc.",
-		      "comments", _("The Clock displays the current time and date"),
-		      "authors", authors,
-		      "documenters", documenters,
-		      "translator-credits", _("translator-credits"),
-		      "logo-icon-name", CLOCK_ICON,
-		      NULL);
-
-	gtk_window_set_icon_name (GTK_WINDOW (cd->about), CLOCK_ICON);
-	gtk_window_set_wmclass (GTK_WINDOW (cd->about), "clock", "Clock");
-	gtk_window_set_screen (GTK_WINDOW (cd->about),
-			       gtk_widget_get_screen (cd->applet));
-
-	g_signal_connect (G_OBJECT(cd->about), "destroy",
-			  (GCallback)gtk_widget_destroyed, &cd->about);
-
-	g_signal_connect (cd->about, "response",
-			  G_CALLBACK (gtk_widget_destroy),
-			  NULL);
-
-	gtk_widget_show (cd->about);
+	gtk_show_about_dialog(NULL,
+		"program-name", _("Clock"),
+		"authors", authors,
+		"comments", _("The Clock displays the current time and date"),
+		"copyright", copyright,
+		"documenters", documenters,
+		"logo-icon-name", CLOCK_ICON,
+		"translator-credits", _("translator-credits"),
+		"version", VERSION,
+		"website", "http://matsusoft.com.ar/projects/mate/",
+		NULL);
 }
 
 static gboolean

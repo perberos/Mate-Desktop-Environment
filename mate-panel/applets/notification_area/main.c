@@ -39,7 +39,6 @@
 typedef struct {
 	MatePanelApplet* applet;
 	NaTray* tray;
-	GtkWidget* about_dialog;
 } AppletData;
 
 static GtkOrientation get_orientation_from_applet(MatePanelApplet* applet)
@@ -122,7 +121,7 @@ static void about_cb(GtkAction* action, AppletData* data)
 		"Copyright \xc2\xa9 2003-2006 Vincent Untz\n"
 		"Copyright \xc2\xa9 2011 Perberos";
 
-	gtk_show_about_dialog(GTK_WINDOW(data->about_dialog),
+	gtk_show_about_dialog(NULL,
 		"program-name", _("Notification Area"),
 		"authors", authors,
 		//"comments", _(comments),
@@ -157,12 +156,6 @@ static void applet_change_orientation(MatePanelApplet* applet, MatePanelAppletOr
 
 static void applet_destroy(MatePanelApplet* applet, AppletData* data)
 {
-	if (data->about_dialog)
-	{
-		gtk_widget_destroy(data->about_dialog);
-	}
-
-	g_assert(data->about_dialog == NULL);
 }
 
 static void free_applet_data(AppletData* data)
@@ -191,7 +184,6 @@ static void on_applet_realized(GtkWidget* widget, gpointer user_data)
 	data = g_slice_new(AppletData);
 	data->applet = applet;
 	data->tray = tray;
-	data->about_dialog = NULL;
 
 	g_object_set_data_full(G_OBJECT(applet), "system-tray-data", data, (GDestroyNotify) free_applet_data);
 

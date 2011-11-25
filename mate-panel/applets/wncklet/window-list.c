@@ -53,8 +53,6 @@ typedef struct {
 	GtkWidget* move_minimized_radio;
 	GtkWidget* change_workspace_radio;
 
-	GtkWidget* about;
-
 	/* mateconf listeners id */
 	guint listeners [3];
 } TasklistData;
@@ -161,9 +159,6 @@ static void destroy_tasklist(GtkWidget* widget, TasklistData* tasklist)
 
 	if (tasklist->properties_dialog)
 		gtk_widget_destroy(tasklist->properties_dialog);
-
-	if (tasklist->about)
-		gtk_widget_destroy(tasklist->about);
 
 	g_free(tasklist);
 }
@@ -554,13 +549,26 @@ static void display_about_dialog(GtkAction* action, TasklistData* tasklist)
 		"Alexander Larsson <alla@lysator.liu.se>",
 		NULL
 	};
+
 	const char* documenters [] = {
 		"Sun MATE Documentation Team <gdocteam@sun.com>",
 		NULL
 	};
-	const char* translator_credits = _("translator-credits");
 
-	wncklet_display_about(tasklist->applet, &tasklist->about, _("Window List"), "Copyright \xc2\xa9 2001-2002 Red Hat, Inc.", _("The Window List shows a list of all windows in a set of buttons and lets you browse them."), authors, documenters, translator_credits, WINDOW_LIST_ICON, "tasklist", "Tasklist");
+	char copyright[] = \
+		"Copyright \xc2\xa9 2001-2002 Red Hat, Inc.";
+
+	gtk_show_about_dialog(tasklist->applet,
+		"program-name", _("Window List"),
+		"authors", authors,
+		"comments", _("The Window List shows a list of all windows in a set of buttons and lets you browse them."),
+		"copyright", copyright,
+		"documenters", documenters,
+		"logo-icon-name", WINDOW_LIST_ICON,
+		"translator-credits", _("translator-credits"),
+		"version", VERSION,
+		"website", "http://matsusoft.com.ar/projects/mate/",
+		NULL);
 }
 
 static void group_windows_toggled(GtkToggleButton* button, TasklistData* tasklist)

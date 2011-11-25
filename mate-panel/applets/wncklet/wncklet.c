@@ -39,30 +39,6 @@
 #include "window-list.h"
 #include "showdesktop.h"
 
-void wncklet_display_about(GtkWidget* applet, GtkWidget** dialog, const char* name, const char* copyright, const char* comments, const char** authors, const char** documenters, const char* translator_credits, const char* icon_name, const char* wmclass_name, const char* wmclass_class)
-{
-	if (*dialog)
-	{
-		gtk_window_set_screen(GTK_WINDOW(*dialog), gtk_widget_get_screen(applet));
-		gtk_window_present(GTK_WINDOW(*dialog));
-		return;
-	}
-
-	*dialog = gtk_about_dialog_new();
-
-	g_object_set(*dialog, "program-name", name, "version", VERSION, "copyright", copyright, "comments", comments, "authors", authors, "documenters", documenters, "translator-credits", translator_credits, "logo-icon-name", icon_name, NULL);
-
-	gtk_window_set_wmclass(GTK_WINDOW(*dialog), wmclass_name, wmclass_class);
-	gtk_window_set_screen(GTK_WINDOW(*dialog), gtk_widget_get_screen(applet));
-
-	gtk_window_set_icon_name(GTK_WINDOW(*dialog), icon_name);
-	g_signal_connect(*dialog, "destroy", (GCallback) gtk_widget_destroyed, dialog);
-
-	g_signal_connect(*dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-
-	gtk_widget_show(*dialog);
-}
-
 void wncklet_display_help(GtkWidget* widget, const char* doc_id, const char* link_id, const char* icon_name)
 {
 	GError* error = NULL;

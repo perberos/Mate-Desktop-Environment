@@ -68,8 +68,6 @@ typedef struct {
 	GtkWidget* workspaces_tree;
 	GtkListStore* workspaces_store;
 
-	GtkWidget* about;
-
 	GtkOrientation orientation;
 	int n_rows;				/* for vertical layout this is cols */
 	WnckPagerDisplayMode display_mode;
@@ -307,9 +305,6 @@ static void destroy_pager(GtkWidget* widget, PagerData* pager)
 
 	if (pager->properties_dialog)
 		gtk_widget_destroy(pager->properties_dialog);
-
-	if (pager->about)
-		gtk_widget_destroy(pager->about);
 
 	g_free(pager);
 }
@@ -574,9 +569,21 @@ static void display_about_dialog(GtkAction* action, PagerData* pager)
 		NULL
 	};
 
-	const char* translator_credits = _("translator-credits");
+	char copyright[] = \
+		"Copyright \xc2\xa9 2001-2002 Red Hat, Inc.";
 
-	wncklet_display_about(pager->applet, &pager->about, _("Workspace Switcher"), "Copyright \xc2\xa9 2001-2002 Red Hat, Inc.", _("The Workspace Switcher shows you a small version of your workspaces that lets you manage your windows."), authors, documenters, translator_credits, WORKSPACE_SWITCHER_ICON, "pager", "Pager");
+	gtk_show_about_dialog(pager->applet,
+		"program-name", _("Workspace Switcher"),
+		"authors", authors,
+		"comments", _("The Workspace Switcher shows you a small version of your workspaces that lets you manage your windows."),
+		"copyright", copyright,
+		"documenters", documenters,
+		"icon-name", WORKSPACE_SWITCHER_ICON,
+		"logo-icon-name", WORKSPACE_SWITCHER_ICON,
+		"translator-credits", _("translator-credits"),
+		"version", VERSION,
+		"website", "http://matsusoft.com.ar/projects/mate/",
+		NULL);
 }
 
 
