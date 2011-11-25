@@ -87,15 +87,10 @@ static void panel_load_menu_image_deferred (GtkWidget   *image_menu_item,
 static gboolean panel_menu_key_press_handler (GtkWidget   *widget,
 					      GdkEventKey *event);
 
-static inline gboolean
-desktop_is_home_dir (void)
+static inline gboolean desktop_is_home_dir(void)
 {
-	return mateconf_client_get_bool (
-			panel_mateconf_get_client (),
-			"/apps/caja/preferences/desktop_is_home_dir",
-			NULL);
+	return mateconf_client_get_bool(panel_mateconf_get_client(), "/apps/caja/preferences/desktop_is_home_dir", NULL);
 }
-
 
 GtkWidget *
 add_menu_separator (GtkWidget *menu)
@@ -185,7 +180,7 @@ menuitem_to_screen (GtkWidget *menuitem)
 static void
 reload_image_menu_items (void)
 {
-	GSList *l;
+	GSList* l;
 
 	for (l = image_menu_items; l; l = l->next) {
 		GtkWidget *image = l->data;

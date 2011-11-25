@@ -334,37 +334,52 @@ panel_load_icon (GtkIconTheme  *icon_theme,
 	return retval;
 }
 
-static char *
-panel_lock_screen_action_get_command (const char *action)
+static char* panel_lock_screen_action_get_command(const char* action)
 {
-	char    *command          = NULL;
+	char* command = NULL;
 	gboolean use_gscreensaver = FALSE;
 
-	if (panel_is_program_in_path ("mate-screensaver-command")
-	    && panel_is_program_in_path ("mate-screensaver-preferences"))
+	if (panel_is_program_in_path("mate-screensaver-command") && panel_is_program_in_path("mate-screensaver-preferences"))
+	{
 		use_gscreensaver = TRUE;
-	else if (!panel_is_program_in_path ("xscreensaver-command"))
+	}
+	else if (!panel_is_program_in_path("xscreensaver-command"))
+	{
 		return NULL;
+	}
 
-	if (strcmp (action, "prefs") == 0) {
-		if (use_gscreensaver) {
+	if (strcmp (action, "prefs") == 0)
+	{
+		if (use_gscreensaver)
+		{
 			command = g_strdup ("mate-screensaver-preferences");
-		} else if (panel_is_program_in_path ("xscreensaver-demo")) {
+		}
+		else if (panel_is_program_in_path ("xscreensaver-demo"))
+		{
 			command = g_strdup ("xscreensaver-demo");
-		} else {
+		}
+		else
+		{
 			command = NULL;
 		}
-	} else if (strcmp (action, "activate") == 0
-		   || strcmp (action, "lock") == 0) {
+	}
+	else if (strcmp (action, "activate") == 0 || strcmp(action, "lock") == 0)
+	{
 		/* Neither mate-screensaver or xscreensaver allow root
 		 * to lock the screen */
-		if (geteuid () == 0) {
+		if (geteuid () == 0)
+		{
 			command = NULL;
-		} else {
-			if (use_gscreensaver) {
-				command = g_strdup_printf ("mate-screensaver-command --%s", action);
-			} else {
-				command = g_strdup_printf ("xscreensaver-command -%s", action);
+		}
+		else
+		{
+			if (use_gscreensaver)
+			{
+				command = g_strdup_printf("mate-screensaver-command --%s", action);
+			}
+			else
+			{
+				command = g_strdup_printf("xscreensaver-command -%s", action);
 			}
 		}
 	}
@@ -393,44 +408,40 @@ panel_lock_screen_action_available (const char *action)
 	return enabled;
 }
 
-void
-panel_lock_screen_action (GdkScreen  *screen,
-			  const char *action)
+void panel_lock_screen_action(GdkScreen* screen, const char* action)
 {
-	GError  *error            = NULL;
-	char    *command          = NULL;
+	GError* error = NULL;
+	char* command = NULL;
 
-	g_return_if_fail (GDK_IS_SCREEN (screen));
-	g_return_if_fail (action != NULL);
+	g_return_if_fail(GDK_IS_SCREEN (screen));
+	g_return_if_fail(action != NULL);
 
-	if (strcmp (action, "prefs") != 0 &&
-	    panel_lockdown_get_disable_lock_screen ())
+	if (strcmp(action, "prefs") != 0 && panel_lockdown_get_disable_lock_screen())
+	{
 		return;
-
-	command = panel_lock_screen_action_get_command (action);
-
-	if (!command)
-		return;
-
-	if (!gdk_spawn_command_line_on_screen (screen, command, &error)) {
-		char *primary;
-
-		primary = g_strdup_printf (_("Could not execute '%s'"),
-					   command);
-		panel_error_dialog (NULL, screen,
-				    "cannot_exec_screensaver", TRUE,
-				    primary, error->message);
-		g_free (primary);
-		g_error_free (error);
 	}
 
-	g_free (command);
+	command = panel_lock_screen_action_get_command(action);
+
+	if (!command)
+	{
+		return;
+	}
+
+	if (!gdk_spawn_command_line_on_screen(screen, command, &error))
+	{
+		char* primary = g_strdup_printf(_("Could not execute '%s'"), command);
+		panel_error_dialog (NULL, screen, "cannot_exec_screensaver", TRUE, primary, error->message);
+		g_free(primary);
+		g_error_free(error);
+	}
+
+	g_free(command);
 }
 
-void
-panel_lock_screen (GdkScreen *screen)
+void panel_lock_screen(GdkScreen* screen)
 {
-	panel_lock_screen_action (screen, "lock");
+	panel_lock_screen_action(screen, "lock");
 }
 
 

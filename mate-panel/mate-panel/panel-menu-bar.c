@@ -340,8 +340,8 @@ panel_menu_bar_load (PanelWidget *panel,
 				   _("_Help"),
 				   NULL);
 
-	if (panel_is_program_in_path ("alacarte") ||
-	    panel_is_program_in_path ("matemenu-simple-editor")) {
+	/* Menu editors */
+	if (panel_is_program_in_path ("alacarte") || panel_is_program_in_path ("matemenu-simple-editor")) {
 		mate_panel_applet_add_callback (menubar->priv->info,
 					   "edit",
 					   NULL,

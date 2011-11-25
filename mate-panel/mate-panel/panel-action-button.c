@@ -89,10 +89,9 @@ static MateConfEnumStringPair panel_action_type_map [] = {
 
 /* Lock Screen
  */
-static void
-panel_action_lock_screen (GtkWidget *widget)
+static void panel_action_lock_screen(GtkWidget* widget)
 {
-	panel_lock_screen (gtk_widget_get_screen (widget));
+	panel_lock_screen(gtk_widget_get_screen(widget));
 }
 
 static gboolean
@@ -684,11 +683,17 @@ panel_action_button_load (PanelActionButtonType  type,
 	button = g_object_new (PANEL_TYPE_ACTION_BUTTON, "action-type", type, NULL);
 
 	object_type = PANEL_OBJECT_ACTION;
-	if (compatibility) { /* Backward compatibility with MATE 2.0.x */
+
+	if (compatibility)
+	{ /* Backward compatibility with MATE 2.0.x */
 		if (type == PANEL_ACTION_LOCK)
+		{
 			object_type = PANEL_OBJECT_LOCK;
+		}
 		else if (type == PANEL_ACTION_LOGOUT)
+		{
 			object_type = PANEL_OBJECT_LOGOUT;
+		}
 	}
 
 	button->priv->info = mate_panel_applet_register (GTK_WIDGET (button),

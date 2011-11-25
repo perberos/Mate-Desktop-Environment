@@ -1541,15 +1541,19 @@ panel_menu_items_append_lock_logout (GtkWidget *menu)
 	}
 	g_list_free (children);
 
-	if (panel_lock_screen_action_available ("lock")) {
-		item = panel_menu_items_create_action_item (PANEL_ACTION_LOCK);
-		if (item != NULL) {
-			if (!separator_inserted) {
-				add_menu_separator (menu);
+	if (panel_lock_screen_action_available("lock"))
+	{
+		item = panel_menu_items_create_action_item(PANEL_ACTION_LOCK);
+
+		if (item != NULL)
+		{
+			if (!separator_inserted)
+			{
+				add_menu_separator(menu);
 				separator_inserted = TRUE;
 			}
 
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		}
 	}
 
