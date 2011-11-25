@@ -476,7 +476,7 @@ static void display_about_dialog(GtkAction* action, ShowDesktopData* sdd)
 	char copyright[] = \
 		"Copyright \xc2\xa9 2002 Red Hat, Inc.";
 
-	gtk_show_about_dialog(sdd->applet,
+	gtk_show_about_dialog(GTK_WINDOW(sdd->applet),
 		"program-name", _("Show Desktop Button"),
 		"authors", authors,
 		"comments", _("This button lets you hide all windows and show the desktop."),

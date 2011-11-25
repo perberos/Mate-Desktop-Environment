@@ -572,7 +572,7 @@ static void display_about_dialog(GtkAction* action, PagerData* pager)
 	char copyright[] = \
 		"Copyright \xc2\xa9 2001-2002 Red Hat, Inc.";
 
-	gtk_show_about_dialog(pager->applet,
+	gtk_show_about_dialog(GTK_WINDOW(pager->applet),
 		"program-name", _("Workspace Switcher"),
 		"authors", authors,
 		"comments", _("The Workspace Switcher shows you a small version of your workspaces that lets you manage your windows."),
