@@ -917,7 +917,7 @@ show_dialog (MateDACapplet *capplet, const gchar *start_page)
         NULL);
 
     gtk_window_set_icon_name (GTK_WINDOW (capplet->window),
-			      "mate-settings-default-applications");
+			      "preferences-desktop-default-applications");
 
     if (start_page != NULL) {
         gchar *page_name;
@@ -970,7 +970,7 @@ main (int argc, char **argv)
     capplet->mateconf = mateconf_client_get_default ();
     mateconf_client_add_dir (capplet->mateconf, "/desktop/mate/url-handlers",
                           MATECONF_CLIENT_PRELOAD_RECURSIVE, NULL);
-    mateconf_client_add_dir (capplet->mateconf, 
+    mateconf_client_add_dir (capplet->mateconf,
                           "/desktop/mate/applications",
                           MATECONF_CLIENT_PRELOAD_RECURSIVE, NULL);
 
