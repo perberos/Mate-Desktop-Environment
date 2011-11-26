@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 The MATE Foundation
+ * Copyright (C) 2007 The GNOME Foundation
  * Written by Jonathan Blandford <jrb@gnome.org>
  *            Jens Granseuer <jensgr@gmx.net>
  * All Rights Reserved
@@ -26,9 +26,10 @@
 #include <math.h>
 
 #ifdef HAVE_XFT2
-#include <gdk/gdkx.h>
-#include <X11/Xft/Xft.h>
+	#include <gdk/gdkx.h>
+	#include <X11/Xft/Xft.h>
 #endif /* HAVE_XFT2 */
+
 #include <glib/gi18n.h>
 
 #include "capplet-util.h"
@@ -66,10 +67,10 @@
 #endif /* HAVE_XFT2 */
 
 static gboolean in_change = FALSE;
-static gchar *old_font = NULL;
+static gchar* old_font = NULL;
 
 #define MAX_FONT_POINT_WITHOUT_WARNING 32
-#define MAX_FONT_SIZE_WITHOUT_WARNING MAX_FONT_POINT_WITHOUT_WARNING*1024
+#define MAX_FONT_SIZE_WITHOUT_WARNING MAX_FONT_POINT_WITHOUT_WARNING * 1024
 
 #ifdef HAVE_XFT2
 
@@ -77,241 +78,243 @@ static gchar *old_font = NULL;
  * Code for displaying previews of font rendering with various Xft options
  */
 
-static void
-sample_size_request (GtkWidget      *darea,
-		     GtkRequisition *requisition)
+static void sample_size_request(GtkWidget* darea, GtkRequisition* requisition)
 {
-  GdkPixbuf *pixbuf = g_object_get_data (G_OBJECT (darea), "sample-pixbuf");
+	GdkPixbuf* pixbuf = g_object_get_data(G_OBJECT(darea), "sample-pixbuf");
 
-  requisition->width = gdk_pixbuf_get_width (pixbuf) + 2;
-  requisition->height = gdk_pixbuf_get_height (pixbuf) + 2;
+	requisition->width = gdk_pixbuf_get_width(pixbuf) + 2;
+	requisition->height = gdk_pixbuf_get_height(pixbuf) + 2;
 }
 
-static void
-sample_expose (GtkWidget      *darea,
-	       GdkEventExpose *expose)
+static void sample_expose(GtkWidget* darea, GdkEventExpose* expose)
 {
-  GtkAllocation allocation;
-  GdkPixbuf *pixbuf = g_object_get_data (G_OBJECT (darea), "sample-pixbuf");
-  GdkWindow *window = gtk_widget_get_window (darea);
-  GtkStyle  *style = gtk_widget_get_style (darea);
-  int width = gdk_pixbuf_get_width (pixbuf);
-  int height = gdk_pixbuf_get_height (pixbuf);
-  int x;
-  int y;
+	GtkAllocation allocation;
+	GdkPixbuf* pixbuf = g_object_get_data(G_OBJECT(darea), "sample-pixbuf");
+	GdkWindow* window = gtk_widget_get_window(darea);
+	GtkStyle* style = gtk_widget_get_style(darea);
+	int width = gdk_pixbuf_get_width(pixbuf);
+	int height = gdk_pixbuf_get_height(pixbuf);
 
-  gtk_widget_get_allocation (darea, &allocation);
-  x = (allocation.width - width) / 2;
-  y = (allocation.height - height) / 2;
-  gdk_draw_rectangle (window, style->white_gc, TRUE,
-		      0, 0,
-		      allocation.width, allocation.height);
-  gdk_draw_rectangle (window, style->black_gc, FALSE,
-		      0, 0,
-		      allocation.width - 1, allocation.height - 1);
+	gtk_widget_get_allocation (darea, &allocation);
 
-  gdk_draw_pixbuf (window, NULL, pixbuf, 0, 0, x, y, width, height,
-                   GDK_RGB_DITHER_NORMAL, 0, 0);
+	int x = (allocation.width - width) / 2;
+	int y = (allocation.height - height) / 2;
+
+	gdk_draw_rectangle(window, style->white_gc, TRUE, 0, 0, allocation.width, allocation.height);
+	gdk_draw_rectangle(window, style->black_gc, FALSE, 0, 0, allocation.width - 1, allocation.height - 1);
+
+	gdk_draw_pixbuf(window, NULL, pixbuf, 0, 0, x, y, width, height, GDK_RGB_DITHER_NORMAL, 0, 0);
 }
 
 typedef enum {
-  ANTIALIAS_NONE,
-  ANTIALIAS_GRAYSCALE,
-  ANTIALIAS_RGBA
+	ANTIALIAS_NONE,
+	ANTIALIAS_GRAYSCALE,
+	ANTIALIAS_RGBA
 } Antialiasing;
 
 static MateConfEnumStringPair antialias_enums[] = {
-  { ANTIALIAS_NONE,      "none" },
-  { ANTIALIAS_GRAYSCALE, "grayscale" },
-  { ANTIALIAS_RGBA,      "rgba" },
-  { -1,                  NULL }
+	{ANTIALIAS_NONE,      "none"},
+	{ANTIALIAS_GRAYSCALE, "grayscale"},
+	{ANTIALIAS_RGBA,      "rgba"},
+	{-1,                  NULL}
 };
 
 typedef enum {
-  HINT_NONE,
-  HINT_SLIGHT,
-  HINT_MEDIUM,
-  HINT_FULL
+	HINT_NONE,
+	HINT_SLIGHT,
+	HINT_MEDIUM,
+	HINT_FULL
 } Hinting;
 
 static MateConfEnumStringPair hint_enums[] = {
-  { HINT_NONE,   "none" },
-  { HINT_SLIGHT, "slight" },
-  { HINT_MEDIUM, "medium" },
-  { HINT_FULL,   "full" },
-  { -1,          NULL }
+	{HINT_NONE,   "none"},
+	{HINT_SLIGHT, "slight"},
+	{HINT_MEDIUM, "medium"},
+	{HINT_FULL,   "full"},
+	{-1,          NULL}
 };
 
 typedef enum {
-  RGBA_RGB,
-  RGBA_BGR,
-  RGBA_VRGB,
-  RGBA_VBGR
+	RGBA_RGB,
+	RGBA_BGR,
+	RGBA_VRGB,
+	RGBA_VBGR
 } RgbaOrder;
 
 static MateConfEnumStringPair rgba_order_enums[] = {
-  { RGBA_RGB,  "rgb" },
-  { RGBA_BGR,  "bgr" },
-  { RGBA_VRGB, "vrgb" },
-  { RGBA_VBGR, "vbgr" },
-  { -1,         NULL }
+	{RGBA_RGB,  "rgb" },
+	{RGBA_BGR,  "bgr" },
+	{RGBA_VRGB, "vrgb" },
+	{RGBA_VBGR, "vbgr" },
+	{-1,         NULL }
 };
 
-static XftFont *
-open_pattern (FcPattern   *pattern,
-	      Antialiasing antialiasing,
-	      Hinting      hinting)
+static XftFont* open_pattern(FcPattern* pattern, Antialiasing antialiasing, Hinting hinting)
 {
-#ifdef FC_HINT_STYLE
-  static const int hintstyles[] = {
-     FC_HINT_NONE, FC_HINT_SLIGHT, FC_HINT_MEDIUM, FC_HINT_FULL
-  };
-#endif /* FC_HINT_STYLE */
+	#ifdef FC_HINT_STYLE
+		static const int hintstyles[] = {
+			FC_HINT_NONE, FC_HINT_SLIGHT, FC_HINT_MEDIUM, FC_HINT_FULL
+		};
+	#endif /* FC_HINT_STYLE */
 
-  FcPattern *res_pattern;
-  FcResult result;
-  XftFont *font;
+	FcPattern* res_pattern;
+	FcResult result;
+	XftFont* font;
 
-  Display *xdisplay = gdk_x11_get_default_xdisplay ();
-  int screen = gdk_x11_get_default_screen ();
+	Display* xdisplay = gdk_x11_get_default_xdisplay();
+	int screen = gdk_x11_get_default_screen();
 
-  res_pattern = XftFontMatch (xdisplay, screen, pattern, &result);
-  if (res_pattern == NULL)
-    return NULL;
+	res_pattern = XftFontMatch(xdisplay, screen, pattern, &result);
+	
+	if (res_pattern == NULL)
+	{
+		return NULL;
+	}
 
-  FcPatternDel (res_pattern, FC_HINTING);
-  FcPatternAddBool (res_pattern, FC_HINTING, hinting != HINT_NONE);
+	FcPatternDel(res_pattern, FC_HINTING);
+	FcPatternAddBool(res_pattern, FC_HINTING, hinting != HINT_NONE);
 
-#ifdef FC_HINT_STYLE
-  FcPatternDel (res_pattern, FC_HINT_STYLE);
-  FcPatternAddInteger (res_pattern, FC_HINT_STYLE, hintstyles[hinting]);
-#endif /* FC_HINT_STYLE */
+	#ifdef FC_HINT_STYLE
+		FcPatternDel(res_pattern, FC_HINT_STYLE);
+		FcPatternAddInteger(res_pattern, FC_HINT_STYLE, hintstyles[hinting]);
+	#endif /* FC_HINT_STYLE */
 
-  FcPatternDel (res_pattern, FC_ANTIALIAS);
-  FcPatternAddBool (res_pattern, FC_ANTIALIAS, antialiasing != ANTIALIAS_NONE);
+	FcPatternDel(res_pattern, FC_ANTIALIAS);
+	FcPatternAddBool(res_pattern, FC_ANTIALIAS, antialiasing != ANTIALIAS_NONE);
 
-  FcPatternDel (res_pattern, FC_RGBA);
-  FcPatternAddInteger (res_pattern, FC_RGBA,
-		       antialiasing == ANTIALIAS_RGBA ? FC_RGBA_RGB : FC_RGBA_NONE);
+	FcPatternDel(res_pattern, FC_RGBA);
+	FcPatternAddInteger(res_pattern, FC_RGBA, antialiasing == ANTIALIAS_RGBA ? FC_RGBA_RGB : FC_RGBA_NONE);
 
-  FcPatternDel (res_pattern, FC_DPI);
-  FcPatternAddInteger (res_pattern, FC_DPI, 96);
+	FcPatternDel(res_pattern, FC_DPI);
+	FcPatternAddInteger(res_pattern, FC_DPI, 96);
 
-  font = XftFontOpenPattern (xdisplay, res_pattern);
-  if (!font)
-    FcPatternDestroy (res_pattern);
+	font = XftFontOpenPattern(xdisplay, res_pattern);
+	
+	if (!font)
+	{
+		FcPatternDestroy(res_pattern);
+	}
 
-  return font;
+	return font;
 }
 
-static void
-setup_font_sample (GtkWidget   *darea,
-		   Antialiasing antialiasing,
-		   Hinting      hinting)
+static void setup_font_sample(GtkWidget* darea, Antialiasing antialiasing, Hinting hinting)
 {
-  const char *string1 = "abcfgop AO ";
-  const char *string2 = "abcfgop";
+	const char* string1 = "abcfgop AO ";
+	const char* string2 = "abcfgop";
 
-  XftColor black, white;
-  XRenderColor rendcolor;
+	XftColor black, white;
+	XRenderColor rendcolor;
 
-  Display *xdisplay = gdk_x11_get_default_xdisplay ();
+	Display* xdisplay = gdk_x11_get_default_xdisplay();
 
-  GdkColormap *colormap = gdk_rgb_get_colormap ();
-  Colormap xcolormap = GDK_COLORMAP_XCOLORMAP (colormap);
+	GdkColormap* colormap = gdk_rgb_get_colormap();
+	Colormap xcolormap = GDK_COLORMAP_XCOLORMAP(colormap);
 
-  GdkVisual *visual = gdk_colormap_get_visual (colormap);
-  Visual *xvisual = GDK_VISUAL_XVISUAL (visual);
+	GdkVisual* visual = gdk_colormap_get_visual(colormap);
+	Visual* xvisual = GDK_VISUAL_XVISUAL(visual);
 
-  FcPattern *pattern;
-  XftFont *font1, *font2;
-  XGlyphInfo extents1 = { 0 };
-  XGlyphInfo extents2 = { 0 };
-  GdkPixmap *pixmap;
-  XftDraw *draw;
-  GdkPixbuf *tmp_pixbuf, *pixbuf;
+	FcPattern* pattern;
+	XftFont* font1;
+	XftFont* font2;
+	XGlyphInfo extents1 = { 0 };
+	XGlyphInfo extents2 = { 0 };
+	GdkPixmap* pixmap;
+	XftDraw* draw;
+	GdkPixbuf* tmp_pixbuf;
+	GdkPixbuf* pixbuf;
 
-  int width, height;
-  int ascent, descent;
+	int width, height;
+	int ascent, descent;
 
-  pattern = FcPatternBuild (NULL,
-			    FC_FAMILY, FcTypeString, "Serif",
-			    FC_SLANT, FcTypeInteger, FC_SLANT_ROMAN,
-			    FC_SIZE, FcTypeDouble, 18.,
-			    NULL);
-  font1 = open_pattern (pattern, antialiasing, hinting);
-  FcPatternDestroy (pattern);
+	pattern = FcPatternBuild (NULL,
+		FC_FAMILY, FcTypeString, "Serif",
+		FC_SLANT, FcTypeInteger, FC_SLANT_ROMAN,
+		FC_SIZE, FcTypeDouble, 18.,
+		NULL);
+	font1 = open_pattern (pattern, antialiasing, hinting);
+	FcPatternDestroy (pattern);
 
-  pattern = FcPatternBuild (NULL,
-			    FC_FAMILY, FcTypeString, "Serif",
-			    FC_SLANT, FcTypeInteger, FC_SLANT_ITALIC,
-			    FC_SIZE, FcTypeDouble, 20.,
-			    NULL);
-  font2 = open_pattern (pattern, antialiasing, hinting);
-  FcPatternDestroy (pattern);
+	pattern = FcPatternBuild (NULL,
+		FC_FAMILY, FcTypeString, "Serif",
+		FC_SLANT, FcTypeInteger, FC_SLANT_ITALIC,
+		FC_SIZE, FcTypeDouble, 20.,
+		NULL);
+	font2 = open_pattern (pattern, antialiasing, hinting);
+	FcPatternDestroy (pattern);
 
-  ascent = 0;
-  descent = 0;
-  if (font1) {
-    XftTextExtentsUtf8 (xdisplay, font1, (unsigned char *) string1,
-			strlen (string1), &extents1);
-    ascent = MAX (ascent, font1->ascent);
-    descent = MAX (descent, font1->descent);
-  }
+	ascent = 0;
+	descent = 0;
+	
+	if (font1)
+	{
+		XftTextExtentsUtf8 (xdisplay, font1, (unsigned char*) string1,
+		strlen (string1), &extents1);
+		ascent = MAX (ascent, font1->ascent);
+		descent = MAX (descent, font1->descent);
+	}
 
-  if (font2) {
-    XftTextExtentsUtf8 (xdisplay, font2, (unsigned char *) string2,
-			strlen (string2), &extents2);
-    ascent = MAX (ascent, font2->ascent);
-    descent = MAX (descent, font2->descent);
-  }
+	if (font2)
+	{
+		XftTextExtentsUtf8 (xdisplay, font2, (unsigned char*) string2, strlen (string2), &extents2);
+		ascent = MAX (ascent, font2->ascent);
+		descent = MAX (descent, font2->descent);
+	}
 
-  width = extents1.xOff + extents2.xOff + 4;
-  height = ascent + descent + 2;
+	width = extents1.xOff + extents2.xOff + 4;
+	height = ascent + descent + 2;
 
-  pixmap = gdk_pixmap_new (NULL, width, height, visual->depth);
+	pixmap = gdk_pixmap_new (NULL, width, height, visual->depth);
 
-  draw = XftDrawCreate (xdisplay, GDK_DRAWABLE_XID (pixmap), xvisual, xcolormap);
+	draw = XftDrawCreate (xdisplay, GDK_DRAWABLE_XID (pixmap), xvisual, xcolormap);
 
-  rendcolor.red = 0;
-  rendcolor.green = 0;
-  rendcolor.blue = 0;
-  rendcolor.alpha = 0xffff;
-  XftColorAllocValue (xdisplay, xvisual, xcolormap, &rendcolor, &black);
+	rendcolor.red = 0;
+	rendcolor.green = 0;
+	rendcolor.blue = 0;
+	rendcolor.alpha = 0xffff;
+	
+	XftColorAllocValue(xdisplay, xvisual, xcolormap, &rendcolor, &black);
 
-  rendcolor.red = 0xffff;
-  rendcolor.green = 0xffff;
-  rendcolor.blue = 0xffff;
-  rendcolor.alpha = 0xffff;
-  XftColorAllocValue (xdisplay, xvisual, xcolormap, &rendcolor, &white);
-  XftDrawRect (draw, &white, 0, 0, width, height);
-  if (font1)
-    XftDrawStringUtf8 (draw, &black, font1,
-		       2, 2 + ascent,
-		       (unsigned char *) string1, strlen (string1));
-  if (font2)
-    XftDrawStringUtf8 (draw, &black, font2,
-		       2 + extents1.xOff, 2 + ascent,
-		       (unsigned char *) string2, strlen (string2));
+	rendcolor.red = 0xffff;
+	rendcolor.green = 0xffff;
+	rendcolor.blue = 0xffff;
+	rendcolor.alpha = 0xffff;
+	
+	XftColorAllocValue(xdisplay, xvisual, xcolormap, &rendcolor, &white);
+	XftDrawRect(draw, &white, 0, 0, width, height);
+	
+	if (font1)
+	{
+		XftDrawStringUtf8(draw, &black, font1, 2, 2 + ascent, (unsigned char*) string1, strlen(string1));
+	}
+	
+	if (font2)
+	{
+		XftDrawStringUtf8(draw, &black, font2, 2 + extents1.xOff, 2 + ascent, (unsigned char*) string2, strlen(string2));
+	}
 
-  XftDrawDestroy (draw);
+	XftDrawDestroy(draw);
 
-  if (font1)
-    XftFontClose (xdisplay, font1);
-  if (font2)
-    XftFontClose (xdisplay, font2);
+	if (font1)
+	{
+		XftFontClose(xdisplay, font1);
+	}
+	
+	if (font2)
+	{
+		XftFontClose(xdisplay, font2);
+	}
 
-  tmp_pixbuf = gdk_pixbuf_get_from_drawable (NULL, pixmap, colormap, 0, 0, 0, 0, width, height);
-  pixbuf = gdk_pixbuf_scale_simple (tmp_pixbuf, 1 * width, 1 * height, GDK_INTERP_TILES);
+	tmp_pixbuf = gdk_pixbuf_get_from_drawable(NULL, pixmap, colormap, 0, 0, 0, 0, width, height);
+	pixbuf = gdk_pixbuf_scale_simple(tmp_pixbuf, 1 * width, 1 * height, GDK_INTERP_TILES);
 
-  g_object_unref (pixmap);
-  g_object_unref (tmp_pixbuf);
+	g_object_unref(pixmap);
+	g_object_unref(tmp_pixbuf);
 
-  g_object_set_data_full (G_OBJECT (darea), "sample-pixbuf",
-			  pixbuf, (GDestroyNotify) g_object_unref);
+	g_object_set_data_full(G_OBJECT(darea), "sample-pixbuf", pixbuf, (GDestroyNotify) g_object_unref);
 
-  g_signal_connect (darea, "size_request", G_CALLBACK (sample_size_request), NULL);
-  g_signal_connect (darea, "expose_event", G_CALLBACK (sample_expose), NULL);
+	g_signal_connect(darea, "size_request", G_CALLBACK(sample_size_request), NULL);
+	g_signal_connect(darea, "expose_event", G_CALLBACK(sample_expose), NULL);
 }
 
 /*
@@ -899,91 +902,60 @@ cb_show_details (GtkWidget *button,
 }
 #endif /* HAVE_XFT2 */
 
-void
-font_init (AppearanceData *data)
+void font_init(AppearanceData* data)
 {
-  GObject *peditor;
-  GtkWidget *widget;
+	GObject* peditor;
+	GtkWidget* widget;
 
-  data->font_details = NULL;
-  data->font_groups = NULL;
+	data->font_details = NULL;
+	data->font_groups = NULL;
 
-  mateconf_client_add_dir (data->client, "/desktop/mate/interface",
-			MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-  mateconf_client_add_dir (data->client, "/apps/caja/preferences",
-			MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-  mateconf_client_add_dir (data->client, MARCO_DIR,
-			MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-#ifdef HAVE_XFT2
-  mateconf_client_add_dir (data->client, FONT_RENDER_DIR,
-			MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-#endif  /* HAVE_XFT2 */
+	mateconf_client_add_dir(data->client, "/desktop/mate/interface", MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	mateconf_client_add_dir(data->client, "/apps/caja/preferences", MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	mateconf_client_add_dir(data->client, MARCO_DIR, MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+  
+	#ifdef HAVE_XFT2
+		mateconf_client_add_dir(data->client, FONT_RENDER_DIR, MATECONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	#endif /* HAVE_XFT2 */
 
-  widget = appearance_capplet_get_widget (data, "application_font");
-  peditor = mateconf_peditor_new_font (NULL, GTK_FONT_KEY,
-				    widget,
-				    "conv-from-widget-cb", application_font_to_mateconf,
-				    NULL);
-  g_signal_connect_swapped (peditor, "value-changed",
-			    G_CALLBACK (application_font_changed),
-			    widget);
-  application_font_changed (widget);
+	widget = appearance_capplet_get_widget(data, "application_font");
+	peditor = mateconf_peditor_new_font(NULL, GTK_FONT_KEY, widget, "conv-from-widget-cb", application_font_to_mateconf, NULL);
+	g_signal_connect_swapped(peditor, "value-changed", G_CALLBACK (application_font_changed), widget);
+	application_font_changed(widget);
 
-  peditor = mateconf_peditor_new_font (NULL, DOCUMENT_FONT_KEY,
-                                    appearance_capplet_get_widget (data, "document_font"),
-                                    NULL);
+	peditor = mateconf_peditor_new_font(NULL, DOCUMENT_FONT_KEY, appearance_capplet_get_widget (data, "document_font"), NULL);
 
-  peditor = mateconf_peditor_new_font (NULL, DESKTOP_FONT_KEY,
-                                    appearance_capplet_get_widget (data, "desktop_font"),
-                                    NULL);
+	peditor = mateconf_peditor_new_font(NULL, DESKTOP_FONT_KEY, appearance_capplet_get_widget (data, "desktop_font"), NULL);
 
-  peditor = mateconf_peditor_new_font (NULL, WINDOW_TITLE_FONT_KEY,
-                                    appearance_capplet_get_widget (data, "window_title_font"),
-                                    NULL);
+	peditor = mateconf_peditor_new_font(NULL, WINDOW_TITLE_FONT_KEY, appearance_capplet_get_widget (data, "window_title_font"), NULL);
 
-  peditor = mateconf_peditor_new_font (NULL, MONOSPACE_FONT_KEY,
-                                    appearance_capplet_get_widget (data, "monospace_font"),
-                                    NULL);
+	peditor = mateconf_peditor_new_font(NULL, MONOSPACE_FONT_KEY, appearance_capplet_get_widget (data, "monospace_font"), NULL);
 
-  mateconf_client_notify_add (data->client, WINDOW_TITLE_USES_SYSTEM_KEY,
-			   marco_changed,
-			   data, NULL, NULL);
+	mateconf_client_notify_add (data->client, WINDOW_TITLE_USES_SYSTEM_KEY, marco_changed, data, NULL, NULL);
 
-  marco_titlebar_load_sensitivity (data);
+	marco_titlebar_load_sensitivity(data);
 
-#ifdef HAVE_XFT2
-  setup_font_pair (appearance_capplet_get_widget (data, "monochrome_radio"),
-                   appearance_capplet_get_widget (data, "monochrome_sample"),
-                   ANTIALIAS_NONE, HINT_FULL);
-  setup_font_pair (appearance_capplet_get_widget (data, "best_shapes_radio"),
-                   appearance_capplet_get_widget (data, "best_shapes_sample"),
-                   ANTIALIAS_GRAYSCALE, HINT_MEDIUM);
-  setup_font_pair (appearance_capplet_get_widget (data, "best_contrast_radio"),
-                   appearance_capplet_get_widget (data, "best_contrast_sample"),
-                   ANTIALIAS_GRAYSCALE, HINT_FULL);
-  setup_font_pair (appearance_capplet_get_widget (data, "subpixel_radio"),
-                   appearance_capplet_get_widget (data, "subpixel_sample"),
-                   ANTIALIAS_RGBA, HINT_FULL);
+	#ifdef HAVE_XFT2
+		setup_font_pair(appearance_capplet_get_widget(data, "monochrome_radio"), appearance_capplet_get_widget (data, "monochrome_sample"), ANTIALIAS_NONE, HINT_FULL);
+		setup_font_pair(appearance_capplet_get_widget(data, "best_shapes_radio"), appearance_capplet_get_widget (data, "best_shapes_sample"), ANTIALIAS_GRAYSCALE, HINT_MEDIUM);
+		setup_font_pair(appearance_capplet_get_widget(data, "best_contrast_radio"), appearance_capplet_get_widget (data, "best_contrast_sample"), ANTIALIAS_GRAYSCALE, HINT_FULL);
+		setup_font_pair(appearance_capplet_get_widget(data, "subpixel_radio"), appearance_capplet_get_widget (data, "subpixel_sample"), ANTIALIAS_RGBA, HINT_FULL);
 
-  font_render_load (data->client);
+		font_render_load (data->client);
 
-  mateconf_client_notify_add (data->client, FONT_RENDER_DIR,
-			   font_render_changed,
-			   data->client, NULL, NULL);
+		mateconf_client_notify_add (data->client, FONT_RENDER_DIR, font_render_changed, data->client, NULL, NULL);
 
-  g_signal_connect (appearance_capplet_get_widget (data, "details_button"),
-                    "clicked", G_CALLBACK (cb_show_details), data);
-#else /* !HAVE_XFT2 */
-  gtk_widget_hide (appearance_capplet_get_widget (data, "font_render_frame"));
-#endif /* HAVE_XFT2 */
+		g_signal_connect (appearance_capplet_get_widget (data, "details_button"), "clicked", G_CALLBACK (cb_show_details), data);
+	#else /* !HAVE_XFT2 */
+		gtk_widget_hide (appearance_capplet_get_widget (data, "font_render_frame"));
+	#endif /* HAVE_XFT2 */
 }
 
-void
-font_shutdown (AppearanceData *data)
+void font_shutdown(AppearanceData* data)
 {
-  g_slist_foreach (data->font_groups, (GFunc) enum_group_destroy, NULL);
-  g_slist_free (data->font_groups);
-  g_slist_foreach (font_pairs, (GFunc) g_free, NULL);
-  g_slist_free (font_pairs);
-  g_free (old_font);
+	g_slist_foreach(data->font_groups, (GFunc) enum_group_destroy, NULL);
+	g_slist_free(data->font_groups);
+	g_slist_foreach(font_pairs, (GFunc) g_free, NULL);
+	g_slist_free(font_pairs);
+	g_free(old_font);
 }
