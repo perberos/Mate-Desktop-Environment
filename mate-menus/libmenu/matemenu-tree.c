@@ -600,9 +600,7 @@ matemenu_tree_force_recanonicalize (MateMenuTree *tree)
     }
 }
 
-MateMenuTree *
-matemenu_tree_lookup (const char     *menu_file,
-		   MateMenuTreeFlags  flags)
+MateMenuTree* matemenu_tree_lookup(const char* menu_file, MateMenuTreeFlags flags)
 {
   MateMenuTree *retval;
 
@@ -1182,68 +1180,60 @@ const char* matemenu_tree_entry_get_icon(MateMenuTreeEntry *entry)
 	return desktop_entry_get_icon(entry->desktop_entry);
 }
 
-const char *
-matemenu_tree_entry_get_exec (MateMenuTreeEntry *entry)
+const char* matemenu_tree_entry_get_exec(MateMenuTreeEntry* entry)
 {
-  g_return_val_if_fail (entry != NULL, NULL);
+	g_return_val_if_fail(entry != NULL, NULL);
 
-  return desktop_entry_get_exec (entry->desktop_entry);
+	return desktop_entry_get_exec(entry->desktop_entry);
 }
 
-gboolean
-matemenu_tree_entry_get_launch_in_terminal (MateMenuTreeEntry *entry)
+gboolean matemenu_tree_entry_get_launch_in_terminal(MateMenuTreeEntry* entry)
 {
-  g_return_val_if_fail (entry != NULL, FALSE);
+  g_return_val_if_fail(entry != NULL, FALSE);
 
-  return desktop_entry_get_launch_in_terminal (entry->desktop_entry);
+  return desktop_entry_get_launch_in_terminal(entry->desktop_entry);
 }
 
-const char *
-matemenu_tree_entry_get_desktop_file_path (MateMenuTreeEntry *entry)
+const char* matemenu_tree_entry_get_desktop_file_path(MateMenuTreeEntry* entry)
 {
-  g_return_val_if_fail (entry != NULL, NULL);
+	g_return_val_if_fail(entry != NULL, NULL);
 
-  return desktop_entry_get_path (entry->desktop_entry);
+	return desktop_entry_get_path(entry->desktop_entry);
 }
 
-const char *
-matemenu_tree_entry_get_desktop_file_id (MateMenuTreeEntry *entry)
+const char* matemenu_tree_entry_get_desktop_file_id(MateMenuTreeEntry* entry)
 {
-  g_return_val_if_fail (entry != NULL, NULL);
+	g_return_val_if_fail(entry != NULL, NULL);
 
-  return entry->desktop_file_id;
+	return entry->desktop_file_id;
 }
 
-gboolean
-matemenu_tree_entry_get_is_excluded (MateMenuTreeEntry *entry)
+gboolean matemenu_tree_entry_get_is_excluded(MateMenuTreeEntry* entry)
 {
-  g_return_val_if_fail (entry != NULL, FALSE);
+	g_return_val_if_fail(entry != NULL, FALSE);
 
-  return entry->is_excluded;
+	return entry->is_excluded;
 }
 
-gboolean
-matemenu_tree_entry_get_is_nodisplay (MateMenuTreeEntry *entry)
+gboolean matemenu_tree_entry_get_is_nodisplay(MateMenuTreeEntry* entry)
 {
-  g_return_val_if_fail (entry != NULL, FALSE);
+	g_return_val_if_fail(entry != NULL, FALSE);
 
-  return entry->is_nodisplay;
+	return entry->is_nodisplay;
 }
 
-MateMenuTreeDirectory *
-matemenu_tree_header_get_directory (MateMenuTreeHeader *header)
+MateMenuTreeDirectory* matemenu_tree_header_get_directory(MateMenuTreeHeader* header)
 {
-  g_return_val_if_fail (header != NULL, NULL);
+	g_return_val_if_fail (header != NULL, NULL);
 
-  return matemenu_tree_item_ref (header->directory);
+	return matemenu_tree_item_ref(header->directory);
 }
 
-MateMenuTreeDirectory *
-matemenu_tree_alias_get_directory (MateMenuTreeAlias *alias)
+MateMenuTreeDirectory* matemenu_tree_alias_get_directory(MateMenuTreeAlias* alias)
 {
-  g_return_val_if_fail (alias != NULL, NULL);
+	g_return_val_if_fail (alias != NULL, NULL);
 
-  return matemenu_tree_item_ref (alias->directory);
+	return matemenu_tree_item_ref(alias->directory);
 }
 
 MateMenuTreeItem *
@@ -1479,19 +1469,16 @@ matemenu_tree_entry_compare_by_id (MateMenuTreeItem *a,
                  MATEMENU_TREE_ENTRY (b)->desktop_file_id);
 }
 
-gpointer
-matemenu_tree_item_ref (gpointer itemp)
+gpointer matemenu_tree_item_ref(gpointer itemp)
 {
-  MateMenuTreeItem *item;
+	MateMenuTreeItem* item = (MateMenuTreeItem*) itemp;
 
-  item = (MateMenuTreeItem *) itemp;
+	g_return_val_if_fail(item != NULL, NULL);
+	g_return_val_if_fail(item->refcount > 0, NULL);
 
-  g_return_val_if_fail (item != NULL, NULL);
-  g_return_val_if_fail (item->refcount > 0, NULL);
+	item->refcount++;
 
-  item->refcount++;
-
-  return item;
+	return item;
 }
 
 void

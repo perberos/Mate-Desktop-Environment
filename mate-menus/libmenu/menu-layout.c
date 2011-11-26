@@ -964,7 +964,7 @@ menu_layout_values_set (MenuLayoutValues *values,
       values->inline_menus = strcmp (inline_menus, "true") == 0;
       values->mask |= MENU_LAYOUT_VALUES_INLINE_MENUS;
     }
-  
+
   if (inline_limit != NULL)
     {
       char *end;

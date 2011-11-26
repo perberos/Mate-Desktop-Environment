@@ -2188,14 +2188,13 @@ mate_panel_applet_register_object (MatePanelApplet *applet)
 	}
 }
 
-static void
-mate_panel_applet_factory_main_finalized (gpointer data,
-				     GObject *object)
+static void mate_panel_applet_factory_main_finalized(gpointer data, GObject* object)
 {
-	gtk_main_quit ();
+	gtk_main_quit();
 
-	if (introspection_data) {
-		g_dbus_node_info_unref (introspection_data);
+	if (introspection_data)
+	{
+		g_dbus_node_info_unref(introspection_data);
 		introspection_data = NULL;
 	}
 }
@@ -2249,33 +2248,30 @@ _mate_panel_applet_setup_x_error_handler (void)
 	_x_error_func = XSetErrorHandler (_x_error_handler);
 }
 
-int
-mate_panel_applet_factory_main (const gchar               *factory_id,
-			   gboolean                   out_process,
-			   GType                      applet_type,
-			   MatePanelAppletFactoryCallback callback,
-			   gpointer                   user_data)
+int mate_panel_applet_factory_main(const gchar* factory_id, gboolean out_process, GType applet_type, MatePanelAppletFactoryCallback callback, gpointer user_data)
 {
-	MatePanelAppletFactory *factory;
-	GClosure           *closure;
+	MatePanelAppletFactory* factory;
+	GClosure* closure;
 
-	g_return_val_if_fail (factory_id != NULL, 1);
-	g_return_val_if_fail (callback != NULL, 1);
-	g_assert (g_type_is_a (applet_type, PANEL_TYPE_APPLET));
+	g_return_val_if_fail(factory_id != NULL, 1);
+	g_return_val_if_fail(callback != NULL, 1);
+	g_assert(g_type_is_a(applet_type, PANEL_TYPE_APPLET));
 
 	if (out_process)
-		_mate_panel_applet_setup_x_error_handler ();
+	{
+		_mate_panel_applet_setup_x_error_handler();
+	}
 
-	closure = g_cclosure_new (G_CALLBACK (callback), user_data, NULL);
-	factory = mate_panel_applet_factory_new (factory_id, applet_type, closure);
-	g_closure_unref (closure);
+	closure = g_cclosure_new(G_CALLBACK(callback), user_data, NULL);
+	factory = mate_panel_applet_factory_new(factory_id, applet_type, closure);
+	g_closure_unref(closure);
 
-	if (mate_panel_applet_factory_register_service (factory)) {
-		if (out_process) {
-			g_object_weak_ref (G_OBJECT (factory),
-					   mate_panel_applet_factory_main_finalized,
-					   NULL);
-			gtk_main ();
+	if (mate_panel_applet_factory_register_service(factory))
+	{
+		if (out_process)
+		{
+			g_object_weak_ref(G_OBJECT(factory), mate_panel_applet_factory_main_finalized, NULL);
+			gtk_main();
 		}
 
 		return 0;

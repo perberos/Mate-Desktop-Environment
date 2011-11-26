@@ -29,51 +29,36 @@ extern "C" {
 
 typedef struct EntryDirectory EntryDirectory;
 
-typedef void (*EntryDirectoryChangedFunc) (EntryDirectory *ed,
-                                           gpointer        user_data);
+typedef void (*EntryDirectoryChangedFunc) (EntryDirectory* ed, gpointer user_data);
 
-EntryDirectory *entry_directory_new        (DesktopEntryType  entry_type,
-                                            const char       *path);
-EntryDirectory *entry_directory_new_legacy (DesktopEntryType  entry_type,
-                                            const char       *path,
-                                            const char       *legacy_prefix);
+EntryDirectory* entry_directory_new(DesktopEntryType entry_type, const char* path);
+EntryDirectory* entry_directory_new_legacy(DesktopEntryType entry_type, const char* path, const char* legacy_prefix);
 
-EntryDirectory *entry_directory_ref   (EntryDirectory *ed);
-void            entry_directory_unref (EntryDirectory *ed);
+EntryDirectory* entry_directory_ref(EntryDirectory* ed);
+void entry_directory_unref(EntryDirectory* ed);
 
-void entry_directory_get_flat_contents (EntryDirectory   *ed,
-                                        DesktopEntrySet  *desktop_entries,
-                                        DesktopEntrySet  *directory_entries,
-                                        GSList          **subdirs);
+void entry_directory_get_flat_contents(EntryDirectory* ed, DesktopEntrySet* desktop_entries, DesktopEntrySet* directory_entries, GSList** subdirs);
 
 
 typedef struct EntryDirectoryList EntryDirectoryList;
 
-EntryDirectoryList *entry_directory_list_new   (void);
-EntryDirectoryList *entry_directory_list_ref   (EntryDirectoryList *list);
-void                entry_directory_list_unref (EntryDirectoryList *list);
+EntryDirectoryList* entry_directory_list_new(void);
+EntryDirectoryList* entry_directory_list_ref(EntryDirectoryList* list);
+void entry_directory_list_unref(EntryDirectoryList* list);
 
-int  entry_directory_list_get_length  (EntryDirectoryList *list);
-gboolean _entry_directory_list_compare (const EntryDirectoryList *a,
-                                        const EntryDirectoryList *b);
+int  entry_directory_list_get_length(EntryDirectoryList* list);
+gboolean _entry_directory_list_compare(const EntryDirectoryList* a, const EntryDirectoryList* b);
 
-void entry_directory_list_prepend     (EntryDirectoryList *list,
-                                       EntryDirectory     *ed);
-void entry_directory_list_append_list (EntryDirectoryList *list,
-                                       EntryDirectoryList *to_append);
+void entry_directory_list_prepend(EntryDirectoryList* list, EntryDirectory* ed);
+void entry_directory_list_append_list(EntryDirectoryList* list, EntryDirectoryList* to_append);
 
-void entry_directory_list_add_monitors    (EntryDirectoryList        *list,
-                                           EntryDirectoryChangedFunc  callback,
-                                           gpointer                   user_data);
-void entry_directory_list_remove_monitors (EntryDirectoryList        *list,
-                                           EntryDirectoryChangedFunc  callback,
-                                           gpointer                   user_data);
+void entry_directory_list_add_monitors(EntryDirectoryList* list, EntryDirectoryChangedFunc callback, gpointer user_data);
+void entry_directory_list_remove_monitors(EntryDirectoryList* list, EntryDirectoryChangedFunc callback, gpointer user_data);
 
-DesktopEntry* entry_directory_list_get_directory (EntryDirectoryList *list,
-                                                  const char         *relative_path);
+DesktopEntry* entry_directory_list_get_directory (EntryDirectoryList* list, const char* relative_path);
 
-DesktopEntrySet *_entry_directory_list_get_all_desktops (EntryDirectoryList *list);
-void             _entry_directory_list_empty_desktop_cache (void);
+DesktopEntrySet* _entry_directory_list_get_all_desktops(EntryDirectoryList* list);
+void _entry_directory_list_empty_desktop_cache(void);
 
 #ifdef __cplusplus
 }

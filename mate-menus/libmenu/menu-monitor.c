@@ -28,50 +28,44 @@
 
 #include "menu-util.h"
 
-struct MenuMonitor
-{
-  char  *path;
-  guint  refcount;
+struct MenuMonitor {
+	char* path;
+	guint refcount;
 
-  GSList *notifies;
+	GSList* notifies;
 
-  GFileMonitor *monitor;
+	GFileMonitor* monitor;
 
-  guint is_directory : 1;
+	guint is_directory: 1;
 };
 
-typedef struct
-{
-  MenuMonitor      *monitor;
-  MenuMonitorEvent  event;
-  char             *path;
+typedef struct {
+	MenuMonitor* monitor;
+	MenuMonitorEvent event;
+	char* path;
 } MenuMonitorEventInfo;
 
-typedef struct
-{
-  MenuMonitorNotifyFunc notify_func;
-  gpointer              user_data;
-  guint                 refcount;
+typedef struct {
+	MenuMonitorNotifyFunc notify_func;
+	gpointer user_data;
+	guint refcount;
 } MenuMonitorNotify;
 
-static MenuMonitorNotify *menu_monitor_notify_ref   (MenuMonitorNotify *notify);
-static void               menu_monitor_notify_unref (MenuMonitorNotify *notify);
+static MenuMonitorNotify* mate_menu_monitor_notify_ref(MenuMonitorNotify* notify);
+static void mate_menu_monitor_notify_unref(MenuMonitorNotify* notify);
 
-static GHashTable *monitors_registry = NULL;
-static guint       events_idle_handler = 0;
-static GSList     *pending_events = NULL;
+static GHashTable* monitors_registry = NULL;
+static guint events_idle_handler = 0;
+static GSList* pending_events = NULL;
 
-static void
-invoke_notifies (MenuMonitor      *monitor,
-		 MenuMonitorEvent  event,
-		 const char       *path)
+static void invoke_notifies(MenuMonitor* monitor, MenuMonitorEvent  event, const char* path)
 {
   GSList *copy;
   GSList *tmp;
 
   copy = g_slist_copy (monitor->notifies);
   g_slist_foreach (copy,
-		   (GFunc) menu_monitor_notify_ref,
+		   (GFunc) mate_menu_monitor_notify_ref,
 		   NULL);
 
   tmp = copy;
@@ -85,7 +79,7 @@ invoke_notifies (MenuMonitor      *monitor,
 	  notify->notify_func (monitor, event, path, notify->user_data);
 	}
 
-      menu_monitor_notify_unref (notify);
+      mate_menu_monitor_notify_unref(notify);
 
       tmp = next;
     }
@@ -93,8 +87,7 @@ invoke_notifies (MenuMonitor      *monitor,
   g_slist_free (copy);
 }
 
-static gboolean
-emit_events_in_idle (void)
+static gboolean emit_events_in_idle(void)
 {
   GSList *events_to_emit;
   GSList *tmp;
@@ -109,11 +102,11 @@ emit_events_in_idle (void)
     {
       MenuMonitorEventInfo *event_info = tmp->data;
 
-      menu_monitor_ref (event_info->monitor);
+      mate_menu_monitor_ref(event_info->monitor);
 
       tmp = tmp->next;
     }
-  
+
   tmp = events_to_emit;
   while (tmp != NULL)
     {
@@ -141,8 +134,7 @@ emit_events_in_idle (void)
   return FALSE;
 }
 
-static void
-menu_monitor_queue_event (MenuMonitorEventInfo *event_info)
+static void menu_monitor_queue_event(MenuMonitorEventInfo* event_info)
 {
   pending_events = g_slist_append (pending_events, event_info);
 
@@ -152,21 +144,14 @@ menu_monitor_queue_event (MenuMonitorEventInfo *event_info)
     }
 }
 
-static inline char *
-get_registry_key (const char *path,
-		  gboolean    is_directory)
+static inline char* get_registry_key(const char* path, gboolean is_directory)
 {
   return g_strdup_printf ("%s:%s",
 			  path,
 			  is_directory ? "<dir>" : "<file>");
 }
 
-static gboolean
-monitor_callback (GFileMonitor      *monitor,
-                  GFile             *child,
-                  GFile             *other_file,
-                  GFileMonitorEvent eflags,
-                  gpointer          user_data)
+static gboolean monitor_callback (GFileMonitor* monitor, GFile* child, GFile* other_file, GFileMonitorEvent eflags, gpointer user_data)
 {
   MenuMonitorEventInfo *event_info;
   MenuMonitorEvent      event;
@@ -199,9 +184,7 @@ monitor_callback (GFileMonitor      *monitor,
   return TRUE;
 }
 
-static MenuMonitor *
-register_monitor (const char *path,
-		  gboolean    is_directory)
+static MenuMonitor* register_monitor(const char* path, gboolean is_directory)
 {
   static gboolean  initted = FALSE;
   MenuMonitor     *retval;
@@ -252,9 +235,7 @@ register_monitor (const char *path,
   return retval;
 }
 
-static MenuMonitor *
-lookup_monitor (const char *path,
-		gboolean    is_directory)
+static MenuMonitor* lookup_monitor(const char* path, gboolean is_directory)
 {
   MenuMonitor *retval;
   char        *registry_key;
@@ -286,39 +267,35 @@ lookup_monitor (const char *path,
     {
       g_free (registry_key);
 
-      return menu_monitor_ref (retval);
+      return mate_menu_monitor_ref(retval);
     }
 }
 
-MenuMonitor *
-menu_get_file_monitor (const char *path)
+MenuMonitor* mate_menu_monitor_file_get(const char* path)
 {
-  g_return_val_if_fail (path != NULL, NULL);
+	g_return_val_if_fail(path != NULL, NULL);
 
-  return lookup_monitor (path, FALSE);
+	return lookup_monitor(path, FALSE);
 }
 
-MenuMonitor *
-menu_get_directory_monitor (const char *path)
+MenuMonitor* menu_get_directory_monitor(const char* path)
 {
   g_return_val_if_fail (path != NULL, NULL);
 
   return lookup_monitor (path, TRUE);
 }
 
-MenuMonitor *
-menu_monitor_ref (MenuMonitor *monitor)
+MenuMonitor* mate_menu_monitor_ref(MenuMonitor* monitor)
 {
-  g_return_val_if_fail (monitor != NULL, NULL);
-  g_return_val_if_fail (monitor->refcount > 0, NULL);
+	g_return_val_if_fail(monitor != NULL, NULL);
+	g_return_val_if_fail(monitor->refcount > 0, NULL);
 
-  monitor->refcount++;
+	monitor->refcount++;
 
-  return monitor;
+	return monitor;
 }
 
-static void
-menu_monitor_clear_pending_events (MenuMonitor *monitor)
+static void menu_monitor_clear_pending_events(MenuMonitor* monitor)
 {
   GSList *tmp;
 
@@ -345,8 +322,7 @@ menu_monitor_clear_pending_events (MenuMonitor *monitor)
     }
 }
 
-void
-menu_monitor_unref (MenuMonitor *monitor)
+void menu_monitor_unref(MenuMonitor* monitor)
 {
   char *registry_key;
 
@@ -373,7 +349,7 @@ menu_monitor_unref (MenuMonitor *monitor)
       monitor->monitor = NULL;
     }
 
-  g_slist_foreach (monitor->notifies, (GFunc) menu_monitor_notify_unref, NULL);
+  g_slist_foreach (monitor->notifies, (GFunc) mate_menu_monitor_notify_unref, NULL);
   g_slist_free (monitor->notifies);
   monitor->notifies = NULL;
 
@@ -385,86 +361,80 @@ menu_monitor_unref (MenuMonitor *monitor)
   g_free (monitor);
 }
 
-static MenuMonitorNotify *
-menu_monitor_notify_ref (MenuMonitorNotify *notify)
+static MenuMonitorNotify* mate_menu_monitor_notify_ref(MenuMonitorNotify* notify)
 {
-  g_return_val_if_fail (notify != NULL, NULL);
-  g_return_val_if_fail (notify->refcount > 0, NULL);
+	g_return_val_if_fail(notify != NULL, NULL);
+	g_return_val_if_fail(notify->refcount > 0, NULL);
 
-  notify->refcount++;
+	notify->refcount++;
 
-  return notify;
+	return notify;
 }
 
-static void
-menu_monitor_notify_unref (MenuMonitorNotify *notify)
+static void mate_menu_monitor_notify_unref(MenuMonitorNotify* notify)
 {
-  g_return_if_fail (notify != NULL);
-  g_return_if_fail (notify->refcount > 0);
+	g_return_if_fail(notify != NULL);
+	g_return_if_fail(notify->refcount > 0);
 
-  if (--notify->refcount > 0)
-    return;
+	if (--notify->refcount > 0)
+	{
+		return;
+	}
 
-  g_free (notify);
+	g_free(notify);
 }
 
-void
-menu_monitor_add_notify (MenuMonitor           *monitor,
-			 MenuMonitorNotifyFunc  notify_func,
-			 gpointer               user_data)
+void menu_monitor_add_notify(MenuMonitor* monitor, MenuMonitorNotifyFunc notify_func, gpointer user_data)
 {
-  MenuMonitorNotify *notify;
-  GSList            *tmp;
+	MenuMonitorNotify* notify;
 
-  g_return_if_fail (monitor != NULL);
-  g_return_if_fail (notify_func != NULL);
+	g_return_if_fail(monitor != NULL);
+	g_return_if_fail(notify_func != NULL);
 
-  tmp = monitor->notifies;
-  while (tmp != NULL)
-    {
-      notify = tmp->data;
+	GSList* tmp = monitor->notifies;
 
-      if (notify->notify_func == notify_func &&
-          notify->user_data   == user_data)
-        break;
+	while (tmp != NULL)
+	{
+		notify = tmp->data;
 
-      tmp = tmp->next;
-    }
+		if (notify->notify_func == notify_func && notify->user_data == user_data)
+		{
+			break;
+		}
 
-  if (tmp == NULL)
-    {
-      notify              = g_new0 (MenuMonitorNotify, 1);
-      notify->notify_func = notify_func;
-      notify->user_data   = user_data;
-      notify->refcount    = 1;
+		tmp = tmp->next;
+	}
 
-      monitor->notifies = g_slist_append (monitor->notifies, notify);
-    }
+	if (tmp == NULL)
+	{
+		notify = g_new0(MenuMonitorNotify, 1);
+		notify->notify_func = notify_func;
+		notify->user_data = user_data;
+		notify->refcount = 1;
+
+		monitor->notifies = g_slist_append(monitor->notifies, notify);
+	}
 }
 
-void
-menu_monitor_remove_notify (MenuMonitor           *monitor,
-			    MenuMonitorNotifyFunc  notify_func,
-			    gpointer               user_data)
+void mate_menu_monitor_notify_remove(MenuMonitor* monitor, MenuMonitorNotifyFunc notify_func, gpointer user_data)
 {
-  GSList *tmp;
+	GSList* tmp = monitor->notifies;
 
-  tmp = monitor->notifies;
-  while (tmp != NULL)
-    {
-      MenuMonitorNotify *notify = tmp->data;
-      GSList            *next   = tmp->next;
+	while (tmp != NULL)
+	{
+		MenuMonitorNotify* notify = tmp->data;
+		GSList* next = tmp->next;
 
-      if (notify->notify_func == notify_func &&
-          notify->user_data   == user_data)
-        {
-	  notify->notify_func = NULL;
-	  notify->user_data   = NULL;
-          menu_monitor_notify_unref (notify);
+		if (notify->notify_func == notify_func && notify->user_data == user_data)
+		{
+			notify->notify_func = NULL;
+			notify->user_data = NULL;
 
-          monitor->notifies = g_slist_delete_link (monitor->notifies, tmp);
-        }
+			mate_menu_monitor_notify_unref(notify);
 
-      tmp = next;
-    }
+			monitor->notifies = g_slist_delete_link(monitor->notifies, tmp);
+		}
+
+		tmp = next;
+	}
 }

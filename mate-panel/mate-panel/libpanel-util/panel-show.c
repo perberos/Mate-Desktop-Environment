@@ -92,14 +92,12 @@ _panel_show_mount_async_callback (GObject      *source_object,
 	g_slice_free (PanelShowMountOperationHandle, handle);
 }
 
-static gboolean
-_panel_show_handle_error (const gchar  *uri,
-			  GdkScreen    *screen,
-			  GError       *local_error,
-			  GError      **error)
+static gboolean _panel_show_handle_error(const gchar* uri, GdkScreen* screen, GError* local_error, GError** error)
 {
 	if (local_error == NULL)
+	{
 		return TRUE;
+	}
 
 	else if (g_error_matches (local_error,
 				  G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -141,55 +139,48 @@ _panel_show_handle_error (const gchar  *uri,
 	return FALSE;
 }
 
-static gboolean
-panel_show_caja_search_uri (GdkScreen    *screen,
-				const gchar  *uri,
-				guint32       timestamp,
-				GError      **error)
+static gboolean panel_show_caja_search_uri(GdkScreen* screen, const gchar* uri, guint32 timestamp, GError** error)
 {
-	char            *desktopfile;
-	GDesktopAppInfo *appinfo;
-	gboolean         ret;
+	char* desktopfile;
+	GDesktopAppInfo* appinfo;
+	gboolean ret;
 
-	desktopfile = panel_g_lookup_in_applications_dirs ("caja-folder-handler.desktop");
-	if (desktopfile) {
-		appinfo = g_desktop_app_info_new_from_filename (desktopfile);
-		g_free (desktopfile);
+	desktopfile = panel_g_lookup_in_applications_dirs("caja-folder-handler.desktop");
+
+	if (desktopfile)
+	{
+		appinfo = g_desktop_app_info_new_from_filename(desktopfile);
+		g_free(desktopfile);
 	}
 
-	if (!appinfo) {
-		_panel_show_error_dialog (uri, screen,
-					  _("No application to handle search folders is installed."));
+	if (!appinfo)
+	{
+		_panel_show_error_dialog (uri, screen, _("No application to handle search folders is installed."));
 		return FALSE;
 	}
 
-	ret = panel_app_info_launch_uri ((GAppInfo *) appinfo,
-					 uri, screen, timestamp, error);
-	g_object_unref (appinfo);
+	ret = panel_app_info_launch_uri((GAppInfo*) appinfo, uri, screen, timestamp, error);
+	g_object_unref(appinfo);
 
 	return ret;
 }
 
-gboolean
-panel_show_uri (GdkScreen    *screen,
-		const gchar  *uri,
-		guint32       timestamp,
-		GError      **error)
+gboolean panel_show_uri(GdkScreen* screen, const gchar* uri, guint32 timestamp, GError** error)
 {
-	GError *local_error = NULL;
+	GError* local_error = NULL;
 
-	g_return_val_if_fail (GDK_IS_SCREEN (screen), FALSE);
-	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+	g_return_val_if_fail(GDK_IS_SCREEN (screen), FALSE);
+	g_return_val_if_fail(uri != NULL, FALSE);
+	g_return_val_if_fail(error == NULL || *error == NULL, FALSE);
 
-	if (g_str_has_prefix (uri, "x-caja-search:")) {
-		return panel_show_caja_search_uri (screen, uri,
-						       timestamp, error);
+	if (g_str_has_prefix(uri, "x-caja-search:"))
+	{
+		return panel_show_caja_search_uri(screen, uri, timestamp, error);
 	}
 
-	gtk_show_uri (screen, uri, timestamp, &local_error);
+	gtk_show_uri(screen, uri, timestamp, &local_error);
 
-	return _panel_show_handle_error (uri, screen, local_error, error);
+	return _panel_show_handle_error(uri, screen, local_error, error);
 }
 
 gboolean

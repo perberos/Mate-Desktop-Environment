@@ -33,76 +33,66 @@
 typedef struct CachedDir CachedDir;
 typedef struct CachedDirMonitor CachedDirMonitor;
 
-struct EntryDirectory
-{
-  CachedDir *dir;
-  char      *legacy_prefix;
+struct EntryDirectory {
+	CachedDir* dir;
+	char* legacy_prefix;
 
-  guint entry_type : 2;
-  guint is_legacy : 1;
-  guint refcount : 24;
+	guint entry_type: 2;
+	guint is_legacy: 1;
+	guint refcount: 24;
 };
 
-struct EntryDirectoryList
-{
-  int    refcount;
-  int    length;
-  GList *dirs;
+struct EntryDirectoryList {
+	int refcount;
+	int length;
+	GList* dirs;
 };
 
-struct CachedDir
-{
-  CachedDir *parent;
-  char      *name;
+struct CachedDir {
+	CachedDir* parent;
+	char* name;
 
-  GSList *entries;
-  GSList *subdirs;
+	GSList* entries;
+	GSList* subdirs;
 
-  MenuMonitor *dir_monitor;
-  GSList      *monitors;
+	MenuMonitor* dir_monitor;
+	GSList* monitors;
 
-  guint have_read_entries : 1;
-  guint deleted : 1;
+	guint have_read_entries: 1;
+	guint deleted: 1;
 
-  guint references : 28;
+	guint references: 28;
 };
 
-struct CachedDirMonitor
-{
-  EntryDirectory            *ed;
-  EntryDirectoryChangedFunc  callback;
-  gpointer                   user_data;
+struct CachedDirMonitor {
+	EntryDirectory* ed;
+	EntryDirectoryChangedFunc callback;
+	gpointer user_data;
 };
 
-static void     cached_dir_free                   (CachedDir  *dir);
-static gboolean cached_dir_load_entries_recursive (CachedDir  *dir,
-                                                   const char *dirname);
+static void cached_dir_free(CachedDir* dir);
+static gboolean cached_dir_load_entries_recursive(CachedDir* dir, const char* dirname);
 
-static void handle_cached_dir_changed (MenuMonitor      *monitor,
-				       MenuMonitorEvent  event,
-				       const char       *path,
-				       CachedDir        *dir);
+static void handle_cached_dir_changed(MenuMonitor* monitor, MenuMonitorEvent event, const char* path, CachedDir* dir);
 
 /*
  * Entry directory cache
  */
 
-static CachedDir *dir_cache = NULL;
+static CachedDir* dir_cache = NULL;
 
-static CachedDir *
-cached_dir_new (const char *name)
+static CachedDir* cached_dir_new(const char *name)
 {
-  CachedDir *dir;
+	CachedDir* dir;
 
-  dir = g_new0 (CachedDir, 1);
+	dir = g_new0(CachedDir, 1);
 
-  dir->name = g_strdup (name);
+	dir->name = g_strdup(name);
 
-  return dir;
+	return dir;
 }
 
-static void
-cached_dir_free (CachedDir *dir)
+static void cached_dir_free(CachedDir* dir)
 {
   if (dir->dir_monitor)
     {
@@ -133,9 +123,7 @@ cached_dir_free (CachedDir *dir)
   g_free (dir);
 }
 
-static inline CachedDir *
-find_subdir (CachedDir  *dir,
-             const char *subdir)
+static inline CachedDir* find_subdir(CachedDir* dir, const char* subdir)
 {
   GSList *tmp;
 
@@ -153,9 +141,7 @@ find_subdir (CachedDir  *dir,
   return NULL;
 }
 
-static DesktopEntry *
-find_entry (CachedDir  *dir,
-            const char *basename)
+static DesktopEntry* find_entry(CachedDir* dir, const char* basename)
 {
   GSList *tmp;
 
@@ -171,9 +157,7 @@ find_entry (CachedDir  *dir,
   return NULL;
 }
 
-static DesktopEntry *
-cached_dir_find_relative_path (CachedDir  *dir,
-                               const char *relative_path)
+static DesktopEntry* cached_dir_find_relative_path(CachedDir* dir, const char* relative_path)
 {
   DesktopEntry  *retval = NULL;
   char         **split;
@@ -203,8 +187,7 @@ cached_dir_find_relative_path (CachedDir  *dir,
   return retval;
 }
 
-static CachedDir *
-cached_dir_lookup (const char *canonical)
+static CachedDir* cached_dir_lookup(const char* canonical)
 {
   CachedDir  *dir;
   char      **split;
@@ -244,10 +227,7 @@ cached_dir_lookup (const char *canonical)
   return dir;
 }
 
-static gboolean
-cached_dir_add_entry (CachedDir  *dir,
-                      const char *basename,
-                      const char *path)
+static gboolean cached_dir_add_entry(CachedDir* dir, const char* basename, const char* path)
 {
   DesktopEntry *entry;
 
@@ -260,10 +240,7 @@ cached_dir_add_entry (CachedDir  *dir,
   return TRUE;
 }
 
-static gboolean
-cached_dir_update_entry (CachedDir  *dir,
-                         const char *basename,
-                         const char *path)
+static gboolean cached_dir_update_entry(CachedDir* dir, const char* basename, const char* path)
 {
   GSList *tmp;
 
@@ -286,9 +263,7 @@ cached_dir_update_entry (CachedDir  *dir,
   return cached_dir_add_entry (dir, basename, path);
 }
 
-static gboolean
-cached_dir_remove_entry (CachedDir  *dir,
-                         const char *basename)
+static gboolean cached_dir_remove_entry(CachedDir* dir, const char* basename)
 {
   GSList *tmp;
 
@@ -308,10 +283,7 @@ cached_dir_remove_entry (CachedDir  *dir,
   return FALSE;
 }
 
-static gboolean
-cached_dir_add_subdir (CachedDir  *dir,
-                       const char *basename,
-                       const char *path)
+static gboolean cached_dir_add_subdir(CachedDir* dir, const char* basename, const char* path)
 {
   CachedDir *subdir;
 
@@ -339,9 +311,7 @@ cached_dir_add_subdir (CachedDir  *dir,
   return TRUE;
 }
 
-static gboolean
-cached_dir_remove_subdir (CachedDir  *dir,
-                          const char *basename)
+static gboolean cached_dir_remove_subdir(CachedDir* dir, const char* basename)
 {
   CachedDir *subdir;
 
@@ -363,8 +333,7 @@ cached_dir_remove_subdir (CachedDir  *dir,
   return FALSE;
 }
 
-static void
-cached_dir_invoke_monitors (CachedDir *dir)
+static void cached_dir_invoke_monitors(CachedDir* dir)
 {
   GSList *tmp;
 
@@ -385,11 +354,7 @@ cached_dir_invoke_monitors (CachedDir *dir)
     }
 }
 
-static void
-handle_cached_dir_changed (MenuMonitor      *monitor,
-			   MenuMonitorEvent  event,
-			   const char       *path,
-                           CachedDir        *dir)
+static void handle_cached_dir_changed (MenuMonitor* monitor, MenuMonitorEvent event, const char* path, CachedDir* dir)
 {
   gboolean  handled = FALSE;
   char     *basename;
@@ -461,9 +426,7 @@ handle_cached_dir_changed (MenuMonitor      *monitor,
     }
 }
 
-static void
-cached_dir_ensure_monitor (CachedDir  *dir,
-                           const char *dirname)
+static void cached_dir_ensure_monitor(CachedDir* dir, const char* dirname)
 {
   if (dir->dir_monitor == NULL)
     {
@@ -474,9 +437,7 @@ cached_dir_ensure_monitor (CachedDir  *dir,
     }
 }
 
-static gboolean
-cached_dir_load_entries_recursive (CachedDir  *dir,
-                                   const char *dirname)
+static gboolean cached_dir_load_entries_recursive(CachedDir* dir, const char* dirname)
 {
   DIR           *dp;
   struct dirent *dent;
@@ -540,11 +501,7 @@ cached_dir_load_entries_recursive (CachedDir  *dir,
   return TRUE;
 }
 
-static void
-cached_dir_add_monitor (CachedDir                 *dir,
-                        EntryDirectory            *ed,
-                        EntryDirectoryChangedFunc  callback,
-                        gpointer                   user_data)
+static void cached_dir_add_monitor(CachedDir* dir, EntryDirectory* ed, EntryDirectoryChangedFunc callback, gpointer user_data)
 {
   CachedDirMonitor *monitor;
   GSList           *tmp;
@@ -573,11 +530,7 @@ cached_dir_add_monitor (CachedDir                 *dir,
     }
 }
 
-static void
-cached_dir_remove_monitor (CachedDir                 *dir,
-                           EntryDirectory            *ed,
-                           EntryDirectoryChangedFunc  callback,
-                           gpointer                   user_data)
+static void cached_dir_remove_monitor(CachedDir* dir, EntryDirectory* ed, EntryDirectoryChangedFunc callback, gpointer user_data)
 {
   GSList *tmp;
 
@@ -599,8 +552,7 @@ cached_dir_remove_monitor (CachedDir                 *dir,
     }
 }
 
-static void
-cached_dir_add_reference (CachedDir *dir)
+static void cached_dir_add_reference(CachedDir* dir)
 {
   dir->references++;
 
@@ -610,8 +562,7 @@ cached_dir_add_reference (CachedDir *dir)
     }
 }
 
-static void
-cached_dir_remove_reference (CachedDir *dir)
+static void cached_dir_remove_reference(CachedDir* dir)
 {
   CachedDir *parent;
 
@@ -651,11 +602,7 @@ cached_dir_remove_reference (CachedDir *dir)
  * Entry directories
  */
 
-static EntryDirectory *
-entry_directory_new_full (DesktopEntryType  entry_type,
-                          const char       *path,
-                          gboolean          is_legacy,
-                          const char       *legacy_prefix)
+static EntryDirectory* entry_directory_new_full(DesktopEntryType entry_type, const char* path, gboolean is_legacy, const char* legacy_prefix)
 {
   EntryDirectory *ed;
   char           *canonical;
@@ -690,34 +637,27 @@ entry_directory_new_full (DesktopEntryType  entry_type,
   return ed;
 }
 
-EntryDirectory *
-entry_directory_new (DesktopEntryType  entry_type,
-                     const char       *path)
+EntryDirectory* entry_directory_new(DesktopEntryType entry_type, const char* path)
 {
-  return entry_directory_new_full (entry_type, path, FALSE, NULL);
+	return entry_directory_new_full (entry_type, path, FALSE, NULL);
 }
 
-EntryDirectory *
-entry_directory_new_legacy (DesktopEntryType  entry_type,
-                            const char       *path,
-                            const char       *legacy_prefix)
+EntryDirectory* entry_directory_new_legacy(DesktopEntryType entry_type, const char* path, const char* legacy_prefix)
 {
-  return entry_directory_new_full (entry_type, path, TRUE, legacy_prefix);
+	return entry_directory_new_full(entry_type, path, TRUE, legacy_prefix);
 }
 
-EntryDirectory *
-entry_directory_ref (EntryDirectory *ed)
+EntryDirectory* entry_directory_ref(EntryDirectory* ed)
 {
-  g_return_val_if_fail (ed != NULL, NULL);
-  g_return_val_if_fail (ed->refcount > 0, NULL);
+	g_return_val_if_fail(ed != NULL, NULL);
+	g_return_val_if_fail(ed->refcount > 0, NULL);
 
-  ed->refcount++;
+	ed->refcount++;
 
-  return ed;
+	return ed;
 }
 
-void
-entry_directory_unref (EntryDirectory *ed)
+void entry_directory_unref(EntryDirectory* ed)
 {
   g_return_if_fail (ed != NULL);
   g_return_if_fail (ed->refcount > 0);
@@ -737,25 +677,17 @@ entry_directory_unref (EntryDirectory *ed)
     }
 }
 
-static void
-entry_directory_add_monitor (EntryDirectory            *ed,
-                             EntryDirectoryChangedFunc  callback,
-                             gpointer                   user_data)
+static void entry_directory_add_monitor(EntryDirectory* ed, EntryDirectoryChangedFunc callback, gpointer user_data)
 {
   cached_dir_add_monitor (ed->dir, ed, callback, user_data);
 }
 
-static void
-entry_directory_remove_monitor (EntryDirectory            *ed,
-                                EntryDirectoryChangedFunc  callback,
-                                gpointer                   user_data)
+static void entry_directory_remove_monitor(EntryDirectory* ed, EntryDirectoryChangedFunc callback, gpointer user_data)
 {
   cached_dir_remove_monitor (ed->dir, ed, callback, user_data);
 }
 
-static DesktopEntry *
-entry_directory_get_directory (EntryDirectory *ed,
-                               const char     *relative_path)
+static DesktopEntry* entry_directory_get_directory(EntryDirectory* ed, const char* relative_path)
 {
   DesktopEntry *entry;
 
@@ -769,13 +701,10 @@ entry_directory_get_directory (EntryDirectory *ed,
   return desktop_entry_ref (entry);
 }
 
-static char *
-get_desktop_file_id_from_path (EntryDirectory   *ed,
-			       DesktopEntryType  entry_type,
-			       const char       *relative_path)
+static char* get_desktop_file_id_from_path(EntryDirectory* ed, DesktopEntryType  entry_type, const char* relative_path)
 {
   char *retval;
-  
+
   retval = NULL;
 
   if (entry_type == DESKTOP_ENTRY_DESKTOP)
@@ -809,19 +738,9 @@ get_desktop_file_id_from_path (EntryDirectory   *ed,
   return retval;
 }
 
-typedef gboolean (* EntryDirectoryForeachFunc) (EntryDirectory  *ed,
-                                                DesktopEntry    *entry,
-                                                const char      *file_id,
-                                                DesktopEntrySet *set,
-                                                gpointer         user_data);
+typedef gboolean (*EntryDirectoryForeachFunc) (EntryDirectory* ed, DesktopEntry* entry, const char* file_id, DesktopEntrySet* set, gpointer user_data);
 
-static gboolean
-entry_directory_foreach_recursive (EntryDirectory            *ed,
-                                   CachedDir                 *cd,
-                                   GString                   *relative_path,
-                                   EntryDirectoryForeachFunc  func,
-                                   DesktopEntrySet           *set,
-                                   gpointer                   user_data)
+static gboolean entry_directory_foreach_recursive(EntryDirectory* ed, CachedDir* cd, GString* relative_path, EntryDirectoryForeachFunc func, DesktopEntrySet* set, gpointer user_data)
 {
   GSList *tmp;
   int     relative_path_len;
@@ -885,11 +804,7 @@ entry_directory_foreach_recursive (EntryDirectory            *ed,
   return TRUE;
 }
 
-static void
-entry_directory_foreach (EntryDirectory            *ed,
-                         EntryDirectoryForeachFunc  func,
-                         DesktopEntrySet           *set,
-                         gpointer                   user_data)
+static void entry_directory_foreach(EntryDirectory* ed, EntryDirectoryForeachFunc func, DesktopEntrySet* set, gpointer user_data)
 {
   GString *path;
 
@@ -905,11 +820,7 @@ entry_directory_foreach (EntryDirectory            *ed,
   g_string_free (path, TRUE);
 }
 
-void
-entry_directory_get_flat_contents (EntryDirectory   *ed,
-                                   DesktopEntrySet  *desktop_entries,
-                                   DesktopEntrySet  *directory_entries,
-                                   GSList          **subdirs)
+void entry_directory_get_flat_contents(EntryDirectory* ed, DesktopEntrySet* desktop_entries, DesktopEntrySet* directory_entries, GSList** subdirs)
 {
   GSList *tmp;
 
@@ -975,8 +886,7 @@ entry_directory_get_flat_contents (EntryDirectory   *ed,
  * Entry directory lists
  */
 
-EntryDirectoryList *
-entry_directory_list_new (void)
+EntryDirectoryList* entry_directory_list_new(void)
 {
   EntryDirectoryList *list;
 
@@ -989,8 +899,7 @@ entry_directory_list_new (void)
   return list;
 }
 
-EntryDirectoryList *
-entry_directory_list_ref (EntryDirectoryList *list)
+EntryDirectoryList* entry_directory_list_ref(EntryDirectoryList* list)
 {
   g_return_val_if_fail (list != NULL, NULL);
   g_return_val_if_fail (list->refcount > 0, NULL);
@@ -1000,8 +909,7 @@ entry_directory_list_ref (EntryDirectoryList *list)
   return list;
 }
 
-void
-entry_directory_list_unref (EntryDirectoryList *list)
+void entry_directory_list_unref(EntryDirectoryList* list)
 {
   g_return_if_fail (list != NULL);
   g_return_if_fail (list->refcount > 0);
@@ -1017,24 +925,19 @@ entry_directory_list_unref (EntryDirectoryList *list)
     }
 }
 
-void
-entry_directory_list_prepend  (EntryDirectoryList *list,
-                               EntryDirectory     *ed)
+void entry_directory_list_prepend(EntryDirectoryList* list, EntryDirectory* ed)
 {
   list->length += 1;
   list->dirs = g_list_prepend (list->dirs,
                                entry_directory_ref (ed));
 }
 
-int
-entry_directory_list_get_length (EntryDirectoryList *list)
+int entry_directory_list_get_length(EntryDirectoryList* list)
 {
   return list->length;
 }
 
-void
-entry_directory_list_append_list (EntryDirectoryList *list,
-                                  EntryDirectoryList *to_append)
+void entry_directory_list_append_list(EntryDirectoryList* list, EntryDirectoryList* to_append)
 {
   GList *tmp;
   GList *new_dirs = NULL;
@@ -1056,9 +959,7 @@ entry_directory_list_append_list (EntryDirectoryList *list,
   list->dirs = g_list_concat (list->dirs, new_dirs);
 }
 
-DesktopEntry *
-entry_directory_list_get_directory (EntryDirectoryList *list,
-                                    const char         *relative_path)
+DesktopEntry* entry_directory_list_get_directory(EntryDirectoryList *list, const char* relative_path)
 {
   DesktopEntry *retval = NULL;
   GList        *tmp;
@@ -1075,9 +976,7 @@ entry_directory_list_get_directory (EntryDirectoryList *list,
   return retval;
 }
 
-gboolean
-_entry_directory_list_compare (const EntryDirectoryList *a,
-                               const EntryDirectoryList *b)
+gboolean _entry_directory_list_compare(const EntryDirectoryList* a, const EntryDirectoryList* b)
 {
   GList *al, *bl;
 
@@ -1100,12 +999,7 @@ _entry_directory_list_compare (const EntryDirectoryList *a,
   return (al == NULL && bl == NULL);
 }
 
-static gboolean
-get_all_func (EntryDirectory   *ed,
-              DesktopEntry     *entry,
-              const char       *file_id,
-              DesktopEntrySet  *set,
-              gpointer          user_data)
+static gboolean get_all_func(EntryDirectory* ed, DesktopEntry* entry, const char* file_id, DesktopEntrySet* set, gpointer user_data)
 {
   if (ed->is_legacy && !desktop_entry_has_categories (entry))
     {
@@ -1123,11 +1017,10 @@ get_all_func (EntryDirectory   *ed,
   return TRUE;
 }
 
-static DesktopEntrySet    *entry_directory_last_set = NULL;
-static EntryDirectoryList *entry_directory_last_list = NULL;
+static DesktopEntrySet* entry_directory_last_set = NULL;
+static EntryDirectoryList* entry_directory_last_list = NULL;
 
-void
-_entry_directory_list_empty_desktop_cache (void)
+void _entry_directory_list_empty_desktop_cache(void)
 {
   if (entry_directory_last_set != NULL)
     desktop_entry_set_unref (entry_directory_last_set);
@@ -1138,8 +1031,7 @@ _entry_directory_list_empty_desktop_cache (void)
   entry_directory_last_list = NULL;
 }
 
-DesktopEntrySet *
-_entry_directory_list_get_all_desktops (EntryDirectoryList *list)
+DesktopEntrySet* _entry_directory_list_get_all_desktops(EntryDirectoryList* list)
 {
   GList *tmp;
   DesktopEntrySet *set;
@@ -1188,10 +1080,7 @@ _entry_directory_list_get_all_desktops (EntryDirectoryList *list)
   return set;
 }
 
-void
-entry_directory_list_add_monitors (EntryDirectoryList        *list,
-                                   EntryDirectoryChangedFunc  callback,
-                                   gpointer                   user_data)
+void entry_directory_list_add_monitors(EntryDirectoryList* list, EntryDirectoryChangedFunc callback, gpointer user_data)
 {
   GList *tmp;
 
@@ -1203,10 +1092,7 @@ entry_directory_list_add_monitors (EntryDirectoryList        *list,
     }
 }
 
-void
-entry_directory_list_remove_monitors (EntryDirectoryList        *list,
-                                      EntryDirectoryChangedFunc  callback,
-                                      gpointer                   user_data)
+void entry_directory_list_remove_monitors(EntryDirectoryList* list, EntryDirectoryChangedFunc callback, gpointer user_data)
 {
   GList *tmp;
 

@@ -80,9 +80,8 @@ struct _PanelDesktopMenuItemClass {
 GType panel_desktop_menu_item_get_type (void) G_GNUC_CONST;
 
 
-GtkWidget *panel_place_menu_item_new   (gboolean use_image);
-GtkWidget *panel_desktop_menu_item_new (gboolean use_image,
-					gboolean append_lock_logout);
+GtkWidget* panel_place_menu_item_new(gboolean use_image);
+GtkWidget* panel_desktop_menu_item_new(gboolean use_image, gboolean append_lock_logout);
 
 void panel_place_menu_item_set_panel   (GtkWidget   *item,
 					PanelWidget *panel);

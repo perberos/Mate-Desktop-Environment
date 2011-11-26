@@ -28,48 +28,42 @@
 #define DESKTOP_ENTRY_GROUP     "Desktop Entry"
 #define KDE_DESKTOP_ENTRY_GROUP "KDE Desktop Entry"
 
-enum
-{
-  DESKTOP_ENTRY_NO_DISPLAY     = 1 << 0,
-  DESKTOP_ENTRY_HIDDEN         = 1 << 1,
-  DESKTOP_ENTRY_SHOW_IN_MATE  = 1 << 2,
-  DESKTOP_ENTRY_TRYEXEC_FAILED = 1 << 3
+enum {
+	DESKTOP_ENTRY_NO_DISPLAY     = 1 << 0,
+	DESKTOP_ENTRY_HIDDEN         = 1 << 1,
+	DESKTOP_ENTRY_SHOW_IN_MATE   = 1 << 2,
+	DESKTOP_ENTRY_TRYEXEC_FAILED = 1 << 3
 };
 
-struct DesktopEntry
-{
-  char *path;
-  char *basename;
+struct DesktopEntry {
+	char* path;
+	char* basename;
 
-  GQuark *categories;
+	GQuark* categories;
 
-  char     *name;
-  char     *generic_name;
-  char     *full_name;
-  char     *comment;
-  char     *icon;
-  char     *exec;
-  gboolean terminal;
+	char* name;
+	char* generic_name;
+	char* full_name;
+	char* comment;
+	char* icon;
+	char* exec;
+	gboolean terminal;
 
-  guint type : 2;
-  guint flags : 4;
-  guint refcount : 24;
+	guint type: 2;
+	guint flags: 4;
+	guint refcount: 24;
 };
 
-struct DesktopEntrySet
-{
-  int         refcount;
-  GHashTable *hash;
+struct DesktopEntrySet {
+	int refcount;
+	GHashTable* hash;
 };
 
 /*
  * Desktop entries
  */
 
-static guint
-get_flags_from_key_file (DesktopEntry *entry,
-                         GKeyFile     *key_file,
-                         const char   *desktop_entry_group)
+static guint get_flags_from_key_file(DesktopEntry* entry, GKeyFile* key_file, const char* desktop_entry_group)
 {
   GError    *error;
   char     **strv;
@@ -172,10 +166,7 @@ get_flags_from_key_file (DesktopEntry *entry,
   return flags;
 }
 
-static GQuark *
-get_categories_from_key_file (DesktopEntry *entry,
-                              GKeyFile     *key_file,
-                              const char   *desktop_entry_group)
+static GQuark* get_categories_from_key_file (DesktopEntry* entry, GKeyFile* key_file, const char* desktop_entry_group)
 {
   GQuark  *retval;
   char   **strv;
@@ -200,8 +191,7 @@ get_categories_from_key_file (DesktopEntry *entry,
   return retval;
 }
 
-static DesktopEntry *
-desktop_entry_load (DesktopEntry *entry)
+static DesktopEntry* desktop_entry_load(DesktopEntry* entry)
 {
   DesktopEntry *retval = NULL;
   GKeyFile     *key_file;
@@ -322,8 +312,7 @@ desktop_entry_load (DesktopEntry *entry)
   return retval;
 }
 
-DesktopEntry *
-desktop_entry_new (const char *path)
+DesktopEntry* desktop_entry_new(const char* path)
 {
   DesktopEntryType  type;
   DesktopEntry     *retval;
@@ -355,8 +344,7 @@ desktop_entry_new (const char *path)
   return desktop_entry_load (retval);
 }
 
-DesktopEntry *
-desktop_entry_reload (DesktopEntry *entry)
+DesktopEntry* desktop_entry_reload(DesktopEntry* entry)
 {
   g_return_val_if_fail (entry != NULL, NULL);
 
@@ -389,8 +377,7 @@ desktop_entry_reload (DesktopEntry *entry)
   return desktop_entry_load (entry);
 }
 
-DesktopEntry *
-desktop_entry_ref (DesktopEntry *entry)
+DesktopEntry* desktop_entry_ref(DesktopEntry* entry)
 {
   g_return_val_if_fail (entry != NULL, NULL);
   g_return_val_if_fail (entry->refcount > 0, NULL);
@@ -400,8 +387,7 @@ desktop_entry_ref (DesktopEntry *entry)
   return entry;
 }
 
-DesktopEntry *
-desktop_entry_copy (DesktopEntry *entry)
+DesktopEntry* desktop_entry_copy(DesktopEntry* entry)
 {
   DesktopEntry *retval;
   int           i;
@@ -442,8 +428,7 @@ desktop_entry_copy (DesktopEntry *entry)
   return retval;
 }
 
-void
-desktop_entry_unref (DesktopEntry *entry)
+void desktop_entry_unref(DesktopEntry* entry)
 {
   g_return_if_fail (entry != NULL);
   g_return_if_fail (entry->refcount > 0);
@@ -482,46 +467,40 @@ desktop_entry_unref (DesktopEntry *entry)
     }
 }
 
-DesktopEntryType
-desktop_entry_get_type (DesktopEntry *entry)
+DesktopEntryType desktop_entry_get_type(DesktopEntry* entry)
 {
-  return entry->type;
+	return entry->type;
 }
 
-const char *
-desktop_entry_get_path (DesktopEntry *entry)
+const char* desktop_entry_get_path(DesktopEntry* entry)
 {
-  return entry->path;
+	return entry->path;
 }
 
 const char *
 desktop_entry_get_basename (DesktopEntry *entry)
 {
-  return entry->basename;
+	return entry->basename;
 }
 
-const char *
-desktop_entry_get_name (DesktopEntry *entry)
+const char* desktop_entry_get_name(DesktopEntry* entry)
 {
-  return entry->name;
+	return entry->name;
 }
 
-const char *
-desktop_entry_get_generic_name (DesktopEntry *entry)
+const char* desktop_entry_get_generic_name(DesktopEntry* entry)
 {
-  return entry->generic_name;
+	return entry->generic_name;
 }
 
-const char *
-desktop_entry_get_full_name (DesktopEntry *entry)
+const char* desktop_entry_get_full_name(DesktopEntry* entry)
 {
   return entry->full_name;
 }
 
-const char *
-desktop_entry_get_comment (DesktopEntry *entry)
+const char* desktop_entry_get_comment(DesktopEntry* entry)
 {
-  return entry->comment;
+	return entry->comment;
 }
 
 const char* desktop_entry_get_icon(DesktopEntry* entry)
@@ -529,51 +508,42 @@ const char* desktop_entry_get_icon(DesktopEntry* entry)
 	return entry->icon;
 }
 
-const char *
-desktop_entry_get_exec (DesktopEntry *entry)
+const char* desktop_entry_get_exec(DesktopEntry* entry)
 {
-  return entry->exec;
+	return entry->exec;
 }
 
-gboolean
-desktop_entry_get_launch_in_terminal (DesktopEntry *entry)
+gboolean desktop_entry_get_launch_in_terminal(DesktopEntry* entry)
 {
-  return entry->terminal;
+	return entry->terminal;
 }
 
-gboolean
-desktop_entry_get_hidden (DesktopEntry *entry)
+gboolean desktop_entry_get_hidden(DesktopEntry* entry)
 {
-  return (entry->flags & DESKTOP_ENTRY_HIDDEN) != 0;
+	return (entry->flags & DESKTOP_ENTRY_HIDDEN) != 0;
 }
 
-gboolean
-desktop_entry_get_no_display (DesktopEntry *entry)
+gboolean desktop_entry_get_no_display(DesktopEntry* entry)
 {
-  return (entry->flags & DESKTOP_ENTRY_NO_DISPLAY) != 0;
+	return (entry->flags & DESKTOP_ENTRY_NO_DISPLAY) != 0;
 }
 
-gboolean
-desktop_entry_get_show_in_mate (DesktopEntry *entry)
+gboolean desktop_entry_get_show_in_mate(DesktopEntry* entry)
 {
-  return (entry->flags & DESKTOP_ENTRY_SHOW_IN_MATE) != 0;
+	return (entry->flags & DESKTOP_ENTRY_SHOW_IN_MATE) != 0;
 }
 
-gboolean
-desktop_entry_get_tryexec_failed (DesktopEntry *entry)
+gboolean desktop_entry_get_tryexec_failed(DesktopEntry* entry)
 {
-  return (entry->flags & DESKTOP_ENTRY_TRYEXEC_FAILED) != 0;
+	return (entry->flags & DESKTOP_ENTRY_TRYEXEC_FAILED) != 0;
 }
 
-gboolean
-desktop_entry_has_categories (DesktopEntry *entry)
+gboolean desktop_entry_has_categories(DesktopEntry* entry)
 {
-  return (entry->categories != NULL && entry->categories[0] != 0);
+	return (entry->categories != NULL && entry->categories[0] != 0);
 }
 
-gboolean
-desktop_entry_has_category (DesktopEntry *entry,
-                            const char   *category)
+gboolean desktop_entry_has_category(DesktopEntry* entry, const char* category)
 {
   GQuark quark;
   int    i;
@@ -593,8 +563,7 @@ desktop_entry_has_category (DesktopEntry *entry,
   return FALSE;
 }
 
-void
-desktop_entry_add_legacy_category (DesktopEntry *entry)
+void desktop_entry_add_legacy_category(DesktopEntry* entry)
 {
   GQuark *categories;
   int     i;
@@ -627,8 +596,7 @@ desktop_entry_add_legacy_category (DesktopEntry *entry)
  * Entry sets
  */
 
-DesktopEntrySet *
-desktop_entry_set_new (void)
+DesktopEntrySet* desktop_entry_set_new(void)
 {
   DesktopEntrySet *set;
 
@@ -640,8 +608,7 @@ desktop_entry_set_new (void)
   return set;
 }
 
-DesktopEntrySet *
-desktop_entry_set_ref (DesktopEntrySet *set)
+DesktopEntrySet* desktop_entry_set_ref(DesktopEntrySet* set)
 {
   g_return_val_if_fail (set != NULL, NULL);
   g_return_val_if_fail (set->refcount > 0, NULL);
@@ -651,8 +618,7 @@ desktop_entry_set_ref (DesktopEntrySet *set)
   return set;
 }
 
-void
-desktop_entry_set_unref (DesktopEntrySet *set)
+void desktop_entry_set_unref(DesktopEntrySet* set)
 {
   g_return_if_fail (set != NULL);
   g_return_if_fail (set->refcount > 0);
@@ -670,10 +636,7 @@ desktop_entry_set_unref (DesktopEntrySet *set)
     }
 }
 
-void
-desktop_entry_set_add_entry (DesktopEntrySet *set,
-                             DesktopEntry    *entry,
-                             const char      *file_id)
+void desktop_entry_set_add_entry(DesktopEntrySet* set, DesktopEntry* entry, const char* file_id)
 {
   menu_verbose (" Adding to set %p entry %s\n", set, file_id);
 
@@ -690,9 +653,7 @@ desktop_entry_set_add_entry (DesktopEntrySet *set,
                         desktop_entry_ref (entry));
 }
 
-DesktopEntry *
-desktop_entry_set_lookup (DesktopEntrySet *set,
-                          const char      *file_id)
+DesktopEntry* desktop_entry_set_lookup(DesktopEntrySet* set, const char* file_id)
 {
   if (set->hash == NULL)
     return NULL;
@@ -700,24 +661,17 @@ desktop_entry_set_lookup (DesktopEntrySet *set,
   return g_hash_table_lookup (set->hash, file_id);
 }
 
-typedef struct
-{
-  DesktopEntrySetForeachFunc func;
-  gpointer                   user_data;
+typedef struct {
+	DesktopEntrySetForeachFunc func;
+	gpointer user_data;
 } EntryHashForeachData;
 
-static void
-entry_hash_foreach (const char           *file_id,
-                    DesktopEntry         *entry,
-                    EntryHashForeachData *fd)
+static void entry_hash_foreach(const char* file_id, DesktopEntry* entry, EntryHashForeachData* fd)
 {
-  fd->func (file_id, entry, fd->user_data);
+	fd->func(file_id, entry, fd->user_data);
 }
 
-void
-desktop_entry_set_foreach (DesktopEntrySet            *set,
-                           DesktopEntrySetForeachFunc  func,
-                           gpointer                    user_data)
+void desktop_entry_set_foreach(DesktopEntrySet* set, DesktopEntrySetForeachFunc func, gpointer user_data)
 {
   g_return_if_fail (set != NULL);
   g_return_if_fail (func != NULL);
@@ -735,8 +689,7 @@ desktop_entry_set_foreach (DesktopEntrySet            *set,
     }
 }
 
-static void
-desktop_entry_set_clear (DesktopEntrySet *set)
+static void desktop_entry_set_clear(DesktopEntrySet* set)
 {
   menu_verbose (" Clearing set %p\n", set);
 
@@ -747,8 +700,7 @@ desktop_entry_set_clear (DesktopEntrySet *set)
     }
 }
 
-int
-desktop_entry_set_get_count (DesktopEntrySet *set)
+int desktop_entry_set_get_count(DesktopEntrySet* set)
 {
   if (set->hash == NULL)
     return 0;
@@ -756,22 +708,17 @@ desktop_entry_set_get_count (DesktopEntrySet *set)
   return g_hash_table_size (set->hash);
 }
 
-static void
-union_foreach (const char      *file_id,
-               DesktopEntry    *entry,
-               DesktopEntrySet *set)
+static void union_foreach(const char* file_id, DesktopEntry* entry, DesktopEntrySet* set)
 {
-  /* we are iterating over "with" adding anything not
-   * already in "set". We unconditionally overwrite
-   * the stuff in "set" because we can assume
-   * two entries with the same name are equivalent.
-   */
-  desktop_entry_set_add_entry (set, entry, file_id);
+	/* we are iterating over "with" adding anything not
+	 * already in "set". We unconditionally overwrite
+	 * the stuff in "set" because we can assume
+	 * two entries with the same name are equivalent.
+	 */
+	desktop_entry_set_add_entry(set, entry, file_id);
 }
 
-void
-desktop_entry_set_union (DesktopEntrySet *set,
-                         DesktopEntrySet *with)
+void desktop_entry_set_union(DesktopEntrySet* set, DesktopEntrySet* with)
 {
   menu_verbose (" Union of %p and %p\n", set, with);
 
@@ -783,16 +730,12 @@ desktop_entry_set_union (DesktopEntrySet *set,
                         set);
 }
 
-typedef struct
-{
-  DesktopEntrySet *set;
-  DesktopEntrySet *with;
+typedef struct {
+	DesktopEntrySet *set;
+	DesktopEntrySet *with;
 } IntersectData;
 
-static gboolean
-intersect_foreach_remove (const char    *file_id,
-                          DesktopEntry  *entry,
-                          IntersectData *id)
+static gboolean intersect_foreach_remove(const char* file_id, DesktopEntry* entry, IntersectData* id)
 {
   /* Remove everything in "set" which is not in "with" */
 
@@ -804,9 +747,7 @@ intersect_foreach_remove (const char    *file_id,
   return TRUE; /* return TRUE to remove */
 }
 
-void
-desktop_entry_set_intersection (DesktopEntrySet *set,
-                                DesktopEntrySet *with)
+void desktop_entry_set_intersection(DesktopEntrySet* set, DesktopEntrySet* with)
 {
   IntersectData id;
 
@@ -828,16 +769,12 @@ desktop_entry_set_intersection (DesktopEntrySet *set,
                                &id);
 }
 
-typedef struct
-{
-  DesktopEntrySet *set;
-  DesktopEntrySet *other;
+typedef struct {
+	DesktopEntrySet *set;
+	DesktopEntrySet *other;
 } SubtractData;
 
-static gboolean
-subtract_foreach_remove (const char   *file_id,
-                         DesktopEntry *entry,
-                         SubtractData *sd)
+static gboolean subtract_foreach_remove(const char* file_id, DesktopEntry* entry, SubtractData* sd)
 {
   /* Remove everything in "set" which is not in "other" */
 
@@ -849,9 +786,7 @@ subtract_foreach_remove (const char   *file_id,
   return TRUE; /* return TRUE to remove */
 }
 
-void
-desktop_entry_set_subtract (DesktopEntrySet *set,
-                            DesktopEntrySet *other)
+void desktop_entry_set_subtract(DesktopEntrySet* set, DesktopEntrySet* other)
 {
   SubtractData sd;
 
@@ -869,15 +804,13 @@ desktop_entry_set_subtract (DesktopEntrySet *set,
                                &sd);
 }
 
-void
-desktop_entry_set_swap_contents (DesktopEntrySet *a,
-                                 DesktopEntrySet *b)
+void desktop_entry_set_swap_contents(DesktopEntrySet* a, DesktopEntrySet* b)
 {
-  GHashTable *tmp;
+	GHashTable *tmp;
 
-  menu_verbose (" Swap contents of %p and %p\n", a, b);
+	menu_verbose (" Swap contents of %p and %p\n", a, b);
 
-  tmp = a->hash;
-  a->hash = b->hash;
-  b->hash = tmp;
+	tmp = a->hash;
+	 a->hash = b->hash;
+	b->hash = tmp;
 }

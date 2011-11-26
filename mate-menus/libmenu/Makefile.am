@@ -1,49 +1,49 @@
 lib_LTLIBRARIES = libmate-menu.la
 
-AM_CPPFLAGS =				\
-	$(GLIB_CFLAGS)			\
+AM_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
 	-DMATEMENU_I_KNOW_THIS_IS_UNSTABLE	\
-	$(DISABLE_DEPRECATED_CFLAGS)	\
+	$(DISABLE_DEPRECATED_CFLAGS) \
 	$(DEBUG_CFLAGS)
 
 AM_CFLAGS = $(WARN_CFLAGS)
 
 libmate_menu_includedir = $(includedir)/mate-menus
-libmate_menu_include_HEADERS =		\
+libmate_menu_include_HEADERS = \
 	matemenu-tree.h
 
-libmate_menu_sources =			\
-	canonicalize.c			\
-	desktop-entries.c		\
-	entry-directories.c		\
-	matemenu-tree.c			\
-	menu-layout.c			\
-	menu-monitor.c			\
+libmate_menu_sources = \
+	canonicalize.c \
+	desktop-entries.c \
+	entry-directories.c \
+	matemenu-tree.c \
+	menu-layout.c \
+	menu-monitor.c \
 	menu-util.c
 
-libmate_menu_la_SOURCES =		\
-	$(libmate_menu_sources)	\
-	canonicalize.h			\
-	desktop-entries.h		\
-	entry-directories.h		\
-	matemenu-tree.h			\
-	menu-layout.h			\
-	menu-monitor.h			\
+libmate_menu_la_SOURCES = \
+	$(libmate_menu_sources) \
+	canonicalize.h \
+	desktop-entries.h \
+	entry-directories.h \
+	matemenu-tree.h \
+	menu-layout.h \
+	menu-monitor.h \
 	menu-util.h
 
-libmate_menu_la_LIBADD = 		\
+libmate_menu_la_LIBADD = \
 	$(GLIB_LIBS)
 
-libmate_menu_la_LDFLAGS =			\
-	-version-info $(LIB_MENU_LT_VERSION)	\
-	-no-undefined				\
+libmate_menu_la_LDFLAGS = \
+	-version-info $(LIB_MENU_LT_VERSION) \
+	-no-undefined \
 	-export-symbols-regex matemenu_tree
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libmate-menu.pc
 
-EXTRA_DIST =				\
-	libmate-menu.pc.in		\
+EXTRA_DIST = \
+	libmate-menu.pc.in \
 	libmate-menu-uninstalled.pc.in
 
 CLEANFILES =

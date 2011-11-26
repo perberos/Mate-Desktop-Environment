@@ -1839,41 +1839,48 @@ fish_migrate_to_210 (FishApplet *fish)
 	}
 }
 
-static gboolean
-fish_applet_fill (FishApplet *fish)
+static gboolean fish_applet_fill (FishApplet *fish)
 {
-	MatePanelApplet    *applet = (MatePanelApplet *) fish;
-	GtkActionGroup *action_group;
-	gchar          *ui_path;
-	GError         *error = NULL;
+	MatePanelApplet* applet = (MatePanelApplet*) fish;
+	GtkActionGroup* action_group;
+	gchar* ui_path;
+	GError* error = NULL;
 
 	fish->orientation = mate_panel_applet_get_orient (applet);
 
-	mate_panel_applet_add_preferences (
-		applet, "/schemas/apps/fish_applet/prefs", NULL);
+	mate_panel_applet_add_preferences(applet, "/schemas/apps/fish_applet/prefs", NULL);
 
-	setup_mateconf (fish);
+	setup_mateconf(fish);
 
-	fish->name = mate_panel_applet_mateconf_get_string (applet, "name", &error);
-	if (error) {
+	fish->name = mate_panel_applet_mateconf_get_string(applet, "name", &error);
+	
+	if (error)
+	{
 		g_warning ("Error getting 'name' preference: %s", error->message);
 		g_error_free (error);
 		error = NULL;
 	}
+	
 	if (!fish->name)
+	{
 		fish->name = g_strdup ("Wanda"); /* Fallback */
+	}
 
 	fish->image = mate_panel_applet_mateconf_get_string (applet, "image", &error);
+	
 	if (error) {
 		g_warning ("Error getting 'image' preference: %s", error->message);
 		g_error_free (error);
 		error = NULL;
 	}
+	
 	if (!fish->image)
 		fish->image = g_strdup ("fishanim.png"); /* Fallback */
+		
 	fish_migrate_to_210 (fish);
 
 	fish->command = mate_panel_applet_mateconf_get_string (applet, "command", &error);
+	
 	if (error) {
 		g_warning ("Error getting 'command' preference: %s", error->message);
 		g_error_free (error);
@@ -1881,6 +1888,7 @@ fish_applet_fill (FishApplet *fish)
 	}
 
 	fish->n_frames = mate_panel_applet_mateconf_get_int (applet, "frames", &error);
+	
 	if (error) {
 		g_warning ("Error getting 'frames' preference: %s", error->message);
 		g_error_free (error);
@@ -1892,6 +1900,7 @@ fish_applet_fill (FishApplet *fish)
 		fish->n_frames = 1;
 
 	fish->speed = mate_panel_applet_mateconf_get_float (applet, "speed", &error);
+	
 	if (error) {
 		g_warning ("Error getting 'speed' preference: %s", error->message);
 		g_error_free (error);
@@ -1901,6 +1910,7 @@ fish_applet_fill (FishApplet *fish)
 	}
 
 	fish->rotate = mate_panel_applet_mateconf_get_bool (applet, "rotate", &error);
+	
 	if (error) {
 		g_warning ("Error getting 'rotate' preference: %s", error->message);
 		g_error_free (error);
@@ -1927,41 +1937,46 @@ fish_applet_fill (FishApplet *fish)
 	}
 	g_object_unref (action_group);
 
-#ifndef FISH_INPROCESS
-	gtk_window_set_default_icon_name (FISH_ICON);
-#endif
-	setup_fish_widget (fish);
+	#ifndef FISH_INPROCESS
+		gtk_window_set_default_icon_name(FISH_ICON);
+	#endif
+
+	setup_fish_widget(fish);
 
 	return TRUE;
 }
 
-static gboolean
-fishy_factory (MatePanelApplet *applet,
-	       const char  *iid,
-	       gpointer     data)
+static gboolean fishy_factory(MatePanelApplet* applet, const char* iid, gpointer data)
 {
 	gboolean retval = FALSE;
 
-	if (!strcmp (iid, "FishApplet"))
-		retval = fish_applet_fill (FISH_APPLET (applet));
+	if (!strcmp(iid, "FishApplet"))
+	{
+		retval = fish_applet_fill(FISH_APPLET(applet));
+	}
 
 	return retval;
 }
 
-static void
-fish_applet_destroy (GtkObject *object)
+static void fish_applet_destroy(GtkObject* object)
 {
-	FishApplet *fish = (FishApplet *) object;
-	int         i;
+	FishApplet* fish = (FishApplet*) object;
+	int i;
 
 	if (fish->timeout)
+	{
 		g_source_remove (fish->timeout);
+	}
+
 	fish->timeout = 0;
 
-	for (i = 0; i < N_FISH_LISTENERS; i++) {
+	for (i = 0; i < N_FISH_LISTENERS; i++)
+	{
 		if (fish->client && fish->listeners [i] != 0)
-			mateconf_client_notify_remove (
-				fish->client, fish->listeners [i]);
+		{
+			mateconf_client_notify_remove(fish->client, fish->listeners [i]);
+		}
+
 		fish->listeners [i] = 0;
 	}
 
@@ -2006,13 +2021,11 @@ fish_applet_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
-static void
-fish_applet_instance_init (FishApplet      *fish,
-			   FishAppletClass *klass)
+static void fish_applet_instance_init(FishApplet* fish, FishAppletClass* klass)
 {
 	int i;
 
-	fish->client = mateconf_client_get_default ();
+	fish->client = mateconf_client_get_default();
 
 	fish->name     = NULL;
 	fish->image    = NULL;
@@ -2064,47 +2077,43 @@ fish_applet_instance_init (FishApplet      *fish,
 
 	fish->april_fools = FALSE;
 
-	mate_panel_applet_set_flags (MATE_PANEL_APPLET (fish),
-				MATE_PANEL_APPLET_EXPAND_MINOR);
+	mate_panel_applet_set_flags (MATE_PANEL_APPLET (fish), MATE_PANEL_APPLET_EXPAND_MINOR);
 
-	mate_panel_applet_set_background_widget (MATE_PANEL_APPLET (fish),
-					    GTK_WIDGET (fish));
+	mate_panel_applet_set_background_widget(MATE_PANEL_APPLET(fish), GTK_WIDGET(fish));
 }
 
-static void
-fish_applet_class_init (FishAppletClass *klass)
+static void fish_applet_class_init(FishAppletClass* klass)
 {
-	MatePanelAppletClass *applet_class    = (MatePanelAppletClass *) klass;
-	GtkObjectClass   *gtkobject_class = (GtkObjectClass *) klass;
+	MatePanelAppletClass* applet_class    = (MatePanelAppletClass*) klass;
+	GtkObjectClass* gtkobject_class = (GtkObjectClass*) klass;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = g_type_class_peek_parent(klass);
 
 	applet_class->change_orient = fish_applet_change_orient;
 
 	gtkobject_class->destroy = fish_applet_destroy;
 
-	init_fools_day ();
+	init_fools_day();
 }
 
-static GType
-fish_applet_get_type (void)
+static GType fish_applet_get_type(void)
 {
 	static GType type = 0;
 
-	if (!type) {
+	if (!type)
+	{
 		static const GTypeInfo info = {
-			sizeof (MatePanelAppletClass),
+			sizeof(MatePanelAppletClass),
 			NULL, NULL,
 			(GClassInitFunc) fish_applet_class_init,
 			NULL, NULL,
-			sizeof (FishApplet),
+			sizeof(FishApplet),
 			0,
 			(GInstanceInitFunc) fish_applet_instance_init,
 			NULL
 		};
 
-		type = g_type_register_static (
-				PANEL_TYPE_APPLET, "FishApplet", &info, 0);
+		type = g_type_register_static(PANEL_TYPE_APPLET, "FishApplet", &info, 0);
 	}
 
 	return type;

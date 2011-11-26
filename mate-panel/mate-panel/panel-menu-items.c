@@ -64,11 +64,13 @@
 #define MAX_ITEMS_OR_SUBMENU    5
 #define MAX_BOOKMARK_ITEMS      100
 
-G_DEFINE_TYPE (PanelPlaceMenuItem, panel_place_menu_item, GTK_TYPE_IMAGE_MENU_ITEM)
-G_DEFINE_TYPE (PanelDesktopMenuItem, panel_desktop_menu_item, GTK_TYPE_IMAGE_MENU_ITEM)
+G_DEFINE_TYPE(PanelPlaceMenuItem, panel_place_menu_item, GTK_TYPE_IMAGE_MENU_ITEM)
+G_DEFINE_TYPE(PanelDesktopMenuItem, panel_desktop_menu_item, GTK_TYPE_IMAGE_MENU_ITEM)
 
-#define PANEL_PLACE_MENU_ITEM_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PANEL_TYPE_PLACE_MENU_ITEM, PanelPlaceMenuItemPrivate))
-#define PANEL_DESKTOP_MENU_ITEM_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), PANEL_TYPE_DESKTOP_MENU_ITEM, PanelDesktopMenuItemPrivate))
+#define PANEL_PLACE_MENU_ITEM_GET_PRIVATE(o) \
+	(G_TYPE_INSTANCE_GET_PRIVATE((o), PANEL_TYPE_PLACE_MENU_ITEM, PanelPlaceMenuItemPrivate))
+#define PANEL_DESKTOP_MENU_ITEM_GET_PRIVATE(o) \
+	(G_TYPE_INSTANCE_GET_PRIVATE((o), PANEL_TYPE_DESKTOP_MENU_ITEM, PanelDesktopMenuItemPrivate))
 
 struct _PanelPlaceMenuItemPrivate {
 	GtkWidget   *menu;
@@ -100,11 +102,9 @@ struct _PanelDesktopMenuItemPrivate {
 	guint        append_lock_logout : 1;
 };
 
-static void
-activate_uri_on_screen (const char *uri,
-			GdkScreen  *screen)
+static void activate_uri_on_screen(const char* uri, GdkScreen* screen)
 {
-	panel_show_uri (screen, uri, gtk_get_current_event_time (), NULL);
+	panel_show_uri(screen, uri, gtk_get_current_event_time(), NULL);
 }
 
 static void
@@ -1434,32 +1434,30 @@ panel_desktop_menu_item_class_init (PanelDesktopMenuItemClass *klass)
 	g_type_class_add_private (klass, sizeof (PanelDesktopMenuItemPrivate));
 }
 
-GtkWidget *
-panel_place_menu_item_new (gboolean use_image)
+GtkWidget* panel_place_menu_item_new(gboolean use_image)
 {
-	PanelPlaceMenuItem *menuitem;
-	GtkWidget          *image;
+	PanelPlaceMenuItem* menuitem;
+	GtkWidget* image;
 
-	menuitem = g_object_new (PANEL_TYPE_PLACE_MENU_ITEM, NULL);
+	menuitem = g_object_new(PANEL_TYPE_PLACE_MENU_ITEM, NULL);
 
 	if (use_image)
-		image = gtk_image_new_from_icon_name (PANEL_ICON_FOLDER,
-						      panel_menu_icon_get_size ());
+	{
+		image = gtk_image_new_from_icon_name(PANEL_ICON_FOLDER, panel_menu_icon_get_size());
+	}
 	else
+	{
 		image = NULL;
+	}
 
-	setup_menuitem (GTK_WIDGET (menuitem),
-			image ? panel_menu_icon_get_size () : GTK_ICON_SIZE_INVALID,
-			image,
-			_("Places"));
+	setup_menuitem(GTK_WIDGET(menuitem), image ? panel_menu_icon_get_size() : GTK_ICON_SIZE_INVALID, image, _("Places"));
 
 	menuitem->priv->use_image = use_image;
 
-	menuitem->priv->menu = panel_place_menu_item_create_menu (menuitem);
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem),
-				   menuitem->priv->menu);
+	menuitem->priv->menu = panel_place_menu_item_create_menu(menuitem);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menuitem->priv->menu);
 
-	return GTK_WIDGET (menuitem);
+	return GTK_WIDGET(menuitem);
 }
 
 GtkWidget *
