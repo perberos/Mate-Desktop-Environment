@@ -72,55 +72,68 @@
 typedef struct _MateDACapplet MateDACapplet;
 
 struct _MateDACapplet {
-    GtkBuilder *builder;
+	GtkBuilder* builder;
 
-    GtkIconTheme *icon_theme;
+	GtkIconTheme* icon_theme;
 
-    GtkWidget *window;
+	GtkWidget* window;
 
-    GtkWidget *web_combo_box;
-    GtkWidget *mail_combo_box;
-    GtkWidget *term_combo_box;
-    GtkWidget *media_combo_box;
-    GtkWidget *visual_combo_box;
-    GtkWidget *mobility_combo_box;
+	GtkWidget* web_combo_box;
+	GtkWidget* mail_combo_box;
+	GtkWidget* term_combo_box;
+	GtkWidget* media_combo_box;
+	GtkWidget* visual_combo_box;
+	GtkWidget* mobility_combo_box;
+	/* Para el File Manager */
+	/*GtkWidget* filemanager_combo_box;*/
 
-    GtkWidget *web_browser_command_entry;
-    GtkWidget *web_browser_command_label;
-    GtkWidget *web_browser_terminal_checkbutton;
-    GtkWidget *default_radiobutton;
-    GtkWidget *new_win_radiobutton;
-    GtkWidget *new_tab_radiobutton;
+	GtkWidget* web_browser_command_entry;
+	GtkWidget* web_browser_command_label;
+	GtkWidget* web_browser_terminal_checkbutton;
+	GtkWidget* default_radiobutton;
+	GtkWidget* new_win_radiobutton;
+	GtkWidget* new_tab_radiobutton;
 
-    GtkWidget *mail_reader_command_entry;
-    GtkWidget *mail_reader_command_label;
-    GtkWidget *mail_reader_terminal_checkbutton;
+	/* Para el File Manager */
+	/*GtkWidget* file_manager_command_entry;
+	GtkWidget* file_manager_command_label;
+	GtkWidget* file_manager_terminal_checkbutton;
+	GtkWidget* file_manager_default_radiobutton;
+	GtkWidget* file_manager_new_win_radiobutton;
+	GtkWidget* file_manager_new_tab_radiobutton;*/
 
-    GtkWidget *terminal_command_entry;
-    GtkWidget *terminal_command_label;
-    GtkWidget *terminal_exec_flag_entry;
-    GtkWidget *terminal_exec_flag_label;
 
-    GtkWidget *media_player_command_entry;
-    GtkWidget *media_player_command_label;
-    GtkWidget *media_player_terminal_checkbutton;
+	GtkWidget* mail_reader_command_entry;
+	GtkWidget* mail_reader_command_label;
+	GtkWidget* mail_reader_terminal_checkbutton;
 
-    GtkWidget *visual_command_entry;
-    GtkWidget *visual_command_label;
-    GtkWidget *visual_startup_checkbutton;
+	GtkWidget* terminal_command_entry;
+	GtkWidget* terminal_command_label;
+	GtkWidget* terminal_exec_flag_entry;
+	GtkWidget* terminal_exec_flag_label;
 
-    GtkWidget *mobility_command_entry;
-    GtkWidget *mobility_command_label;
-    GtkWidget *mobility_startup_checkbutton;
+	GtkWidget* media_player_command_entry;
+	GtkWidget* media_player_command_label;
+	GtkWidget* media_player_terminal_checkbutton;
 
-    MateConfClient *mateconf;
+	GtkWidget* visual_command_entry;
+	GtkWidget* visual_command_label;
+	GtkWidget* visual_startup_checkbutton;
 
-    GList *web_browsers;
-    GList *mail_readers;
-    GList *terminals;
-    GList *media_players;
-    GList *visual_ats;
-    GList *mobility_ats;
+	GtkWidget* mobility_command_entry;
+	GtkWidget* mobility_command_label;
+	GtkWidget* mobility_startup_checkbutton;
+
+	MateConfClient* mateconf;
+
+	GList* web_browsers;
+	GList* mail_readers;
+	GList* terminals;
+	GList* media_players;
+	GList* visual_ats;
+	GList* mobility_ats;
+	/* Para el File Manager */
+	/*GList* file_managers;*/
 };
 
 #endif

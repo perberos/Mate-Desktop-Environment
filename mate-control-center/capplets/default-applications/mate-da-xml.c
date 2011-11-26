@@ -280,25 +280,29 @@ mate_da_xml_load_xml (MateDACapplet *capplet, const gchar * filename)
     xmlFreeDoc (xml_doc);
 }
 
-void
-mate_da_xml_load_list (MateDACapplet *capplet)
+void mate_da_xml_load_list(MateDACapplet* capplet)
 {
-    GDir *app_dir = g_dir_open (MATECC_APPS_DIR, 0, NULL);
+	GDir* app_dir = g_dir_open(MATECC_APPS_DIR, 0, NULL);
 
-    if (app_dir != NULL) {
-        const gchar *extra_file;
-        gchar *filename;
+	if (app_dir != NULL)
+	{
+		const gchar* extra_file;
+		gchar* filename;
 
-        while ((extra_file = g_dir_read_name (app_dir)) != NULL) {
-            filename = g_build_filename (MATECC_APPS_DIR, extra_file, NULL);
+		while ((extra_file = g_dir_read_name(app_dir)) != NULL)
+		{
+			filename = g_build_filename(MATECC_APPS_DIR, extra_file, NULL);
 
-            if (g_str_has_suffix (filename, ".xml"))
-                mate_da_xml_load_xml (capplet, filename);
+			if (g_str_has_suffix(filename, ".xml"))
+			{
+				mate_da_xml_load_xml(capplet, filename);
+			}
 
-            g_free (filename);
-        }
-        g_dir_close (app_dir);
-    }
+			g_free(filename);
+		}
+
+		g_dir_close(app_dir);
+	}
 }
 
 void

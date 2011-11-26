@@ -33,38 +33,37 @@
 #include "mate-da-item.h"
 #include "capplet-util.h"
 
-enum
-{
-    PIXBUF_COL,
-    TEXT_COL,
-    N_COLUMNS
+enum {
+	PIXBUF_COL,
+	TEXT_COL,
+	N_COLUMNS
 };
 
-static void
-close_cb (GtkWidget *window, gint response, gpointer user_data)
+static void close_cb(GtkWidget* window, gint response, gpointer user_data)
 {
-    if (response == GTK_RESPONSE_HELP) {
-	capplet_help (GTK_WINDOW (window), "prefs-preferredapps");
-    }
-    else {
-	gtk_widget_destroy (window);
-	gtk_main_quit ();
-    }
+	if (response == GTK_RESPONSE_HELP)
+	{
+		capplet_help (GTK_WINDOW (window), "prefs-preferredapps");
+	}
+	else
+	{
+		gtk_widget_destroy (window);
+		gtk_main_quit ();
+	}
 }
 
-static void
-set_icon (GtkImage *image, GtkIconTheme *theme, const char *name)
+static void set_icon (GtkImage* image, GtkIconTheme* theme, const char* name)
 {
-    GdkPixbuf *pixbuf;
+    GdkPixbuf* pixbuf;
 
-    if ((pixbuf = gtk_icon_theme_load_icon (theme, name, 48, 0, NULL))) {
-	gtk_image_set_from_pixbuf (image, pixbuf);
-	g_object_unref (pixbuf);
-    }
+	if ((pixbuf = gtk_icon_theme_load_icon(theme, name, 48, 0, NULL)))
+	{
+		gtk_image_set_from_pixbuf(image, pixbuf);
+		g_object_unref(pixbuf);
+	}
 }
 
-static void
-web_radiobutton_toggled_cb (GtkWidget *togglebutton, MateDACapplet *capplet)
+static void web_radiobutton_toggled_cb(GtkWidget* togglebutton, MateDACapplet* capplet)
 {
     gint index;
     MateDAWebItem *item;
@@ -100,8 +99,7 @@ web_radiobutton_toggled_cb (GtkWidget *togglebutton, MateDACapplet *capplet)
     }
 }
 
-static void
-web_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
+static void web_combo_changed_cb(GtkComboBox* combo, MateDACapplet* capplet)
 {
     guint current_index;
     gboolean is_custom_active;
@@ -144,8 +142,7 @@ web_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
 }
 
 /* FIXME: Refactor these two functions below into one... */
-static void
-mail_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
+static void mail_combo_changed_cb(GtkComboBox* combo, MateDACapplet* capplet)
 {
     guint current_index;
     gboolean is_custom_active;
@@ -158,8 +155,7 @@ mail_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
     gtk_widget_set_sensitive (capplet->mail_reader_terminal_checkbutton, is_custom_active);
 }
 
-static void
-media_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
+static void media_combo_changed_cb(GtkComboBox* combo, MateDACapplet* capplet)
 {
     guint current_index;
     gboolean is_custom_active;
@@ -172,8 +168,7 @@ media_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
     gtk_widget_set_sensitive (capplet->media_player_terminal_checkbutton, is_custom_active);
 }
 
-static void
-terminal_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
+static void terminal_combo_changed_cb(GtkComboBox* combo, MateDACapplet* capplet)
 {
     guint current_index;
     gboolean is_custom_active;
@@ -187,8 +182,7 @@ terminal_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
     gtk_widget_set_sensitive (capplet->terminal_exec_flag_label, is_custom_active);
 }
 
-static void
-visual_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
+static void visual_combo_changed_cb(GtkComboBox* combo, MateDACapplet* capplet)
 {
     guint current_index;
     gboolean is_custom_active;
@@ -200,8 +194,7 @@ visual_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
     gtk_widget_set_sensitive (capplet->visual_command_label, is_custom_active);
 }
 
-static void
-mobility_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
+static void mobility_combo_changed_cb(GtkComboBox* combo, MateDACapplet* capplet)
 {
     guint current_index;
     gboolean is_custom_active;
@@ -213,8 +206,7 @@ mobility_combo_changed_cb (GtkComboBox *combo, MateDACapplet *capplet)
     gtk_widget_set_sensitive (capplet->mobility_command_label, is_custom_active);
 }
 
-static void
-refresh_combo_box_icons (GtkIconTheme *theme, GtkComboBox *combo_box, GList *app_list)
+static void refresh_combo_box_icons(GtkIconTheme* theme, GtkComboBox* combo_box, GList* app_list)
 {
     GList *entry;
     MateDAItem *item;
@@ -241,64 +233,66 @@ refresh_combo_box_icons (GtkIconTheme *theme, GtkComboBox *combo_box, GList *app
 }
 
 static struct {
-    const gchar *name;
-    const gchar *icon;
+	const gchar* name;
+	const gchar* icon;
 } icons[] = {
-    { "web_browser_image", "web-browser"      },
-    { "mail_reader_image", "emblem-mail"  },
-    { "media_player_image", "applications-multimedia"     },
-    { "visual_image",      "zoom-best-fit" },
-    { "mobility_image",    "preferences-desktop-accessibility" },
-/*    { "messenger_image",   "im"               },
- *    { "image_image",       "image-viewer"     },
- *    { "video_image",       "mate-multimedia" },
- *    { "text_image",        "text-editor"      }, */
-    { "terminal_image",    "mate-terminal"   }
+	{"web_browser_image", "web-browser"},
+	{"mail_reader_image", "emblem-mail"},
+	{"media_player_image", "applications-multimedia"},
+	{"visual_image",      "zoom-best-fit"},
+	{"mobility_image",    "preferences-desktop-accessibility"},
+	/*
+	{"messenger_image",   "im"},
+	{"file_manager_image",   "file-manager"},
+	{"image_image",       "image-viewer"},
+	{"video_image",       "mate-multimedia"},
+	{"text_image",        "text-editor"},
+	*/
+	{"terminal_image",    "mate-terminal"}
 };
 
-static void
-theme_changed_cb (GtkIconTheme *theme, MateDACapplet *capplet)
+static void theme_changed_cb(GtkIconTheme* theme, MateDACapplet* capplet)
 {
-    GObject *icon;
-    gint i;
+	GObject *icon;
+	gint i;
 
-    for (i = 0; i < G_N_ELEMENTS (icons); i++) {
-	icon = gtk_builder_get_object (capplet->builder, icons[i].name);
-	set_icon (GTK_IMAGE (icon), theme, icons[i].icon);
-    }
+	for (i = 0; i < G_N_ELEMENTS (icons); i++)
+	{
+		icon = gtk_builder_get_object (capplet->builder, icons[i].name);
+		set_icon (GTK_IMAGE (icon), theme, icons[i].icon);
+	}
 
-    refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->web_combo_box), capplet->web_browsers);
-    refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->mail_combo_box), capplet->mail_readers);
-    refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->media_combo_box), capplet->media_players);
-    refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->term_combo_box), capplet->terminals);
-    refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->visual_combo_box), capplet->visual_ats);
-    refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->mobility_combo_box), capplet->mobility_ats);
+	refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->web_combo_box), capplet->web_browsers);
+	refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->mail_combo_box), capplet->mail_readers);
+	refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->media_combo_box), capplet->media_players);
+	refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->term_combo_box), capplet->terminals);
+	refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->visual_combo_box), capplet->visual_ats);
+	refresh_combo_box_icons (theme, GTK_COMBO_BOX (capplet->mobility_combo_box), capplet->mobility_ats);
 }
 
-static void
-screen_changed_cb (GtkWidget *widget, GdkScreen *screen, MateDACapplet *capplet)
+static void screen_changed_cb(GtkWidget* widget, GdkScreen* screen, MateDACapplet* capplet)
 {
-    GtkIconTheme *theme;
+	GtkIconTheme* theme;
 
-    theme = gtk_icon_theme_get_for_screen (screen);
+	theme = gtk_icon_theme_get_for_screen (screen);
 
-    if (capplet->icon_theme != NULL) {
-	g_signal_handlers_disconnect_by_func (capplet->icon_theme, theme_changed_cb, capplet);
-    }
-    g_signal_connect (theme, "changed", G_CALLBACK (theme_changed_cb), capplet);
-    theme_changed_cb (theme, capplet);
+	if (capplet->icon_theme != NULL)
+	{
+		g_signal_handlers_disconnect_by_func (capplet->icon_theme, theme_changed_cb, capplet);
+	}
 
-    capplet->icon_theme = theme;
+	g_signal_connect (theme, "changed", G_CALLBACK (theme_changed_cb), capplet);
+	theme_changed_cb (theme, capplet);
+
+	capplet->icon_theme = theme;
 }
 
-static gint
-generic_item_comp (gconstpointer list_item, gconstpointer command)
+static gint generic_item_comp(gconstpointer list_item, gconstpointer command)
 {
-    return (strcmp (((MateDAItem *) list_item)->command, (gchar *) command));
+	return (strcmp (((MateDAItem *) list_item)->command, (gchar *) command));
 }
 
-static gint
-web_item_comp (gconstpointer item, gconstpointer command)
+static gint web_item_comp(gconstpointer item, gconstpointer command)
 {
     MateDAWebItem *web_list_item;
 
@@ -318,8 +312,7 @@ web_item_comp (gconstpointer item, gconstpointer command)
     return (strcmp (web_list_item->generic.command, (gchar *) command));
 }
 
-static void
-web_mateconf_changed_cb (MateConfPropertyEditor *peditor, gchar *key, MateConfValue *value, MateDACapplet *capplet)
+static void web_mateconf_changed_cb(MateConfPropertyEditor* peditor, gchar* key, MateConfValue* value, MateDACapplet* capplet)
 {
     MateConfChangeSet *cs;
     GError *error = NULL;
@@ -389,8 +382,7 @@ web_mateconf_changed_cb (MateConfPropertyEditor *peditor, gchar *key, MateConfVa
     }
 }
 
-static void
-web_browser_update_radio_buttons (MateDACapplet *capplet, const gchar *command)
+static void web_browser_update_radio_buttons(MateDACapplet* capplet, const gchar* command)
 {
     GList *entry;
     gboolean has_net_remote;
@@ -435,8 +427,7 @@ web_browser_update_radio_buttons (MateDACapplet *capplet, const gchar *command)
     gtk_widget_set_sensitive (capplet->new_tab_radiobutton, has_net_remote);
 }
 
-static MateConfValue*
-web_combo_conv_to_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
+static MateConfValue* web_combo_conv_to_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
 {
     MateConfValue *ret;
     GList *entry, *handlers;
@@ -471,8 +462,7 @@ web_combo_conv_to_widget (MateConfPropertyEditor *peditor, const MateConfValue *
     return ret;
 }
 
-static MateConfValue*
-web_combo_conv_from_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
+static MateConfValue* web_combo_conv_from_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
 {
     MateConfValue *ret;
     GList *handlers;
@@ -512,8 +502,7 @@ web_combo_conv_from_widget (MateConfPropertyEditor *peditor, const MateConfValue
     }
 }
 
-static MateConfValue*
-combo_conv_to_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
+static MateConfValue* combo_conv_to_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
 {
     MateConfValue *ret;
     GList *entry, *handlers;
@@ -543,8 +532,7 @@ combo_conv_to_widget (MateConfPropertyEditor *peditor, const MateConfValue *valu
     return ret;
 }
 
-static MateConfValue*
-combo_conv_from_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
+static MateConfValue* combo_conv_from_widget (MateConfPropertyEditor *peditor, const MateConfValue *value)
 {
     MateConfValue *ret;
     GList *handlers;
@@ -574,8 +562,7 @@ combo_conv_from_widget (MateConfPropertyEditor *peditor, const MateConfValue *va
     }
 }
 
-static MateConfValue*
-combo_conv_from_widget_term_flag (MateConfPropertyEditor *peditor, const MateConfValue *value)
+static MateConfValue* combo_conv_from_widget_term_flag (MateConfPropertyEditor *peditor, const MateConfValue *value)
 {
     MateConfValue *ret;
     GList *handlers;
@@ -605,8 +592,7 @@ combo_conv_from_widget_term_flag (MateConfPropertyEditor *peditor, const MateCon
     }
 }
 
-static MateConfValue*
-combo_conv_to_widget_term_flag (MateConfPropertyEditor *peditor, const MateConfValue *value)
+static MateConfValue* combo_conv_to_widget_term_flag (MateConfPropertyEditor *peditor, const MateConfValue *value)
 {
     MateConfValue *ret;
     GtkComboBox *combo;
@@ -618,8 +604,7 @@ combo_conv_to_widget_term_flag (MateConfPropertyEditor *peditor, const MateConfV
     return ret;
 }
 
-static gboolean
-is_separator (GtkTreeModel *model, GtkTreeIter *iter, gpointer sep_index)
+static gboolean is_separator (GtkTreeModel *model, GtkTreeIter *iter, gpointer sep_index)
 {
     GtkTreePath *path;
     gboolean result;
@@ -631,8 +616,7 @@ is_separator (GtkTreeModel *model, GtkTreeIter *iter, gpointer sep_index)
     return result;
 }
 
-static void
-fill_combo_box (GtkIconTheme *theme, GtkComboBox *combo_box, GList *app_list)
+static void fill_combo_box (GtkIconTheme *theme, GtkComboBox *combo_box, GList *app_list)
 {
     GList *entry;
     GtkTreeModel *model;
@@ -692,15 +676,13 @@ fill_combo_box (GtkIconTheme *theme, GtkComboBox *combo_box, GList *app_list)
 			-1);
 }
 
-static GtkWidget*
-_gtk_builder_get_widget (GtkBuilder *builder, const gchar *name)
+static GtkWidget* _gtk_builder_get_widget (GtkBuilder *builder, const gchar *name)
 {
     return GTK_WIDGET (gtk_builder_get_object (builder, name));
 }
 
 
-static void
-show_dialog (MateDACapplet *capplet, const gchar *start_page)
+static void show_dialog (MateDACapplet* capplet, const gchar* start_page)
 {
     GObject *obj;
     GtkBuilder *builder;
@@ -942,48 +924,47 @@ show_dialog (MateDACapplet *capplet, const gchar *start_page)
     gtk_widget_show (capplet->window);
 }
 
-int
-main (int argc, char **argv)
+int main (int argc, char** argv)
 {
-    MateDACapplet *capplet;
+    MateDACapplet* capplet;
 
-    gchar *start_page = NULL;
-    GOptionContext *context;
+    gchar* start_page = NULL;
+
+    GOptionContext* context;
     GOptionEntry option_entries[] = {
-        { "show-page",
-          'p',
-          G_OPTION_FLAG_IN_MAIN,
-          G_OPTION_ARG_STRING,
-          &start_page,
-          /* TRANSLATORS: don't translate the terms in brackets */
-          N_("Specify the name of the page to show (internet|multimedia|system|a11y)"),
-          N_("page") },
-        { NULL }
+		{
+			"show-page",
+			'p',
+			G_OPTION_FLAG_IN_MAIN,
+			G_OPTION_ARG_STRING,
+			&start_page,
+			/* TRANSLATORS: don't translate the terms in brackets */
+			N_("Specify the name of the page to show (internet|multimedia|system|a11y)"),
+			N_("page")
+		},
+		{NULL}
     };
 
-    context = g_option_context_new (_("- MATE Default Applications"));
+    context = g_option_context_new(_("- MATE Default Applications"));
     g_option_context_add_main_entries (context, option_entries, GETTEXT_PACKAGE);
 
     capplet_init (context, &argc, &argv);
 
-    capplet = g_new0 (MateDACapplet, 1);
-    capplet->mateconf = mateconf_client_get_default ();
-    mateconf_client_add_dir (capplet->mateconf, "/desktop/mate/url-handlers",
-                          MATECONF_CLIENT_PRELOAD_RECURSIVE, NULL);
-    mateconf_client_add_dir (capplet->mateconf,
-                          "/desktop/mate/applications",
-                          MATECONF_CLIENT_PRELOAD_RECURSIVE, NULL);
+    capplet = g_new0(MateDACapplet, 1);
+    capplet->mateconf = mateconf_client_get_default();
+    mateconf_client_add_dir(capplet->mateconf, "/desktop/mate/url-handlers", MATECONF_CLIENT_PRELOAD_RECURSIVE, NULL);
+    mateconf_client_add_dir(capplet->mateconf, "/desktop/mate/applications", MATECONF_CLIENT_PRELOAD_RECURSIVE, NULL);
 
-    mate_da_xml_load_list (capplet);
+    mate_da_xml_load_list(capplet);
 
-    show_dialog (capplet, start_page);
-    g_free (start_page);
+    show_dialog(capplet, start_page);
+    g_free(start_page);
 
-    gtk_main ();
+    gtk_main();
 
-    g_object_unref (capplet->mateconf);
+    g_object_unref(capplet->mateconf);
 
-    mate_da_xml_free (capplet);
+    mate_da_xml_free(capplet);
 
     return 0;
 }
