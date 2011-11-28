@@ -19,18 +19,17 @@
 #include "gtkrc-utils.h"
 #include "capplet-util.h"
 
-typedef struct
-{
-  gboolean set;
-  gint thumbnail_width;
-  gint thumbnail_height;
-  GByteArray *data;
-  gchar *theme_name;
-  ThemeThumbnailFunc func;
-  gpointer user_data;
-  GDestroyNotify destroy;
-  GIOChannel *channel;
-  guint watch_id;
+typedef struct {
+	gboolean set;
+	gint thumbnail_width;
+	gint thumbnail_height;
+	GByteArray* data;
+	gchar* theme_name;
+	ThemeThumbnailFunc func;
+	gpointer user_data;
+	GDestroyNotify destroy;
+	GIOChannel* channel;
+	guint watch_id;
 } ThemeThumbnailAsyncData;
 
 
@@ -45,46 +44,43 @@ static ThemeThumbnailAsyncData async_data;
  * After that, the child is ready for the next theme to render.
  */
 
-enum
-{
-  READY_FOR_THEME,
-  READING_TYPE,
-  READING_CONTROL_THEME_NAME,
-  READING_GTK_COLOR_SCHEME,
-  READING_WM_THEME_NAME,
-  READING_ICON_THEME_NAME,
-  READING_APPLICATION_FONT,
-  WRITING_PIXBUF_DATA
+enum {
+	READY_FOR_THEME,
+	READING_TYPE,
+	READING_CONTROL_THEME_NAME,
+	READING_GTK_COLOR_SCHEME,
+	READING_WM_THEME_NAME,
+	READING_ICON_THEME_NAME,
+	READING_APPLICATION_FONT,
+	WRITING_PIXBUF_DATA
 };
 
-typedef struct
-{
-  gint status;
-  GByteArray *type;
-  GByteArray *control_theme_name;
-  GByteArray *gtk_color_scheme;
-  GByteArray *wm_theme_name;
-  GByteArray *icon_theme_name;
-  GByteArray *application_font;
+typedef struct {
+	gint status;
+	GByteArray* type;
+	GByteArray* control_theme_name;
+	GByteArray* gtk_color_scheme;
+	GByteArray* wm_theme_name;
+	GByteArray* icon_theme_name;
+	GByteArray* application_font;
 } ThemeThumbnailData;
 
-typedef struct
-{
-  gchar *thumbnail_type;
-  gpointer theme_info;
-  ThemeThumbnailFunc func;
-  gpointer user_data;
-  GDestroyNotify destroy;
+typedef struct {
+	gchar* thumbnail_type;
+	gpointer theme_info;
+	ThemeThumbnailFunc func;
+	gpointer user_data;
+	GDestroyNotify destroy;
 } ThemeQueueItem;
 
-static GList *theme_queue = NULL;
+static GList* theme_queue = NULL;
 
 static int pipe_to_factory_fd[2];
 static int pipe_from_factory_fd[2];
 
 #define THUMBNAIL_TYPE_META     "meta"
 #define THUMBNAIL_TYPE_GTK      "gtk"
-#define THUMBNAIL_TYPE_MARCO "marco"
+#define THUMBNAIL_TYPE_MARCO    "marco"
 #define THUMBNAIL_TYPE_ICON     "icon"
 
 #define META_THUMBNAIL_SIZE       128
@@ -92,44 +88,53 @@ static int pipe_from_factory_fd[2];
 #define MARCO_THUMBNAIL_WIDTH  120
 #define MARCO_THUMBNAIL_HEIGHT  60
 
-static GdkPixmap*
-draw_window_on_pixbuf (GtkWidget *widget)
+/* This draw the thumbnail of gtk
+ */
+static GdkPixmap* draw_window_on_pixbuf(GtkWidget* widget)
 {
-  GdkVisual *visual;
-  GdkPixmap *pixmap;
-  GtkStyle  *style;
-  GdkScreen *screen = gdk_screen_get_default ();
-  GdkWindow *window;
-  gint width, height;
+	GdkVisual* visual;
+	GdkPixmap* pixmap;
+	GtkStyle* style;
+	GdkScreen* screen = gdk_screen_get_default();
+	GdkWindow* window;
+	gint width, height;
 
-  gtk_widget_ensure_style (widget);
+	gtk_widget_ensure_style(widget);
 
-  style = gtk_widget_get_style (widget);
+	style = gtk_widget_get_style(widget);
 
-  g_assert (style);
-  g_assert (style->font_desc);
+	g_assert(style);
+	g_assert(style->font_desc);
 
-  gtk_window_get_size (GTK_WINDOW (widget), &width, &height);
+	gtk_window_get_size(GTK_WINDOW(widget), &width, &height);
 
-  visual = gtk_widget_get_visual (widget);
-  pixmap = gdk_pixmap_new (NULL, width, height, visual->depth);
-  gdk_drawable_set_colormap (GDK_DRAWABLE (pixmap), gtk_widget_get_colormap (widget));
+	visual = gtk_widget_get_visual(widget);
+	pixmap = gdk_pixmap_new(NULL, width, height, visual->depth);
+	gdk_drawable_set_colormap(GDK_DRAWABLE(pixmap), gtk_widget_get_colormap(widget));
 
-  window = gtk_widget_get_window (widget);
+	window = gtk_widget_get_window(widget);
 
-  gdk_window_redirect_to_drawable (window, pixmap, 0, 0, 0, 0, width, height);
-  gdk_window_set_override_redirect (window, TRUE);
-  gtk_window_move (GTK_WINDOW (widget), gdk_screen_get_width (screen), gdk_screen_get_height (screen));
-  gtk_widget_show(widget);
+	/* This is a hack for the default resize grip on Ubuntu.
+	 * Once again, thank you Ubuntu.
+	 *
+	 * We need to add a --enable-ubuntu for this.
+	 */
+	#ifdef UBUNTU
+		gtk_window_set_has_resize_grip(GTK_WINDOW(widget), FALSE);
+	#endif
 
-  gdk_window_process_updates (window, TRUE);
-  gtk_widget_hide(widget);
+	gdk_window_redirect_to_drawable(window, pixmap, 0, 0, 0, 0, width, height);
+	gdk_window_set_override_redirect(window, TRUE);
+	gtk_window_move(GTK_WINDOW(widget), gdk_screen_get_width(screen), gdk_screen_get_height(screen));
+	gtk_widget_show(widget);
 
-  return pixmap;
+	gdk_window_process_updates(window, TRUE);
+	gtk_widget_hide(widget);
+
+	return pixmap;
 }
 
-static void
-pixbuf_apply_mask_region (GdkPixbuf *pixbuf, GdkRegion *region)
+static void pixbuf_apply_mask_region(GdkPixbuf* pixbuf, GdkRegion* region)
 {
   gint nchannels, rowstride, w, h;
   guchar *pixels, *p;
@@ -967,66 +972,54 @@ generate_icon_theme_thumbnail (MateThemeIconInfo *theme_info)
                                    NULL);
 }
 
-static void
-generate_theme_thumbnail_async (gpointer            theme_info,
-                                gchar              *theme_name,
-                                gchar              *thumbnail_type,
-                                gchar              *gtk_theme_name,
-                                gchar              *gtk_color_scheme,
-                                gchar              *marco_theme_name,
-                                gchar              *icon_theme_name,
-                                gchar              *application_font,
-                                ThemeThumbnailFunc  func,
-                                gpointer            user_data,
-                                GDestroyNotify      destroy)
+static void generate_theme_thumbnail_async(gpointer theme_info, gchar* theme_name, gchar* thumbnail_type, gchar* gtk_theme_name, gchar* gtk_color_scheme, gchar* marco_theme_name, gchar* icon_theme_name, gchar* application_font, ThemeThumbnailFunc func, gpointer user_data, GDestroyNotify destroy)
 {
-  if (async_data.set)
-  {
-    ThemeQueueItem *item;
+	if (async_data.set)
+	{
+		ThemeQueueItem* item = g_new0 (ThemeQueueItem, 1);
 
-    item = g_new0 (ThemeQueueItem, 1);
-    item->thumbnail_type = thumbnail_type;
-    item->theme_info = theme_info;
-    item->func = func;
-    item->user_data = user_data;
-    item->destroy = destroy;
+		item->thumbnail_type = thumbnail_type;
+		item->theme_info = theme_info;
+		item->func = func;
+		item->user_data = user_data;
+		item->destroy = destroy;
 
-    theme_queue = g_list_append (theme_queue, item);
-    return;
-  }
+		theme_queue = g_list_append(theme_queue, item);
 
-  if (!pipe_to_factory_fd[1] || !pipe_from_factory_fd[0])
-  {
-    (* func) (NULL, theme_name, user_data);
+		return;
+	}
 
-    if (destroy)
-      (* destroy) (user_data);
+	if (!pipe_to_factory_fd[1] || !pipe_from_factory_fd[0])
+	{
+		(*func)(NULL, theme_name, user_data);
 
-    return;
-  }
+		if (destroy)
+		{
+			(*destroy)(user_data);
+		}
 
-  if (async_data.channel == NULL)
-  {
-    async_data.channel = g_io_channel_unix_new (pipe_from_factory_fd[0]);
-    g_io_channel_set_flags (async_data.channel, g_io_channel_get_flags (async_data.channel) | G_IO_FLAG_NONBLOCK, NULL);
-    g_io_channel_set_encoding (async_data.channel, NULL, NULL);
-    async_data.watch_id = g_io_add_watch (async_data.channel, G_IO_IN | G_IO_HUP, message_from_child, NULL);
-  }
+		return;
+	}
 
-  async_data.set = TRUE;
-  async_data.thumbnail_width = -1;
-  async_data.thumbnail_height = -1;
-  async_data.theme_name = g_strdup (theme_name);
-  async_data.func = func;
-  async_data.user_data = user_data;
-  async_data.destroy = destroy;
+	if (async_data.channel == NULL)
+	{
+		async_data.channel = g_io_channel_unix_new(pipe_from_factory_fd[0]);
 
-  send_thumbnail_request (thumbnail_type,
-                          gtk_theme_name,
-                          gtk_color_scheme,
-                          marco_theme_name,
-                          icon_theme_name,
-                          application_font);
+		g_io_channel_set_flags(async_data.channel, g_io_channel_get_flags (async_data.channel) | G_IO_FLAG_NONBLOCK, NULL);
+		g_io_channel_set_encoding(async_data.channel, NULL, NULL);
+
+		async_data.watch_id = g_io_add_watch(async_data.channel, G_IO_IN | G_IO_HUP, message_from_child, NULL);
+	}
+
+	async_data.set = TRUE;
+	async_data.thumbnail_width = -1;
+	async_data.thumbnail_height = -1;
+	async_data.theme_name = g_strdup(theme_name);
+	async_data.func = func;
+	async_data.user_data = user_data;
+	async_data.destroy = destroy;
+
+	send_thumbnail_request(thumbnail_type, gtk_theme_name, gtk_color_scheme, marco_theme_name, icon_theme_name, application_font);
 }
 
 void
@@ -1046,26 +1039,13 @@ generate_meta_theme_thumbnail_async (MateThemeMetaInfo *theme_info,
                                          func, user_data, destroy);
 }
 
-void
-generate_gtk_theme_thumbnail_async (MateThemeInfo *theme_info,
-                                    ThemeThumbnailFunc  func,
-                                    gpointer            user_data,
-                                    GDestroyNotify      destroy)
+void generate_gtk_theme_thumbnail_async (MateThemeInfo* theme_info, ThemeThumbnailFunc  func, gpointer user_data, GDestroyNotify destroy)
 {
-  gchar *scheme;
+	gchar* scheme = gtkrc_get_color_scheme_for_theme(theme_info->name);
 
-  scheme = gtkrc_get_color_scheme_for_theme (theme_info->name);
+	generate_theme_thumbnail_async(theme_info, theme_info->name, THUMBNAIL_TYPE_GTK, theme_info->name, scheme,  NULL, NULL, NULL, func, user_data, destroy);
 
-  generate_theme_thumbnail_async (theme_info,
-                                  theme_info->name,
-                                  THUMBNAIL_TYPE_GTK,
-                                  theme_info->name,
-                                  scheme,
-                                  NULL,
-                                  NULL,
-                                  NULL,
-                                  func, user_data, destroy);
-  g_free (scheme);
+	g_free(scheme);
 }
 
 void
