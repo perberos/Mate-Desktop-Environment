@@ -75,6 +75,7 @@
 #include <X11/extensions/Xcomposite.h>
 #include <X11/extensions/Xdamage.h>
 #include <X11/extensions/Xfixes.h>
+#include <gtk/gtk.h>
 #endif
 #include <string.h>
 
@@ -1396,6 +1397,134 @@ handle_net_restack_window (MetaDisplay* display,
 }
 #endif
 
+/* We do some of our event handling in core/frames.c, which expects
+ * GDK events delivered by GTK+.  However, since the transition to
+ * client side windows, we can't let GDK see button events, since the
+ * client-side tracking of implicit and explicit grabs it does will
+ * get confused by our direct use of X grabs.
+ *
+ * So we do a very minimal GDK => GTK event conversion here and send on the
+ * events we care about, and then filter them out so they don't go
+ * through the normal GDK event handling.
+ *
+ * To reduce the amount of code, the only events fields filled out
+ * below are the ones that frames.c uses. If frames.c is modified to
+ * use more fields, more fields need to be filled out below.
+ */
+
+static gboolean
+maybe_send_event_to_gtk (MetaDisplay *display,
+                         XEvent      *xevent)
+{
+  /* We're always using the default display */
+  GdkDisplay *gdk_display = gdk_display_get_default ();
+  GdkEvent gdk_event;
+  GdkWindow *gdk_window;
+  Window window;
+
+  switch (xevent->type)
+    {
+    case ButtonPress:
+    case ButtonRelease:
+      window = xevent->xbutton.window;
+      break;
+    case MotionNotify:
+      window = xevent->xmotion.window;
+      break;
+    case EnterNotify:
+    case LeaveNotify:
+      window = xevent->xcrossing.window;
+      break;
+    default:
+      return FALSE;
+    }
+
+  gdk_window = gdk_window_lookup_for_display (gdk_display, window);
+  if (gdk_window == NULL)
+    return FALSE;
+
+  /* If GDK already things it has a grab, we better let it see events; this
+   * is the menu-navigation case and events need to get sent to the appropriate
+   * (client-side) subwindow for individual menu items.
+   */
+  if (gdk_display_pointer_is_grabbed (gdk_display))
+    return FALSE;
+
+  memset (&gdk_event, 0, sizeof (gdk_event));
+
+  switch (xevent->type)
+    {
+    case ButtonPress:
+    case ButtonRelease:
+      if (xevent->type == ButtonPress)
+        {
+          GtkSettings *settings = gtk_settings_get_default ();
+          int double_click_time;
+          int double_click_distance;
+
+          g_object_get (settings,
+                        "gtk-double-click-time", &double_click_time,
+                        "gtk-double-click-distance", &double_click_distance,
+                        NULL);
+
+          if (xevent->xbutton.button == display->button_click_number &&
+              xevent->xbutton.window == display->button_click_window &&
+              xevent->xbutton.time < display->button_click_time + double_click_time &&
+              ABS (xevent->xbutton.x - display->button_click_x) <= double_click_distance &&
+              ABS (xevent->xbutton.y - display->button_click_y) <= double_click_distance)
+            {
+              gdk_event.button.type = GDK_2BUTTON_PRESS;
+
+              display->button_click_number = 0;
+            }
+          else
+            {
+              gdk_event.button.type = GDK_BUTTON_PRESS;
+              display->button_click_number = xevent->xbutton.button;
+              display->button_click_window = xevent->xbutton.window;
+              display->button_click_time = xevent->xbutton.time;
+              display->button_click_x = xevent->xbutton.x;
+              display->button_click_y = xevent->xbutton.y;
+            }
+        }
+      else
+        {
+          gdk_event.button.type = GDK_BUTTON_RELEASE;
+        }
+
+      gdk_event.button.window = gdk_window;
+      gdk_event.button.button = xevent->xbutton.button;
+      gdk_event.button.time = xevent->xbutton.time;
+      gdk_event.button.x = xevent->xbutton.x;
+      gdk_event.button.y = xevent->xbutton.y;
+      gdk_event.button.x_root = xevent->xbutton.x_root;
+      gdk_event.button.y_root = xevent->xbutton.y_root;
+
+      break;
+    case MotionNotify:
+      gdk_event.motion.type = GDK_MOTION_NOTIFY;
+      gdk_event.motion.window = gdk_window;
+      break;
+    case EnterNotify:
+    case LeaveNotify:
+      gdk_event.crossing.type = xevent->type == EnterNotify ? GDK_ENTER_NOTIFY : GDK_LEAVE_NOTIFY;
+      gdk_event.crossing.window = gdk_window;
+      gdk_event.crossing.x = xevent->xcrossing.x;
+      gdk_event.crossing.y = xevent->xcrossing.y;
+      break;
+    default:
+      g_assert_not_reached ();
+      break;
+    }
+
+  /* If we've gotten here, we've filled in the gdk_event and should send it on */
+
+  gtk_main_do_event (&gdk_event);
+
+  return TRUE;
+}
+
+
 /**
  * This is the most important function in the whole program. It is the heart,
  * it is the nexus, it is the Grand Central Station of Marco's world.
@@ -2403,6 +2532,9 @@ event_callback (XEvent   *event,
 				     event,
 				     window);
     }
+    
+  if (maybe_send_event_to_gtk (display, event))
+    filter_out_event = TRUE;
   
   display->current_time = CurrentTime;
   return filter_out_event;
