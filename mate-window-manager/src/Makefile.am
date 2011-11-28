@@ -86,7 +86,6 @@ marco_SOURCES = \
 	include/common.h \
 	include/core.h \
 	include/ui.h \
-	inlinepixbufs.h \
 	ui/fixedtip.c \
 	ui/fixedtip.h \
 	ui/frames.c \
@@ -199,24 +198,14 @@ else
 install-data-local:
 endif
 
-IMAGES = stock_maximize.png stock_minimize.png stock_delete.png
-VARIABLES = \
-	stock_maximize_data $(srcdir)/stock_maximize.png \
-	stock_minimize_data $(srcdir)/stock_minimize.png \
-	stock_delete_data $(srcdir)/stock_delete.png
-
-BUILT_SOURCES = inlinepixbufs.h
+BUILT_SOURCES =
 CLEANFILES = \
-	inlinepixbufs.h \
 	marco.desktop \
 	marco-wm.desktop \
 	marco.schemas \
 	marco.schemas.in \
 	50-marco-desktop-key.xml \
 	50-marco-key.xml
-
-inlinepixbufs.h: $(IMAGES)
-	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$(srcdir)/inlinepixbufs.h
 
 pkgconfigdir = $(libdir)/pkgconfig
 

@@ -28,8 +28,6 @@
 #include "core.h"
 #include "theme.h"
 
-#include "inlinepixbufs.h"
-
 #include <string.h>
 #include <stdlib.h>
 
