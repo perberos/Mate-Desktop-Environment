@@ -562,16 +562,19 @@ theme_message_area_response_cb (GtkWidget *w,
       }
       break;
 
-    case RESPONSE_INSTALL_ENGINE:
-      engine_path = gtk_theme_info_missing_engine (theme->gtk_theme_name, FALSE);
-      if (engine_path != NULL) {
-              theme_install_file (GTK_WINDOW (gtk_widget_get_toplevel (data->install_button)),
-                                  engine_path);
-              g_free (engine_path);
-      }
-      theme_message_area_update (data);
-      break;
-  }
+		case RESPONSE_INSTALL_ENGINE:
+
+			engine_path = gtk_theme_info_missing_engine(theme->gtk_theme_name, FALSE);
+
+			if (engine_path != NULL)
+			{
+				theme_install_file(GTK_WINDOW(gtk_widget_get_toplevel(data->install_button)), engine_path);
+				g_free (engine_path);
+			}
+
+			theme_message_area_update(data);
+			break;
+	}
 }
 
 static void

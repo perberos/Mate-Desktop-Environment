@@ -34,22 +34,23 @@
 #define ENGINE_SYMBOL ((gpointer) 2)
 #define COLOR_SCHEME_SYMBOL ((gpointer) 3)
 
-gchar *
-gtkrc_find_named (const gchar *name)
+gchar* gtkrc_find_named(const gchar* name)
 {
 	/* find the gtkrc of the named theme
 	 * taken from gtkrc.c (gtk_rc_parse_named)
 	 */
-	gchar *path = NULL;
-	const gchar *home_dir;
-	const gchar *subpath = "gtk-2.0" G_DIR_SEPARATOR_S "gtkrc";
+	gchar* path = NULL;
+	const gchar* home_dir;
+	const gchar* subpath = "gtk-2.0" G_DIR_SEPARATOR_S "gtkrc";
 
 	/* First look in the users home directory
 	*/
-	home_dir = g_get_home_dir ();
+	home_dir = g_get_home_dir();
+	
 	if (home_dir)
 	{
-		path = g_build_filename (home_dir, ".themes", name, subpath, NULL);
+		path = g_build_filename(home_dir, ".themes", name, subpath, NULL);
+		
 		if (!g_file_test (path, G_FILE_TEST_EXISTS))
 		{
 			g_free (path);
@@ -59,11 +60,11 @@ gtkrc_find_named (const gchar *name)
 
 	if (!path)
 	{
-		gchar *theme_dir = gtk_rc_get_theme_dir ();
-		path = g_build_filename (theme_dir, name, subpath, NULL);
-		g_free (theme_dir);
+		gchar* theme_dir = gtk_rc_get_theme_dir();
+		path = g_build_filename(theme_dir, name, subpath, NULL);
+		g_free(theme_dir);
 
-		if (!g_file_test (path, G_FILE_TEST_EXISTS))
+		if (!g_file_test(path, G_FILE_TEST_EXISTS))
 		{
 			g_free (path);
 			path = NULL;
@@ -74,20 +75,23 @@ gtkrc_find_named (const gchar *name)
 
 }
 
-void
-gtkrc_get_details (gchar *filename, GSList **engines, GSList **symbolic_colors)
+void gtkrc_get_details(gchar* filename, GSList** engines, GSList** symbolic_colors)
 {
 	gint file = -1;
-	GSList *files = NULL;
-	GSList *read_files = NULL;
+	GSList* files = NULL;
+	GSList* read_files = NULL;
 	GTokenType token;
 	GScanner *scanner = g_scanner_new (NULL);
 
 	g_scanner_scope_add_symbol (scanner, 0, "include", INCLUDE_SYMBOL);
+
 	if (engines != NULL)
-	  g_scanner_scope_add_symbol (scanner, 0, "engine", ENGINE_SYMBOL);
+	{
+		g_scanner_scope_add_symbol (scanner, 0, "engine", ENGINE_SYMBOL);
+	}
 
 	files = g_slist_prepend (files, g_strdup (filename));
+	
 	while (files != NULL)
 	{
 		filename = files->data;
@@ -234,17 +238,18 @@ gtkrc_get_color_scheme (const gchar *gtkrc_file)
 	return result;
 }
 
-gchar *
-gtkrc_get_color_scheme_for_theme (const gchar *theme_name)
+gchar* gtkrc_get_color_scheme_for_theme(const gchar* theme_name)
 {
 	/* try to find the color scheme from the gtkrc */
-	gchar *gtkrc_file;
-	gchar *scheme = NULL;
+	gchar* gtkrc_file;
+	gchar* scheme = NULL;
 
-	gtkrc_file = gtkrc_find_named (theme_name);
-	if (gtkrc_file) {
-		scheme = gtkrc_get_color_scheme (gtkrc_file);
-		g_free (gtkrc_file);
+	gtkrc_file = gtkrc_find_named(theme_name);
+
+	if (gtkrc_file)
+	{
+		scheme = gtkrc_get_color_scheme(gtkrc_file);
+		g_free(gtkrc_file);
 	}
 
 	return scheme;

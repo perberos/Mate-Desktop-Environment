@@ -218,43 +218,46 @@ packagekit_available (void)
   return available;
 }
 
-void
-theme_install_file (GtkWindow *parent, const gchar *path)
+void theme_install_file(GtkWindow* parent, const gchar* path)
 {
-  DBusGConnection *connection;
-  DBusGProxy *proxy;
-  GError *error = NULL;
-  gboolean ret;
+	DBusGConnection* connection;
+	DBusGProxy* proxy;
+	GError* error = NULL;
+	gboolean ret;
 
-  connection = dbus_g_bus_get (DBUS_BUS_SESSION, NULL);
-  if (connection == NULL) {
-    g_warning ("Could not get session bus");
-    return;
-  }
+	connection = dbus_g_bus_get(DBUS_BUS_SESSION, NULL);
 
-  proxy = dbus_g_proxy_new_for_name (connection,
-                                     "org.freedesktop.PackageKit",
-                                     "/org/freedesktop/PackageKit",
-                                     "org.freedesktop.PackageKit");
+	if (connection == NULL)
+	{
+		g_warning("Could not get session bus");
+		return;
+	}
+
+	proxy = dbus_g_proxy_new_for_name(connection,
+		"org.freedesktop.PackageKit",
+		"/org/freedesktop/PackageKit",
+		"org.freedesktop.PackageKit");
 
 
-  ret = dbus_g_proxy_call (proxy, "InstallProvideFile", &error,
-                           G_TYPE_STRING, path,
-                           G_TYPE_INVALID, G_TYPE_INVALID);
+	ret = dbus_g_proxy_call(proxy, "InstallProvideFile", &error,
+		G_TYPE_STRING, path,
+		G_TYPE_INVALID, G_TYPE_INVALID);
 
-  g_object_unref (proxy);
+	g_object_unref(proxy);
 
-  if (!ret) {
-    GtkWidget *dialog = gtk_message_dialog_new (NULL,
-			GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	if (!ret)
+	{
+		GtkWidget* dialog = gtk_message_dialog_new(NULL,
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_ERROR,
 			GTK_BUTTONS_OK,
 			_("Could not install theme engine"));
-    gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
+		gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
 
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
-    g_error_free (error);
-  }
-  dbus_g_connection_unref (connection);
+		gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
+		g_error_free(error);
+	}
+
+	dbus_g_connection_unref(connection);
 }

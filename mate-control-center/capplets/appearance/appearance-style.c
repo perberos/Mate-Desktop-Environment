@@ -205,70 +205,75 @@ style_message_area_response_cb (GtkWidget *w,
   update_message_area (data);
 }
 
-static void
-update_message_area (AppearanceData *data)
+static void update_message_area(AppearanceData* data)
 {
-  GtkSettings *settings = gtk_settings_get_default ();
-  gchar *theme = NULL;
-  gchar *engine;
+	GtkSettings* settings = gtk_settings_get_default();
+	gchar* theme = NULL;
+	gchar* engine;
 
-  g_object_get (settings, "gtk-theme-name", &theme, NULL);
-  engine = gtk_theme_info_missing_engine (theme, TRUE);
-  g_free (theme);
+	g_object_get(settings, "gtk-theme-name", &theme, NULL);
+	engine = gtk_theme_info_missing_engine(theme, TRUE);
+	g_free(theme);
 
-  if (data->style_message_area == NULL) {
-    GtkWidget *hbox;
-    GtkWidget *parent;
-    GtkWidget *icon;
-    GtkWidget *content;
+	if (data->style_message_area == NULL)
+	{
+		GtkWidget* hbox;
+		GtkWidget* parent;
+		GtkWidget* icon;
+		GtkWidget* content;
 
-    if (engine == NULL)
-      return;
+		if (engine == NULL)
+		{
+			return;
+		}
 
-    data->style_message_area = gtk_info_bar_new ();
+		data->style_message_area = gtk_info_bar_new ();
 
-    g_signal_connect (data->style_message_area, "response",
-                      (GCallback) style_message_area_response_cb, data);
+		g_signal_connect (data->style_message_area, "response", (GCallback) style_message_area_response_cb, data);
 
-    data->style_install_button = gtk_info_bar_add_button (
-        GTK_INFO_BAR (data->style_message_area),
-        _("Install"), GTK_RESPONSE_APPLY);
+		data->style_install_button = gtk_info_bar_add_button(GTK_INFO_BAR (data->style_message_area), _("Install"), GTK_RESPONSE_APPLY);
 
-    data->style_message_label = gtk_label_new (NULL);
-    gtk_label_set_line_wrap (GTK_LABEL (data->style_message_label), TRUE);
-    gtk_misc_set_alignment (GTK_MISC (data->style_message_label), 0.0, 0.5);
+		data->style_message_label = gtk_label_new (NULL);
+		gtk_label_set_line_wrap (GTK_LABEL (data->style_message_label), TRUE);
+		gtk_misc_set_alignment (GTK_MISC (data->style_message_label), 0.0, 0.5);
 
-    hbox = gtk_hbox_new (FALSE, 9);
-    icon = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_DIALOG);
-    gtk_misc_set_alignment (GTK_MISC (icon), 0.5, 0);
-    gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (hbox), data->style_message_label, TRUE, TRUE, 0);
-    content = gtk_info_bar_get_content_area (GTK_INFO_BAR (data->style_message_area));
-    gtk_container_add (GTK_CONTAINER (content), hbox);
-    gtk_widget_show_all (data->style_message_area);
-    gtk_widget_set_no_show_all (data->style_message_area, TRUE);
+		hbox = gtk_hbox_new (FALSE, 9);
+		icon = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_DIALOG);
+		gtk_misc_set_alignment (GTK_MISC (icon), 0.5, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), data->style_message_label, TRUE, TRUE, 0);
+		content = gtk_info_bar_get_content_area (GTK_INFO_BAR (data->style_message_area));
+		gtk_container_add (GTK_CONTAINER (content), hbox);
+		gtk_widget_show_all (data->style_message_area);
+		gtk_widget_set_no_show_all (data->style_message_area, TRUE);
 
-    parent = appearance_capplet_get_widget (data, "gtk_themes_vbox");
-    gtk_box_pack_start (GTK_BOX (parent), data->style_message_area, FALSE, FALSE, 0);
-  }
+		parent = appearance_capplet_get_widget (data, "gtk_themes_vbox");
+		gtk_box_pack_start (GTK_BOX (parent), data->style_message_area, FALSE, FALSE, 0);
+	}
 
-  if (engine != NULL) {
-    gchar *message = g_strdup_printf (_("This theme will not look as intended because the required GTK+ theme engine '%s' is not installed."),
-                                      engine);
-    gtk_label_set_text (GTK_LABEL (data->style_message_label), message);
-    g_free (message);
-    g_free (engine);
+	if (engine != NULL)
+	{
+		gchar* message = g_strdup_printf(_("This theme will not look as intended because the required GTK+ theme engine '%s' is not installed."), engine);
+		gtk_label_set_text(GTK_LABEL(data->style_message_label), message);
+		g_free(message);
+		g_free(engine);
 
-    if (packagekit_available ())
-      gtk_widget_show (data->style_install_button);
-    else
-      gtk_widget_hide (data->style_install_button);
+   		if (packagekit_available())
+   		{
+     		gtk_widget_show(data->style_install_button);
+     	}
+   		else
+      	{
+      		gtk_widget_hide(data->style_install_button);
+      	}
 
-    gtk_widget_show (data->style_message_area);
-    gtk_widget_queue_draw (data->style_message_area);
-  } else {
-    gtk_widget_hide (data->style_message_area);
-  }
+    	gtk_widget_show(data->style_message_area);
+   		gtk_widget_queue_draw(data->style_message_area);
+	}
+	else
+	{
+		gtk_widget_hide(data->style_message_area);
+	}
 }
 
 static void

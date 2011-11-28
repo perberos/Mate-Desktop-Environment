@@ -1,5 +1,29 @@
+/* mate-theme-info.c - MATE Theme information
+ *
+ * Copyright (C) 2002 Jonathan Blandford <jrb@gnome.org>
+ * Copyright (C) 2011 Perberos
+ * All rights reserved.
+ *
+ * This file is part of the Mate Library.
+ *
+ * The Mate Library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * The Mate Library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with the Mate Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+	#include <config.h>
 #endif
 
 #include <sys/types.h>
@@ -46,28 +70,27 @@
  *
  */
 
-typedef struct _ThemeCallbackData
-{
-  ThemeChangedCallback func;
-  gpointer data;
+typedef struct _ThemeCallbackData {
+	ThemeChangedCallback func;
+	gpointer data;
 } ThemeCallbackData;
 
 typedef struct {
-  GFileMonitor *common_theme_dir_handle;
-  GFileMonitor *gtk2_dir_handle;
-  GFileMonitor *keybinding_dir_handle;
-  GFileMonitor *marco_dir_handle;
-  gint priority;
+	GFileMonitor* common_theme_dir_handle;
+	GFileMonitor* gtk2_dir_handle;
+	GFileMonitor* keybinding_dir_handle;
+	GFileMonitor* marco_dir_handle;
+	gint priority;
 } CommonThemeDirMonitorData;
 
 typedef struct {
-  GFileMonitor *common_icon_theme_dir_handle;
-  gint priority;
+	GFileMonitor* common_icon_theme_dir_handle;
+	gint priority;
 } CommonIconThemeDirMonitorData;
 
 typedef struct {
-  GHashTable *handle_hash;
-  gint priority;
+	GHashTable* handle_hash;
+	gint priority;
 } CallbackTuple;
 
 
@@ -85,27 +108,29 @@ typedef struct {
  * well as globally in $prefix.  All access to them must be done via helper
  * functions.
  */
-static GList *callbacks = NULL;
+static GList* callbacks = NULL;
 
-static GHashTable *meta_theme_hash_by_uri;
-static GHashTable *meta_theme_hash_by_name;
-static GHashTable *icon_theme_hash_by_uri;
-static GHashTable *icon_theme_hash_by_name;
-static GHashTable *cursor_theme_hash_by_uri;
-static GHashTable *cursor_theme_hash_by_name;
-static GHashTable *theme_hash_by_uri;
-static GHashTable *theme_hash_by_name;
+static GHashTable* meta_theme_hash_by_uri;
+static GHashTable* meta_theme_hash_by_name;
+static GHashTable* icon_theme_hash_by_uri;
+static GHashTable* icon_theme_hash_by_name;
+static GHashTable* cursor_theme_hash_by_uri;
+static GHashTable* cursor_theme_hash_by_name;
+static GHashTable* theme_hash_by_uri;
+static GHashTable* theme_hash_by_name;
 static gboolean initting = FALSE;
 
 /* private functions */
-static gint
-safe_strcmp (const gchar *a_str,
-             const gchar *b_str)
+static gint safe_strcmp(const gchar* a_str, const gchar* b_str)
 {
-  if (a_str && b_str)
-    return strcmp (a_str, b_str);
-  else
-    return a_str - b_str;
+	if (a_str && b_str)
+	{
+		return strcmp(a_str, b_str);
+	}
+	else
+	{
+		return a_str - b_str;
+	}
 }
 
 static GFileType
@@ -1442,52 +1467,92 @@ mate_theme_info_find_by_type (guint elements)
   return data.list;
 }
 
-static void
-mate_theme_info_find_all_helper (const gchar *key,
-                                  GList *list,
-                                  GList **themes)
+static void mate_theme_info_find_all_helper(const gchar* key, GList* list, GList** themes)
 {
-  /* only return visible themes */
-  if (!((MateThemeCommonInfo *) list->data)->hidden)
-    *themes = g_list_prepend (*themes, list->data);
+	/* only return visible themes */
+	if (!((MateThemeCommonInfo*) list->data)->hidden)
+	{
+		*themes = g_list_prepend(*themes, list->data);
+	}
 }
 
-gchar *
-gtk_theme_info_missing_engine (const gchar *gtk_theme, gboolean nameOnly)
+gchar* gtk_theme_info_missing_engine(const gchar* gtk_theme, gboolean nameOnly)
 {
-  gchar *engine = NULL;
-  gchar *gtkrc;
+	gchar* engine = NULL;
+	gchar* gtkrc;
 
-  gtkrc = gtkrc_find_named (gtk_theme);
-  if (gtkrc) {
-    GSList *engines = NULL, *l;
-    gboolean found;
+	gtkrc = gtkrc_find_named(gtk_theme);
 
-    gtkrc_get_details (gtkrc, &engines, NULL);
-    g_free (gtkrc);
+	if (gtkrc)
+	{
+		GSList* engines = NULL;
+		GSList* l;
 
-    for (l = engines; l; l = l->next) {
-      gchar *full = g_module_build_path (GTK_ENGINE_DIR, l->data);
+    	gtkrc_get_details(gtkrc, &engines, NULL);
 
-      found = g_file_test (full, G_FILE_TEST_EXISTS);
+   		g_free(gtkrc);
 
-      if (!found) {
-        if (nameOnly) {
-          engine = g_strdup (l->data);
-          g_free (full);
-        } else
-          engine = full;
-        break;
-      }
+		for (l = engines; l; l = l->next)
+		{
+			#if 1 // set to 0 if you can not compile with the follow code
+			GtkThemeEngine* a = gtk_theme_engine_get((const gchar*) l->data);
 
-      g_free (full);
-    }
+			if (!a)
+			{
+				if (nameOnly)
+				{
+         			engine = g_strdup(l->data);
+        		}
+        		else
+        		{
+					// esto necesita más trabajo, pero creo que debian no se
+					// salva ni con el anterior fix.
+					// GTK_ENGINE_DIR aún sigue conteniendo un path erroneo.
+         			engine = g_module_build_path(GTK_ENGINE_DIR, l->data);
+        		}
 
-    g_slist_foreach (engines, (GFunc) g_free, NULL);
-    g_slist_free (engines);
-  }
+        		break;
+			}
 
-  return engine;
+			#else
+
+			/* This code do not work on distros with more of one gtk theme
+			 * engine path. Like debian. But yes on others like Archlinux.
+			 * Example, debian use:
+			 * /usr/lib/i386-linux-gnu/2.10.0/engines/
+			 * and /usr/lib/2.10.0/engines/
+			 *
+			 * some links
+			 * http://forums.linuxmint.com/viewtopic.php?f=190&t=85015
+			 */
+			gchar* full = g_module_build_path(GTK_ENGINE_DIR, l->data);
+
+			gboolean found = g_file_test(full, G_FILE_TEST_EXISTS);
+
+			if (!found)
+			{
+				if (nameOnly)
+				{
+         			engine = g_strdup(l->data);
+         			g_free(full);
+        		}
+        		else
+        		{
+        			engine = full;
+        		}
+
+        		break;
+        	}
+
+        	g_free(full);
+			#endif
+        }
+
+		g_slist_foreach(engines, (GFunc) g_free, NULL);
+		g_slist_free(engines);
+	}
+
+	return engine;
 }
 
 /* Icon themes */
@@ -1632,51 +1697,57 @@ void mate_theme_meta_info_free(MateThemeMetaInfo* meta_theme_info)
 	g_free(meta_theme_info);
 }
 
-gboolean
-mate_theme_meta_info_validate (const MateThemeMetaInfo *info, GError **error)
+gboolean mate_theme_meta_info_validate(const MateThemeMetaInfo* info, GError** error)
 {
-  MateThemeInfo *theme;
-  gchar *engine;
+	MateThemeInfo* theme;
+	gchar* engine;
 
-  g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-  theme = mate_theme_info_find (info->gtk_theme_name);
-  if (!theme || !theme->has_gtk) {
-    g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_GTK_THEME_NOT_AVAILABLE,
-                 _("This theme will not look as intended because the required GTK+ theme '%s' is not installed."),
-                 info->gtk_theme_name);
-    return FALSE;
-  }
+	theme = mate_theme_info_find (info->gtk_theme_name);
 
-  theme = mate_theme_info_find (info->marco_theme_name);
-  if (!theme || !theme->has_marco) {
-    g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_WM_THEME_NOT_AVAILABLE,
-                 _("This theme will not look as intended because the required window manager theme '%s' is not installed."),
-                 info->marco_theme_name);
-    return FALSE;
-  }
+	if (!theme || !theme->has_gtk)
+	{
+		g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_GTK_THEME_NOT_AVAILABLE,
+			_("This theme will not look as intended because the required GTK+ theme '%s' is not installed."),
+			info->gtk_theme_name);
+		return FALSE;
+	}
 
-  if (!mate_theme_icon_info_find (info->icon_theme_name)) {
-    g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_ICON_THEME_NOT_AVAILABLE,
-                 _("This theme will not look as intended because the required icon theme '%s' is not installed."),
-                 info->icon_theme_name);
-    return FALSE;
-  }
+	theme = mate_theme_info_find (info->marco_theme_name);
 
-  /* check for gtk theme engines */
-  engine = gtk_theme_info_missing_engine (info->gtk_theme_name, TRUE);
-  if (engine != NULL) {
-    g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_GTK_ENGINE_NOT_AVAILABLE,
-                 _("This theme will not look as intended because the required GTK+ theme engine '%s' is not installed."),
-                 engine);
-    g_free (engine);
-    return FALSE;
-  }
+	if (!theme || !theme->has_marco)
+	{
+		g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_WM_THEME_NOT_AVAILABLE,
+			_("This theme will not look as intended because the required window manager theme '%s' is not installed."),
+			info->marco_theme_name);
+		return FALSE;
+	}
 
-  return TRUE;
+	if (!mate_theme_icon_info_find (info->icon_theme_name))
+	{
+		g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_ICON_THEME_NOT_AVAILABLE,
+			_("This theme will not look as intended because the required icon theme '%s' is not installed."),
+			info->icon_theme_name);
+		return FALSE;
+	}
+
+	/* check for gtk theme engines */
+	engine = gtk_theme_info_missing_engine(info->gtk_theme_name, TRUE);
+
+	if (engine != NULL)
+	{
+		g_set_error (error, MATE_THEME_ERROR, MATE_THEME_ERROR_GTK_ENGINE_NOT_AVAILABLE,
+			_("This theme will not look as intended because the required GTK+ theme engine '%s' is not installed."),
+			engine);
+		g_free (engine);
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
-MateThemeMetaInfo* mate_theme_meta_info_find(const char *meta_theme_name)
+MateThemeMetaInfo* mate_theme_meta_info_find(const char* meta_theme_name)
 {
 	g_return_val_if_fail(meta_theme_name != NULL, NULL);
 
