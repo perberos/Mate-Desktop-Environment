@@ -143,72 +143,72 @@ theme_thumbnail_done_cb (GdkPixbuf *pixbuf, gchar *theme_name, AppearanceData *d
   theme_thumbnail_update (pixbuf, theme_name, data, TRUE);
 }
 
-static void
-theme_thumbnail_generate (MateThemeMetaInfo *info, AppearanceData *data)
+static void theme_thumbnail_generate(MateThemeMetaInfo* info, AppearanceData* data)
 {
-  GdkPixbuf *thumb;
+	GdkPixbuf* thumb = theme_get_thumbnail_from_cache(info, data);
 
-  thumb = theme_get_thumbnail_from_cache (info, data);
-
-  if (thumb != NULL) {
-    theme_thumbnail_update (thumb, info->name, data, FALSE);
-    g_object_unref (thumb);
-  } else
-    generate_meta_theme_thumbnail_async (info,
-        (ThemeThumbnailFunc) theme_thumbnail_done_cb, data, NULL);
+	if (thumb != NULL)
+	{
+		theme_thumbnail_update(thumb, info->name, data, FALSE);
+		g_object_unref(thumb);
+	}
+	else
+	{
+		generate_meta_theme_thumbnail_async(info, (ThemeThumbnailFunc) theme_thumbnail_done_cb, data, NULL);
+	}
 }
 
-static void
-theme_changed_on_disk_cb (MateThemeCommonInfo *theme,
-			  MateThemeChangeType  change_type,
-                          MateThemeElement     element_type,
-			  AppearanceData       *data)
+static void theme_changed_on_disk_cb(MateThemeCommonInfo* theme, MateThemeChangeType change_type, MateThemeElement element_type, AppearanceData* data)
 {
-  if (theme->type == MATE_THEME_TYPE_METATHEME) {
-    MateThemeMetaInfo *meta = (MateThemeMetaInfo *) theme;
+	if (theme->type == MATE_THEME_TYPE_METATHEME)
+	{
+		MateThemeMetaInfo* meta = (MateThemeMetaInfo*) theme;
 
-    if (change_type == MATE_THEME_CHANGE_CREATED) {
-      gtk_list_store_insert_with_values (data->theme_store, NULL, 0,
-          COL_LABEL, meta->readable_name,
-          COL_NAME, meta->name,
-          COL_THUMBNAIL, data->theme_icon,
-          -1);
-      theme_thumbnail_generate (meta, data);
+		if (change_type == MATE_THEME_CHANGE_CREATED)
+		{
+			gtk_list_store_insert_with_values (data->theme_store, NULL, 0, COL_LABEL, meta->readable_name, COL_NAME, meta->name, COL_THUMBNAIL, data->theme_icon, -1);
+			theme_thumbnail_generate(meta, data);
+		}
+		else if (change_type == MATE_THEME_CHANGE_DELETED)
+		{
+			GtkTreeIter iter;
 
-    } else if (change_type == MATE_THEME_CHANGE_DELETED) {
-      GtkTreeIter iter;
-
-      if (theme_find_in_model (GTK_TREE_MODEL (data->theme_store), meta->name, &iter))
-        gtk_list_store_remove (data->theme_store, &iter);
-
-    } else if (change_type == MATE_THEME_CHANGE_CHANGED) {
-      theme_thumbnail_generate (meta, data);
-    }
-  }
+			if (theme_find_in_model(GTK_TREE_MODEL(data->theme_store), meta->name, &iter))
+			{
+				gtk_list_store_remove(data->theme_store, &iter);
+			}
+		}
+		else if (change_type == MATE_THEME_CHANGE_CHANGED)
+		{
+			theme_thumbnail_generate(meta, data);
+		}
+	}
 }
 
-static gchar *
-get_default_string_from_key (MateConfClient *client, const char *key)
+static gchar* get_default_string_from_key(MateConfClient* client, const char* key)
 {
-  MateConfValue *value;
-  gchar *str = NULL;
+	gchar* str = NULL;
 
-  value = mateconf_client_get_default_from_schema (client, key, NULL);
+	MateConfValue* value = mateconf_client_get_default_from_schema(client, key, NULL);
 
-  if (value) {
-    if (value->type == MATECONF_VALUE_STRING)
-      str = mateconf_value_to_string (value);
-    mateconf_value_free (value);
-  }
+	if (value)
+	{
+		if (value->type == MATECONF_VALUE_STRING)
+		{
+			str = mateconf_value_to_string (value);
+		}
 
-  return str;
+		mateconf_value_free (value);
+	}
+
+	return str;
 }
 
-/* Find out if the lockdown key has been set. Currently returns false on error... */
-static gboolean
-is_locked_down (MateConfClient *client)
+/* Find out if the lockdown key has been set.
+ * Currently returns false on error... */
+static gboolean is_locked_down(MateConfClient* client)
 {
-  return mateconf_client_get_bool (client, LOCKDOWN_KEY, NULL);
+	return mateconf_client_get_bool(client, LOCKDOWN_KEY, NULL);
 }
 
 static MateThemeMetaInfo *
@@ -413,19 +413,18 @@ theme_set_custom_from_theme (const MateThemeMetaInfo *info, AppearanceData *data
 
 /** GUI Callbacks **/
 
-static void
-custom_font_cb (GtkWidget *button, AppearanceData *data)
+static void custom_font_cb(GtkWidget* button, AppearanceData* data)
 {
-  g_free (data->revert_application_font);
-  g_free (data->revert_documents_font);
-  g_free (data->revert_desktop_font);
-  g_free (data->revert_windowtitle_font);
-  g_free (data->revert_monospace_font);
-  data->revert_application_font = NULL;
-  data->revert_documents_font = NULL;
-  data->revert_desktop_font = NULL;
-  data->revert_windowtitle_font = NULL;
-  data->revert_monospace_font = NULL;
+	g_free(data->revert_application_font);
+	g_free(data->revert_documents_font);
+	g_free(data->revert_desktop_font);
+	g_free(data->revert_windowtitle_font);
+	g_free(data->revert_monospace_font);
+	data->revert_application_font = NULL;
+	data->revert_documents_font = NULL;
+	data->revert_desktop_font = NULL;
+	data->revert_windowtitle_font = NULL;
+	data->revert_monospace_font = NULL;
 }
 
 static void
@@ -992,17 +991,12 @@ theme_drag_data_received_cb (GtkWidget *widget,
   g_strfreev (uris);
 }
 
-static void
-background_or_font_changed (MateConfEngine *conf,
-                            guint cnxn_id,
-                            MateConfEntry *entry,
-                            AppearanceData *data)
+static void background_or_font_changed(MateConfEngine* conf, guint cnxn_id, MateConfEntry* entry, AppearanceData* data)
 {
-  theme_message_area_update (data);
+	theme_message_area_update(data);
 }
 
-void
-themes_init (AppearanceData *data)
+void themes_init(AppearanceData* data)
 {
   GtkWidget *w, *del_button;
   GList *theme_list, *l;
