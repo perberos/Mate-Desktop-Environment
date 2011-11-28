@@ -31,24 +31,19 @@
 #include <string.h>
 #include <stdlib.h>
 
-static void meta_stock_icons_init (void);
-static void meta_ui_accelerator_parse (const char      *accel,
-                                       guint           *keysym,
-                                       guint           *keycode,
-                                       GdkModifierType *keymask);
+static void meta_ui_accelerator_parse(const char* accel, guint* keysym, guint* keycode, GdkModifierType* keymask);
 
-struct _MetaUI
-{
-  Display *xdisplay;
-  Screen *xscreen;
-  MetaFrames *frames;
+struct _MetaUI {
+	Display* xdisplay;
+	Screen* xscreen;
+	MetaFrames* frames;
 
-  /* For double-click tracking */
-  guint button_click_number;
-  Window button_click_window;
-  int button_click_x;
-  int button_click_y;
-  guint32 button_click_time;
+	/* For double-click tracking */
+	guint button_click_number;
+	Window button_click_window;
+	int button_click_x;
+	int button_click_y;
+	guint32 button_click_time;
 };
 
 void meta_ui_init(int* argc, char*** argv)
@@ -57,8 +52,6 @@ void meta_ui_init(int* argc, char*** argv)
 	{
 		meta_fatal ("Unable to open X display %s\n", XDisplayName (NULL));
 	}
-
-	meta_stock_icons_init ();
 }
 
 Display* meta_ui_get_display(void)
@@ -1064,11 +1057,6 @@ typedef struct {
 	char* stock_id;
 	const guint8* icon_data;
 } MetaStockIcon;
-
-static void meta_stock_icons_init(void)
-{
-	/* */
-}
 
 int meta_ui_get_drag_threshold(MetaUI* ui)
 {
