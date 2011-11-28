@@ -223,6 +223,13 @@ struct _MetaDisplay
   /* Closing down the display */
   int closing;
 
+  /* To detect double clicks */
+  guint button_click_number;
+  Window button_click_window;
+  int button_click_x;
+  int button_click_y;
+  guint32 button_click_time;
+
   /* Managed by group.c */
   GHashTable *groups_by_leader;
 
