@@ -1,5 +1,3 @@
-/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*- */
-
 /* Marco interface for talking to GTK+ UI module */
 
 /*
@@ -55,19 +53,19 @@ struct _MetaUI
   guint32 button_click_time;
 };
 
-void
-meta_ui_init (int *argc, char ***argv)
+void meta_ui_init(int* argc, char*** argv)
 {
-  if (!gtk_init_check (argc, argv))
-    meta_fatal ("Unable to open X display %s\n", XDisplayName (NULL));
+	if (!gtk_init_check (argc, argv))
+	{
+		meta_fatal ("Unable to open X display %s\n", XDisplayName (NULL));
+	}
 
-  meta_stock_icons_init ();
+	meta_stock_icons_init ();
 }
 
-Display*
-meta_ui_get_display (void)
+Display* meta_ui_get_display(void)
 {
-  return GDK_DISPLAY_XDISPLAY (gdk_display_get_default ());
+	return GDK_DISPLAY_XDISPLAY(gdk_display_get_default());
 }
 
 /* We do some of our event handling in frames.c, which expects
@@ -1063,81 +1061,49 @@ meta_ui_window_is_widget (MetaUI *ui,
 }
 
 /* stock icon code Copyright (C) 2002 Jorn Baayen <jorn@nl.linux.org> */
-typedef struct
-{
-  char *stock_id;
-  const guint8 *icon_data;
+
+typedef struct {
+	char* stock_id;
+	const guint8* icon_data;
 } MetaStockIcon;
 
-static void
-meta_stock_icons_init (void)
+static void meta_stock_icons_init(void)
 {
-  GtkIconFactory *factory;
-  int i;
-
-  MetaStockIcon items[] =
-  {
-    { MARCO_STOCK_DELETE,   stock_delete_data   },
-    { MARCO_STOCK_MINIMIZE, stock_minimize_data },
-    { MARCO_STOCK_MAXIMIZE, stock_maximize_data }
-  };
-
-  factory = gtk_icon_factory_new ();
-  gtk_icon_factory_add_default (factory);
-
-  for (i = 0; i < (gint) G_N_ELEMENTS (items); i++)
-    {
-      GtkIconSet *icon_set;
-      GdkPixbuf *pixbuf;
-
-      pixbuf = gdk_pixbuf_new_from_inline (-1, items[i].icon_data,
-					   FALSE,
-					   NULL);
-
-      icon_set = gtk_icon_set_new_from_pixbuf (pixbuf);
-      gtk_icon_factory_add (factory, items[i].stock_id, icon_set);
-      gtk_icon_set_unref (icon_set);
-
-      g_object_unref (G_OBJECT (pixbuf));
-    }
-
-  g_object_unref (G_OBJECT (factory));
+	/* */
 }
 
-int
-meta_ui_get_drag_threshold (MetaUI *ui)
+int meta_ui_get_drag_threshold(MetaUI* ui)
 {
-  GtkSettings *settings;
-  int threshold;
+	int threshold = 8;
+	GtkSettings* settings = gtk_widget_get_settings(GTK_WIDGET(ui->frames));
 
-  settings = gtk_widget_get_settings (GTK_WIDGET (ui->frames));
+	g_object_get(G_OBJECT(settings), "gtk-dnd-drag-threshold", &threshold, NULL);
 
-  threshold = 8;
-  g_object_get (G_OBJECT (settings), "gtk-dnd-drag-threshold", &threshold, NULL);
-
-  return threshold;
+	return threshold;
 }
 
-MetaUIDirection
-meta_ui_get_direction (void)
+MetaUIDirection meta_ui_get_direction(void)
 {
-  if (gtk_widget_get_default_direction() == GTK_TEXT_DIR_RTL)
-    return META_UI_DIRECTION_RTL;
+	if (gtk_widget_get_default_direction() == GTK_TEXT_DIR_RTL)
+	{
+		return META_UI_DIRECTION_RTL;
+	}
 
-  return META_UI_DIRECTION_LTR;
+	return META_UI_DIRECTION_LTR;
 }
 
-GdkPixbuf *
-meta_ui_get_pixbuf_from_pixmap (Pixmap   pmap)
+GdkPixbuf* meta_ui_get_pixbuf_from_pixmap(Pixmap pmap)
 {
-  GdkPixmap *gpmap;
-  GdkScreen *screen;
-  GdkPixbuf *pixbuf;
-  GdkColormap *cmap;
-  int width, height, depth;
+	GdkPixmap* gpmap;
+	GdkScreen* screen;
+	GdkPixbuf* pixbuf;
+	GdkColormap* cmap;
+	int width;
+	int height;
+	int depth;
 
-  gpmap = gdk_pixmap_foreign_new (pmap);
-  screen = gdk_drawable_get_screen (gpmap);
+	gpmap = gdk_pixmap_foreign_new(pmap);
+	screen = gdk_drawable_get_screen(gpmap);
 
 	#if GTK_CHECK_VERSION(3, 0, 0)
 		width = gdk_window_get_width(GDK_WINDOW(gpmap));
@@ -1146,16 +1112,20 @@ meta_ui_get_pixbuf_from_pixmap (Pixmap   pmap)
 		gdk_drawable_get_size(GDK_DRAWABLE(gpmap), &width, &height);
 	#endif
 
-  depth = gdk_drawable_get_depth (GDK_DRAWABLE (gpmap));
-  if (depth <= 24)
-    cmap = gdk_screen_get_system_colormap (screen);
-  else
-    cmap = gdk_screen_get_rgba_colormap (screen);
+	depth = gdk_drawable_get_depth(GDK_DRAWABLE(gpmap));
 
-  pixbuf = gdk_pixbuf_get_from_drawable (NULL, gpmap, cmap, 0, 0, 0, 0,
-                                         width, height);
+	if (depth <= 24)
+	{
+		cmap = gdk_screen_get_system_colormap(screen);
+	}
+	else
+	{
+		cmap = gdk_screen_get_rgba_colormap(screen);
+	}
 
-  g_object_unref (gpmap);
+	pixbuf = gdk_pixbuf_get_from_drawable(NULL, gpmap, cmap, 0, 0, 0, 0, width, height);
 
-  return pixbuf;
+	g_object_unref(gpmap);
+
+	return pixbuf;
 }
