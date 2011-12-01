@@ -40,7 +40,7 @@ struct _MateComponentWindowPrivate {
 	MateComponentUISync   *sync_keys;
 	MateComponentUISync   *sync_status;
 	MateComponentUISync   *sync_toolbar;
-	
+
 	MateComponentDock     *dock;
 
 	MateComponentDockItem *menu_item;
@@ -63,7 +63,7 @@ enum {
  * matecomponent_window_remove_popup:
  * @win: the window
  * @path: the path
- * 
+ *
  * Remove the popup at @path
  **/
 void
@@ -82,7 +82,7 @@ matecomponent_window_remove_popup (MateComponentWindow     *win,
  * @win: the window
  * @menu: the menu widget
  * @path: the path
- * 
+ *
  * Add a popup @menu at @path
  **/
 void
@@ -101,7 +101,7 @@ matecomponent_window_add_popup (MateComponentWindow *win,
  * matecomponent_window_set_contents:
  * @win: the matecomponent window
  * @contents: the new widget for it to contain.
- * 
+ *
  * Insert a widget into the main window contents.
  **/
 void
@@ -117,7 +117,7 @@ matecomponent_window_set_contents (MateComponentWindow *win,
 /**
  * matecomponent_window_get_contents:
  * @win: the matecomponent window
- * 
+ *
  * Return value: the contained widget
  **/
 GtkWidget *
@@ -134,7 +134,7 @@ static void
 matecomponent_window_dispose (GObject *object)
 {
 	MateComponentWindow *win = (MateComponentWindow *)object;
-	
+
 	if (win->priv->engine) {
 		matecomponent_ui_engine_dispose (win->priv->engine);
 		g_object_unref (win->priv->engine);
@@ -148,7 +148,7 @@ static void
 matecomponent_window_finalize (GObject *object)
 {
 	MateComponentWindow *win = (MateComponentWindow *)object;
-	
+
 	g_free (win->priv->name);
 	g_free (win->priv->prefix);
 	g_free (win->priv);
@@ -161,7 +161,7 @@ matecomponent_window_finalize (GObject *object)
 /**
  * matecomponent_window_get_accel_group:
  * @win: the matecomponent window
- * 
+ *
  * Return value: the associated accelerator group for this window
  **/
 GtkAccelGroup *
@@ -354,9 +354,9 @@ static void
 matecomponent_window_init (MateComponentWindow *win)
 {
 	MateComponentUIContainer *ui_container = NULL;
-	
+
 	win->priv = construct_priv (win);
-	
+
 	/* Create UIContainer: */
 	ui_container = matecomponent_ui_container_new ();
 	matecomponent_ui_container_set_engine (ui_container, win->priv->engine);
@@ -367,7 +367,7 @@ matecomponent_window_init (MateComponentWindow *win)
  * matecomponent_window_set_name:
  * @win: the matecomponent window
  * @win_name: the window name
- * 
+ *
  * Set the name of the window - used for configuration
  * serialization.
  **/
@@ -396,7 +396,7 @@ matecomponent_window_set_name (MateComponentWindow  *win,
 /**
  * matecomponent_window_get_name:
  * @win: the matecomponent window
- * 
+ *
  * Return value: the name of the window
  **/
 char *
@@ -414,7 +414,7 @@ matecomponent_window_get_name (MateComponentWindow *win)
 /**
  * matecomponent_window_get_ui_engine:
  * @win: the matecomponent window
- * 
+ *
  * Return value: the #MateComponentUIEngine
  **/
 MateComponentUIEngine *
@@ -429,7 +429,7 @@ matecomponent_window_get_ui_engine (MateComponentWindow *win)
 /**
  * matecomponent_window_get_ui_container:
  * @win: the matecomponent window
- * 
+ *
  * Return value: the #MateComponentUIContainer
  **/
 MateComponentUIContainer *
@@ -471,6 +471,7 @@ matecomponent_window_construct (MateComponentWindow      *win,
 	if (title)
 		gtk_window_set_title (GTK_WINDOW (win), title);
 
+
 	return GTK_WIDGET (win);
 }
 
@@ -478,7 +479,7 @@ matecomponent_window_construct (MateComponentWindow      *win,
  * matecomponent_window_new:
  * @win_name: the window name
  * @title: the window's title for the title bar
- * 
+ *
  * Return value: a new MateComponentWindow
  **/
 GtkWidget *

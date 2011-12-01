@@ -36,7 +36,7 @@ drawer_click (GtkWidget *w, Drawer *drawer)
 {
 	if (!panel_toplevel_get_is_hidden (drawer->toplevel))
 		panel_toplevel_hide (drawer->toplevel, FALSE, -1);
-	else 
+	else
 		panel_toplevel_unhide (drawer->toplevel);
 }
 
@@ -178,7 +178,7 @@ key_press_drawer_widget (GtkWidget   *widget,
 	return TRUE;
 }
 
-static void 
+static void
 drag_data_received_cb (GtkWidget          *widget,
 		       GdkDragContext     *context,
 		       gint                x,
@@ -286,7 +286,7 @@ drag_drop_cb (GtkWidget      *widget,
 	return TRUE;
 }
 
-static void  
+static void
 drag_data_get_cb (GtkWidget          *widget,
 		  GdkDragContext     *context,
 		  GtkSelectionData   *selection_data,
@@ -329,7 +329,7 @@ create_drawer_applet (PanelToplevel    *toplevel,
 {
 	Drawer *drawer;
 	AtkObject *atk_obj;
-	
+
 	drawer = g_new0 (Drawer, 1);
 
 	drawer->toplevel = toplevel;
@@ -347,11 +347,11 @@ create_drawer_applet (PanelToplevel    *toplevel,
 		return NULL;
 	}
 	atk_obj = gtk_widget_get_accessible (drawer->button);
-	atk_object_set_name (atk_obj, _("Drawer")); 
+	atk_object_set_name (atk_obj, _("Drawer"));
 
 	set_tooltip_and_name (drawer, tooltip);
 
-	gtk_drag_dest_set (drawer->button, 0, NULL, 0, 0); 
+	gtk_drag_dest_set (drawer->button, 0, NULL, 0, 0);
 
 	g_signal_connect (drawer->button, "drag_data_get",
 			  G_CALLBACK (drag_data_get_cb), drawer);
@@ -395,7 +395,7 @@ create_drawer_toplevel (const char *drawer_id)
 	client  = panel_mateconf_get_client ();
 
 	toplevel_id = panel_profile_find_new_id (PANEL_MATECONF_TOPLEVELS);
-	
+
 	toplevel = panel_profile_load_toplevel (client, PANEL_CONFIG_DIR,
 						PANEL_MATECONF_TOPLEVELS, toplevel_id);
 
@@ -498,7 +498,7 @@ panel_drawer_connect_to_mateconf (Drawer *drawer)
 	int          i = 0;
 
 	client  = panel_mateconf_get_client ();
-	
+
 	key = panel_mateconf_full_key (PANEL_MATECONF_OBJECTS, drawer->info->id, "use_custom_icon");
         drawer->listeners [i++] =
 		mateconf_client_notify_add (client, key,
@@ -638,10 +638,10 @@ panel_drawer_prepare (const char  *drawer_id,
 		toplevel_dir = g_strdup_printf (PANEL_CONFIG_DIR "/toplevels/%s",
 						toplevel_id);
 		panel_mateconf_associate_schemas_in_dir (client, toplevel_dir, PANEL_SCHEMAS_DIR "/toplevels");
-	
+
 		key = panel_mateconf_full_key (PANEL_MATECONF_OBJECTS, drawer_id, "attached_toplevel_id");
 		mateconf_client_set_string (client, key, toplevel_id, NULL);
-		
+
 		key = panel_mateconf_full_key (PANEL_MATECONF_TOPLEVELS, toplevel_id, "enable_buttons");
 		mateconf_client_set_bool (client, key, TRUE, NULL);
 
@@ -716,7 +716,7 @@ drawer_load_from_mateconf (PanelWidget *panel_widget,
 
 	key = panel_mateconf_full_key (PANEL_MATECONF_OBJECTS, id, "use_custom_icon");
 	use_custom_icon = mateconf_client_get_bool (client, key, NULL);
-	
+
 	key = panel_mateconf_full_key (PANEL_MATECONF_OBJECTS, id, "custom_icon");
 	custom_icon = mateconf_client_get_string (client, key, NULL);
 
@@ -773,7 +773,7 @@ drawer_deletion_response (GtkWidget     *dialog,
         gtk_widget_destroy (dialog);
 }
 
-void 
+void
 drawer_query_deletion (Drawer *drawer)
 {
 	GtkWidget *dialog;

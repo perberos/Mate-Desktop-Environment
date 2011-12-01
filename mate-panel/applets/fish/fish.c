@@ -41,11 +41,10 @@
 #include <mate-panel-applet-mateconf.h>
 #include <mateconf/mateconf-client.h>
 
-#define FISH_APPLET(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), \
-			fish_applet_get_type(),          \
-			FishApplet))
-#define FISH_IS_APPLET(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), \
-			   FISH_TYPE_APPLET))
+#define FISH_APPLET(o) \
+	(G_TYPE_CHECK_INSTANCE_CAST((o), fish_applet_get_type(), FishApplet))
+#define FISH_IS_APPLET(o) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((o), FISH_TYPE_APPLET))
 
 #define FISH_ICON "mate-panel-fish"
 
@@ -112,8 +111,7 @@ typedef struct {
 
 static gboolean load_fish_image          (FishApplet *fish);
 static void     update_pixmap            (FishApplet *fish);
-static void     something_fishy_going_on (FishApplet *fish,
-					  const char *message);
+static void     something_fishy_going_on (FishApplet *fish, const char *message);
 static void     display_fortune_dialog   (FishApplet *fish);
 static void     set_tooltip              (FishApplet *fish);
 
@@ -126,8 +124,7 @@ static int fools_month      = 0;
 static int fools_hour_start = 0;
 static int fools_hour_end   = 0;
 
-static char *
-get_image_path (FishApplet *fish)
+static char* get_image_path(FishApplet* fish)
 {
 	char *path;
 
@@ -139,8 +136,7 @@ get_image_path (FishApplet *fish)
 	return path;
 }
 
-static void
-show_help (FishApplet *fish, const char *link_id)
+static void show_help(FishApplet* fish, const char* link_id)
 {
 	GError *error = NULL;
 	char   *uri;
@@ -196,9 +192,7 @@ show_help (FishApplet *fish, const char *link_id)
 	}
 }
 
-static void
-name_value_changed (GtkEntry   *entry,
-		    FishApplet *fish)
+static void name_value_changed(GtkEntry* entry, FishApplet* fish)
 {
 	const char *text;
 
@@ -211,9 +205,7 @@ name_value_changed (GtkEntry   *entry,
 		MATE_PANEL_APPLET (fish), "name", text, NULL);
 }
 
-static void
-image_value_changed (GtkFileChooser *chooser,
-		     FishApplet     *fish)
+static void image_value_changed(GtkFileChooser* chooser, FishApplet* fish)
 {	char *path;
 	char *image;
 	char *path_mateconf;
@@ -246,9 +238,7 @@ image_value_changed (GtkFileChooser *chooser,
 	g_free (path);
 }
 
-static void
-command_value_changed (GtkEntry   *entry,
-		       FishApplet *fish)
+static void command_value_changed(GtkEntry* entry, FishApplet *fish)
 {
 	const char *text;
 
@@ -293,46 +283,35 @@ command_value_changed (GtkEntry   *entry,
 		MATE_PANEL_APPLET (fish), "command", text, NULL);
 }
 
-static void
-n_frames_value_changed (GtkSpinButton *button,
-			FishApplet    *fish)
+static void n_frames_value_changed(GtkSpinButton* button, FishApplet* fish)
 {
         mate_panel_applet_mateconf_set_int (
 			MATE_PANEL_APPLET (fish), "frames",
 			gtk_spin_button_get_value_as_int (button), NULL);
 }
 
-static void
-speed_value_changed (GtkSpinButton *button,
-		     FishApplet    *fish)
+static void speed_value_changed (GtkSpinButton* button, FishApplet* fish)
 {
         mate_panel_applet_mateconf_set_float (
 			MATE_PANEL_APPLET (fish), "speed",
 			gtk_spin_button_get_value (button), NULL);
 }
 
-static void
-rotate_value_changed (GtkToggleButton *toggle,
-		      FishApplet      *fish)
+static void rotate_value_changed(GtkToggleButton* toggle, FishApplet* fish)
 {
 	mate_panel_applet_mateconf_set_bool (
 			MATE_PANEL_APPLET (fish), "rotate",
 			gtk_toggle_button_get_active (toggle), NULL);
 }
 
-static gboolean
-delete_event (GtkWidget  *widget,
-	      FishApplet *fish)
+static gboolean delete_event(GtkWidget* widget, FishApplet* fish)
 {
 	gtk_widget_hide (widget);
 
 	return TRUE;
 }
 
-static void
-handle_response (GtkWidget  *widget,
-		 int         id,
-		 FishApplet *fish)
+static void handle_response(GtkWidget* widget, int id, FishApplet* fish)
 {
 	if (id == GTK_RESPONSE_HELP) {
 		show_help (fish, "fish-settings");
@@ -342,13 +321,7 @@ handle_response (GtkWidget  *widget,
 	gtk_widget_hide (fish->preferences_dialog);
 }
 
-static void
-setup_sensitivity (FishApplet *fish,
-		   GtkBuilder *builder,
-		   const char *wid,
-		   const char *label,
-		   const char *label_post,
-		   const char *key)
+static void setup_sensitivity(FishApplet* fish, GtkBuilder* builder, const char* wid, const char* label, const char* label_post, const char* key)
 {
 	MatePanelApplet *applet = (MatePanelApplet *) fish;
 	char *fullkey;
@@ -379,9 +352,7 @@ setup_sensitivity (FishApplet *fish,
 
 }
 
-static void
-chooser_preview_update (GtkFileChooser *file_chooser,
-			gpointer data)
+static void chooser_preview_update(GtkFileChooser* file_chooser, gpointer data)
 {
 	GtkWidget *preview;
 	char      *filename;
@@ -406,9 +377,7 @@ chooser_preview_update (GtkFileChooser *file_chooser,
 						    have_preview);
 }
 
-static void
-display_preferences_dialog (GtkAction  *action,
-			    FishApplet *fish)
+static void display_preferences_dialog(GtkAction* action, FishApplet* fish)
 {
 	GtkBuilder    *builder;
 	GError        *error;
@@ -615,9 +584,7 @@ static void display_about_dialog(GtkAction* action, FishApplet* fish)
 	g_free(authors[0]);
 }
 
-static void
-set_ally_name_desc (GtkWidget  *widget,
-		    FishApplet *fish)
+static void set_ally_name_desc(GtkWidget* widget, FishApplet* fish)
 {
 	const char *name_format = _("%s the Fish");
 	const char *desc_format = _("%s the Fish, a contemporary oracle");
@@ -638,9 +605,7 @@ set_ally_name_desc (GtkWidget  *widget,
 	g_free (desc);
 }
 
-static void
-something_fishy_going_on (FishApplet *fish,
-			  const char *message)
+static void something_fishy_going_on(FishApplet* fish, const char* message)
 {
 	GtkWidget *dialog;
 
@@ -661,10 +626,7 @@ something_fishy_going_on (FishApplet *fish,
 	gtk_widget_show (dialog);
 }
 
-static gboolean
-locate_fortune_command (FishApplet   *fish,
-			int          *argcp,
-			char       ***argvp)
+static gboolean locate_fortune_command (FishApplet* fish, int* argcp, char*** argvp)
 {
 	char *prog = NULL;
 
@@ -697,8 +659,7 @@ locate_fortune_command (FishApplet   *fish,
 }
 
 #define FISH_RESPONSE_SPEAK 1
-static inline void
-fish_close_channel (FishApplet *fish)
+static inline void fish_close_channel(FishApplet* fish)
 {
 	if (fish->io_channel) {
 		g_io_channel_shutdown (fish->io_channel, TRUE, NULL);
@@ -707,10 +668,7 @@ fish_close_channel (FishApplet *fish)
 	fish->io_channel = NULL;
 }
 
-static void
-handle_fortune_response (GtkWidget  *widget,
-			 int         id,
-			 FishApplet *fish)
+static void handle_fortune_response(GtkWidget* widget, int id, FishApplet* fish)
 {
 	if (id == FISH_RESPONSE_SPEAK)
 		display_fortune_dialog (fish);
@@ -725,8 +683,7 @@ handle_fortune_response (GtkWidget  *widget,
 	}
 }
 
-static void
-update_fortune_dialog (FishApplet *fish)
+static void update_fortune_dialog(FishApplet* fish)
 {
 	char *label_text;
 	char *text;
@@ -751,9 +708,7 @@ update_fortune_dialog (FishApplet *fish)
 	set_ally_name_desc (fish->fortune_view, fish);
 }
 
-static void
-insert_fortune_text (FishApplet *fish,
-		     const char *text)
+static void insert_fortune_text(FishApplet* fish, const char* text)
 {
 	GtkTextIter iter;
 
@@ -767,8 +722,7 @@ insert_fortune_text (FishApplet *fish,
 	  gtk_main_iteration ();
 }
 
-static void
-clear_fortune_text (FishApplet *fish)
+static void clear_fortune_text(FishApplet* fish)
 {
 	GtkTextIter begin, end;
 
@@ -783,10 +737,7 @@ clear_fortune_text (FishApplet *fish)
 	insert_fortune_text (fish, "\n");
 }
 
-static gboolean
-fish_read_output (GIOChannel   *source,
-		  GIOCondition  condition,
-		  gpointer      data)
+static gboolean fish_read_output(GIOChannel* source, GIOCondition condition, gpointer data)
 {
 	char        output[4096];
 	char       *utf8_output;
@@ -845,8 +796,7 @@ fish_read_output (GIOChannel   *source,
 	return (status != G_IO_STATUS_EOF);
 }
 
-static void
-display_fortune_dialog (FishApplet *fish)
+static void display_fortune_dialog(FishApplet* fish)
 {
 	GError      *error = NULL;
 	gboolean     user_command;
@@ -1018,11 +968,7 @@ display_fortune_dialog (FishApplet *fish)
 	gtk_window_present (GTK_WINDOW (fish->fortune_dialog));
 }
 
-static void
-name_changed_notify (MateConfClient *client,
-		     guint        cnxn_id,
-		     MateConfEntry  *entry,
-		     FishApplet  *fish)
+static void name_changed_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	const char *value;
 
@@ -1047,11 +993,7 @@ name_changed_notify (MateConfClient *client,
 		gtk_entry_set_text (GTK_ENTRY (fish->name_entry), fish->name);
 }
 
-static void
-image_changed_notify (MateConfClient *client,
-		      guint        cnxn_id,
-		      MateConfEntry  *entry,
-		      FishApplet  *fish)
+static void image_changed_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	const char *value;
 
@@ -1085,11 +1027,7 @@ image_changed_notify (MateConfClient *client,
 	}
 }
 
-static void
-command_changed_notify (MateConfClient *client,
-			guint        cnxn_id,
-			MateConfEntry  *entry,
-			FishApplet  *fish)
+static void command_changed_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	const char *value;
 
@@ -1110,11 +1048,7 @@ command_changed_notify (MateConfClient *client,
 		gtk_entry_set_text (GTK_ENTRY (fish->command_entry), fish->command);
 }
 
-static void
-n_frames_changed_notify (MateConfClient *client,
-			 guint        cnxn_id,
-			 MateConfEntry  *entry,
-			 FishApplet  *fish)
+static void n_frames_changed_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	int value;
 
@@ -1138,8 +1072,7 @@ n_frames_changed_notify (MateConfClient *client,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (fish->frames_spin), fish->n_frames);
 }
 
-static char *
-get_location (void)
+static char* get_location(void)
 {
 	static char  location [256];
 	char        *buffer;
@@ -1178,8 +1111,7 @@ get_location (void)
 	return location;
 }
 
-static void
-init_fools_day (void)
+static void init_fools_day(void)
 {
 	const char *spanish_timezones [] = {
 		"Europe/Madrid",
@@ -1213,8 +1145,7 @@ init_fools_day (void)
 		}
 }
 
-static void
-check_april_fools (FishApplet *fish)
+static void check_april_fools(FishApplet* fish)
 {
 	struct tm *tm;
 	time_t     now;
@@ -1237,8 +1168,7 @@ check_april_fools (FishApplet *fish)
 	}
 }
 
-static gboolean
-timeout_handler (gpointer data)
+static gboolean timeout_handler(gpointer data)
 {
 	FishApplet *fish = (FishApplet *) data;
 
@@ -1256,8 +1186,7 @@ timeout_handler (gpointer data)
 	return TRUE;
 }
 
-static void
-setup_timeout (FishApplet *fish)
+static void setup_timeout(FishApplet *fish)
 {
 	if (fish->timeout)
 		g_source_remove (fish->timeout);
@@ -1267,11 +1196,7 @@ setup_timeout (FishApplet *fish)
 				       fish);
 }
 
-static void
-speed_changed_notify (MateConfClient *client,
-		      guint        cnxn_id,
-		      MateConfEntry  *entry,
-		      FishApplet  *fish)
+static void speed_changed_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	gdouble value;
 
@@ -1291,11 +1216,7 @@ speed_changed_notify (MateConfClient *client,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (fish->speed_spin), fish->speed);
 }
 
-static void
-rotate_changed_notify (MateConfClient *client,
-		       guint        cnxn_id,
-		       MateConfEntry  *entry,
-		       FishApplet  *fish)
+static void rotate_changed_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	gboolean value;
 
@@ -1318,11 +1239,7 @@ rotate_changed_notify (MateConfClient *client,
 			GTK_TOGGLE_BUTTON (fish->rotate_toggle), fish->rotate);
 }
 
-static void
-fish_disable_commande_line_notify (MateConfClient *client,
-				   guint        cnxn_id,
-				   MateConfEntry  *entry,
-				   FishApplet  *fish)
+static void fish_disable_commande_line_notify(MateConfClient* client, guint cnxn_id, MateConfEntry* entry, FishApplet* fish)
 {
 	gboolean locked_down;
 
@@ -1337,8 +1254,7 @@ fish_disable_commande_line_notify (MateConfClient *client,
 		gtk_widget_set_sensitive (fish->command_entry, locked_down);
 }
 
-static void
-setup_mateconf (FishApplet *fish)
+static void setup_mateconf(FishApplet* fish)
 {
 	MatePanelApplet *applet = (MatePanelApplet *) fish;
 	char        *key;
@@ -1395,8 +1311,7 @@ setup_mateconf (FishApplet *fish)
 	g_assert (i == N_FISH_LISTENERS);
 }
 
-static gboolean
-load_fish_image (FishApplet *fish)
+static gboolean load_fish_image(FishApplet* fish)
 {
 	GdkPixbuf *pixbuf;
 	GError    *error = NULL;
@@ -1428,8 +1343,7 @@ load_fish_image (FishApplet *fish)
 	return TRUE;
 }
 
-static void
-update_pixmap (FishApplet *fish)
+static void update_pixmap(FishApplet* fish)
 {
 	GtkWidget     *widget = fish->drawing_area;
 	GtkAllocation  allocation;
@@ -1541,10 +1455,7 @@ update_pixmap (FishApplet *fish)
 	cairo_destroy (cr);
 }
 
-static gboolean
-fish_applet_expose_event (GtkWidget      *widget,
-			  GdkEventExpose *event,
-			  FishApplet     *fish)
+static gboolean fish_applet_expose_event(GtkWidget* widget, GdkEventExpose* event, FishApplet* fish)
 {
 	GdkWindow    *window;
 	GtkStyle     *style;
@@ -1591,18 +1502,12 @@ fish_applet_expose_event (GtkWidget      *widget,
         return FALSE;
 }
 
-static void
-fish_applet_size_request (GtkWidget      *widget,
-			  GtkRequisition *requisition,
-			  FishApplet     *fish)
+static void fish_applet_size_request(GtkWidget* widget, GtkRequisition* requisition, FishApplet* fish)
 {
 	*requisition = fish->requisition;
 }
 
-static void
-fish_applet_size_allocate (GtkWidget     *widget,
-			   GtkAllocation *allocation,
-			   FishApplet    *fish)
+static void fish_applet_size_allocate(GtkWidget* widget, GtkAllocation* allocation, FishApplet* fish)
 {
 	GtkAllocation widget_allocation;
 
@@ -1615,26 +1520,20 @@ fish_applet_size_allocate (GtkWidget     *widget,
 	fish->prev_allocation = *allocation;
 }
 
-static void
-fish_applet_realize (GtkWidget  *widget,
-		     FishApplet *fish)
+static void fish_applet_realize(GtkWidget* widget, FishApplet* fish)
 {
 	if (!fish->pixmap)
 		update_pixmap (fish);
 }
 
-static void
-fish_applet_unrealize (GtkWidget  *widget,
-		       FishApplet *fish)
+static void fish_applet_unrealize(GtkWidget* widget, FishApplet* fish)
 {
 	if (fish->pixmap)
 		g_object_unref (fish->pixmap);
 	fish->pixmap = NULL;
 }
 
-static void
-fish_applet_change_orient (MatePanelApplet       *applet,
-			   MatePanelAppletOrient  orientation)
+static void fish_applet_change_orient(MatePanelApplet* applet, MatePanelAppletOrient orientation)
 {
 	FishApplet *fish = (FishApplet *) applet;
 
@@ -1647,8 +1546,7 @@ fish_applet_change_orient (MatePanelApplet       *applet,
 		update_pixmap (fish);
 }
 
-static void
-change_water (FishApplet *fish)
+static void change_water(FishApplet* fish)
 {
 	GtkWidget *dialog;
 
@@ -1669,10 +1567,7 @@ change_water (FishApplet *fish)
 			  G_CALLBACK (gtk_widget_destroy), NULL);
 }
 
-static gboolean
-handle_keypress (GtkWidget   *widget,
-		 GdkEventKey *event,
-		 FishApplet  *fish)
+static gboolean handle_keypress(GtkWidget* widget, GdkEventKey* event, FishApplet* fish)
 {
 	switch (event->keyval) {
 	case GDK_space:
@@ -1696,9 +1591,7 @@ handle_keypress (GtkWidget   *widget,
 	return TRUE;
 }
 
-static gboolean
-fish_enter_notify (GtkWidget        *widget,
-		   GdkEventCrossing *event)
+static gboolean fish_enter_notify(GtkWidget* widget, GdkEventCrossing* event)
 {
   FishApplet *fish;
   GtkWidget  *event_widget;
@@ -1713,9 +1606,7 @@ fish_enter_notify (GtkWidget        *widget,
   return FALSE;
 }
 
-static gboolean
-fish_leave_notify (GtkWidget        *widget,
-		   GdkEventCrossing *event)
+static gboolean fish_leave_notify(GtkWidget* widget, GdkEventCrossing* event)
 {
   FishApplet *fish;
   GtkWidget  *event_widget;
@@ -1730,9 +1621,7 @@ fish_leave_notify (GtkWidget        *widget,
   return FALSE;
 }
 
-static gboolean
-handle_button_release (FishApplet     *fish,
-		       GdkEventButton *event)
+static gboolean handle_button_release(FishApplet* fish, GdkEventButton* event)
 {
 	if (!fish->in_applet || event->button != 1)
 		return FALSE;
@@ -1747,8 +1636,7 @@ handle_button_release (FishApplet     *fish,
 	return TRUE;
 }
 
-static void
-set_tooltip (FishApplet *fish)
+static void set_tooltip(FishApplet* fish)
 {
 	const char *desc_format = _("%s the Fish, the fortune teller");
 	char       *desc;
@@ -1758,8 +1646,7 @@ set_tooltip (FishApplet *fish)
 	g_free (desc);
 }
 
-static void
-setup_fish_widget (FishApplet *fish)
+static void setup_fish_widget(FishApplet* fish)
 {
 	GtkWidget *widget = (GtkWidget *) fish;
 
@@ -1811,7 +1698,7 @@ setup_fish_widget (FishApplet *fish)
 	gtk_widget_show_all (widget);
 }
 
-static const GtkActionEntry fish_menu_verbs [] = {
+static const GtkActionEntry fish_menu_verbs[] = {
 	{ "FishPreferences", GTK_STOCK_PROPERTIES, N_("_Preferences"),
 	  NULL, NULL,
 	  G_CALLBACK (display_preferences_dialog) },
@@ -1823,8 +1710,7 @@ static const GtkActionEntry fish_menu_verbs [] = {
 	  G_CALLBACK (display_about_dialog) }
 };
 
-static void
-fish_migrate_to_210 (FishApplet *fish)
+static void fish_migrate_to_210(FishApplet* fish)
 {
 	char *new_image;
 
@@ -1839,7 +1725,7 @@ fish_migrate_to_210 (FishApplet *fish)
 	}
 }
 
-static gboolean fish_applet_fill (FishApplet *fish)
+static gboolean fish_applet_fill(FishApplet* fish)
 {
 	MatePanelApplet* applet = (MatePanelApplet*) fish;
 	GtkActionGroup* action_group;
@@ -1853,34 +1739,34 @@ static gboolean fish_applet_fill (FishApplet *fish)
 	setup_mateconf(fish);
 
 	fish->name = mate_panel_applet_mateconf_get_string(applet, "name", &error);
-	
+
 	if (error)
 	{
 		g_warning ("Error getting 'name' preference: %s", error->message);
 		g_error_free (error);
 		error = NULL;
 	}
-	
+
 	if (!fish->name)
 	{
 		fish->name = g_strdup ("Wanda"); /* Fallback */
 	}
 
 	fish->image = mate_panel_applet_mateconf_get_string (applet, "image", &error);
-	
+
 	if (error) {
 		g_warning ("Error getting 'image' preference: %s", error->message);
 		g_error_free (error);
 		error = NULL;
 	}
-	
+
 	if (!fish->image)
 		fish->image = g_strdup ("fishanim.png"); /* Fallback */
-		
+
 	fish_migrate_to_210 (fish);
 
 	fish->command = mate_panel_applet_mateconf_get_string (applet, "command", &error);
-	
+
 	if (error) {
 		g_warning ("Error getting 'command' preference: %s", error->message);
 		g_error_free (error);
@@ -1888,7 +1774,7 @@ static gboolean fish_applet_fill (FishApplet *fish)
 	}
 
 	fish->n_frames = mate_panel_applet_mateconf_get_int (applet, "frames", &error);
-	
+
 	if (error) {
 		g_warning ("Error getting 'frames' preference: %s", error->message);
 		g_error_free (error);
@@ -1900,7 +1786,7 @@ static gboolean fish_applet_fill (FishApplet *fish)
 		fish->n_frames = 1;
 
 	fish->speed = mate_panel_applet_mateconf_get_float (applet, "speed", &error);
-	
+
 	if (error) {
 		g_warning ("Error getting 'speed' preference: %s", error->message);
 		g_error_free (error);
@@ -1910,7 +1796,7 @@ static gboolean fish_applet_fill (FishApplet *fish)
 	}
 
 	fish->rotate = mate_panel_applet_mateconf_get_bool (applet, "rotate", &error);
-	
+
 	if (error) {
 		g_warning ("Error getting 'rotate' preference: %s", error->message);
 		g_error_free (error);

@@ -204,9 +204,7 @@ panel_frame_draw (GtkWidget      *widget,
 	}
 }
 
-static gboolean
-panel_frame_expose (GtkWidget      *widget,
-		    GdkEventExpose *event)
+static gboolean panel_frame_expose(GtkWidget* widget, GdkEventExpose* event)
 {
 	PanelFrame *frame = (PanelFrame *) widget;
 	gboolean    retval = FALSE;
@@ -215,7 +213,9 @@ panel_frame_expose (GtkWidget      *widget,
 		return retval;
 
 	if (GTK_WIDGET_CLASS (panel_frame_parent_class)->expose_event)
+	{
 		retval = GTK_WIDGET_CLASS (panel_frame_parent_class)->expose_event (widget, event);
+	}
 
 	panel_frame_draw (widget, frame->edges);
 

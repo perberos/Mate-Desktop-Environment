@@ -846,8 +846,7 @@ mate_panel_applet_expose (GtkWidget      *widget,
 	g_return_val_if_fail (PANEL_IS_APPLET (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	GTK_WIDGET_CLASS (mate_panel_applet_parent_class)->expose_event (widget,
-								    event);
+	GTK_WIDGET_CLASS (mate_panel_applet_parent_class)->expose_event (widget, event);
 
         if (!gtk_widget_has_focus (widget))
 		return FALSE;

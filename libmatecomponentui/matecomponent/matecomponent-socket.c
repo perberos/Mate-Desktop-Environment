@@ -182,6 +182,7 @@ toplevel_set_focus_cb (GtkWindow *window, GtkWidget *focus, gpointer data)
 
 	g_assert (socket->socket.toplevel == GTK_WIDGET (window));
 
+
 	socket_widget = GTK_WIDGET (socket);
 
 	descendant_had_focus = priv->descendant_has_focus;
@@ -467,7 +468,7 @@ matecomponent_socket_add_id (MateComponentSocket   *socket,
 		child_allocation.y = 0;
 		child_allocation.width = GTK_WIDGET (gtk_socket)->allocation.width;
 		child_allocation.height = GTK_WIDGET (gtk_socket)->allocation.height;
-		
+
 		gtk_widget_size_allocate (gtk_socket->plug_widget,
 					  &child_allocation);
 	}

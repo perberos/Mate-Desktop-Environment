@@ -50,7 +50,7 @@ struct _MatePanelAppletFrameDBusClass {
 struct _MatePanelAppletFrameDBus{
 	MatePanelAppletFrame parent;
 
-        MatePanelAppletFrameDBusPrivate  *priv;
+	MatePanelAppletFrameDBusPrivate  *priv;
 };
 
 GType     mate_panel_applet_frame_dbus_get_type           (void) G_GNUC_CONST;

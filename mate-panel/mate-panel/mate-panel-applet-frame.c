@@ -131,11 +131,10 @@ mate_panel_applet_frame_paint (GtkWidget    *widget,
 	}
 }
 
-static gboolean
-mate_panel_applet_frame_expose (GtkWidget      *widget,
-			   GdkEventExpose *event)
+static gboolean mate_panel_applet_frame_expose(GtkWidget* widget, GdkEventExpose* event)
 {
-	if (gtk_widget_is_drawable (widget)) {
+	if (gtk_widget_is_drawable (widget))
+	{
 		GTK_WIDGET_CLASS (mate_panel_applet_frame_parent_class)->expose_event (widget, event);
 
 		mate_panel_applet_frame_paint (widget, &event->area);
@@ -234,11 +233,8 @@ mate_panel_applet_frame_size_allocate (GtkWidget     *widget,
 	bin = GTK_BIN (widget);
 
 	if (!frame->priv->has_handle) {
-		GTK_WIDGET_CLASS (mate_panel_applet_frame_parent_class)->size_allocate (widget,
-										   allocation);
-		mate_panel_applet_frame_update_background_size (frame,
-							   &old_allocation,
-							   allocation);
+		GTK_WIDGET_CLASS (mate_panel_applet_frame_parent_class)->size_allocate (widget,  allocation);
+		mate_panel_applet_frame_update_background_size (frame, &old_allocation, allocation);
 		return;
 	}
 
@@ -806,9 +802,9 @@ mate_panel_applet_frame_activating_free (MatePanelAppletFrameActivating *frame_a
 }
 
 PanelOrientation
-mate_panel_applet_frame_activating_get_orientation (MatePanelAppletFrameActivating *frame_act)
+mate_panel_applet_frame_activating_get_orientation(MatePanelAppletFrameActivating *frame_act)
 {
-	return panel_widget_get_applet_orientation (frame_act->panel);
+	return panel_widget_get_applet_orientation(frame_act->panel);
 }
 
 guint32

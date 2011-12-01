@@ -22,10 +22,14 @@
 extern "C" {
 #endif
 
-#define PANEL_TYPE_WIDGET          	(panel_widget_get_type ())
-#define PANEL_WIDGET(object)          	(G_TYPE_CHECK_INSTANCE_CAST ((object), PANEL_TYPE_WIDGET, PanelWidget))
-#define PANEL_WIDGET_CLASS(klass)  	(G_TYPE_CHECK_CLASS_CAST ((klass), PANEL_TYPE_WIDGET, PanelWidgetClass))
-#define PANEL_IS_WIDGET(object)       	(G_TYPE_CHECK_INSTANCE_TYPE ((object), PANEL_TYPE_WIDGET))
+#define PANEL_TYPE_WIDGET \
+	(panel_widget_get_type())
+#define PANEL_WIDGET(object) \
+	(G_TYPE_CHECK_INSTANCE_CAST((object), PANEL_TYPE_WIDGET, PanelWidget))
+#define PANEL_WIDGET_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), PANEL_TYPE_WIDGET, PanelWidgetClass))
+#define PANEL_IS_WIDGET(object) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((object), PANEL_TYPE_WIDGET))
 
 #define PANEL_MINIMUM_WIDTH 12
 

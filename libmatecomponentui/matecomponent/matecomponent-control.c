@@ -108,10 +108,10 @@ matecomponent_control_add_listener (CORBA_Object        object,
 
 	if (object == CORBA_OBJECT_NIL)
 		return;
-	
+
 	status = MateCORBA_small_listen_for_broken (
 		object, fn, user_data);
-	
+
 	switch (status) {
 	case MATECORBA_CONNECTION_CONNECTED:
 		break;
@@ -126,7 +126,7 @@ matecomponent_control_add_listener (CORBA_Object        object,
 /**
  * matecomponent_control_window_id_from_x11:
  * @x11_id: the x11 window id or Windows HWND.
- * 
+ *
  * Return value: the window id or handle as a string; free after use.
  **/
 MateComponent_Gdk_WindowId
@@ -145,11 +145,11 @@ matecomponent_control_window_id_from_x11 (guint32 x11_id)
 /**
  * matecomponent_control_x11_from_window_id:
  * @id: CORBA_char *
- * 
+ *
  * De-mangle a window id string,
  * fields are separated by ':' character,
  * currently only the first field is used.
- * 
+ *
  * Return value: the native window id.
  **/
 guint32
@@ -157,7 +157,7 @@ matecomponent_control_x11_from_window_id (const CORBA_char *id)
 {
 	guint32 x11_id;
 	char **elements;
-	
+
 /*	printf ("ID string '%s'\n", id);*/
 
 	elements = g_strsplit (id, ":", -1);
@@ -186,7 +186,7 @@ matecomponent_control_auto_merge (MateComponentControl *control)
 	if (control->priv->ui_component == NULL)
 		return;
 
-	/* 
+	/*
 	 * this makes a CORBA call, so re-entrancy can occur here
 	 */
 	remote_container = matecomponent_control_get_remote_ui_container (control, NULL);
@@ -210,7 +210,7 @@ matecomponent_control_auto_unmerge (MateComponentControl *control)
 {
 	if (control->priv->ui_component == NULL)
 		return;
-	
+
 	matecomponent_ui_component_unset_container (control->priv->ui_component, NULL);
 }
 
@@ -224,8 +224,8 @@ impl_MateComponent_Control_activate (PortableServer_Servant servant,
 
 	if (activated == control->priv->active)
 		return;
-	
-	/* 
+
+	/*
 	 * store the old activated value as we can be re-entered
 	 * during (un)merge
 	 */
@@ -239,7 +239,7 @@ impl_MateComponent_Control_activate (PortableServer_Servant servant,
 			matecomponent_control_auto_unmerge (control);
 	}
 
-	/* 
+	/*
 	 * if our active state is not what we are changing it to, then
 	 * don't emit the signal
 	 */
@@ -290,11 +290,11 @@ static void
 create_plug (MateComponentControl *control)
 {
 	GtkWidget *plug;
-	
+
 	plug = matecomponent_plug_new (0);
 
 	g_object_ref_sink (plug);
-	
+
 	matecomponent_control_set_plug (control, MATECOMPONENT_PLUG (plug));
 
 	if (control->priv->widget)
@@ -337,7 +337,7 @@ parse_cookie (const CORBA_char *cookie)
 		default:
 			if (!ident)
 				ident = g_string_new (NULL);
-			
+
 			if (value)
 				g_string_append_c (value, *p);
 			else
@@ -387,7 +387,7 @@ impl_MateComponent_Control_getWindowId (PortableServer_Servant servant,
 	gtk_widget_show (control->priv->plug);
 
 	x11_id = gtk_plug_get_id (GTK_PLUG (control->priv->plug));
-		
+
 	dbgprintf ("plug id %u\n", x11_id);
 
 	return matecomponent_control_window_id_from_x11 (x11_id);
@@ -398,13 +398,13 @@ impl_MateComponent_Control_getPopupContainer (PortableServer_Servant servant,
 				       CORBA_Environment     *ev)
 {
 	MateComponentUIContainer *container;
-	
+
 	container = matecomponent_control_get_popup_ui_container (
 		MATECOMPONENT_CONTROL (matecomponent_object_from_servant (servant)));
 
 	return matecomponent_object_dup_ref (MATECOMPONENT_OBJREF (container), ev);
 }
-	
+
 static void
 impl_MateComponent_Control_setFrame (PortableServer_Servant servant,
 			      MateComponent_ControlFrame    frame,
@@ -417,14 +417,14 @@ impl_MateComponent_Control_setFrame (PortableServer_Servant servant,
 
 	if (control->priv->frame != frame) {
 		matecomponent_control_unset_control_frame (control, ev);
-	
+
 		if (frame == CORBA_OBJECT_NIL)
 			control->priv->frame = CORBA_OBJECT_NIL;
 		else {
 			control->priv->frame = CORBA_Object_duplicate (
 				frame, NULL);
 		}
-	
+
 		control->priv->inproc_frame = (MateComponentControlFrame *)
 			matecomponent_object (MateCORBA_small_get_servant (frame));
 
@@ -433,7 +433,7 @@ impl_MateComponent_Control_setFrame (PortableServer_Servant servant,
 				frame,
 				G_CALLBACK (control_frame_connection_died_cb),
 				control, ev);
-	
+
 		g_signal_emit (control, control_signals [SET_FRAME], 0);
 	}
 
@@ -449,7 +449,7 @@ impl_MateComponent_Control_setSize (PortableServer_Servant  servant,
 	GtkAllocation  size;
 	MateComponentControl *control = MATECOMPONENT_CONTROL (
 		matecomponent_object_from_servant (servant));
-	
+
 	size.x = size.y = 0;
 	size.width = width;
 	size.height = height;
@@ -596,7 +596,7 @@ static int control_purge_delay = DEFAULT_CONTROL_PURGE_DELAY_MS;
 /**
  * matecomponent_control_life_set_purge:
  * @ms: time to wait in milliseconds.
- * 
+ *
  *   Set time we're prepared to wait without a ControlFrame
  * before terminating the Control. This can happen if the
  * panel activates us but crashes before the set_frame.
@@ -613,7 +613,7 @@ never_got_frame_timeout (gpointer user_data)
 	g_warning ("Never got frame, control died - abnormal exit condition");
 
 	matecomponent_control_disconnected (user_data);
-	
+
 	return FALSE;
 }
 
@@ -667,11 +667,11 @@ MateComponentControl *
 matecomponent_control_new (GtkWidget *widget)
 {
 	MateComponentControl *control;
-	
+
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
 
 	control = g_object_new (matecomponent_control_get_type (), NULL);
-	
+
 	return matecomponent_control_construct (control, widget);
 }
 
@@ -794,7 +794,7 @@ matecomponent_control_get_control_frame (MateComponentControl     *control,
 {
 	MateComponent_ControlFrame frame;
 	CORBA_Environment *ev, tmp_ev;
-	
+
 	g_return_val_if_fail (MATECOMPONENT_IS_CONTROL (control), CORBA_OBJECT_NIL);
 
 	if (!opt_ev) {
@@ -802,9 +802,9 @@ matecomponent_control_get_control_frame (MateComponentControl     *control,
 		ev = &tmp_ev;
 	} else
 		ev = opt_ev;
-	
+
 	frame = CORBA_Object_duplicate (control->priv->frame, ev);
-	
+
 	if (!opt_ev)
 		CORBA_exception_free (&tmp_ev);
 
@@ -814,7 +814,7 @@ matecomponent_control_get_control_frame (MateComponentControl     *control,
 /**
  * matecomponent_control_get_ui_component:
  * @control: The control
- * 
+ *
  * Return value: the associated UI component
  **/
 MateComponentUIComponent *
@@ -880,7 +880,7 @@ matecomponent_control_set_properties (MateComponentControl      *control,
  *
  * Returns: The #MateComponent_PropertyBag bound to @control.
  */
-MateComponent_PropertyBag 
+MateComponent_PropertyBag
 matecomponent_control_get_properties (MateComponentControl *control)
 {
 	g_return_val_if_fail (MATECOMPONENT_IS_CONTROL (control), NULL);
@@ -1077,7 +1077,7 @@ matecomponent_control_init (MateComponentControl *control)
 	create_plug (control);
 }
 
-MATECOMPONENT_TYPE_FUNC_FULL (MateComponentControl, 
+MATECOMPONENT_TYPE_FUNC_FULL (MateComponentControl,
 		       MateComponent_Control,
 		       MATECOMPONENT_OBJECT_TYPE,
 		       matecomponent_control)
@@ -1091,7 +1091,7 @@ MATECOMPONENT_TYPE_FUNC_FULL (MateComponentControl,
  * @control: the control with associated property bag
  * @opt_ev: optional corba exception environment
  * @first_prop: the first property's name
- * 
+ *
  * This method takes a NULL terminated list of name, type, value
  * triplicates, and sets the corresponding values on the control's
  * associated property bag.
@@ -1117,7 +1117,7 @@ matecomponent_control_set_property (MateComponentControl     *control,
 		ev = &tmp_ev;
 	} else
 		ev = opt_ev;
-		
+
 	bag = control->priv->propbag;
 
 	if ((err = matecomponent_property_bag_client_setv (bag, ev, first_prop, args)))
@@ -1134,7 +1134,7 @@ matecomponent_control_set_property (MateComponentControl     *control,
  * @control: the control with associated property bag
  * @opt_ev: optional corba exception environment
  * @first_prop: the first property's name
- * 
+ *
  * This method takes a NULL terminated list of name, type, value
  * triplicates, and fetches the corresponding values on the control's
  * associated property bag.
@@ -1210,13 +1210,13 @@ static void
 window_transient_destroy_gdk_cb (GtkWidget *widget)
 {
 	GdkWindow *win;
-	
+
 	if ((win = g_object_get_data (G_OBJECT (widget), "transient")))
 		g_object_unref (win);
 }
 
-static void       
-window_set_transient_for_gdk (GtkWindow *window, 
+static void
+window_set_transient_for_gdk (GtkWindow *window,
 			      GdkWindow *parent)
 {
 	g_return_if_fail (window != NULL);
@@ -1248,7 +1248,7 @@ window_set_transient_for_gdk (GtkWindow *window,
 	g_signal_connect (
 		window, "unrealize",
 		G_CALLBACK (window_transient_unrealize_gdk_cb), NULL);
-	
+
 	g_signal_connect (
 		window, "destroy",
 		G_CALLBACK (window_transient_destroy_gdk_cb), NULL);
@@ -1258,7 +1258,7 @@ window_set_transient_for_gdk (GtkWindow *window,
  * matecomponent_control_set_transient_for:
  * @control: a control with associated control frame
  * @window: a window upon which to set the transient window.
- * 
+ *
  *   Attempts to make the @window transient for the toplevel
  * of any associated controlframe the MateComponentControl may have.
  **/
@@ -1277,6 +1277,8 @@ matecomponent_control_set_transient_for (MateComponentControl     *control,
 
 	g_return_if_fail (GTK_IS_WINDOW (window));
 	g_return_if_fail (MATECOMPONENT_IS_CONTROL (control));
+
+
 
 	/* FIXME: special case the local case !
 	 * we can only do this if set_transient is virtualized
@@ -1330,7 +1332,7 @@ matecomponent_control_set_transient_for (MateComponentControl     *control,
  * matecomponent_control_unset_transient_for:
  * @control: a control with associated control frame
  * @window: a window upon which to unset the transient window.
- * 
+ *
  **/
 void
 matecomponent_control_unset_transient_for (MateComponentControl     *control,
@@ -1344,7 +1346,7 @@ matecomponent_control_unset_transient_for (MateComponentControl     *control,
 
 	g_signal_handlers_disconnect_by_func (
 		window, G_CALLBACK (window_transient_unrealize_gdk_cb), NULL);
-	
+
 	g_signal_handlers_disconnect_by_func (
 		window, G_CALLBACK (window_transient_destroy_gdk_cb), NULL);
 
@@ -1385,13 +1387,13 @@ matecomponent_control_set_plug (MateComponentControl *control,
 /**
  * matecomponent_control_get_plug:
  * @control: the control.a
- * 
+ *
  * This methods returns the current plug associated with
  * the control. If the remote container re-parents the
  * control - the plug will die, and a new plug has to be
  * created. Thus this should really only be called from
  * a 'plug_created' signal handler.
- * 
+ *
  * Return value: the _current_ plug.
  **/
 MateComponentPlug *
@@ -1459,7 +1461,7 @@ matecomponent_control_get_popup_ui_component (MateComponentControl *control)
 	if (!control->priv->popup_ui_component) {
 		ui_container = matecomponent_control_get_popup_ui_container (control);
 
-		control->priv->popup_ui_component = 
+		control->priv->popup_ui_component =
 			matecomponent_ui_component_new_default ();
 
 		matecomponent_ui_component_set_container (
@@ -1548,7 +1550,7 @@ static MateComponentControlLifeCallback life_callback =
 /**
  * matecomponent_control_life_set_callback:
  * @all_dead_callback: method to call at idle when no controls remain
- * 
+ *
  * See #matecomponent_control_life_instrument
  **/
 void
@@ -1578,7 +1580,7 @@ control_life_disconnected (MateComponentControl *control)
 /**
  * matecomponent_control_life_instrument:
  * @control: control to manage.
- * 
+ *
  * Request that @control is lifecycle managed by this code;
  * when it (and all other registerees are dead, the
  * all_dead_callback set by #matecomponent_control_life_set_callback
@@ -1598,10 +1600,10 @@ matecomponent_control_life_instrument (MateComponentControl *control)
 
 /**
  * matecomponent_control_life_get_count:
- * @void: 
- * 
+ * @void:
+ *
  * calculates the number of live controls under management.
- * 
+ *
  * Return value: the number of live controls.
  **/
 int

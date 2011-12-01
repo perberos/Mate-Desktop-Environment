@@ -73,18 +73,13 @@ panel_separator_paint (GtkWidget    *widget,
 	}
 }
 
-static gboolean
-panel_separator_expose_event (GtkWidget      *widget,
-			      GdkEventExpose *event)
+static gboolean panel_separator_expose_event(GtkWidget* widget, GdkEventExpose* event)
 {
-	if (gtk_widget_is_drawable (widget)) {
-		#ifndef UBUNTU
-			/* On Ubuntu, this make a long propage, that eat your cpu!
-			 */
-			GTK_WIDGET_CLASS(panel_separator_parent_class)->expose_event(widget, event);
-		#endif
+	if (gtk_widget_is_drawable(widget))
+	{
+		GTK_WIDGET_CLASS(panel_separator_parent_class)->expose_event(widget, event);
 
-		panel_separator_paint (widget, &event->area);
+		panel_separator_paint(widget, &event->area);
 	}
 
 	return FALSE;

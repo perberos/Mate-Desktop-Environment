@@ -75,21 +75,17 @@ static gboolean mate_panel_applet_container_plug_removed (MatePanelAppletContain
 
 G_DEFINE_TYPE (MatePanelAppletContainer, mate_panel_applet_container, GTK_TYPE_EVENT_BOX);
 
-GQuark
-mate_panel_applet_container_error_quark (void)
+GQuark mate_panel_applet_container_error_quark (void)
 {
 	return g_quark_from_static_string ("mate-panel-applet-container-error-quark");
 }
 
-static void
-mate_panel_applet_container_init (MatePanelAppletContainer *container)
+static void mate_panel_applet_container_init(MatePanelAppletContainer* container)
 {
 	container->priv = MATE_PANEL_APPLET_CONTAINER_GET_PRIVATE (container);
 
 	container->priv->socket = gtk_socket_new ();
-	g_signal_connect_swapped (container->priv->socket, "plug-removed",
-				  G_CALLBACK (mate_panel_applet_container_plug_removed),
-				  container);
+	g_signal_connect_swapped (container->priv->socket, "plug-removed", G_CALLBACK (mate_panel_applet_container_plug_removed), container);
 
 	container->priv->pending_ops = g_hash_table_new_full (g_direct_hash,
 							      g_direct_equal,
@@ -113,8 +109,7 @@ mate_panel_applet_container_cancel_pending_operations (MatePanelAppletContainer 
 	for (l = keys; l; l = g_list_next (l)) {
 		GCancellable *cancellable;
 
-		cancellable = G_CANCELLABLE (g_hash_table_lookup (container->priv->pending_ops,
-								  l->data));
+		cancellable = G_CANCELLABLE (g_hash_table_lookup (container->priv->pending_ops, l->data));
 		g_cancellable_cancel (cancellable);
 	}
 	g_list_free (keys);

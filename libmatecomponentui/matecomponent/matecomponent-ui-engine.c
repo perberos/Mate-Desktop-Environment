@@ -138,7 +138,7 @@ find_sync_for_node (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_add_sync:
  * @engine: the enginer
  * @sync: the synchronizer
- * 
+ *
  * Add a #MateComponentUISync synchronizer to the engine
  **/
 void
@@ -158,7 +158,7 @@ matecomponent_ui_engine_add_sync (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_remove_sync:
  * @engine: the engine
  * @sync: the sync
- * 
+ *
  * Remove a specified #MateComponentUISync synchronizer from the engine
  **/
 void
@@ -174,9 +174,9 @@ matecomponent_ui_engine_remove_sync (MateComponentUIEngine *engine,
 /**
  * matecomponent_ui_engine_get_syncs:
  * @engine: the engine
- * 
+ *
  * Retrieve a list of available synchronizers.
- * 
+ *
  * Return value: a GSList of #MateComponentUISync s
  **/
 GSList *
@@ -352,7 +352,7 @@ widget_unref (GtkWidget **ref)
 	GtkWidget *w;
 
 	g_return_if_fail (ref != NULL);
-	
+
 	if ((w = *ref)) {
 		*ref = NULL;
 		g_object_unref (w);
@@ -385,7 +385,7 @@ info_dump_fn (MateComponentUIXml *tree, MateComponentUINode *node)
 			 (char *)info->parent.id, info->object, info->type);
 
 		if (info->widget) {
-			MateComponentUINode *attached_node = 
+			MateComponentUINode *attached_node =
 				matecomponent_ui_engine_widget_get_node (info->widget);
 
 			fprintf (stderr, "widget '%8p' with node '%8p' attached ",
@@ -517,7 +517,7 @@ prune_node (MateComponentUIEngine *engine,
 
 	if (info->widget) {
 		gboolean save;
-		
+
 		save = NODE_IS_CUSTOM_WIDGET (info) && save_custom;
 
 		if (!NODE_IS_ROOT_WIDGET (info) && !save) {
@@ -564,7 +564,7 @@ prune_node (MateComponentUIEngine *engine,
  * @engine: the engine
  * @node: the node
  * @save_custom: whether to save custom widgets
- * 
+ *
  * This function destroys any widgets associated with
  * @node and all its children, if @save_custom, any widget
  * that is a custom widget ( such as a control ) will be
@@ -595,7 +595,7 @@ override_fn (GObject        *object,
 	     MateComponentUIEngine *engine)
 {
 #ifdef XML_MERGE_DEBUG
-	fprintf (stderr, "Override '%s'\n", 
+	fprintf (stderr, "Override '%s'\n",
 		 matecomponent_ui_xml_make_path (old));
 #endif
 	if (matecomponent_ui_node_same_name (new, old)) {
@@ -615,7 +615,7 @@ reinstate_fn (GObject        *object,
 	      MateComponentUIEngine *engine)
 {
 #ifdef XML_MERGE_DEBUG
-	fprintf (stderr, "Reinstate '%s'\n", 
+	fprintf (stderr, "Reinstate '%s'\n",
 		 matecomponent_ui_xml_make_path (node));
 /*	matecomponent_ui_engine_dump (engine, stderr, "pre reinstate_fn");*/
 #endif
@@ -631,7 +631,7 @@ rename_fn (GObject        *object,
 	   MateComponentUIEngine *engine)
 {
 #ifdef XML_MERGE_DEBUG
-	fprintf (stderr, "Rename '%s'\n", 
+	fprintf (stderr, "Rename '%s'\n",
 		 matecomponent_ui_xml_make_path (node));
 #endif
 }
@@ -684,11 +684,11 @@ sub_component_get (MateComponentUIEngine *engine, const char *name)
 
 	for (l = engine->priv->components; l; l = l->next) {
 		component = l->data;
-		
+
 		if (!strcmp (component->name, name))
 			return component;
 	}
-	
+
 	component = g_new (SubComponent, 1);
 	component->name = g_strdup (name);
 	component->object = CORBA_OBJECT_NIL;
@@ -751,7 +751,7 @@ sub_components_dump (MateComponentUIEngine *engine, FILE *out)
 
 	for (l = engine->priv->components; l; l = l->next) {
 		SubComponent *component = l->data;
-		
+
 		fprintf (out, "\t'%s' -> '%p'\n",
 			 component->name, component->object);
 	}
@@ -802,7 +802,7 @@ sub_component_destroy (MateComponentUIEngine *engine, SubComponent *component)
 /**
  * matecomponent_ui_engine_deregister_dead_components:
  * @engine: the engine
- * 
+ *
  * Detect any components that have died and deregister
  * them - unmerging their UI elements.
  **/
@@ -832,7 +832,7 @@ matecomponent_ui_engine_deregister_dead_components (MateComponentUIEngine *engin
 /**
  * matecomponent_ui_engine_get_component_names:
  * @engine: the engine
- * 
+ *
  * Return value: the names of all registered components
  **/
 GList *
@@ -847,7 +847,7 @@ matecomponent_ui_engine_get_component_names (MateComponentUIEngine *engine)
 
 	for (l = engine->priv->components; l; l = l->next) {
 		SubComponent *component = l->data;
-	
+
 		retval = g_list_prepend (retval, component->name);
 	}
 
@@ -858,7 +858,7 @@ matecomponent_ui_engine_get_component_names (MateComponentUIEngine *engine)
  * matecomponent_ui_engine_get_component:
  * @engine: the engine
  * @name: the name of the component to fetch
- * 
+ *
  * Return value: the component with name @name
  **/
 MateComponent_Unknown
@@ -869,10 +869,10 @@ matecomponent_ui_engine_get_component (MateComponentUIEngine *engine,
 
 	g_return_val_if_fail (name != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), CORBA_OBJECT_NIL);
-		
+
 	for (l = engine->priv->components; l; l = l->next) {
 		SubComponent *component = l->data;
-		
+
 		if (!strcmp (component->name, name))
 			return component->object;
 	}
@@ -885,7 +885,7 @@ matecomponent_ui_engine_get_component (MateComponentUIEngine *engine,
  * @engine: the engine
  * @name: a name to associate a component with
  * @component: the component
- * 
+ *
  * Registers @component with @engine by @name.
  **/
 void
@@ -912,7 +912,7 @@ matecomponent_ui_engine_register_component (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_deregister_component:
  * @engine: the engine
  * @name: the component name
- * 
+ *
  * Deregisters component of @name from @engine.
  **/
 void
@@ -935,7 +935,7 @@ matecomponent_ui_engine_deregister_component (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_deregister_component_by_ref:
  * @engine: the engine
  * @ref: the ref.
- * 
+ *
  * Deregisters component with reference @ref from @engine.
  **/
 void
@@ -995,7 +995,7 @@ state_update_new (MateComponentUISync *sync,
 
 	if ((state = matecomponent_ui_node_get_attr (node, "state"))) {
 		su = g_new0 (StateUpdate, 1);
-		
+
 		su->sync   = sync;
 		su->widget = widget;
 		g_object_ref (su->widget);
@@ -1032,7 +1032,7 @@ state_update_now (MateComponentUIEngine *engine,
 	g_return_if_fail (sync != NULL);
 
 	su = state_update_new (sync, widget, node);
-	
+
 	if (su) {
 		matecomponent_ui_sync_state_update (su->sync, su->widget, su->state);
 		state_update_destroy (su);
@@ -1044,7 +1044,7 @@ state_update_now (MateComponentUIEngine *engine,
  * @engine: the engine
  * @path: the path into the tree
  * @prop: The property
- * 
+ *
  * This function fetches the property @prop at node
  * at @path in the internal structure.
  *
@@ -1058,7 +1058,7 @@ matecomponent_ui_engine_xml_get_prop (MateComponentUIEngine *engine,
 {
  	const char   *str;
  	MateComponentUINode *node;
-  
+
   	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), NULL);
 
   	node = matecomponent_ui_xml_get_path (engine->priv->tree, path);
@@ -1069,7 +1069,7 @@ matecomponent_ui_engine_xml_get_prop (MateComponentUIEngine *engine,
  	} else {
 		if (invalid_path)
 			*invalid_path = FALSE;
-  
+
  		str = matecomponent_ui_node_peek_attr (node, prop);
 
 		if (!str)
@@ -1084,7 +1084,7 @@ matecomponent_ui_engine_xml_get_prop (MateComponentUIEngine *engine,
  * @engine: the engine
  * @path: the path into the tree
  * @node_only: just the node, or children too.
- * 
+ *
  * This function fetches the node at @path in the
  * internal structure, and if @node_only dumps the
  * node to an XML string, otherwise it dumps it and
@@ -1100,13 +1100,13 @@ matecomponent_ui_engine_xml_get (MateComponentUIEngine *engine,
  	char         *str;
  	MateComponentUINode *node;
   	CORBA_char   *ret;
-  
+
   	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), NULL);
-  
+
   	node = matecomponent_ui_xml_get_path (engine->priv->tree, path);
   	if (!node)
   		return NULL;
- 	else {		
+ 	else {
  		str = matecomponent_ui_node_to_string (node, !node_only);
  		ret = CORBA_string_dup (str);
  		g_free (str);
@@ -1118,7 +1118,7 @@ matecomponent_ui_engine_xml_get (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_xml_node_exists:
  * @engine: the engine
  * @path: the path into the tree
- * 
+ *
  * Return value: true if the node at @path exists
  **/
 gboolean
@@ -1146,11 +1146,11 @@ matecomponent_ui_engine_xml_node_exists (MateComponentUIEngine   *engine,
  * @path: the path into the tree
  * @object: an object reference
  * @ev: CORBA exception environment
- * 
+ *
  * This associates a CORBA Object reference with a node
  * in the tree, most often this is done to insert a Control's
  * reference into a 'control' element.
- * 
+ *
  * Return value: flag if success
  **/
 MateComponentUIError
@@ -1162,7 +1162,7 @@ matecomponent_ui_engine_object_set (MateComponentUIEngine   *engine,
 	NodeInfo     *info;
 	MateComponentUINode *node;
 
-	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), 
+	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine),
 			      MATECOMPONENT_UI_ERROR_BAD_PARAM);
 
 	node = matecomponent_ui_xml_get_path (engine->priv->tree, path);
@@ -1177,7 +1177,7 @@ matecomponent_ui_engine_object_set (MateComponentUIEngine   *engine,
 			gtk_widget_destroy (info->widget);
 		widget_unref (&info->widget);
 	}
-	
+
 	dbgprintf ("** Setting object %p on info %p\n", object, info);
 	info->object = matecomponent_object_dup_ref (object, ev);
 
@@ -1224,7 +1224,7 @@ matecomponent_ui_engine_widget_set (MateComponentUIEngine    *engine,
 
 		matecomponent_ui_engine_stamp_custom (engine, node);
 	}
-		
+
 	matecomponent_ui_engine_thaw (engine);
 }
 
@@ -1234,11 +1234,11 @@ matecomponent_ui_engine_widget_set (MateComponentUIEngine    *engine,
  * @path: the path into the tree
  * @object: an pointer to an object reference
  * @ev: CORBA exception environment
- * 
+ *
  * This extracts a CORBA object reference associated with
  * the node at @path in @engine, and returns it in the
  * reference pointed to by @object.
- * 
+ *
  * Return value: flag if success
  **/
 MateComponentUIError
@@ -1252,7 +1252,7 @@ matecomponent_ui_engine_object_get (MateComponentUIEngine    *engine,
 
 	g_return_val_if_fail (object != NULL,
 			      MATECOMPONENT_UI_ERROR_BAD_PARAM);
-	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), 
+	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine),
 			      MATECOMPONENT_UI_ERROR_BAD_PARAM);
 
 	*object = CORBA_OBJECT_NIL;
@@ -1290,10 +1290,10 @@ find_last_slash (const char *path)
  * @property: The property to set
  * @value: The new value of the property
  * @component: the component ID associated with the nodes.
- * 
+ *
  * This function sets the property of a node in the internal tree
  * representation at @path in @engine.
- * 
+ *
  * Return value: flag on error
  **/
 MateComponentUIError
@@ -1307,13 +1307,13 @@ matecomponent_ui_engine_xml_set_prop (MateComponentUIEngine *engine,
 	const char *old_value;
 	MateComponentUINode *original;
 	NodeInfo     *info;
-	
-	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), 
+
+	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine),
 			      MATECOMPONENT_UI_ERROR_BAD_PARAM);
 
 	original = matecomponent_ui_engine_get_path (engine, path);
 
-	if (!original) 
+	if (!original)
 		return MATECOMPONENT_UI_ERROR_INVALID_PATH;
 
 	info = matecomponent_ui_xml_get_data (engine->priv->tree, original);
@@ -1323,7 +1323,7 @@ matecomponent_ui_engine_xml_set_prop (MateComponentUIEngine *engine,
 		old_value = matecomponent_ui_node_peek_attr (original, property);
 		if (!old_value && !value)
 			return MATECOMPONENT_UI_ERROR_OK;
-		
+
 		else if (old_value && value && !strcmp (old_value, value))
 			return MATECOMPONENT_UI_ERROR_OK;
 
@@ -1367,10 +1367,10 @@ matecomponent_ui_engine_xml_set_prop (MateComponentUIEngine *engine,
  * @path: the path into the tree
  * @tree: the nodes
  * @component: the component ID associated with these nodes.
- * 
+ *
  * This function merges the XML @tree into the internal tree
  * representation as children of the node at @path in @engine.
- * 
+ *
  * Return value: flag on error
  **/
 MateComponentUIError
@@ -1380,8 +1380,8 @@ matecomponent_ui_engine_xml_merge_tree (MateComponentUIEngine    *engine,
 				 const char        *component)
 {
 	MateComponentUIError err;
-	
-	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), 
+
+	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine),
 			      MATECOMPONENT_UI_ERROR_BAD_PARAM);
 
 	if (!tree || !matecomponent_ui_node_get_name (tree))
@@ -1423,12 +1423,12 @@ matecomponent_ui_engine_xml_merge_tree (MateComponentUIEngine    *engine,
  * @path: the path into the tree
  * @by_component: whether to remove elements from only a
  * specific component
- * 
+ *
  * Remove a chunk of the xml tree pointed at by @path
  * in @engine, if @by_component then only remove items
  * associated with that component - possibly revealing
  * other overridden items.
- * 
+ *
  * Return value: flag on error
  **/
 MateComponentUIError
@@ -1454,7 +1454,7 @@ matecomponent_ui_engine_xml_rm (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_set_ui_container:
  * @engine: the engine
  * @ui_container: a UI Container matecomponent object.
- * 
+ *
  * Associates a given UI Container with this MateComponentUIEngine.
  **/
 void
@@ -1491,7 +1491,7 @@ matecomponent_ui_engine_set_ui_container (MateComponentUIEngine    *engine,
 /**
  * matecomponent_ui_engine_get_ui_container:
  * @engine: the engine
- * 
+ *
  * Fetches the associated UI Container
  *
  * Return value: the associated UI container.
@@ -1546,7 +1546,7 @@ real_exec_verb (MateComponentUIEngine *engine,
 				   MATECOMPONENT_EX_REPOID (&ev));
 
 		CORBA_Object_release (component, &ev);
-		
+
 		CORBA_exception_free (&ev);
 	}
 
@@ -1562,7 +1562,7 @@ impl_emit_verb_on (MateComponentUIEngine *engine,
 	const char      *sensitive;
 	MateComponentUINode    *cmd_node;
 	MateComponentUIXmlData *data;
-	
+
 	g_return_if_fail (node != NULL);
 
 	data = matecomponent_ui_xml_get_data (NULL, node);
@@ -1629,7 +1629,7 @@ cmd_get_node (MateComponentUIEngine *engine,
 		matecomponent_ui_xml_merge (
 			engine->priv->tree, "/",
 			commands, data_from->id);
-		
+
 		ret = matecomponent_ui_xml_get_path (
 			engine->priv->tree, path);
 		g_assert (ret != NULL);
@@ -1795,7 +1795,7 @@ real_emit_ui_event (MateComponentUIEngine *engine,
 				   "major %d, %s",
 				   type, id, new_state, ev._major,
 				   MATECOMPONENT_EX_REPOID (&ev));
-		
+
 		CORBA_exception_free (&ev);
 	}
 
@@ -1902,7 +1902,7 @@ impl_finalize (GObject *object)
 	MateComponentUIEngine *engine;
 
 	dbgprintf ("matecomponent_ui_engine_finalize %p\n", object);
-       
+
 	engine = MATECOMPONENT_UI_ENGINE (object);
 
 	g_hash_table_destroy (engine->priv->cmd_to_node);
@@ -1918,7 +1918,7 @@ class_init (MateComponentUIEngineClass *engine_class)
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (engine_class);
- 
+
  	id_id        = g_quark_from_static_string ("id");
 	cmd_id       = g_quark_from_static_string ("cmd");
  	verb_id      = g_quark_from_static_string ("verb");
@@ -2010,7 +2010,7 @@ matecomponent_ui_engine_get_type (void)
 			0, /* n_preallocs */
 			(GInstanceInitFunc) init
 		};
-		
+
 		type = g_type_register_static (PARENT_TYPE, "MateComponentUIEngine",
 					       &info, 0);
 	}
@@ -2039,9 +2039,9 @@ build_skeleton (MateComponentUIXml *xml)
  * matecomponent_ui_engine_construct:
  * @engine: the engine.
  * @view: the view [ often a MateComponentWindow ]
- * 
+ *
  * Construct a new matecomponent_ui_engine
- * 
+ *
  * Return value: the constructed engine.
  **/
 MateComponentUIEngine *
@@ -2062,10 +2062,13 @@ matecomponent_ui_engine_construct (MateComponentUIEngine *engine,
 
 
 	if (GTK_IS_WINDOW (view))
-		opt_parent = GTK_WINDOW (view);
+	{
+		opt_parent = GTK_WINDOW(view);
 	else
+	{
 		opt_parent = NULL;
-	
+	}
+
 	priv->config = matecomponent_ui_engine_config_new (engine, opt_parent);
 
 	build_skeleton (priv->tree);
@@ -2090,17 +2093,17 @@ matecomponent_ui_engine_construct (MateComponentUIEngine *engine,
 
 	/* Add the engine to the configuration notify list */
 	matecomponent_ui_preferences_add_engine (engine);
-	
+
 	return engine;
 }
 
 
 /**
  * matecomponent_ui_engine_new:
- * @void: 
- * 
+ * @void:
+ *
  * Create a new #MateComponentUIEngine structure
- * 
+ *
  * Return value: the new UI Engine.
  **/
 MateComponentUIEngine *
@@ -2115,9 +2118,9 @@ matecomponent_ui_engine_new (GObject *view)
 /**
  * matecomponent_ui_engine_get_view:
  * @engine: the engine
- * 
+ *
  * This returns the associated view, often a MateComponentWindow
- * 
+ *
  * Return value: the view widget.
  **/
 GObject *
@@ -2134,11 +2137,11 @@ hide_all_widgets (MateComponentUIEngine *engine,
 {
 	NodeInfo *info;
 	MateComponentUINode *child;
-	
+
 	info = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 	if (info->widget)
 		gtk_widget_hide (info->widget);
-	
+
 	for (child = matecomponent_ui_node_children (node);
 	     child != NULL;
 	     child = matecomponent_ui_node_next (child))
@@ -2151,7 +2154,7 @@ contains_visible_widget (MateComponentUIEngine *engine,
 {
 	MateComponentUINode *child;
 	NodeInfo     *info;
-	
+
 	for (child = matecomponent_ui_node_children (node);
 	     child != NULL;
 	     child = matecomponent_ui_node_next (child)) {
@@ -2249,7 +2252,7 @@ matecomponent_ui_engine_sync (MateComponentUIEngine   *engine,
 			MateComponentUISyncStateFn ss;
 			MateComponentUISyncBuildFn bw;
 			MateComponentUINode       *cmd_node;
-			
+
 			if (matecomponent_ui_node_has_name (a, "placeholder")) {
 				ss = matecomponent_ui_sync_state_placeholder;
 				bw = matecomponent_ui_sync_build_placeholder;
@@ -2367,7 +2370,7 @@ check_excess_widgets (MateComponentUISync *sync, GList *wptr)
 
 			if (matecomponent_ui_sync_ignore_widget (sync, b->data))
 				continue;
-			
+
 			if (!warned++)
 				g_warning ("Excess widgets at the "
 					   "end of the container; weird");
@@ -2407,9 +2410,9 @@ do_sync (MateComponentUIEngine *engine,
 			engine, sync, matecomponent_ui_node_children (node),
 			matecomponent_ui_engine_node_get_widget (engine, node),
 			&wptr, &pos);
-		
+
 		check_excess_widgets (sync, wptr);
-		
+
 		g_list_free (widgets);
 	}
 
@@ -2446,7 +2449,7 @@ seek_dirty (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_update_node:
  * @engine: the engine
  * @node: the node to start updating.
- * 
+ *
  * This function is used to write recursive synchronizers
  * and is intended only for internal / privilaged use.
  *
@@ -2461,7 +2464,7 @@ matecomponent_ui_engine_update_node (MateComponentUIEngine *engine,
 	if (sync) {
 		if (matecomponent_ui_sync_is_recursive (sync))
 			seek_dirty (engine, sync, node);
-		else 
+		else
 			do_sync (engine, sync, node);
 	}
 #ifdef WIDGET_SYNC_DEBUG
@@ -2564,7 +2567,7 @@ process_state_updates (MateComponentUIEngine *engine)
 /**
  * matecomponent_ui_engine_update:
  * @engine: the engine.
- * 
+ *
  * This function is called to update the entire
  * UI model synchronizing any changes in it with
  * the widget tree where neccessary
@@ -2624,9 +2627,9 @@ matecomponent_ui_engine_update (MateComponentUIEngine *engine)
  * @widget: the widget to update later
  * @node: the node
  * @cmd_node: the associated command's node
- * 
+ *
  * This function is used to queue a state update on
- * @widget, essentialy transfering any state from the 
+ * @widget, essentialy transfering any state from the
  * XML model into the widget view. This is queued to
  * avoid re-enterancy problems.
  **/
@@ -2638,30 +2641,30 @@ matecomponent_ui_engine_queue_update (MateComponentUIEngine   *engine,
 {
 	StateUpdate  *su;
 	MateComponentUISync *sync;
-	
+
 	g_return_if_fail (node != NULL);
 
 	sync = find_sync_for_node (engine, node);
 	g_return_if_fail (sync != NULL);
 
 	su = state_update_new (
-		sync, widget, 
+		sync, widget,
 		cmd_node != NULL ? cmd_node : node);
 
 	if (su)
 		engine->priv->state_updates = g_slist_prepend (
 			engine->priv->state_updates, su);
-}      
+}
 
 /**
  * matecomponent_ui_engine_build_control:
  * @engine: the engine
  * @node: the control node.
- * 
+ *
  * A helper function for synchronizers, this creates a control
  * if possible from the node's associated object, stamps the
  * node as containing a control and sets its widget.
- * 
+ *
  * Return value: a Control's GtkWidget.
  **/
 GtkWidget *
@@ -2684,7 +2687,7 @@ matecomponent_ui_engine_build_control (MateComponentUIEngine *engine,
 		control = matecomponent_widget_new_control_from_objref (
 			info->object, CORBA_OBJECT_NIL);
 		g_return_val_if_fail (control != NULL, NULL);
-		
+
 		info->type |= CUSTOM_WIDGET;
 	}
 
@@ -2704,7 +2707,7 @@ matecomponent_ui_engine_build_control (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_stamp_custom:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * Marks a node as containing a custom widget.
  **/
 void
@@ -2712,7 +2715,7 @@ matecomponent_ui_engine_stamp_custom (MateComponentUIEngine *engine,
 			       MateComponentUINode   *node)
 {
 	NodeInfo *info;
-	
+
 	info = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 
 	info->type |= CUSTOM_WIDGET;
@@ -2722,7 +2725,7 @@ matecomponent_ui_engine_stamp_custom (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_node_get_object:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * Return value: the CORBA_Object associated with a @node
  **/
 CORBA_Object
@@ -2730,7 +2733,7 @@ matecomponent_ui_engine_node_get_object (MateComponentUIEngine   *engine,
 				  MateComponentUINode     *node)
 {
 	NodeInfo *info;
-	
+
 	info = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 
 	return info->object;
@@ -2740,7 +2743,7 @@ matecomponent_ui_engine_node_get_object (MateComponentUIEngine   *engine,
  * matecomponent_ui_engine_node_is_dirty:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * Return value: whether the @node is marked dirty
  **/
 gboolean
@@ -2748,7 +2751,7 @@ matecomponent_ui_engine_node_is_dirty (MateComponentUIEngine *engine,
 				MateComponentUINode   *node)
 {
 	MateComponentUIXmlData *data;
-	
+
 	data = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 
 	return data->dirty;
@@ -2758,7 +2761,7 @@ matecomponent_ui_engine_node_is_dirty (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_node_get_id:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * Each component has an associated textual id or name - see
  * matecomponent_ui_engine_register_component
  *
@@ -2769,7 +2772,7 @@ matecomponent_ui_engine_node_get_id (MateComponentUIEngine *engine,
 			      MateComponentUINode   *node)
 {
 	MateComponentUIXmlData *data;
-	
+
 	data = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 
 	return data->id;
@@ -2780,7 +2783,7 @@ matecomponent_ui_engine_node_get_id (MateComponentUIEngine *engine,
  * @engine: the engine
  * @node: the node
  * @dirty: whether the node should be dirty.
- * 
+ *
  * Set @node s dirty bit to @dirty.
  **/
 void
@@ -2789,7 +2792,7 @@ matecomponent_ui_engine_node_set_dirty (MateComponentUIEngine *engine,
 				 gboolean        dirty)
 {
 	MateComponentUIXmlData *data;
-	
+
 	data = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 
 	data->dirty = dirty;
@@ -2799,9 +2802,9 @@ matecomponent_ui_engine_node_set_dirty (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_node_get_widget:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * Gets the widget associated with @node
- * 
+ *
  * Return value: the widget
  **/
 GtkWidget *
@@ -2811,7 +2814,7 @@ matecomponent_ui_engine_node_get_widget (MateComponentUIEngine   *engine,
 	NodeInfo *info;
 
 	g_return_val_if_fail (engine != NULL, NULL);
-	
+
 	info = matecomponent_ui_xml_get_data (engine->priv->tree, node);
 
 	return info->widget;
@@ -2825,11 +2828,11 @@ matecomponent_ui_engine_node_get_widget (MateComponentUIEngine   *engine,
  * @node: the node
  * @cmd_node: the command's node
  * @attr: the attribute name
- * 
+ *
  * This function is used to get node attributes in many
  * UI synchronizers, it first attempts to get the attribute
  * from @node, and if this fails falls back to @cmd_node.
- * 
+ *
  * Return value: the attr or NULL if it doesn't exist.
  **/
 char *
@@ -2852,7 +2855,7 @@ matecomponent_ui_engine_get_attr (MateComponentUINode *node,
  * matecomponent_ui_engine_add_hint:
  * @engine: the engine
  * @str: the hint string
- * 
+ *
  * This fires the 'add_hint' signal.
  **/
 void
@@ -2866,7 +2869,7 @@ matecomponent_ui_engine_add_hint (MateComponentUIEngine   *engine,
 /**
  * matecomponent_ui_engine_remove_hint:
  * @engine: the engine
- * 
+ *
  * This fires the 'remove_hint' signal
  **/
 void
@@ -2880,7 +2883,7 @@ matecomponent_ui_engine_remove_hint (MateComponentUIEngine *engine)
  * matecomponent_ui_engine_emit_verb_on:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * This fires the 'emit_verb' signal
  **/
 void
@@ -2896,7 +2899,7 @@ matecomponent_ui_engine_emit_verb_on (MateComponentUIEngine   *engine,
  * @engine: the engine
  * @node: the node
  * @state: the new state of the node
- * 
+ *
  * This fires the 'emit_event_on' signal
  **/
 void
@@ -2914,14 +2917,14 @@ matecomponent_ui_engine_emit_event_on (MateComponentUIEngine   *engine,
 /**
  * matecomponent_ui_engine_widget_get_node:
  * @widget: the widget
- * 
+ *
  * Return value: the #MateComponentUINode associated with this widget
  **/
 MateComponentUINode *
 matecomponent_ui_engine_widget_get_node (GtkWidget *widget)
 {
 	g_return_val_if_fail (widget != NULL, NULL);
-	
+
 	return g_object_get_data (G_OBJECT (widget),
 				  WIDGET_NODE_KEY);
 }
@@ -2930,7 +2933,7 @@ matecomponent_ui_engine_widget_get_node (GtkWidget *widget)
  * matecomponent_ui_engine_widget_attach_node:
  * @widget: the widget
  * @node: the node
- * 
+ *
  * Associate @node with @widget
  **/
 void
@@ -2947,7 +2950,7 @@ matecomponent_ui_engine_widget_attach_node (GtkWidget    *widget,
  * @engine: the engine
  * @widget: the widget
  * @node: the node
- * 
+ *
  * Used internaly to associate a widget with a node,
  * some synchronisers need to be able to execute code
  * on widget creation.
@@ -2974,10 +2977,10 @@ matecomponent_ui_engine_widget_set_node (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_get_cmd_node:
  * @engine: the engine
  * @from_node: the node
- * 
+ *
  * This function seeks the command node associated
  * with @from_node in @engine 's internal tree.
- * 
+ *
  * Return value: the command node or NULL
  **/
 MateComponentUINode *
@@ -3015,7 +3018,7 @@ matecomponent_ui_engine_get_cmd_node (MateComponentUIEngine *engine,
 		matecomponent_ui_xml_merge (
 			engine->priv->tree, "/",
 			commands, data_from->id);
-		
+
 		ret = matecomponent_ui_xml_get_path (engine->priv->tree, path);
 		g_assert (ret != NULL);
 	}
@@ -3029,7 +3032,7 @@ matecomponent_ui_engine_get_cmd_node (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_emit_verb_on_w:
  * @engine: the engine
  * @widget: the widget
- * 
+ *
  * This function looks up the node from @widget and
  * emits the 'emit_verb_on' signal on that node.
  **/
@@ -3048,7 +3051,7 @@ matecomponent_ui_engine_emit_verb_on_w (MateComponentUIEngine *engine,
  * @engine: the engine
  * @widget: the widget
  * @state: the new state
- * 
+ *
  * This function looks up the node from @widget and
  * emits the 'emit_event_on' signal on that node
  * passint @state as the new state.
@@ -3069,7 +3072,7 @@ matecomponent_ui_engine_emit_event_on_w (MateComponentUIEngine *engine,
  * @engine: the engine
  * @node: the node
  * @widget: the root widget
- * 
+ *
  * This stamps @node with @widget which is marked as
  * being a ROOT node, so the engine will never destroy
  * it.
@@ -3100,10 +3103,10 @@ matecomponent_ui_engine_stamp_root (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_get_path:
  * @engine: the engine.
  * @path: the path into the tree
- * 
+ *
  * This routine gets a node from the internal XML tree
  * pointed at by @path
- * 
+ *
  * Return value: the node.
  **/
 MateComponentUINode *
@@ -3118,7 +3121,7 @@ matecomponent_ui_engine_get_path (MateComponentUIEngine *engine,
 /**
  * matecomponent_ui_engine_freeze:
  * @engine: the engine
- * 
+ *
  * This increments the freeze count on the tree, while
  * this count > 0 no syncronization between the internal
  * XML model and the widget views occurs. This means that
@@ -3136,7 +3139,7 @@ matecomponent_ui_engine_freeze (MateComponentUIEngine *engine)
 /**
  * matecomponent_ui_engine_thaw:
  * @engine: the engine
- * 
+ *
  * This decrements the freeze count and if it is 0
  * causes the UI widgets to be re-synched with the
  * XML model, see also matecomponent_ui_engine_freeze
@@ -3145,7 +3148,7 @@ void
 matecomponent_ui_engine_thaw (MateComponentUIEngine *engine)
 {
 	g_return_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine));
-	
+
 	if (--engine->priv->frozen <= 0) {
 		matecomponent_ui_engine_update (engine);
 		engine->priv->frozen = 0;
@@ -3157,7 +3160,7 @@ matecomponent_ui_engine_thaw (MateComponentUIEngine *engine)
  * @engine: the engine
  * @out: the FILE stream to dump to
  * @msg: user visible message
- * 
+ *
  * This is a debugging function mostly for internal
  * and testing use, it dumps the XML tree, including
  * the associated, and overridden nodes in a wierd
@@ -3185,7 +3188,7 @@ matecomponent_ui_engine_dump (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_dirty_tree:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * Mark all the node's children as being dirty and needing
  * a re-synch with their widget views.
  **/
@@ -3210,7 +3213,7 @@ matecomponent_ui_engine_dirty_tree (MateComponentUIEngine *engine,
  * matecomponent_ui_engine_clean_tree:
  * @engine: the engine
  * @node: the node
- * 
+ *
  * This cleans the tree, marking the node and its children
  * as not needing a re-synch with their widget views.
  **/
@@ -3227,7 +3230,7 @@ matecomponent_ui_engine_clean_tree (MateComponentUIEngine *engine,
 /**
  * matecomponent_ui_engine_get_xml:
  * @engine: the engine
- * 
+ *
  * Private - internal API
  *
  * Return value: the #MateComponentUIXml engine used for
@@ -3237,14 +3240,14 @@ MateComponentUIXml *
 matecomponent_ui_engine_get_xml (MateComponentUIEngine *engine)
 {
 	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), NULL);
-	
+
 	return engine->priv->tree;
 }
 
 /**
  * matecomponent_ui_engine_get_config:
  * @engine: the engine
- * 
+ *
  * Private - internal API
  *
  * Return value: the associated configuration engine
@@ -3253,7 +3256,7 @@ MateComponentUIEngineConfig *
 matecomponent_ui_engine_get_config (MateComponentUIEngine *engine)
 {
 	g_return_val_if_fail (MATECOMPONENT_IS_UI_ENGINE (engine), NULL);
-	
+
 	return engine->priv->config;
 }
 

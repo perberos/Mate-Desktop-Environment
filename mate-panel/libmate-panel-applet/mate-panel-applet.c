@@ -1217,9 +1217,7 @@ mate_panel_applet_size_allocate (GtkWidget     *widget,
 	}
 }
 
-static gboolean
-mate_panel_applet_expose (GtkWidget      *widget,
-		     GdkEventExpose *event)
+static gboolean mate_panel_applet_expose(GtkWidget* widget, GdkEventExpose* event)
 {
 	GtkAllocation allocation;
 	int border_width;
@@ -1229,21 +1227,20 @@ mate_panel_applet_expose (GtkWidget      *widget,
 	g_return_val_if_fail (PANEL_IS_APPLET (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	GTK_WIDGET_CLASS (mate_panel_applet_parent_class)->expose_event (widget,
-								    event);
+	GTK_WIDGET_CLASS (mate_panel_applet_parent_class)->expose_event(widget, event);
 
         if (!gtk_widget_has_focus (widget))
 		return FALSE;
 
-	gtk_widget_get_allocation (widget, &allocation);
+	gtk_widget_get_allocation(widget, &allocation);
 
 	/*
 	 * We are deliberately ignoring focus-padding here to
 	 * save valuable panel real estate.
 	 */
 	gtk_widget_style_get (widget,
-			      "focus-line-width", &focus_width,
-			      NULL);
+		"focus-line-width", &focus_width,
+		NULL);
 
 	border_width = gtk_container_get_border_width (GTK_CONTAINER (widget));
 
