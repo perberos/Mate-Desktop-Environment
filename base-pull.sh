@@ -16,24 +16,45 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 listofpackages=(
-	'libmate'
-	'libmatecanvas'
-	'libmatecomponent'
-	'libmatecomponentui'
-	'libmatekbd'
-	'libmatekeyring'
-	'libmatenotify'
-	'libmateui'
-	'libmateweather'
-	'mate-common'
+    libmate
+    libmatecanvas
+    libmatecomponent
+    libmatecomponentui
+    libmatekbd
+    libmatekeyring
+    libmatenotify
+    libmateui
+    libmateweather
+    mate-backgrounds
+    mate-common
+    mate-conf
+    mate-control-center
+    mate-corba
+    mate-desktop
+    mate-dialogs
+    mate-doc-utils
+    mate-file-manager
+    mate-icon-theme
+    mate-keyring
+    mate-menus
+    mate-mime-data
+    mate-notification-daemon
+    mate-panel
+    mate-polkit
+    mate-session-manager
+    mate-settings-daemon
+    mate-vfs
+    mate-window-manager
 )
 
-
-
 for i in $(seq 0 $((${#listofpackages[@]} - 1))); do
-	echo ${listofpackages[$i]}
+	name=${listofpackages[$i]}
+	
+	if [ -d $name ]; then
+		echo Pull $name.
+		cd $name
+		git pull
+		cd ..
+	fi
 done
-
-
-
 
