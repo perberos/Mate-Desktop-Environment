@@ -16,21 +16,21 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 listofpackages=(
-	perberos/mate-applets
-	perberos/mate-backgrounds
-	perberos/mate-bluetooth
-	perberos/mate-calc
-	perberos/mate-display-manager
-	perberos/mate-document-viewer
-	perberos/mate-file-archiver
-	perberos/mate-image-viewer
-	perberos/mate-power-manager
-	perberos/mate-screensaver
-	perberos/mate-system-monitor
-	perberos/mate-system-tools
-	perberos/mate-terminal
-	perberos/mate-text-editor
-	perberos/mate-themes
+	mate-desktop/mate-applets
+	mate-desktop/mate-backgrounds
+	mate-desktop/mate-bluetooth
+	mate-desktop/mate-calc
+	mate-desktop/mate-display-manager
+	mate-desktop/mate-document-viewer
+	mate-desktop/mate-file-archiver
+	mate-desktop/mate-image-viewer
+	mate-desktop/mate-power-manager
+	mate-desktop/mate-screensaver
+	mate-desktop/mate-system-monitor
+	mate-desktop/mate-system-tools
+	mate-desktop/mate-terminal
+	mate-desktop/mate-text-editor
+	mate-desktop/mate-themes
 )
 
 for i in $(seq 0 $((${#listofpackages[@]} - 1))); do
