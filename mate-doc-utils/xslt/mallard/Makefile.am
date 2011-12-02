@@ -1,1 +1,0 @@
-SUBDIRS = cache common html

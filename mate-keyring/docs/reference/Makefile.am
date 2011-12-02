@@ -1,2 +1,0 @@
-
-SUBDIRS = gcr gp11

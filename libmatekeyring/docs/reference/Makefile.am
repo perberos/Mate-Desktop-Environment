@@ -1,2 +1,0 @@
-
-SUBDIRS = mate-keyring
