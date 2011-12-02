@@ -16,35 +16,35 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 listofpackages=(
-    perberos/libmate
-    perberos/libmatecanvas
-    perberos/libmatecomponent
-    perberos/libmatecomponentui
-    perberos/libmatekbd
-    perberos/libmatekeyring
-    perberos/libmatenotify
-    perberos/libmateui
-    perberos/libmateweather
-    perberos/mate-backgrounds
-    perberos/mate-common
-    perberos/mate-conf
-    perberos/mate-control-center
-    perberos/mate-corba
-    perberos/mate-desktop
-    perberos/mate-dialogs
-    perberos/mate-doc-utils
-    perberos/mate-file-manager
-    perberos/mate-icon-theme
-    perberos/mate-keyring
-    perberos/mate-menus
-    perberos/mate-mime-data
-    perberos/mate-notification-daemon
-    perberos/mate-panel
-    perberos/mate-polkit
-    perberos/mate-session-manager
-    perberos/mate-settings-daemon
-    perberos/mate-vfs
-    perberos/mate-window-manager
+    mate-desktop/libmate
+    mate-desktop/libmatecanvas
+    mate-desktop/libmatecomponent
+    mate-desktop/libmatecomponentui
+    mate-desktop/libmatekbd
+    mate-desktop/libmatekeyring
+    mate-desktop/libmatenotify
+    mate-desktop/libmateui
+    mate-desktop/libmateweather
+    mate-desktop/mate-backgrounds
+    mate-desktop/mate-common
+    mate-desktop/mate-conf
+    mate-desktop/mate-control-center
+    mate-desktop/mate-corba
+    mate-desktop/mate-desktop
+    mate-desktop/mate-dialogs
+    mate-desktop/mate-doc-utils
+    mate-desktop/mate-file-manager
+    mate-desktop/mate-icon-theme
+    mate-desktop/mate-keyring
+    mate-desktop/mate-menus
+    mate-desktop/mate-mime-data
+    mate-desktop/mate-notification-daemon
+    mate-desktop/mate-panel
+    mate-desktop/mate-polkit
+    mate-desktop/mate-session-manager
+    mate-desktop/mate-settings-daemon
+    mate-desktop/mate-vfs
+    mate-desktop/mate-window-manager
 )
 
 for i in $(seq 0 $((${#listofpackages[@]} - 1))); do
