@@ -17,12 +17,12 @@
 
 listofpackages=(
     mate-applets
-    mate-backgrounds
     mate-bluetooth
     mate-calc
     mate-display-manager
     mate-document-viewer
     mate-file-archiver
+    mate-file-manager-sendto
     mate-image-viewer
     mate-power-manager
     mate-screensaver
