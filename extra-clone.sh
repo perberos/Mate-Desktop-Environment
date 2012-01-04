@@ -38,7 +38,7 @@ for i in $(seq 0 $((${#listofpackages[@]} - 1))); do
 	package=${name:`expr index "$repo" /`}
 
 	if [ -d $folder ]; then
-		git clone git://github.com/$repo.git
+		git clone https://github.com/$repo.git
 	else
 		echo Skip $folder.
 	fi
