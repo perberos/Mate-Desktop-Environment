@@ -1,0 +1,63 @@
+# Maintainer: Perberos <perberos@gmail.com>
+pkgname=mate-control-center
+pkgver=20120308
+pkgrel=1
+pkgdesc="The Control Center for MATE"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('mate-window-manager' 'libxss' 'desktop-file-utils'
+         'mate-settings-daemon' 'libmatekbd' 'libcanberra'
+         'sound-theme-freedesktop' 'libunique' 'mate-menus'
+         'librsvg') #  'evolution-data-server>=2.29.92'
+makedepends=('git' 'mate-doc-utils' 'pkgconfig' 'intltool')
+options=('!emptydirs' '!libtool')
+url="http://matsusoft.com.ar/projects/mate/"
+groups=('mate')
+install=mate-control-center.install
+source=()
+sha256sums=()
+
+_gitroot=git://github.com/mate-desktop/mate-control-center.git
+_gitname=mate-control-center
+
+build() {
+	cd "$srcdir"
+	msg "Connecting to GIT server...."
+
+	if [[ -d "$_gitname" ]]; then
+		cd "$_gitname" && git pull origin
+		msg "The local files are updated."
+	else
+		git clone "$_gitroot" "$_gitname"
+	fi
+
+	msg "GIT checkout done or server timeout"
+	msg "Starting build..."
+
+	rm -rf "$srcdir/$_gitname-build"
+	git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
+	cd "$srcdir/$_gitname-build"
+
+    ./autogen.sh \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --disable-static \
+        --disable-scrollkeeper \
+        --disable-update-mimedb || return 1
+    #  --enable-aboutme <- this requires libebook (from evolution)
+    make || return 1
+}
+
+package() {
+	cd "$srcdir/$_gitname-build"
+
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install || return 1
+
+    install -m755 -d "${pkgdir}/usr/share/mateconf/schemas"
+    mateconf-merge-schema "${pkgdir}/usr/share/mateconf/schemas/${pkgname}.schemas" --domain ${pkgname} ${pkgdir}/etc/mateconf/schemas/*.schemas || return 1
+    rm -f ${pkgdir}/etc/mateconf/schemas/*.schemas
+
+    # --disable-update-mimedb?
+    rm -f "${pkgdir}/usr/share/applications/mimeinfo.cache"
+}
