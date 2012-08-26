@@ -25,6 +25,7 @@ listofpackages=(
     mate-desktop/libmatenotify
     mate-desktop/libmateui
     mate-desktop/libmateweather
+    mate-desktop/libmatewnck
     mate-desktop/mate-backgrounds
     mate-desktop/mate-common
     mate-desktop/mate-conf
