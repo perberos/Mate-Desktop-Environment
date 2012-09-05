@@ -25,6 +25,7 @@ listofpackages=(
     libmatenotify
     libmateui
     libmateweather
+    libmatewnck
     mate-backgrounds
     mate-common
     mate-conf
