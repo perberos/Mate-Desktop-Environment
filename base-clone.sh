@@ -45,7 +45,7 @@ listofpackages=(
     mate-desktop/mate-session-manager
     mate-desktop/mate-settings-daemon
     mate-desktop/mate-vfs
-    mate-desktop/mate-window-manager
+    mate-desktop/marco
 )
 
 for i in $(seq 0 $((${#listofpackages[@]} - 1))); do
