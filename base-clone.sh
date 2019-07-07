@@ -16,36 +16,37 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 listofpackages=(
-    mate-desktop/libmate
-    mate-desktop/libmatecanvas
-    mate-desktop/libmatecomponent
-    mate-desktop/libmatecomponentui
+    mate-desktop/atril
+    mate-desktop/caja
+    mate-desktop/caja
+    mate-desktop/caja-dropbox
+    mate-desktop/caja-extensions
+    mate-desktop/engrampa
+    mate-desktop/eom
     mate-desktop/libmatekbd
-    mate-desktop/libmatekeyring
-    mate-desktop/libmatenotify
-    mate-desktop/libmateui
+    mate-desktop/libmatemixer
     mate-desktop/libmateweather
-    mate-desktop/libmatewnck
+    mate-desktop/marco
+    mate-desktop/mate-applets
     mate-desktop/mate-backgrounds
-    mate-desktop/mate-common
-    mate-desktop/mate-conf
-    mate-desktop/mate-control-center
-    mate-desktop/mate-corba
+    mate-desktop/mate-calc
     mate-desktop/mate-desktop
-    mate-desktop/mate-dialogs
-    mate-desktop/mate-doc-utils
-    mate-desktop/mate-file-manager
+    mate-desktop/mate-desktop
     mate-desktop/mate-icon-theme
-    mate-desktop/mate-keyring
+    mate-desktop/mate-icon-theme
     mate-desktop/mate-menus
-    mate-desktop/mate-mime-data
     mate-desktop/mate-notification-daemon
     mate-desktop/mate-panel
-    mate-desktop/mate-polkit
+    mate-desktop/mate-screensaver
+    mate-desktop/mate-sensors-applet
     mate-desktop/mate-session-manager
     mate-desktop/mate-settings-daemon
-    mate-desktop/mate-vfs
-    mate-desktop/mate-window-manager
+    mate-desktop/mate-terminal
+    mate-desktop/mate-user-guide
+    mate-desktop/mate-utils
+    mate-desktop/mozo
+    mate-desktop/pluma
+    mate-desktop/python-caja
 )
 
 for i in $(seq 0 $((${#listofpackages[@]} - 1))); do
